@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.Summarisation.Model
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ESFA.DC.Summarisation.Database", "ESFA.DC.Summarisation.Database\ESFA.DC.Summarisation.Database.sqlproj", "{D1A55CBE-8485-41E1-8748-C83CBA3D1F03}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.EF.Console", "ESFA.DC.EF.Console\ESFA.DC.EF.Console.csproj", "{618A425B-F52F-475F-A773-8E27EA1A3B6C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{D1A55CBE-8485-41E1-8748-C83CBA3D1F03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1A55CBE-8485-41E1-8748-C83CBA3D1F03}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D1A55CBE-8485-41E1-8748-C83CBA3D1F03}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{618A425B-F52F-475F-A773-8E27EA1A3B6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{618A425B-F52F-475F-A773-8E27EA1A3B6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{618A425B-F52F-475F-A773-8E27EA1A3B6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{618A425B-F52F-475F-A773-8E27EA1A3B6C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
