@@ -1,10 +1,12 @@
-﻿namespace ESFA.DC.Summarisation.Model
+﻿using System;
+using System.Collections.Generic;
+
+namespace ESFA.DC.Summarisation.Model
 {
     public partial class SummarisedActual
     {
         public int Id { get; set; }
-        public string CollectionType { get; set; }
-        public string CollectionReturnCode { get; set; }
+        public int CollectionReturnId { get; set; }
         public string OrganisationId { get; set; }
         public string UoPcode { get; set; }
         public string FundingStreamPeriodCode { get; set; }
@@ -14,5 +16,7 @@
         public decimal ActualValue { get; set; }
         public string PeriodTypeCode { get; set; }
         public string ContractAllocationNumber { get; set; }
+
+        public virtual CollectionReturn CollectionReturn { get; set; }
     }
 }

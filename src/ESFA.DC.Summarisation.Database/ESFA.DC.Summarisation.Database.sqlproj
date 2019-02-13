@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\SummarisedActuals.sql" />
+    <Build Include="dbo\Tables\CollectionReturn.sql" />
     <Build Include="dbo\Stored Procedures\usp_DisplayDeploymentProperties.sql" />
     <Build Include="Security\Role_DataProcessing.sql" />
     <Build Include="Security\Role_DataViewing.sql" />
