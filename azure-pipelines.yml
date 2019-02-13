@@ -94,7 +94,6 @@ steps:
   inputs:
     applicationPackagePath: '$(build.artifactstagingdirectory)\ApplicationPackage'
     versionBehavior: Replace
-  enabled: false
 
 - task: VisualStudioTestPlatformInstaller@1
   displayName: 'Visual Studio Test Platform Installer'
