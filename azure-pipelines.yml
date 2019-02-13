@@ -1,0 +1,128 @@
+
+name: $(VersionNumberMajor).$(VersionNumberMinor)$(Rev:.rrrr)
+
+resources:
+- repo: self
+  fetchDepth: 15
+
+
+variables:
+  ServiceFabricProjectFolderName: 'ESFA.DC.ESF.R2'
+
+pool:
+  name: DCT
+  demands:
+  - msbuild
+  - visualstudio
+  - vstest
+  - IsBuildServer
+
+steps:
+- task: NuGetToolInstaller@0
+  displayName: 'Use NuGet 4.7.1'
+  inputs:
+    versionSpec: 4.7.1
+
+- task: NuGetCommand@2
+  displayName: 'NuGet restore'
+  inputs:
+    restoreSolution: '**\*.sln'
+
+- task: MSBuild@1
+  displayName: 'Build solution'
+  inputs:
+    solution: '**/*.sln'
+    msbuildArchitecture: x64
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
+    msbuildArguments: ' /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\applicationpackage" /p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)' 
+    clean: true
+    maximumCpuCount: true
+    logProjectEvents: true
+    createLogFile: true
+
+
+- task: MSBuild@1
+  displayName: 'Build SF Project'
+  inputs:
+    solution: '**/$(ServiceFabricProjectFolderName)/*.sfproj'
+    msbuildArchitecture: x64
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
+    msbuildArguments: ' /p:DeployOnBuild=false /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\applicationpackage" /p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)' 
+    clean: true
+    maximumCpuCount: true
+    logProjectEvents: true
+    createLogFile: true
+
+
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(build.artifactstagingdirectory)\PublishProfiles '
+  inputs:
+    SourceFolder: '$(build.sourcesdirectory)\src\$(ServiceFabricProjectFolderName)'
+    Contents: '**\PublishProfiles\*.xml'
+    TargetFolder: '$(build.artifactstagingdirectory)\PublishProfiles '
+
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(build.artifactstagingdirectory)\ApplicationParameters'
+  inputs:
+    SourceFolder: '$(build.sourcesdirectory)\src\$(ServiceFabricProjectFolderName)'
+    Contents: '**\ApplicationParameters\*.xml'
+    TargetFolder: '$(build.artifactstagingdirectory)\ApplicationParameters'
+    CleanTargetFolder: true
+    flattenFolders: true
+
+- task: CopyFiles@2
+  displayName: 'Copy Database Files to: Artifact Databases Directory'
+  inputs:
+    SourceFolder: '$(build.sourcesdirectory)'
+    Contents: '**\*.dacpac'
+    TargetFolder: '$(build.artifactstagingdirectory)\Databases'
+    CleanTargetFolder: true
+    flattenFolders: true
+
+
+- task: ServiceFabricUpdateManifests@2
+  displayName: 'Update Service Fabric Manifests (Manifest versions)'
+  inputs:
+    applicationPackagePath: '$(build.artifactstagingdirectory)\ApplicationPackage'
+    versionBehavior: Replace
+  enabled: false
+
+- task: VisualStudioTestPlatformInstaller@1
+  displayName: 'Visual Studio Test Platform Installer'
+  inputs:
+    versionSelector: latestStable
+
+- task: VSTest@2
+  displayName: 'VsTest - testAssemblies'
+  inputs:
+    testAssemblyVer2: |
+     **\*test*.dll
+     !**\*TestAdapter.dll
+     !**\*SmokeTests.dll
+     !**\*AcceptanceTests.dll
+     !**\obj\**
+    configuration: '$(BuildConfiguration)'
+
+- task: PublishSymbols@2
+  displayName: 'Publish symbols path'
+  inputs:
+    SearchPattern: '**\bin\**\*.pdb'
+    PublishSymbols: false
+  continueOnError: true
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+  inputs:
+    SourceFolder: '$(system.defaultworkingdirectory)'
+    Contents: '**\bin\$(BuildConfiguration)\**'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+
