@@ -61,6 +61,7 @@ steps:
 
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)\PublishProfiles '
+  enabled: false
   inputs:
     SourceFolder: '$(build.sourcesdirectory)\src\$(ServiceFabricProjectFolderName)'
     Contents: '**\PublishProfiles\*.xml'
@@ -69,6 +70,7 @@ steps:
 
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)\ApplicationParameters'
+  enabled: false
   inputs:
     SourceFolder: '$(build.sourcesdirectory)\src\$(ServiceFabricProjectFolderName)'
     Contents: '**\ApplicationParameters\*.xml'
@@ -88,6 +90,7 @@ steps:
 
 - task: ServiceFabricUpdateManifests@2
   displayName: 'Update Service Fabric Manifests (Manifest versions)'
+  enabled: false
   inputs:
     applicationPackagePath: '$(build.artifactstagingdirectory)\ApplicationPackage'
     versionBehavior: Replace
@@ -111,17 +114,11 @@ steps:
 
 - task: PublishSymbols@2
   displayName: 'Publish symbols path'
+  enabled: false
   inputs:
     SearchPattern: '**\bin\**\*.pdb'
     PublishSymbols: false
   continueOnError: true
-
-- task: CopyFiles@2
-  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
-  inputs:
-    SourceFolder: '$(system.defaultworkingdirectory)'
-    Contents: '**\bin\$(BuildConfiguration)\**'
-    TargetFolder: '$(build.artifactstagingdirectory)'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
