@@ -7,7 +7,7 @@ resources:
 
 
 variables:
-  ServiceFabricProjectFolderName: 'ESFA.DC.ESF.R2'
+  ServiceFabricProjectFolderName: 'ESFA.DC.Summarisation'
 
 pool:
   name: DCT
@@ -44,6 +44,7 @@ steps:
 
 - task: MSBuild@1
   displayName: 'Build SF Project'
+  enabled: false
   inputs:
     solution: '**/$(ServiceFabricProjectFolderName)/*.sfproj'
     msbuildArchitecture: x64
@@ -54,6 +55,7 @@ steps:
     maximumCpuCount: true
     logProjectEvents: true
     createLogFile: true
+   
 
 
 
