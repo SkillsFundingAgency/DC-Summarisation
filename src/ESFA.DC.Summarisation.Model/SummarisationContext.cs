@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace ESFA.DC.Summarisation.Model
 {
@@ -13,6 +15,7 @@ namespace ESFA.DC.Summarisation.Model
         {
         }
 
+        public virtual DbSet<CollectionReturn> CollectionReturns { get; set; }
         public virtual DbSet<SummarisedActual> SummarisedActuals { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -28,11 +31,11 @@ namespace ESFA.DC.Summarisation.Model
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.1-servicing-10028");
 
-            modelBuilder.Entity<SummarisedActual>(entity =>
+            modelBuilder.Entity<CollectionReturn>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.ToTable("CollectionReturn");
 
-                entity.Property(e => e.ActualValue).HasColumnType("decimal(13, 2)");
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.CollectionReturnCode)
                     .IsRequired()
@@ -43,6 +46,13 @@ namespace ESFA.DC.Summarisation.Model
                     .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<SummarisedActual>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.ActualValue).HasColumnType("decimal(13, 2)");
 
                 entity.Property(e => e.ContractAllocationNumber)
                     .HasMaxLength(20)
@@ -67,6 +77,12 @@ namespace ESFA.DC.Summarisation.Model
                     .HasColumnName("UoPCode")
                     .HasMaxLength(20)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.CollectionReturn)
+                    .WithMany(p => p.SummarisedActuals)
+                    .HasForeignKey(d => d.CollectionReturnId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SummarisedActuals_CollectionReturn");
             });
         }
     }

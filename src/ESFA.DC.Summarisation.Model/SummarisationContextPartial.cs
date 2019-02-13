@@ -6,5 +6,7 @@ namespace ESFA.DC.Summarisation.Model
     public partial class SummarisationContext : ISummarisationContext
     {
         IQueryable<SummarisedActual> ISummarisationContext.SummarisedActuals => SummarisedActuals;
+
+        IQueryable<CollectionReturn> ISummarisationContext.CollectionReturns => CollectionReturns;
     }
 }

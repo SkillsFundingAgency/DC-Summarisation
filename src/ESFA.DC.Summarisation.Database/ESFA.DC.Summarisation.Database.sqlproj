@@ -62,5 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\SummarisedActuals.sql" />
+    <Build Include="dbo\Tables\CollectionReturn.sql" />
   </ItemGroup>
 </Project>
