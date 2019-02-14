@@ -5,7 +5,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="JsonFiles\CollectionPeriods.json" />
+    <None Remove="JsonFiles\FundingTypes.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="JsonFiles\CollectionPeriods.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonFiles\FundingTypes.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Config\Interface\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ESFA.DC.Serialization.Interfaces" Version="0.1.4-beta0001" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ESFA.DC.Summarisation.Configuration\ESFA.DC.Summarisation.Configuration.csproj" />
+    <ProjectReference Include="..\..\ESFA.DC.Summarisation.Interfaces\ESFA.DC.Summarisation.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>
