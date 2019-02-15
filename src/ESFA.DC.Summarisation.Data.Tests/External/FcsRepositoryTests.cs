@@ -12,7 +12,7 @@ using Xunit;
 
 namespace ESFA.DC.Summarisation.Data.Tests.External
 {
-    public class FCSDataRetrievalServiceTests
+    public class FcsRepositoryTests
     {
         [Fact]
         public async Task RetrieveAsyncTest()
@@ -74,7 +74,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.External
                 .Setup(f => f.ContractAllocations)
                 .Returns(allocations.Object);
 
-            var service = new FCSDataRetrievalService(fcsMock.Object);
+            var service = new FcsRepository(fcsMock.Object);
 
             var fcsa = await service.RetrieveAsync(CancellationToken.None);
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ESFA.DC.Summarisation.API.DTO
+﻿namespace ESFA.DC.Summarisation.Data.DTO
 {
     public class SummarisedActualDto
     {
