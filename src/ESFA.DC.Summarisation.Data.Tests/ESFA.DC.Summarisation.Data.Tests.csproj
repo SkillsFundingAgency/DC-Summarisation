@@ -89,6 +89,12 @@
     <Reference Include="Microsoft.Extensions.Primitives, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Primitives.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
+    <Reference Include="MockQueryable, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MockQueryable.Core.1.0.4\lib\netstandard2.0\MockQueryable.dll</HintPath>
+    </Reference>
+    <Reference Include="MockQueryable.Moq, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MockQueryable.Moq.1.0.4\lib\netstandard2.0\MockQueryable.Moq.dll</HintPath>
+    </Reference>
     <Reference Include="Moq, Version=4.10.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.10.1\lib\net45\Moq.dll</HintPath>
     </Reference>
@@ -153,11 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="External\FCSDataRetrievalServiceTests.cs" />
-    <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DbAsync\TestDbAsyncEnumerable.cs" />
-    <Compile Include="DbAsync\TestDbAsyncEnumerator.cs" />
-    <Compile Include="DbAsync\TestDbAsyncQueryProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

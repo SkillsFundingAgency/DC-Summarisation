@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using ESFA.DC.ReferenceData.FCS.Model;
 using ESFA.DC.ReferenceData.FCS.Model.Interface;
 using ESFA.DC.Summarisation.Data.Population.Service;
-using ESFA.DC.Summarisation.Data.Tests.Extensions;
 using FluentAssertions;
+using MockQueryable.Moq;
 using Moq;
 using Xunit;
 
@@ -67,12 +67,12 @@ namespace ESFA.DC.Summarisation.Data.Tests.External
                     DeliveryUkprn = 2,
                     DeliveryOrganisation = "Org002"
                 }
-            }.AsMockDbSet();
+            }.AsQueryable().BuildMock();
 
             var fcsMock = new Mock<IFcsContext>();
             fcsMock
                 .Setup(f => f.ContractAllocations)
-                .Returns(allocations);
+                .Returns(allocations.Object);
 
             var service = new FCSDataRetrievalService(fcsMock.Object);
 
