@@ -18,6 +18,12 @@ pool:
   - IsBuildServer
 
 steps:
+- task: DotNetCoreInstaller@0
+  displayName: 'Use .NET Core sdk 2.2.104'
+  inputs:
+    version: 2.2.104
+  enabled: true
+
 - task: NuGetToolInstaller@0
   displayName: 'Use NuGet 4.7.1'
   inputs:
