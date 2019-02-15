@@ -1,11 +1,7 @@
-﻿using ESFA.DC.Serialization.Interfaces;
-using ESFA.DC.Serialization.Json;
+﻿using ESFA.DC.Serialization.Json;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using Xunit;
 
 namespace ESFA.DC.Summarisation.Main1819.Service.Tests

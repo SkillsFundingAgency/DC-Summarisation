@@ -1,6 +1,5 @@
-﻿using ESFA.DC.Serialization.Interfaces;
-using ESFA.DC.Serialization.Json;
-using System.Linq;
+﻿using ESFA.DC.Serialization.Json;
+using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using Xunit;
 using FluentAssertions;
 
