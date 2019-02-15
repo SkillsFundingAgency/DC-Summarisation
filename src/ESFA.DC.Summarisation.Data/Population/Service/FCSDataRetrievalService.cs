@@ -48,9 +48,6 @@ namespace ESFA.DC.Summarisation.Data.Population.Service
                 .ToDictionaryAsync(gca => gca.Key, gca => gca.ToList() as IReadOnlyCollection<IFcsContractAllocation>, cancellationToken);
 
             return contractAllocation;
-            //var groupedAllocations = contractAllocation.GroupBy(ca => ca.FundingStreamPeriodCode).ToDictionary(gca => gca.Key, gca => gca.ToList() as IReadOnlyCollection<IFcsContractAllocation>);
-
-            //return groupedAllocations;
         }
     }
 }
