@@ -19,9 +19,9 @@ pool:
 
 steps:
 - task: DotNetCoreInstaller@0
-  displayName: 'Use .NET Core sdk 2.2.2'
+  displayName: 'Use .NET Core sdk 2.2.104'
   inputs:
-    version: 2.2.2
+    version: 2.2.104
   enabled: true
 
 - task: NuGetToolInstaller@0
