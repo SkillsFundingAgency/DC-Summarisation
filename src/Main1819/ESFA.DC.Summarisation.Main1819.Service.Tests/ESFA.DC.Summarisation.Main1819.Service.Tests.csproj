@@ -77,8 +77,10 @@
     <Compile Include="CollectionPeriodTests.cs" />
     <Compile Include="FundingTypeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SummarisationTaskTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="JsonFiles\InputTestData.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +90,10 @@
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Configuration\ESFA.DC.Summarisation.Configuration.csproj">
       <Project>{6B10F154-0C66-49C8-BEFB-646A8C8909DA}</Project>
       <Name>ESFA.DC.Summarisation.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ESFA.DC.Summarisation.Data\ESFA.DC.Summarisation.Data.csproj">
+      <Project>{6ac3b17b-49a6-4ece-8962-c45f67384054}</Project>
+      <Name>ESFA.DC.Summarisation.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.Summarisation.Main1819.Service\ESFA.DC.Summarisation.Main1819.Service.csproj">
       <Project>{a8ba4aa3-e515-4d80-8712-dd3b8899e7e2}</Project>

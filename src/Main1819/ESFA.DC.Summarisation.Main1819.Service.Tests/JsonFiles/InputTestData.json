@@ -1,0 +1,685 @@
+[
+  {
+    "ukprn": 10023139,
+    "learningDeliveries": [
+      {
+        "learnRefNumber": "LearnRef1",
+        "aimSeqNumber": 1,
+        "fundline": "16-18 Apprenticeship",
+        "periodisedData": [
+          {
+            "attributeName": "AchievePayment",
+            "Periods": [
+              {
+                "Id": 1,
+                "Value": 10
+              },
+
+              {
+                "Id": 2,
+                "Value": 20
+              },
+              {
+                "Id": 3,
+                "Value": 30
+              },
+              {
+                "Id": 4,
+                "Value": 40
+              },
+              {
+                "Id": 5,
+                "Value": 50
+              },
+              {
+                "Id": 6,
+                "Value": 60
+              },
+              {
+                "Id": 7,
+                "Value": 70
+              },
+              {
+                "Id": 8,
+                "Value": 80
+              },
+              {
+                "Id": 9,
+                "Value": 90
+              },
+              {
+                "Id": 10,
+                "Value": 100
+              },
+              {
+                "Id": 11,
+                "Value": 110
+              },
+              {
+                "Id": 12,
+                "Value": 120
+              }
+            ]
+
+          },
+          {
+            "attributeName": "BalancePayment",
+            "Periods": [
+              {
+                "Id": 1,
+                "Value": 10
+              },
+
+              {
+                "Id": 2,
+                "Value": 20
+              },
+              {
+                "Id": 3,
+                "Value": 30
+              },
+              {
+                "Id": 4,
+                "Value": 40
+              },
+              {
+                "Id": 5,
+                "Value": 50
+              },
+              {
+                "Id": 6,
+                "Value": 60
+              },
+              {
+                "Id": 7,
+                "Value": 70
+              },
+              {
+                "Id": 8,
+                "Value": 80
+              },
+              {
+                "Id": 9,
+                "Value": 90
+              },
+              {
+                "Id": 10,
+                "Value": 100
+              },
+              {
+                "Id": 11,
+                "Value": 110
+              },
+              {
+                "Id": 12,
+                "Value": 120
+              }
+            ]
+          },
+          {
+            "attributeName": "OnProgPayment",
+            "Periods": [
+              {
+                "Id": 1,
+                "Value": 10
+              },
+
+              {
+                "Id": 2,
+                "Value": 20
+              },
+              {
+                "Id": 3,
+                "Value": 30
+              },
+              {
+                "Id": 4,
+                "Value": 40
+              },
+              {
+                "Id": 5,
+                "Value": 50
+              },
+              {
+                "Id": 6,
+                "Value": 60
+              },
+              {
+                "Id": 7,
+                "Value": 70
+              },
+              {
+                "Id": 8,
+                "Value": 80
+              },
+              {
+                "Id": 9,
+                "Value": 90
+              },
+              {
+                "Id": 10,
+                "Value": 100
+              },
+              {
+                "Id": 11,
+                "Value": 110
+              },
+              {
+                "Id": 12,
+                "Value": 120
+              }
+            ]
+          },
+          {
+            "attributeName": "EmpOutcomePay",
+            "Periods": [
+              {
+                "Id": 1,
+                "Value": 10
+              },
+
+              {
+                "Id": 2,
+                "Value": 20
+              },
+              {
+                "Id": 3,
+                "Value": 30
+              },
+              {
+                "Id": 4,
+                "Value": 40
+              },
+              {
+                "Id": 5,
+                "Value": 50
+              },
+              {
+                "Id": 6,
+                "Value": 60
+              },
+              {
+                "Id": 7,
+                "Value": 70
+              },
+              {
+                "Id": 8,
+                "Value": 80
+              },
+              {
+                "Id": 9,
+                "Value": 90
+              },
+              {
+                "Id": 10,
+                "Value": 100
+              },
+              {
+                "Id": 11,
+                "Value": 110
+              },
+              {
+                "Id": 12,
+                "Value": 120
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "learnRefNumber": "LearnRef2",
+        "aimSeqNumber": 1,
+        "fundline": "16-18 Apprenticeship",
+        "periodisedData": [
+          {
+            "attributeName": "AchievePayment",
+            "Periods": [
+              {
+                "Id": 1,
+                "Value": 10
+              },
+
+              {
+                "Id": 2,
+                "Value": 20
+              },
+              {
+                "Id": 3,
+                "Value": 30
+              },
+              {
+                "Id": 4,
+                "Value": 40
+              },
+              {
+                "Id": 5,
+                "Value": 50
+              },
+              {
+                "Id": 6,
+                "Value": 60
+              },
+              {
+                "Id": 7,
+                "Value": 70
+              },
+              {
+                "Id": 8,
+                "Value": 80
+              },
+              {
+                "Id": 9,
+                "Value": 90
+              },
+              {
+                "Id": 10,
+                "Value": 100
+              },
+              {
+                "Id": 11,
+                "Value": 110
+              },
+              {
+                "Id": 12,
+                "Value": 120
+              }
+            ]
+          },
+          {
+            "attributeName": "BalancePayment",
+            "Periods": [
+              {
+                "Id": 1,
+                "Value": 10
+              },
+
+              {
+                "Id": 2,
+                "Value": 20
+              },
+              {
+                "Id": 3,
+                "Value": 30
+              },
+              {
+                "Id": 4,
+                "Value": 40
+              },
+              {
+                "Id": 5,
+                "Value": 50
+              },
+              {
+                "Id": 6,
+                "Value": 60
+              },
+              {
+                "Id": 7,
+                "Value": 70
+              },
+              {
+                "Id": 8,
+                "Value": 80
+              },
+              {
+                "Id": 9,
+                "Value": 90
+              },
+              {
+                "Id": 10,
+                "Value": 100
+              },
+              {
+                "Id": 11,
+                "Value": 110
+              },
+              {
+                "Id": 12,
+                "Value": 120
+              }
+            ]
+          },
+          {
+            "attributeName": "OnProgPayment",
+            "Periods": [
+              {
+                "Id": 1,
+                "Value": 10
+              },
+
+              {
+                "Id": 2,
+                "Value": 20
+              },
+              {
+                "Id": 3,
+                "Value": 30
+              },
+              {
+                "Id": 4,
+                "Value": 40
+              },
+              {
+                "Id": 5,
+                "Value": 50
+              },
+              {
+                "Id": 6,
+                "Value": 60
+              },
+              {
+                "Id": 7,
+                "Value": 70
+              },
+              {
+                "Id": 8,
+                "Value": 80
+              },
+              {
+                "Id": 9,
+                "Value": 90
+              },
+              {
+                "Id": 10,
+                "Value": 100
+              },
+              {
+                "Id": 11,
+                "Value": 110
+              },
+              {
+                "Id": 12,
+                "Value": 120
+              }
+            ]
+          },
+          {
+            "attributeName": "EmpOutcomePay",
+            "Periods": [
+              {
+                "Id": 1,
+                "Value": 10
+              },
+
+              {
+                "Id": 2,
+                "Value": 20
+              },
+              {
+                "Id": 3,
+                "Value": 30
+              },
+              {
+                "Id": 4,
+                "Value": 40
+              },
+              {
+                "Id": 5,
+                "Value": 50
+              },
+              {
+                "Id": 6,
+                "Value": 60
+              },
+              {
+                "Id": 7,
+                "Value": 70
+              },
+              {
+                "Id": 8,
+                "Value": 80
+              },
+              {
+                "Id": 9,
+                "Value": 90
+              },
+              {
+                "Id": 10,
+                "Value": 100
+              },
+              {
+                "Id": 11,
+                "Value": 110
+              },
+              {
+                "Id": 12,
+                "Value": 120
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "ukprn": 10000020,
+    "learningDeliveries": [
+      {
+        "learnRefNumber": "LearnRef1",
+        "aimSeqNumber": 1,
+        "fundline": "16-18 Apprenticeship",
+        "periodisedData": [
+          {
+            "attributeName": "AchievePayment",
+            "Periods": [
+              {
+                "Id": 1,
+                "Value": 10
+              },
+
+              {
+                "Id": 2,
+                "Value": 20
+              },
+              {
+                "Id": 3,
+                "Value": 30
+              },
+              {
+                "Id": 4,
+                "Value": 40
+              },
+              {
+                "Id": 5,
+                "Value": 50
+              },
+              {
+                "Id": 6,
+                "Value": 60
+              },
+              {
+                "Id": 7,
+                "Value": 70
+              },
+              {
+                "Id": 8,
+                "Value": 80
+              },
+              {
+                "Id": 9,
+                "Value": 90
+              },
+              {
+                "Id": 10,
+                "Value": 100
+              },
+              {
+                "Id": 11,
+                "Value": 110
+              },
+              {
+                "Id": 12,
+                "Value": 120
+              }
+            ]
+
+          },
+          {
+            "attributeName": "BalancePayment",
+            "Periods": [
+              {
+                "Id": 1,
+                "Value": 10
+              },
+
+              {
+                "Id": 2,
+                "Value": 20
+              },
+              {
+                "Id": 3,
+                "Value": 30
+              },
+              {
+                "Id": 4,
+                "Value": 40
+              },
+              {
+                "Id": 5,
+                "Value": 50
+              },
+              {
+                "Id": 6,
+                "Value": 60
+              },
+              {
+                "Id": 7,
+                "Value": 70
+              },
+              {
+                "Id": 8,
+                "Value": 80
+              },
+              {
+                "Id": 9,
+                "Value": 90
+              },
+              {
+                "Id": 10,
+                "Value": 100
+              },
+              {
+                "Id": 11,
+                "Value": 110
+              },
+              {
+                "Id": 12,
+                "Value": 120
+              }
+            ]
+          },
+          {
+            "attributeName": "OnProgPayment",
+            "Periods": [
+              {
+                "Id": 1,
+                "Value": 10
+              },
+
+              {
+                "Id": 2,
+                "Value": 20
+              },
+              {
+                "Id": 3,
+                "Value": 30
+              },
+              {
+                "Id": 4,
+                "Value": 40
+              },
+              {
+                "Id": 5,
+                "Value": 50
+              },
+              {
+                "Id": 6,
+                "Value": 60
+              },
+              {
+                "Id": 7,
+                "Value": 70
+              },
+              {
+                "Id": 8,
+                "Value": 80
+              },
+              {
+                "Id": 9,
+                "Value": 90
+              },
+              {
+                "Id": 10,
+                "Value": 100
+              },
+              {
+                "Id": 11,
+                "Value": 110
+              },
+              {
+                "Id": 12,
+                "Value": 120
+              }
+            ]
+          },
+          {
+            "attributeName": "EmpOutcomePay",
+            "Periods": [
+              {
+                "Id": 1,
+                "Value": 10
+              },
+
+              {
+                "Id": 2,
+                "Value": 20
+              },
+              {
+                "Id": 3,
+                "Value": 30
+              },
+              {
+                "Id": 4,
+                "Value": 40
+              },
+              {
+                "Id": 5,
+                "Value": 50
+              },
+              {
+                "Id": 6,
+                "Value": 60
+              },
+              {
+                "Id": 7,
+                "Value": 70
+              },
+              {
+                "Id": 8,
+                "Value": 80
+              },
+              {
+                "Id": 9,
+                "Value": 90
+              },
+              {
+                "Id": 10,
+                "Value": 100
+              },
+              {
+                "Id": 11,
+                "Value": 110
+              },
+              {
+                "Id": 12,
+                "Value": 120
+              }
+            ]
+          }
+        ]
+      }
+     
+    ]
+  }
+
+]
