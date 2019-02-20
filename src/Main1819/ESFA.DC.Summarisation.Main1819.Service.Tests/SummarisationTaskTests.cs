@@ -25,9 +25,9 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             List<string> attributes = new List<string> { "AchievePayment", "BalancePayment", "OnProgPayment", "EmpOutcomePay" };
             List<FundingType> fundingTypes = NewProvider().Provide().ToList();
 
-            SummarisationTask task = new SummarisationTask("ProgFundingFM35andEAS", providers, attributes,fundingTypes);
+           // SummarisationTask task = new SummarisationTask("ProgFundingFM35andEAS", providers, attributes,fundingTypes);
 
-           task.ExecuteAsync();
+           //task.ExecuteAsync();
 
         }
 

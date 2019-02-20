@@ -17,7 +17,14 @@
           },
           {
             "Fundline": "16-18 Apprenticeship",
-            "LineType": "ILR_FM35"
+            "LineType": "ILR_FM35",
+            "Attributes": [
+              "AchievePayment",
+              "BalancePayment",
+              "OnProgPayment",
+              "EmpOutcomePay"
+
+            ]
           }
         ]
       },
@@ -35,7 +42,14 @@
           },
           {
             "Fundline": "19-23 Apprenticeship",
-            "LineType": "ILR_FM35"
+            "LineType": "ILR_FM35",
+            "Attributes": [
+              "AchievePayment",
+              "BalancePayment",
+              "OnProgPayment",
+              "EmpOutcomePay"
+
+            ]
           }
         ]
       },
@@ -53,7 +67,14 @@
           },
           {
             "Fundline": "24+ Apprenticeship",
-            "LineType": "ILR_FM35"
+            "LineType": "ILR_FM35",
+            "Attributes": [
+              "AchievePayment",
+              "BalancePayment",
+              "OnProgPayment",
+              "EmpOutcomePay"
+
+            ]
           }
         ]
       },
@@ -72,11 +93,25 @@
           },
           {
             "Fundline": "19-24 Traineeship",
-            "LineType": "ILR_FM35"
+            "LineType": "ILR_FM35",
+            "Attributes": [
+              "AchievePayment",
+              "BalancePayment",
+              "OnProgPayment",
+              "EmpOutcomePay"
+
+            ]
           },
           {
             "Fundline": "19-24 Traineeship (non-procured)",
-            "LineType": "ILR_FM35"
+            "LineType": "ILR_FM35",
+            "Attributes": [
+              "AchievePayment",
+              "BalancePayment",
+              "OnProgPayment",
+              "EmpOutcomePay"
+
+            ]
           }
         ]
       },
@@ -94,11 +129,23 @@
           },
           {
             "Fundline": "AEB - Other Learning",
-            "LineType": "ILR_FM35"
+            "LineType": "ILR_FM35",
+            "Attributes": [
+              "AchievePayment",
+              "BalancePayment",
+              "OnProgPayment",
+              "EmpOutcomePay"
+            ]
           },
           {
             "Fundline": "AEB - Other Learning (non-procured)",
-            "LineType": "ILR_FM35"
+            "LineType": "ILR_FM35",
+            "Attributes": [
+              "AchievePayment",
+              "BalancePayment",
+              "OnProgPayment",
+              "EmpOutcomePay"
+            ]
           },
           {
             "Fundline": "Princes Trust: AEB-Other Learning",
@@ -120,7 +167,13 @@
           },
           {
             "Fundline": "19-24 Traineeship (procured from Nov 2017)",
-            "LineType": "ILR_FM35"
+            "LineType": "ILR_FM35",
+            "Attributes": [
+              "AchievePayment",
+              "BalancePayment",
+              "OnProgPayment",
+              "EmpOutcomePay"
+            ]
           }
         ]
       },
@@ -138,7 +191,13 @@
           },
           {
             "Fundline": "AEB - Other Learning (procured from Nov 2017)",
-            "LineType": "ILR_FM35"
+            "LineType": "ILR_FM35",
+            "Attributes": [
+              "AchievePayment",
+              "BalancePayment",
+              "OnProgPayment",
+              "EmpOutcomePay"
+            ]
           },
           {
             "Fundline": "Princes Trust: AEB-Other Learning (From Nov 2017)",
@@ -161,7 +220,10 @@
           },
           {
             "Fundline": "16-18 Apprenticeship",
-            "LineType": "ILR_FM35"
+            "LineType": "ILR_FM35",
+            "Attributes": [
+              "LearnSuppFundCash"
+            ]
           }
         ]
       },
@@ -175,7 +237,10 @@
           },
           {
             "Fundline": "19-23 Apprenticeship",
-            "LineType": "ILR_FM35"
+            "LineType": "ILR_FM35",
+            "Attributes": [
+              "LearnSuppFundCash"
+            ]
           }
         ]
       },
@@ -189,7 +254,10 @@
           },
           {
             "Fundline": "24+ Apprenticeship",
-            "LineType": "ILR_FM35"
+            "LineType": "ILR_FM35",
+            "Attributes": [
+              "LearnSuppFundCash"
+            ]
           }
         ]
       },
@@ -203,11 +271,17 @@
           },
           {
             "Fundline": "19-24 Traineeship",
-            "LineType": "ILR_FM35"
+            "LineType": "ILR_FM35",
+            "Attributes": [
+              "LearnSuppFundCash"
+            ]
           },
           {
             "Fundline": "19-24 Traineeship (non-procured)",
-            "LineType": "ILR_FM35"
+            "LineType": "ILR_FM35",
+            "Attributes": [
+              "LearnSuppFundCash"
+            ]
           }
         ]
       },
@@ -221,11 +295,17 @@
           },
           {
             "Fundline": "AEB - Other Learning",
-            "LineType": "ILR_FM35"
+            "LineType": "ILR_FM35",
+            "Attributes": [
+              "LearnSuppFundCash"
+            ]
           },
           {
             "Fundline": "AEB - Other Learning (non-procured)",
-            "LineType": "ILR_FM35"
+            "LineType": "ILR_FM35",
+            "Attributes": [
+              "LearnSuppFundCash"
+            ]
           }
         ]
       },
@@ -239,7 +319,10 @@
           },
           {
             "Fundline": "19-24 Traineeship (procured from Nov 2017)",
-            "LineType": "ILR_FM35"
+            "LineType": "ILR_FM35",
+            "Attributes": [
+              "LearnSuppFundCash"
+            ]
           }
         ]
       },
@@ -253,7 +336,10 @@
           },
           {
             "Fundline": "AEB - Other Learning (procured from Nov 2017)",
-            "LineType": "ILR_FM35"
+            "LineType": "ILR_FM35",
+            "Attributes": [
+              "LearnSuppFundCash"
+            ]
           }
         ]
       }
@@ -367,11 +453,17 @@
           },
           {
             "Fundline": "16-18 Traineeships (Adult funded)",
-            "LineType": "ILR_FM25"
+            "LineType": "ILR_FM25",
+            "Attributes": [
+              "LnrOnProgPay"
+            ]
           },
           {
             "Fundline": "19+ Traineeships (Adult funded)",
-            "LineType": "ILR_FM25"
+            "LineType": "ILR_FM25",
+            "Attributes": [
+              "LnrOnProgPay"
+            ]
           }
         ]
       }
@@ -390,7 +482,11 @@
           },
           {
             "Fundline": "Advanced Learner Loans Bursary",
-            "LineType": "ILR_ALB"
+            "LineType": "ILR_ALB",
+            "Attributes": [
+              "AreaUpliftBalPayment",
+              "AreaUpliftOnProgPayment"
+            ]
           }
         ]
       },
@@ -404,7 +500,11 @@
           },
           {
             "Fundline": "Advanced Learner Loans Bursary",
-            "LineType": "ILR_ALB"
+            "LineType": "ILR_ALB",
+            "Attributes": [
+              "AreaUpliftBalPayment",
+              "AreaUpliftOnProgPayment"
+            ]
           }
         ]
       }
@@ -419,7 +519,10 @@
         "FundLines": [
           {
             "Fundline": "Advanced Learner Loans Bursary",
-            "LineType": "ILR_ALB"
+            "LineType": "ILR_ALB",
+            "Attributes": [
+              "ALBSupportPayment"
+            ]
           }
         ]
       },
@@ -429,7 +532,10 @@
         "FundLines": [
           {
             "Fundline": "Advanced Learner Loans Bursary",
-            "LineType": "ILR_ALB"
+            "LineType": "ILR_ALB",
+            "Attributes": [
+              "ALBSupportPayment"
+            ]
           }
         ]
       }
@@ -452,7 +558,12 @@
           },
           {
             "Fundline": "16-18 Trailblazer Apprenticeship",
-            "LineType": "ILR_TBL"
+            "LineType": "ILR_TBL",
+            "Attributes": [
+              "CoreGovContPayment",
+              "MathEngBalPayment",
+              "MathEngOnProgPayment"
+            ]
           }
         ]
       },
@@ -470,7 +581,12 @@
           },
           {
             "Fundline": "19-23 Trailblazer Apprenticeship",
-            "LineType": "ILR_TBL"
+            "LineType": "ILR_TBL",
+            "Attributes": [
+              "CoreGovContPayment",
+              "MathEngBalPayment",
+              "MathEngOnProgPayment"
+            ]
           }
         ]
       },
@@ -488,7 +604,12 @@
           },
           {
             "Fundline": "24+ Trailblazer Apprenticeship",
-            "LineType": "ILR_TBL"
+            "LineType": "ILR_TBL",
+            "Attributes": [
+              "CoreGovContPayment",
+              "MathEngBalPayment",
+              "MathEngOnProgPayment"
+            ]
           }
         ]
       }
@@ -507,7 +628,8 @@
           },
           {
             "Fundline": "16-18 Trailblazer Apprenticeship",
-            "LineType": "ILR_TBL"
+            "LineType": "ILR_TBL",
+            "Attributes": [ "LearnSuppFundCash" ]
           }
         ]
       },
@@ -521,7 +643,8 @@
           },
           {
             "Fundline": "19-23 Trailblazer Apprenticeship",
-            "LineType": "ILR_TBL"
+            "LineType": "ILR_TBL",
+            "Attributes": [ "LearnSuppFundCash" ]
           }
         ]
       },
@@ -535,7 +658,8 @@
           },
           {
             "Fundline": "24+ Trailblazer Apprenticeship",
-            "LineType": "ILR_TBL"
+            "LineType": "ILR_TBL",
+            "Attributes": [ "LearnSuppFundCash" ]
           }
         ]
       }
@@ -550,7 +674,12 @@
         "FundLines": [
           {
             "Fundline": "16-18 Trailblazer Apprenticeship",
-            "LineType": "ILR_TBL"
+            "LineType": "ILR_TBL",
+            "Attributes": [
+              "SmallBusPayment",
+              "YoungAppPayment",
+              "AchPayment"
+            ]
           }
         ]
       },
@@ -561,7 +690,12 @@
         "FundLines": [
           {
             "Fundline": "19-23 Trailblazer Apprenticeship",
-            "LineType": "ILR_TBL"
+            "LineType": "ILR_TBL",
+            "Attributes": [
+              "SmallBusPayment",
+              "YoungAppPayment",
+              "AchPayment"
+            ]
           }
         ]
       },
@@ -572,7 +706,12 @@
         "FundLines": [
           {
             "Fundline": "24+ Trailblazer Apprenticeship",
-            "LineType": "ILR_TBL"
+            "LineType": "ILR_TBL",
+            "Attributes": [
+              "SmallBusPayment",
+              "YoungAppPayment",
+              "AchPayment"
+            ]
           }
         ]
       }
@@ -587,7 +726,11 @@
         "FundLines": [
           {
             "Fundline": "Advanced Learner Loans Bursary",
-            "LineType": "ILR_ALB"
+            "LineType": "ILR_ALB",
+            "Attributes": [
+              "LearnDelCarLearnPilotOnProgPayment",
+              "LearnDelCarLearnPilotBalPayment"
+            ]
           }
         ]
       }

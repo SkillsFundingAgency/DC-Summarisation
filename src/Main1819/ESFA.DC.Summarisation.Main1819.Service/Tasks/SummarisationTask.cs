@@ -8,45 +8,24 @@ using System.Threading.Tasks;
 using System.Linq;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Configuration;
+using ESFA.DC.Summarisation.Data.output.Model;
 
 namespace ESFA.DC.Summarisation.Main1819.Service.Tasks
 {
     public class SummarisationTask
-    {
-        private readonly List<Provider> _providers;
-
-        private readonly List<string> _attributes;
-
-        private readonly List<FundingType> _fundingTypes;
-
-        private readonly string _key ;
-
-        public SummarisationTask(string key, List<Provider> providers,
-            List<string> attributes,
-            List<FundingType> fundingTypes)
+    {        
+        public IEnumerable<SummarisedActual> Summarise(FundingType fundingType, IEnumerable<Provider> providers)
         {
-            _key = key;
-            _providers = providers;
-            _attributes = attributes;
-            _fundingTypes = fundingTypes;
-        }
+           /* var fundlingLineTypes = fundingType.FundingStreams
+                .SelectMany(fs => fs.FundLines
+                .Select(fl => new
+                {
+                    fl.Fundline,
+                    fs.DeliverableLineCode,
+                    fs.PeriodCode
+                }));
 
-        public string TaskName => "Summarisation";
-
-        public void ExecuteAsync()
-        {
-            var fundlingLineTypes = _fundingTypes.Where(f => f.Key == _key).SelectMany(ft => ft.FundingStreams
-                                                          .SelectMany(fs => fs.FundLines
-                                                                                .Select(fl => new
-                                                                                {
-                                                                                    fl.Fundline,
-                                                                                    fs.DeliverableLineCode,
-                                                                                    fs.PeriodCode
-                                                                                }
-                                                                                           )
-                                                                    )
-                                            );
-            var periodisedValuesSummationQuery = _providers.Select(pr =>
+            var periodisedValuesSummationQuery = providers.Select(pr =>
                                                                         new
                                                                         {
                                                                             pr.UKPRN,
@@ -88,9 +67,67 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tasks
                                                                 );
 
             var result = periodisedValuesSummationQuery.ToList();
+            */
 
+            return null;
 
         }
-      
+
+       
+
+
+
+        public IEnumerable<SummarisedActual> SummariseByFundLine(IList<LearningDelivery> learningDelivery, FundingType fundingType, HashSet<string> attribute)
+        {
+            var fundlingLineTypes = fundingType.FundingStreams
+                .SelectMany(fs => fs.FundLines
+                .Select(fl => new
+                {
+                    fl.Fundline,
+                    fs.DeliverableLineCode,
+                    fs.PeriodCode
+                }));
+
+            var learningDeliveryByFundline = learningDelivery.GroupBy(grp => grp.Fundline);
+
+            List<SummarisedActual> returnActuals = new List<SummarisedActual>();
+
+            foreach(var groupedDeliveries in learningDeliveryByFundline)
+            {
+                var periodisedData = groupedDeliveries.SelectMany(x => x.PeriodisedData);
+                returnActuals.AddRange(SummariseByAttribute(periodisedData, attribute));
+            }
+
+            return returnActuals;
+        }
+
+        public IEnumerable<SummarisedActual> SummariseByAttribute(IEnumerable<PeriodisedData> periodisedData, HashSet<string> attribute)
+        {
+            var periodisedDataByAttribute = periodisedData.Where(pd => attribute.Contains(pd.AttributeName));
+
+            var periodList = periodisedDataByAttribute.SelectMany(pd => pd.Periods);
+
+            return SummariseByPeriod(periodList);
+        }
+
+        public IEnumerable<SummarisedActual> SummariseByPeriod(IEnumerable<Period> periods)
+        {
+            return periods.GroupBy(grp => grp.PeriodId).Select(pgS => new SummarisedActual
+            {
+                Period = pgS.Key,
+                ActualValue = pgS.Sum(sv => sv.Value).Value
+            });
+        }
+
+        public IEnumerable<SummarisedActual> SummariseByPeriosedData(PeriodisedData periodisedData)
+        {
+            var result = periodisedData.Periods.GroupBy(grp => grp.PeriodId).Select(pgS => new SummarisedActual
+            {
+                Period = pgS.Key,
+                ActualValue = pgS.Sum(sv => sv.Value).Value
+            });
+
+            return result;
+        }
     }
 }

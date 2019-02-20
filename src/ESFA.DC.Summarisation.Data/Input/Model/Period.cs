@@ -7,7 +7,7 @@ namespace ESFA.DC.Summarisation.Data.Input.Model
 {
     public class Period 
     {
-        public int Id { get; set; }
+        public int PeriodId { get; set; }
 
         public decimal? Value { get; set; }
     }
