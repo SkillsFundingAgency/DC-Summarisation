@@ -37,6 +37,30 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         }
 
         [Fact]
+        public void PerformanceTest()
+        {
+            Provider provider = GetData().First(x => x.UKPRN == 10023139);
+
+            for (int i = 0; i < 18; i++)
+            {
+                provider.LearningDeliveries.AddRange(provider.LearningDeliveries);
+            }
+
+            HashSet<string> attributes = new HashSet<string> { "AchievePayment", "BalancePayment", "OnProgPayment", "EmpOutcomePay" };
+            FundingType fundingType = NewProvider().Provide().First(x => x.Key == "ProgFundingFM35andEAS");
+
+            //SummarisationTask task = new SummarisationTask("ProgFundingFM35andEAS", providers, attributes,fundingTypes);
+
+            var task = new SummarisationTask();
+
+            var results = task.Summarise(fundingType, provider);
+
+            //var results = task.Summarise(fundingType, provider, attributes);
+
+            //task.ExecuteAsync();
+        }
+
+        [Fact]
         public void GetDataTest()
         {
             var result = GetData();

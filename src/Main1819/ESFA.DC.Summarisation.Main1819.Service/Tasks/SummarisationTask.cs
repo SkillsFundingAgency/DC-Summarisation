@@ -10,14 +10,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tasks
     {
         public IEnumerable<SummarisedActual> Summarise(FundingType fundingType, Provider provider)
         {
-            var summarisedActuals = new List<SummarisedActual>();
-
-            foreach (var fundingStream in fundingType.FundingStreams)
-            {
-                summarisedActuals.AddRange(SummariseByFundingStream(fundingStream, provider));
-            }
-
-            return summarisedActuals;
+            return fundingType.FundingStreams.SelectMany(fs => SummariseByFundingStream(fs, provider));
         }
 
         public IEnumerable<SummarisedActual> SummariseByFundingStream(FundingStream fundingStream, Provider provider)
@@ -26,27 +19,24 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tasks
 
             foreach (var fundLine in fundingStream.FundLines)
             {
-                var learningDeliveries = provider.LearningDeliveries.Where(ld => ld.Fundline == fundLine.Fundline);
+                var periodisedDatas = provider
+                    .LearningDeliveries
+                    .Where(ld => ld.Fundline == fundLine.Fundline)
+                    .SelectMany(x => x.PeriodisedData);
 
-                summarisedActuals.AddRange(SummariseByAttribute(learningDeliveries.SelectMany(x => x.PeriodisedData), new HashSet<string>(fundLine.Attributes ?? new List<string>())));
+                summarisedActuals.AddRange(SummariseByAttribute(periodisedDatas, new HashSet<string>(fundLine.Attributes ?? new List<string>())));
             }
 
-            var returnActuals = new List<SummarisedActual>();
-
-            var grpSummarised = summarisedActuals.GroupBy(grp => grp.Period);
-
-            foreach (var periodGroup in grpSummarised)
-            {
-                returnActuals.Add(new SummarisedActual
-                {
-                    DeliverableCode = fundingStream.DeliverableLineCode,
-                    FundingStreamPeriodCode = fundingStream.PeriodCode,
-                    Period = periodGroup.Key,
-                    ActualValue = periodGroup.ToList().Sum(x => x.ActualValue)
-                });
-            }
-
-            return returnActuals;
+            return summarisedActuals
+                .GroupBy(grp => grp.Period)
+                .Select(g =>
+                    new SummarisedActual
+                    {
+                        DeliverableCode = fundingStream.DeliverableLineCode,
+                        FundingStreamPeriodCode = fundingStream.PeriodCode,
+                        Period = g.Key,
+                        ActualValue = g.Sum(x => x.ActualValue)
+                    });
         }
 
         public IEnumerable<SummarisedActual> SummariseByAttribute(IEnumerable<PeriodisedData> periodisedData, HashSet<string> attributes)
@@ -63,18 +53,13 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tasks
          
         public IEnumerable<SummarisedActual> SummariseByPeriods(IEnumerable<Period> periods)
         {
-            var summarisedActuals = new List<SummarisedActual>();
-
-            foreach (var groupedPeriods in periods.GroupBy(pg => pg.PeriodId))
-            {
-                summarisedActuals.Add(new SummarisedActual
+            return periods
+                .GroupBy(pg => pg.PeriodId)
+                .Select(g => new SummarisedActual
                 {
-                    Period = groupedPeriods.Key,
-                    ActualValue = groupedPeriods.Sum(p => p.Value) ?? 0
+                    Period = g.Key,
+                    ActualValue = g.Sum(p => p.Value) ?? 0
                 });
-            }
-
-            return summarisedActuals;
         }
     }
 }
