@@ -21,14 +21,19 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         [Fact]
         public void TestSummarisatonTask()
         {
-            List<Provider> providers = GetData();
-            List<string> attributes = new List<string> { "AchievePayment", "BalancePayment", "OnProgPayment", "EmpOutcomePay" };
-            List<FundingType> fundingTypes = NewProvider().Provide().ToList();
+            Provider provider = GetData().First(x => x.UKPRN == 10023139);
+            HashSet<string> attributes = new HashSet<string> { "AchievePayment", "BalancePayment", "OnProgPayment", "EmpOutcomePay" };
+            FundingType fundingType = NewProvider().Provide().First(x => x.Key == "ProgFundingFM35andEAS");
 
-           // SummarisationTask task = new SummarisationTask("ProgFundingFM35andEAS", providers, attributes,fundingTypes);
+            //SummarisationTask task = new SummarisationTask("ProgFundingFM35andEAS", providers, attributes,fundingTypes);
 
-           //task.ExecuteAsync();
+            var task = new SummarisationTask();
 
+            var results = task.Summarise(fundingType, provider);
+
+            //var results = task.Summarise(fundingType, provider, attributes);
+
+            //task.ExecuteAsync();
         }
 
         [Fact]
