@@ -49,22 +49,97 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
         }
 
-        [Fact]
-        public void SummariseByFundingStream()
+        [Theory]
+        [InlineData("APPS1819", 2)]
+        [InlineData("APPS1819", 11)]
+        [InlineData("APPS1819", 14)]
+        [InlineData("AEBC1819", 2)]
+        [InlineData("AEBC1819", 5)]
+        [InlineData("AEB-TOL1819", 2)]
+        [InlineData("AEB-TOL1819", 5)]
+        [InlineData("APPS1819", 3)]
+        [InlineData("APPS1819", 12)]
+        [InlineData("APPS1819", 15)]
+        [InlineData("AEBC1819", 3)]
+        [InlineData("AEBC1819", 6)]
+        [InlineData("AEB-TOL1819", 3)]
+        [InlineData("AEB-TOL1819", 6)]
+        //[InlineData("16-18TRN1819", 3)]
+        //[InlineData("APPS1819", 4)]
+        //[InlineData("APPS1819", 13)]
+        //[InlineData("AEBC1819", 4)]
+        //[InlineData("AEB-TOL1819", 4)]
+        //[InlineData("ALLB1819", 4)]
+        //[InlineData("ALLBC1819", 4)]
+        [InlineData("16-18TRN1819", 2)]
+        [InlineData("ALLB1819", 3)]
+        [InlineData("ALLBC1819", 3)]
+        [InlineData("CLP1819", 1)]
+        [InlineData("ALLB1819", 2)]
+        [InlineData("ALLBC1819", 2)]
+        [InlineData("APPS1819", 5)]
+        [InlineData("APPS1819", 7)]
+        [InlineData("APPS1819", 16)]
+        [InlineData("APPS1819", 18)]
+        [InlineData("APPS1819", 19)]
+        [InlineData("APPS1819", 21)]
+        [InlineData("APPS1819", 6)]
+        [InlineData("APPS1819", 17)]
+        [InlineData("APPS1819", 20)]
+        public void SummariseByFundingStream(string fspCode, int dlc)
         {
-            FundingStream fundingStream = GetFundingType("ProgFundingFM35andEAS").FundingStreams.Where(fs => fs.PeriodCode == "APPS1819" && fs.DeliverableLineCode == 2).First();
+            var fungingTypes = GetFundingTypes();
+
+            FundingStream fundingStream = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == fspCode && fs.DeliverableLineCode == dlc).First();
+
+            var easfundlinesCount = fundingStream.FundLines.Where(fl => fl.LineType =="EAS").Count();
+
+            var ilrfundlinesCount = fundingStream.FundLines.Where(fl => fl.LineType != "EAS").Count();
+
+            var attributescount = fundingStream.FundLines.Where(flW => flW.LineType != "EAS").Select(fl=>fl.Attributes).First().Count();
 
             var task = new SummarisationTask();
 
-            var results = task.SummariseByFundingStream(fundingStream, GetTestProvider());
+            var results = task.SummariseByFundingStream(fundingStream, GetTestProvider()).OrderBy(x=>x.Period).ToList();
+
+            results.Count().Should().Be(12);
+            int i = 1;
+            foreach (var item in results)
+            {
+                item.ActualValue.Should().Be((2 * ilrfundlinesCount * attributescount * i * 10) + (2 * easfundlinesCount * i * 10 ));
+
+                i++;
+            }
         }
 
-        [Fact]
-        public void SummariseByFundingType()
+        [Theory]
+        [InlineData("ProgFundingFM35andEAS")]
+        [InlineData("LearningSupportFM35andEAS")]
+        [InlineData("EASOnlydeliverables")]
+        [InlineData("ProgFundingFM25andEAS")]
+        [InlineData("LoansBursaryProgFunding")]
+        [InlineData("LoansBursarySupportFunding")]
+        [InlineData("ProgFundingTrailblazer")]
+        [InlineData("LearningSupportTrailblazer")]
+        [InlineData("ProgFundingTrailblazerILR")]
+        [InlineData("LoansBursaryProgFundingCLP")]
+        public void SummariseByFundingType(string key)
         {
             var task = new SummarisationTask();
 
-            var results = task.Summarise(GetFundingType("ProgFundingFM35andEAS"), GetTestProvider());
+            var fundingType = GetFundingType(key);
+
+            var results = task.Summarise(fundingType, GetTestProvider());
+
+            Dictionary<string, int> fspdlc = new Dictionary<string, int>();
+
+            var fundingStreams = fundingType.FundingStreams.Select(fs => new {fs.PeriodCode, fs.DeliverableLineCode }).ToList();
+
+            foreach (var item in fundingStreams)
+            {
+                results.Where(r => r.FundingStreamPeriodCode == item.PeriodCode && r.DeliverableCode == item.DeliverableLineCode).Count().Should().Be(12);
+            }
+            
         }
 
         [Fact]
@@ -146,7 +221,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                         LearnRefNumber = "learnref" + i,
                         AimSeqNumber = i,
                         Fundline = item.Fundline,
-                        PeriodisedData = item.LineType == "EAS" ? GetPeriodisedDataNoAttributes() :  GetPeriodisedData(1)
+                        PeriodisedData = item.LineType == "EAS" ? GetPeriodisedDataNoAttributes(1) :  GetPeriodisedData(1)
                     };
 
                     learningDeliveries.Add(learningDelivery);
@@ -180,11 +255,11 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             return periodisedDatas;
         }
 
-        private List<PeriodisedData> GetPeriodisedDataNoAttributes()
+        private List<PeriodisedData> GetPeriodisedDataNoAttributes(int lotSize)
         {
             List<PeriodisedData> periodisedDatas = new List<PeriodisedData>();
 
-            for (int j = 1; j <= 5; j++)
+            for (int j = 1; j <= lotSize; j++)
             {
                 PeriodisedData periodisedData = new PeriodisedData()
                 {
@@ -216,9 +291,21 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         {
             FundingTypesProvider fundingTypesProvider = new FundingTypesProvider(new JsonSerializationService());
 
-            return fundingTypesProvider.Provide().First(x => x.Key == fundingType);
+            var fundingTypes = fundingTypesProvider.Provide();
+            
+           // var allft = fundingTypes.Select(f => f.Key);
+
+            return fundingTypes.First(x => x.Key == fundingType);
         }
-        
+
+        private List<FundingType> GetFundingTypes()
+        {
+            FundingTypesProvider fundingTypesProvider = new FundingTypesProvider(new JsonSerializationService());
+
+            return fundingTypesProvider.Provide().ToList();
+
+        }
+
         private HashSet<string> GetAllAttributes()
         {
             return new HashSet<string> { "AchievePayment",
