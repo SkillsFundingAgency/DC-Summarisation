@@ -3,10 +3,11 @@ using System.Linq;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.output.Model;
+using ESFA.DC.Summarisation.Interfaces;
 
 namespace ESFA.DC.Summarisation.Main1819.Service
 {
-    public class SummarisationService
+    public class SummarisationService : ISummarisationService
     {
         public IEnumerable<SummarisedActual> Summarise(FundingType fundingType, Provider provider)
         {
