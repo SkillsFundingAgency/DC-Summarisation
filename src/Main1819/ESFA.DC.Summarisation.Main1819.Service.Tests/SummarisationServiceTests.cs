@@ -13,6 +13,10 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 {
     public class SummarisationServiceTests
     {
+        private int learningDeliveryRecords = 2;
+
+        public decimal periodValue = 10;
+
         [Fact]
         public void SummariseByPeriods()
         {
@@ -24,7 +28,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             foreach (var item in result)
             {
-                item.ActualValue.Should().Be(5 * item.Period * 10);
+                item.ActualValue.Should().Be(5 * item.Period * periodValue);
             }
 
         }
@@ -42,7 +46,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             foreach (var item in result)
             {
-                item.ActualValue.Should().Be(5 * 2 * item.Period * 10);
+                item.ActualValue.Should().Be(5 * learningDeliveryRecords * item.Period * periodValue);
             }
 
         }
@@ -111,7 +115,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             foreach (var item in results)
             {
-                item.ActualValue.Should().Be((2 * ilrfundlinesCount * attributescount * i * 10) + (2 * easfundlinesCount * i * 10 ));
+                item.ActualValue.Should().Be((learningDeliveryRecords * ilrfundlinesCount * attributescount * i * periodValue) + (learningDeliveryRecords * easfundlinesCount * i * periodValue));
 
                 i++;
             }
@@ -202,7 +206,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             foreach (var item in GetFundLines())
             {
-                for (int i = 1; i <= 2; i++)
+                for (int i = 1; i <= learningDeliveryRecords; i++)
                 {
                     LearningDelivery learningDelivery = new LearningDelivery()
                     {
@@ -267,7 +271,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             {
                 for (int i = 1; i <= 12; i++)
                 {
-                    Period period = new Period() { PeriodId = i, Value = i * 10 };
+                    Period period = new Period() { PeriodId = i, Value = i * periodValue };
                     periods.Add(period);
                 }
             }
