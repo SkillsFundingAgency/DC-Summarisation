@@ -7,18 +7,17 @@ using ESFA.DC.Serialization.Json;
 using ESFA.DC.Serialization.Interfaces;
 using Xunit;
 using FluentAssertions;
-using ESFA.DC.Summarisation.Main1819.Service.Tasks;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using ESFA.DC.Summarisation.Configuration;
 
 namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 {
-    public class SummarisationTaskTests
+    public class SummarisationServiceTests
     {
         [Fact]
         public void SummariseByPeriods()
         {
-            var task = new SummarisationTask();
+            var task = new SummarisationService();
 
             var result = task.SummariseByPeriods(GetPeriodsData(5));
 
@@ -36,7 +35,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         {
             HashSet<string> attributesInterested = new HashSet<string> { "AchievePayment","BalancePayment" };
 
-            var task = new SummarisationTask();
+            var task = new SummarisationService();
 
             var result = task.SummariseByAttribute(GetPeriodisedData(5),attributesInterested);
 
@@ -98,7 +97,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var attributescount = fundingStream.FundLines.Where(flW => flW.LineType != "EAS").Select(fl=>fl.Attributes).First().Count();
 
-            var task = new SummarisationTask();
+            var task = new SummarisationService();
 
             var results = task.SummariseByFundingStream(fundingStream, GetTestProvider()).OrderBy(x=>x.Period).ToList();
 
@@ -125,7 +124,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         [InlineData("LoansBursaryProgFundingCLP")]
         public void SummariseByFundingType(string key)
         {
-            var task = new SummarisationTask();
+            var task = new SummarisationService();
 
             var fundingType = GetFundingType(key);
 
@@ -148,7 +147,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             Provider provider = GetData().First(x => x.UKPRN == 10023139);
             FundingType fundingType = GetFundingType("ProgFundingFM35andEAS");
 
-            var task = new SummarisationTask();
+            var task = new SummarisationService();
 
             var results = task.Summarise(fundingType, provider);
 
@@ -167,7 +166,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             
             FundingType fundingType = GetFundingType("ProgFundingFM35andEAS");
 
-            var task = new SummarisationTask();
+            var task = new SummarisationService();
 
             var results = task.Summarise(fundingType, provider);
 

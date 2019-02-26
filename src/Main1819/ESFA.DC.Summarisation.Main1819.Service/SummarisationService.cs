@@ -4,9 +4,9 @@ using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.output.Model;
 
-namespace ESFA.DC.Summarisation.Main1819.Service.Tasks
+namespace ESFA.DC.Summarisation.Main1819.Service
 {
-    public class SummarisationTask
+    public class SummarisationService
     {
         public IEnumerable<SummarisedActual> Summarise(FundingType fundingType, Provider provider)
         {
