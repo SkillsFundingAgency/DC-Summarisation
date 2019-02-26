@@ -1,24 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ESFA.DC.Summarisation.API.Stub;
+using ESFA.DC.Summarisation.Data.Repository.Interface;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace ESFA.DC.Summarisation.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IHostingEnvironment _hostingEnvironment;
+
+        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
             Configuration = configuration;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public IConfiguration Configuration { get; }
@@ -32,6 +30,17 @@ namespace ESFA.DC.Summarisation.API
             {
                 c.SwaggerDoc("v1", new Info { Title = "Summarised Actuals", Version = "v1" });
             });
+
+            if (_hostingEnvironment.IsDevelopment())
+            {
+                // Design Time Services
+                services.AddScoped<ISummarisedActualsRepository, SummarisedActualsRepositoryStub>();
+            }
+            else
+            {
+                // Live Services
+                services.AddScoped<ISummarisedActualsRepository, SummarisedActualsRepositoryStub>();
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,7 +57,6 @@ namespace ESFA.DC.Summarisation.API
 
             app.UseHttpsRedirection();
 
-
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
@@ -56,7 +64,6 @@ namespace ESFA.DC.Summarisation.API
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Summarised Actuals v1");
                 c.RoutePrefix = string.Empty;
             });
-
 
             app.UseMvc();
         }
