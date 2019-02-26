@@ -36,7 +36,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         [Fact]
         public void SummariseByAttributes()
         {
-            HashSet<string> attributesInterested = new HashSet<string> { "AchievePayment","BalancePayment" };
+            List<string> attributesInterested = new List<string> { "AchievePayment","BalancePayment" };
 
             var task = new SummarisationService();
 

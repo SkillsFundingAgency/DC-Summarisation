@@ -25,7 +25,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service
                     .Where(ld => ld.Fundline == fundLine.Fundline)
                     .SelectMany(x => x.PeriodisedData);
 
-                summarisedActuals.AddRange(SummariseByAttribute(periodisedDatas, new HashSet<string>(fundLine.Attributes ?? new List<string>())));
+                summarisedActuals.AddRange(SummariseByAttribute(periodisedDatas, fundLine.AttributesAny?fundLine.Attributes:new List<string>()));
             }
 
             return summarisedActuals
@@ -40,7 +40,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service
                     });
         }
 
-        public IEnumerable<SummarisedActual> SummariseByAttribute(IEnumerable<PeriodisedData> periodisedData, HashSet<string> attributes)
+        public IEnumerable<SummarisedActual> SummariseByAttribute(IEnumerable<PeriodisedData> periodisedData, List<string> attributes)
         {
             var filteredPeriodisedData = periodisedData;
 
