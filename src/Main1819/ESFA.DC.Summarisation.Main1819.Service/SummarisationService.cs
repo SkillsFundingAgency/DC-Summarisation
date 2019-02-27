@@ -20,12 +20,14 @@ namespace ESFA.DC.Summarisation.Main1819.Service
 
             foreach (var fundLine in fundingStream.FundLines)
             {
-                var periodisedDatas = provider
+                var periodisedData = provider
                     .LearningDeliveries
                     .Where(ld => ld.Fundline == fundLine.Fundline)
                     .SelectMany(x => x.PeriodisedData);
 
-                summarisedActuals.AddRange(SummariseByAttribute(periodisedDatas, fundLine.AttributesAny?fundLine.Attributes:new List<string>()));
+                var periods = GetPeriodsForFundLine(periodisedData, fundLine);
+
+                summarisedActuals.AddRange(SummarisePeriods(periods));
             }
 
             return summarisedActuals
@@ -40,26 +42,24 @@ namespace ESFA.DC.Summarisation.Main1819.Service
                     });
         }
 
-        public IEnumerable<SummarisedActual> SummariseByAttribute(IEnumerable<PeriodisedData> periodisedData, List<string> attributes)
+        public IEnumerable<Period> GetPeriodsForFundLine(IEnumerable<PeriodisedData> periodisedData, FundLine fundLine)
         {
-            var filteredPeriodisedData = periodisedData;
-
-            if (attributes.Any())
+            if (fundLine.UseAttributes)
             {
-                filteredPeriodisedData = periodisedData.Where(pd => attributes.Contains(pd.AttributeName));
+                periodisedData = periodisedData.Where(pd => fundLine.Attributes.Contains(pd.AttributeName));
             }
-            
-            return SummariseByPeriods(filteredPeriodisedData.SelectMany(fpd => fpd.Periods));
+
+            return periodisedData.SelectMany(fpd => fpd.Periods);
         }
-         
-        public IEnumerable<SummarisedActual> SummariseByPeriods(IEnumerable<Period> periods)
+                 
+        public IEnumerable<SummarisedActual> SummarisePeriods(IEnumerable<Period> periods)
         {
             return periods
                 .GroupBy(pg => pg.PeriodId)
                 .Select(g => new SummarisedActual
                 {
                     Period = g.Key,
-                    ActualValue = g.Sum(p => p.Value) ?? 0
+                    ActualValue = g.Where(p => p.Value.HasValue).Sum(p => p.Value.Value)
                 });
         }
     }

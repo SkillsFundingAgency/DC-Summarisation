@@ -22,7 +22,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         {
             var task = new SummarisationService();
 
-            var result = task.SummariseByPeriods(GetPeriodsData(5));
+            var result = task.SummarisePeriods(GetPeriodsData(5));
 
             result.Count().Should().Be(12);
 
@@ -33,22 +33,88 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
         }
 
-        [Fact]
-        public void SummariseByAttributes()
+        [Theory]
+        [InlineData("16-18 Apprenticeship")]
+        [InlineData("16-18 Trailblazer Apprenticeship")]
+        [InlineData("16-18 Traineeships (Adult funded)")]
+        [InlineData("19+ Traineeships (Adult funded)")]
+        [InlineData("19-23 Apprenticeship")]
+        [InlineData("19-23 Trailblazer Apprenticeship")]
+        [InlineData("19-24 Traineeship (non-procured)")]
+        [InlineData("19-24 Traineeship (procured from Nov 2017)")]
+        [InlineData("19-24 Traineeship")]
+        [InlineData("24+ Apprenticeship")]
+        [InlineData("24+ Trailblazer Apprenticeship")]
+        [InlineData("Advanced Learner Loans Bursary")]
+        [InlineData("AEB - Other Learning (non-procured)")]
+        [InlineData("AEB - Other Learning (procured from Nov 2017)")]
+        [InlineData("AEB - Other Learning")]
+        [InlineData("Audit Adjustments: 16-18 Apprenticeships")]
+        [InlineData("Audit Adjustments: 16-18 Trailblazer Apprenticeships")]
+        [InlineData("Audit Adjustments: 16-18 Traineeships")]
+        [InlineData("Audit Adjustments: 19-23 Apprenticeships")]
+        [InlineData("Audit Adjustments: 19-23 Trailblazer Apprenticeships")]
+        [InlineData("Audit Adjustments: 19-24 Traineeships (From Nov 2017)")]
+        [InlineData("Audit Adjustments: 19-24 Traineeships")]
+        [InlineData("Audit Adjustments: 24+ Apprenticeships")]
+        [InlineData("Audit Adjustments: 24+ Trailblazer Apprenticeships")]
+        [InlineData("Audit Adjustments: AEB-Other Learning (From Nov 2017)")]
+        [InlineData("Audit Adjustments: AEB-Other Learning")]
+        [InlineData("Authorised Claims: 16-18 Apprenticeships")]
+        [InlineData("Authorised Claims: 16-18 Trailblazer Apprenticeships")]
+        [InlineData("Authorised Claims: 16-18 Traineeships")]
+        [InlineData("Authorised Claims: 19-23 Apprenticeships")]
+        [InlineData("Authorised Claims: 19-23 Trailblazer Apprenticeships")]
+        [InlineData("Authorised Claims: 19-24 Traineeships (From Nov 2017)")]
+        [InlineData("Authorised Claims: 19-24 Traineeships")]
+        [InlineData("Authorised Claims: 24+ Apprenticeships")]
+        [InlineData("Authorised Claims: 24+ Trailblazer Apprenticeships")]
+        [InlineData("Authorised Claims: Advanced Learner Loans Bursary")]
+        [InlineData("Authorised Claims: AEB-Other Learning (From Nov 2017)")]
+        [InlineData("Authorised Claims: AEB-Other Learning")]
+        [InlineData("Discretionary Bursary: 16-19 Traineeships Bursary")]
+        [InlineData("Excess Learning Support: 16-18 Apprenticeships")]
+        [InlineData("Excess Learning Support: 16-18 Trailblazer Apprenticeships")]
+        [InlineData("Excess Learning Support: 16-18 Traineeships")]
+        [InlineData("Excess Learning Support: 19-23 Apprenticeships")]
+        [InlineData("Excess Learning Support: 19-23 Trailblazer Apprenticeships")]
+        [InlineData("Excess Learning Support: 19-24 Traineeships (From Nov 2017)")]
+        [InlineData("Excess Learning Support: 19-24 Traineeships")]
+        [InlineData("Excess Learning Support: 24+ Apprenticeships")]
+        [InlineData("Excess Learning Support: 24+ Trailblazer Apprenticeships")]
+        [InlineData("Excess Learning Support: AEB-Other Learning (From Nov 2017)")]
+        [InlineData("Excess Learning Support: AEB-Other Learning")]
+        [InlineData("Excess Support: Advanced Learner Loans Bursary")]
+        [InlineData("Free Meals: 16-19 Traineeships Bursary")]
+        [InlineData("Learner Support: 16-18 Apprenticeships")]
+        [InlineData("Learner Support: 19-23 Apprenticeships")]
+        [InlineData("Learner Support: 19-24 Traineeships (From Nov 2017)")]
+        [InlineData("Learner Support: 19-24 Traineeships")]
+        [InlineData("Learner Support: 24+ Apprenticeships")]
+        [InlineData("Princes Trust: AEB-Other Learning (From Nov 2017)")]
+        [InlineData("Princes Trust: AEB-Other Learning")]
+        [InlineData("Vulnerable Bursary: 16-19 Traineeships Bursary")]
+        public void GetPeriodsForFundLine(string strFundLine)
         {
-            List<string> attributesInterested = new List<string> { "AchievePayment","BalancePayment" };
 
+            var fundLine = GetFundingTypes()
+                                  .SelectMany(ft => ft.FundingStreams)
+                                  .SelectMany(fs => fs.FundLines)
+                                  .Where(fl => fl.Fundline == strFundLine).First();
+                                  
             var task = new SummarisationService();
 
-            var result = task.SummariseByAttribute(GetPeriodisedData(5),attributesInterested);
+            var result = task.GetPeriodsForFundLine(fundLine.UseAttributes? GetPeriodisedData(5) : GetPeriodisedDataNoAttributes(5), fundLine);
 
-            result.Count().Should().Be(12);
+            int attributeCount = 1;
 
-            foreach (var item in result)
+            if (fundLine.UseAttributes)
             {
-                item.ActualValue.Should().Be(5 * learningDeliveryRecords * item.Period * periodValue);
+                attributeCount = fundLine.Attributes.Count();
             }
-
+            
+            result.Count().Should().Be(5 * attributeCount * 12);
+            
         }
 
         [Theory]
@@ -146,7 +212,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             foreach (var item in fundingStreams)
             {
-                results.Where(r => r.FundingStreamPeriodCode == item.PeriodCode && r.DeliverableCode == item.DeliverableLineCode).Count().Should().Be(12);
+                results.Count(r => r.FundingStreamPeriodCode == item.PeriodCode && r.DeliverableCode == item.DeliverableLineCode).Should().Be(12);
 
                 SummariseByFundingStream(item.PeriodCode, item.DeliverableLineCode);
             }
@@ -183,10 +249,10 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             foreach (var item in fundingStreams)
             {
-                results.Where(r => r.FundingStreamPeriodCode == item.PeriodCode && r.DeliverableCode == item.DeliverableLineCode).Count().Should().Be(12);
+                results.Count(r => r.FundingStreamPeriodCode == item.PeriodCode && r.DeliverableCode == item.DeliverableLineCode).Should().Be(12);
             }
         }
-
+        
         private FundingTypesProvider NewFundingTypeProvider()
         {
             return new FundingTypesProvider(new JsonSerializationService());
