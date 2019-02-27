@@ -10,7 +10,7 @@ using MockQueryable.Moq;
 using Moq;
 using Xunit;
 
-namespace ESFA.DC.Summarisation.Data.Tests.External
+namespace ESFA.DC.Summarisation.Data.Tests.Repository
 {
     public class FcsRepositoryTests
     {
