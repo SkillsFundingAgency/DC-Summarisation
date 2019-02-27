@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR1819.DataStore.EF;
@@ -182,12 +180,90 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
                 ?.Periods.Count.Should().Be(12);
         }
 
+        [Fact]
+        public async Task RetrieveSingleFm35ProviderByUkprnTest()
+        {
+            var fm35Learners = new List<Fm35Learner>
+            {
+                new Fm35Learner
+                {
+                    Ukprn = 10000000,
+                    LearnRefNumber = "10000000Learner1",
+                    Fm35LearningDeliveries = new List<Fm35LearningDelivery>
+                    {
+                        new Fm35LearningDelivery
+                        {
+                            FundLine = "FundLine1",
+                            AimSeqNumber = 1,
+                            LearnRefNumber = "10000000Learner1",
+                            Fm35LearningDeliveryPeriodisedValues = new List<Fm35LearningDeliveryPeriodisedValue>
+                            {
+                                new Fm35LearningDeliveryPeriodisedValue
+                                {
+                                    AttributeName = "Attribute1",
+                                    Period1 = 10,
+                                    Period2 = 20,
+                                    Period3 = 30,
+                                    Period4 = 40
+                                }
+                            }
+                        }
+                    }
+                },
+                new Fm35Learner
+                {
+                    Ukprn = 10000001,
+                    LearnRefNumber = "10000001Learner1",
+                    Fm35LearningDeliveries = new List<Fm35LearningDelivery>
+                    {
+                        new Fm35LearningDelivery
+                        {
+                            FundLine = "FundLine1",
+                            AimSeqNumber = 1,
+                            Fm35LearningDeliveryPeriodisedValues = new List<Fm35LearningDeliveryPeriodisedValue>
+                            {
+                                new Fm35LearningDeliveryPeriodisedValue
+                                {
+                                    AttributeName = "Attribute1",
+                                    Period1 = 10,
+                                    Period2 = 20,
+                                    Period3 = 30,
+                                    Period4 = 40
+                                }
+                            }
+                        }
+                    }
+                }
+            }.AsQueryable().BuildMock();
+
+            var ilrMock = new Mock<IIlr1819RulebaseContext>();
+            ilrMock
+                .Setup(s => s.Fm35Learners)
+                .Returns(fm35Learners.Object);
+
+            var service = new IlrRepository(ilrMock.Object);
+
+            var providers = await service.RetrieveFM35ProvidersAsync(10000000, CancellationToken.None);
+
+            providers.Count.Should().Be(1);
+            providers.FirstOrDefault(x => x.UKPRN == 10000000)
+                ?.LearningDeliveries.Count.Should().Be(1);
+
+            providers.FirstOrDefault(x => x.UKPRN == 10000000)
+                ?.LearningDeliveries.FirstOrDefault(ld => ld.LearnRefNumber == "10000000Learner1")
+                ?.PeriodisedData.Count.Should().Be(1);
+
+            providers.FirstOrDefault(x => x.UKPRN == 10000000)
+                ?.LearningDeliveries.FirstOrDefault(ld => ld.LearnRefNumber == "10000000Learner1")
+                ?.PeriodisedData.FirstOrDefault()
+                ?.Periods.Count.Should().Be(12);
+        }
+
         [Theory]
         [InlineData(1, 10)]
         [InlineData(100, 10)]
         [InlineData(1000, 100)]
         [InlineData(1000, 1000)]
-        //[InlineData(1000, 10000)] // Throwing OutOfMemory at the moment --revisit
         public async Task CreateBulkMockFm35LearnerData(int numOfProviders, int learnersPerProvider)
         {
             var learners = new List<Fm35Learner>();
