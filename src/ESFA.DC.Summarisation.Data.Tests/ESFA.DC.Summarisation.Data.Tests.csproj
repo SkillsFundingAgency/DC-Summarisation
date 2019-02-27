@@ -165,10 +165,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\DC-ILR-1819-DataStore\src\ESFA.DC.ILR1819.DataStore.EF\ESFA.DC.ILR1819.DataStore.EF.csproj">
-      <Project>{EC47562E-CA75-4FBE-A872-D154A58F0FD3}</Project>
-      <Name>ESFA.DC.ILR1819.DataStore.EF</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.Summarisation.Data\ESFA.DC.Summarisation.Data.csproj">
       <Project>{6ac3b17b-49a6-4ece-8962-c45f67384054}</Project>
       <Name>ESFA.DC.Summarisation.Data</Name>

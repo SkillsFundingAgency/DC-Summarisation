@@ -8,8 +8,4 @@
     <PackageReference Include="ESFA.DC.ReferenceData.FCS.Model" Version="0.1.138" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\DC-ILR-1819-DataStore\src\ESFA.DC.ILR1819.Database.EF\ESFA.DC.ILR1819.Database.EF.csproj" />
-  </ItemGroup>
-
 </Project>
