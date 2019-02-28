@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ESFA.DC.ILR1819.Database.EF" Version="0.1.322" />
     <PackageReference Include="ESFA.DC.ReferenceData.FCS.Model" Version="0.1.138" />
   </ItemGroup>
 
