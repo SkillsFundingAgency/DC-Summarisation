@@ -1,0 +1,801 @@
+[
+  {
+    "ukprn": 10023139,
+    "learningDeliveries": [
+      {
+        "learnRefNumber": "LearnRef1",
+        "aimSeqNumber": 1,
+        "fundline": "16-18 Apprenticeship",
+        "periodisedData": [
+          {
+            "attributeName": "AchievePayment",
+            "Periods": [
+              {
+                "PeriodId": 1,
+                "Value": 10
+              },
+
+              {
+                "PeriodId": 2,
+                "Value": 20
+              },
+              {
+                "PeriodId": 3,
+                "Value": 30
+              },
+              {
+                "PeriodId": 4,
+                "Value": 40
+              },
+              {
+                "PeriodId": 5,
+                "Value": 50
+              },
+              {
+                "PeriodId": 6,
+                "Value": 60
+              },
+              {
+                "PeriodId": 7,
+                "Value": 70
+              },
+              {
+                "PeriodId": 8,
+                "Value": 80
+              },
+              {
+                "PeriodId": 9,
+                "Value": 90
+              },
+              {
+                "PeriodId": 10,
+                "Value": 100
+              },
+              {
+                "PeriodId": 11,
+                "Value": 110
+              },
+              {
+                "PeriodId": 12,
+                "Value": 120
+              }
+            ]
+
+          },
+          {
+            "attributeName": "BalancePayment",
+            "Periods": [
+              {
+                "PeriodId": 1,
+                "Value": 10
+              },
+
+              {
+                "PeriodId": 2,
+                "Value": 20
+              },
+              {
+                "PeriodId": 3,
+                "Value": 30
+              },
+              {
+                "PeriodId": 4,
+                "Value": 40
+              },
+              {
+                "PeriodId": 5,
+                "Value": 50
+              },
+              {
+                "PeriodId": 6,
+                "Value": 60
+              },
+              {
+                "PeriodId": 7,
+                "Value": 70
+              },
+              {
+                "PeriodId": 8,
+                "Value": 80
+              },
+              {
+                "PeriodId": 9,
+                "Value": 90
+              },
+              {
+                "PeriodId": 10,
+                "Value": 100
+              },
+              {
+                "PeriodId": 11,
+                "Value": 110
+              },
+              {
+                "PeriodId": 12,
+                "Value": 120
+              }
+            ]
+          },
+          {
+            "attributeName": "OnProgPayment",
+            "Periods": [
+              {
+                "PeriodId": 1,
+                "Value": 10
+              },
+
+              {
+                "PeriodId": 2,
+                "Value": 20
+              },
+              {
+                "PeriodId": 3,
+                "Value": 30
+              },
+              {
+                "PeriodId": 4,
+                "Value": 40
+              },
+              {
+                "PeriodId": 5,
+                "Value": 50
+              },
+              {
+                "PeriodId": 6,
+                "Value": 60
+              },
+              {
+                "PeriodId": 7,
+                "Value": 70
+              },
+              {
+                "PeriodId": 8,
+                "Value": 80
+              },
+              {
+                "PeriodId": 9,
+                "Value": 90
+              },
+              {
+                "PeriodId": 10,
+                "Value": 100
+              },
+              {
+                "PeriodId": 11,
+                "Value": 110
+              },
+              {
+                "PeriodId": 12,
+                "Value": 120
+              }
+            ]
+          },
+          {
+            "attributeName": "EmpOutcomePay",
+            "Periods": [
+              {
+                "PeriodId": 1,
+                "Value": 10
+              },
+
+              {
+                "PeriodId": 2,
+                "Value": 20
+              },
+              {
+                "PeriodId": 3,
+                "Value": 30
+              },
+              {
+                "PeriodId": 4,
+                "Value": 40
+              },
+              {
+                "PeriodId": 5,
+                "Value": 50
+              },
+              {
+                "PeriodId": 6,
+                "Value": 60
+              },
+              {
+                "PeriodId": 7,
+                "Value": 70
+              },
+              {
+                "PeriodId": 8,
+                "Value": 80
+              },
+              {
+                "PeriodId": 9,
+                "Value": 90
+              },
+              {
+                "PeriodId": 10,
+                "Value": 100
+              },
+              {
+                "PeriodId": 11,
+                "Value": 110
+              },
+              {
+                "PeriodId": 12,
+                "Value": 120
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "learnRefNumber": "LearnRef2",
+        "aimSeqNumber": 1,
+        "fundline": "16-18 Apprenticeship",
+        "periodisedData": [
+          {
+            "attributeName": "AchievePayment",
+            "Periods": [
+              {
+                "PeriodId": 1,
+                "Value": 10
+              },
+
+              {
+                "PeriodId": 2,
+                "Value": 20
+              },
+              {
+                "PeriodId": 3,
+                "Value": 30
+              },
+              {
+                "PeriodId": 4,
+                "Value": 40
+              },
+              {
+                "PeriodId": 5,
+                "Value": 50
+              },
+              {
+                "PeriodId": 6,
+                "Value": 60
+              },
+              {
+                "PeriodId": 7,
+                "Value": 70
+              },
+              {
+                "PeriodId": 8,
+                "Value": 80
+              },
+              {
+                "PeriodId": 9,
+                "Value": 90
+              },
+              {
+                "PeriodId": 10,
+                "Value": 100
+              },
+              {
+                "PeriodId": 11,
+                "Value": 110
+              },
+              {
+                "PeriodId": 12,
+                "Value": 120
+              }
+            ]
+          },
+          {
+            "attributeName": "BalancePayment",
+            "Periods": [
+              {
+                "PeriodId": 1,
+                "Value": 10
+              },
+
+              {
+                "PeriodId": 2,
+                "Value": 20
+              },
+              {
+                "PeriodId": 3,
+                "Value": 30
+              },
+              {
+                "PeriodId": 4,
+                "Value": 40
+              },
+              {
+                "PeriodId": 5,
+                "Value": 50
+              },
+              {
+                "PeriodId": 6,
+                "Value": 60
+              },
+              {
+                "PeriodId": 7,
+                "Value": 70
+              },
+              {
+                "PeriodId": 8,
+                "Value": 80
+              },
+              {
+                "PeriodId": 9,
+                "Value": 90
+              },
+              {
+                "PeriodId": 10,
+                "Value": 100
+              },
+              {
+                "PeriodId": 11,
+                "Value": 110
+              },
+              {
+                "PeriodId": 12,
+                "Value": 120
+              }
+            ]
+          },
+          {
+            "attributeName": "OnProgPayment",
+            "Periods": [
+              {
+                "PeriodId": 1,
+                "Value": 10
+              },
+
+              {
+                "PeriodId": 2,
+                "Value": 20
+              },
+              {
+                "PeriodId": 3,
+                "Value": 30
+              },
+              {
+                "PeriodId": 4,
+                "Value": 40
+              },
+              {
+                "PeriodId": 5,
+                "Value": 50
+              },
+              {
+                "PeriodId": 6,
+                "Value": 60
+              },
+              {
+                "PeriodId": 7,
+                "Value": 70
+              },
+              {
+                "PeriodId": 8,
+                "Value": 80
+              },
+              {
+                "PeriodId": 9,
+                "Value": 90
+              },
+              {
+                "PeriodId": 10,
+                "Value": 100
+              },
+              {
+                "PeriodId": 11,
+                "Value": 110
+              },
+              {
+                "PeriodId": 12,
+                "Value": 120
+              }
+            ]
+          },
+          {
+            "attributeName": "EmpOutcomePay",
+            "Periods": [
+              {
+                "PeriodId": 1,
+                "Value": 10
+              },
+
+              {
+                "PeriodId": 2,
+                "Value": 20
+              },
+              {
+                "PeriodId": 3,
+                "Value": 30
+              },
+              {
+                "PeriodId": 4,
+                "Value": 40
+              },
+              {
+                "PeriodId": 5,
+                "Value": 50
+              },
+              {
+                "PeriodId": 6,
+                "Value": 60
+              },
+              {
+                "PeriodId": 7,
+                "Value": 70
+              },
+              {
+                "PeriodId": 8,
+                "Value": 80
+              },
+              {
+                "PeriodId": 9,
+                "Value": 90
+              },
+              {
+                "PeriodId": 10,
+                "Value": 100
+              },
+              {
+                "PeriodId": 11,
+                "Value": 110
+              },
+              {
+                "PeriodId": 12,
+                "Value": 120
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "fundline": "Authorised Claims: 16-18 Apprenticeships",
+        "periodisedData": [
+          {
+            "Periods": [
+              {
+                "PeriodId": 1,
+                "Value": 10
+              },
+
+              {
+                "PeriodId": 2,
+                "Value": 20
+              },
+              {
+                "PeriodId": 3,
+                "Value": 30
+              },
+              {
+                "PeriodId": 4,
+                "Value": 40
+              },
+              {
+                "PeriodId": 5,
+                "Value": 50
+              },
+              {
+                "PeriodId": 6,
+                "Value": 60
+              },
+              {
+                "PeriodId": 7,
+                "Value": 70
+              },
+              {
+                "PeriodId": 8,
+                "Value": 80
+              },
+              {
+                "PeriodId": 9,
+                "Value": 90
+              },
+              {
+                "PeriodId": 10,
+                "Value": 100
+              },
+              {
+                "PeriodId": 11,
+                "Value": 110
+              },
+              {
+                "PeriodId": 12,
+                "Value": 120
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "fundline": "Audit Adjustments: 16-18 Apprenticeships",
+        "periodisedData": [
+          {
+            "Periods": [
+              {
+                "PeriodId": 1,
+                "Value": 10
+              },
+
+              {
+                "PeriodId": 2,
+                "Value": 20
+              },
+              {
+                "PeriodId": 3,
+                "Value": 30
+              },
+              {
+                "PeriodId": 4,
+                "Value": 40
+              },
+              {
+                "PeriodId": 5,
+                "Value": 50
+              },
+              {
+                "PeriodId": 6,
+                "Value": 60
+              },
+              {
+                "PeriodId": 7,
+                "Value": 70
+              },
+              {
+                "PeriodId": 8,
+                "Value": 80
+              },
+              {
+                "PeriodId": 9,
+                "Value": 90
+              },
+              {
+                "PeriodId": 10,
+                "Value": 100
+              },
+              {
+                "PeriodId": 11,
+                "Value": 110
+              },
+              {
+                "PeriodId": 12,
+                "Value": 120
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "ukprn": 10000020,
+    "learningDeliveries": [
+      {
+        "learnRefNumber": "LearnRef1",
+        "aimSeqNumber": 1,
+        "fundline": "16-18 Apprenticeship",
+        "periodisedData": [
+          {
+            "attributeName": "AchievePayment",
+            "Periods": [
+              {
+                "PeriodId": 1,
+                "Value": 10
+              },
+
+              {
+                "PeriodId": 2,
+                "Value": 20
+              },
+              {
+                "PeriodId": 3,
+                "Value": 30
+              },
+              {
+                "PeriodId": 4,
+                "Value": 40
+              },
+              {
+                "PeriodId": 5,
+                "Value": 50
+              },
+              {
+                "PeriodId": 6,
+                "Value": 60
+              },
+              {
+                "PeriodId": 7,
+                "Value": 70
+              },
+              {
+                "PeriodId": 8,
+                "Value": 80
+              },
+              {
+                "PeriodId": 9,
+                "Value": 90
+              },
+              {
+                "PeriodId": 10,
+                "Value": 100
+              },
+              {
+                "PeriodId": 11,
+                "Value": 110
+              },
+              {
+                "PeriodId": 12,
+                "Value": 120
+              }
+            ]
+
+          },
+          {
+            "attributeName": "BalancePayment",
+            "Periods": [
+              {
+                "PeriodId": 1,
+                "Value": 10
+              },
+
+              {
+                "PeriodId": 2,
+                "Value": 20
+              },
+              {
+                "PeriodId": 3,
+                "Value": 30
+              },
+              {
+                "PeriodId": 4,
+                "Value": 40
+              },
+              {
+                "PeriodId": 5,
+                "Value": 50
+              },
+              {
+                "PeriodId": 6,
+                "Value": 60
+              },
+              {
+                "PeriodId": 7,
+                "Value": 70
+              },
+              {
+                "PeriodId": 8,
+                "Value": 80
+              },
+              {
+                "PeriodId": 9,
+                "Value": 90
+              },
+              {
+                "PeriodId": 10,
+                "Value": 100
+              },
+              {
+                "PeriodId": 11,
+                "Value": 110
+              },
+              {
+                "PeriodId": 12,
+                "Value": 120
+              }
+            ]
+          },
+          {
+            "attributeName": "OnProgPayment",
+            "Periods": [
+              {
+                "PeriodId": 1,
+                "Value": 10
+              },
+
+              {
+                "PeriodId": 2,
+                "Value": 20
+              },
+              {
+                "PeriodId": 3,
+                "Value": 30
+              },
+              {
+                "PeriodId": 4,
+                "Value": 40
+              },
+              {
+                "PeriodId": 5,
+                "Value": 50
+              },
+              {
+                "PeriodId": 6,
+                "Value": 60
+              },
+              {
+                "PeriodId": 7,
+                "Value": 70
+              },
+              {
+                "PeriodId": 8,
+                "Value": 80
+              },
+              {
+                "PeriodId": 9,
+                "Value": 90
+              },
+              {
+                "PeriodId": 10,
+                "Value": 100
+              },
+              {
+                "PeriodId": 11,
+                "Value": 110
+              },
+              {
+                "PeriodId": 12,
+                "Value": 120
+              }
+            ]
+          },
+          {
+            "attributeName": "EmpOutcomePay",
+            "Periods": [
+              {
+                "PeriodId": 1,
+                "Value": 10
+              },
+
+              {
+                "PeriodId": 2,
+                "Value": 20
+              },
+              {
+                "PeriodId": 3,
+                "Value": 30
+              },
+              {
+                "PeriodId": 4,
+                "Value": 40
+              },
+              {
+                "PeriodId": 5,
+                "Value": 50
+              },
+              {
+                "PeriodId": 6,
+                "Value": 60
+              },
+              {
+                "PeriodId": 7,
+                "Value": 70
+              },
+              {
+                "PeriodId": 8,
+                "Value": 80
+              },
+              {
+                "PeriodId": 9,
+                "Value": 90
+              },
+              {
+                "PeriodId": 10,
+                "Value": 100
+              },
+              {
+                "PeriodId": 11,
+                "Value": 110
+              },
+              {
+                "PeriodId": 12,
+                "Value": 120
+              }
+            ]
+          }
+        ]
+      }
+     
+    ]
+  }
+
+]
