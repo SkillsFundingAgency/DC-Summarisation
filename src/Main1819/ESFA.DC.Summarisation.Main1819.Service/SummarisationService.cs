@@ -3,10 +3,11 @@ using System.Linq;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.output.Model;
+using ESFA.DC.Summarisation.Interfaces;
 
-namespace ESFA.DC.Summarisation.Main1819.Service.Tasks
+namespace ESFA.DC.Summarisation.Main1819.Service
 {
-    public class SummarisationTask
+    public class SummarisationService : ISummarisationService
     {
         public IEnumerable<SummarisedActual> Summarise(FundingType fundingType, Provider provider)
         {
@@ -19,12 +20,14 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tasks
 
             foreach (var fundLine in fundingStream.FundLines)
             {
-                var periodisedDatas = provider
+                var periodisedData = provider
                     .LearningDeliveries
                     .Where(ld => ld.Fundline == fundLine.Fundline)
                     .SelectMany(x => x.PeriodisedData);
 
-                summarisedActuals.AddRange(SummariseByAttribute(periodisedDatas, new HashSet<string>(fundLine.Attributes ?? new List<string>())));
+                var periods = GetPeriodsForFundLine(periodisedData, fundLine);
+
+                summarisedActuals.AddRange(SummarisePeriods(periods));
             }
 
             return summarisedActuals
@@ -39,26 +42,24 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tasks
                     });
         }
 
-        public IEnumerable<SummarisedActual> SummariseByAttribute(IEnumerable<PeriodisedData> periodisedData, HashSet<string> attributes)
+        public IEnumerable<Period> GetPeriodsForFundLine(IEnumerable<PeriodisedData> periodisedData, FundLine fundLine)
         {
-            var filteredPeriodisedData = periodisedData;
-
-            if (attributes.Any())
+            if (fundLine.UseAttributes)
             {
-                filteredPeriodisedData = periodisedData.Where(pd => attributes.Contains(pd.AttributeName));
+                periodisedData = periodisedData.Where(pd => fundLine.Attributes.Contains(pd.AttributeName));
             }
-            
-            return SummariseByPeriods(filteredPeriodisedData.SelectMany(fpd => fpd.Periods));
+
+            return periodisedData.SelectMany(fpd => fpd.Periods);
         }
-         
-        public IEnumerable<SummarisedActual> SummariseByPeriods(IEnumerable<Period> periods)
+                 
+        public IEnumerable<SummarisedActual> SummarisePeriods(IEnumerable<Period> periods)
         {
             return periods
                 .GroupBy(pg => pg.PeriodId)
                 .Select(g => new SummarisedActual
                 {
                     Period = g.Key,
-                    ActualValue = g.Sum(p => p.Value) ?? 0
+                    ActualValue = g.Where(p => p.Value.HasValue).Sum(p => p.Value.Value)
                 });
         }
     }

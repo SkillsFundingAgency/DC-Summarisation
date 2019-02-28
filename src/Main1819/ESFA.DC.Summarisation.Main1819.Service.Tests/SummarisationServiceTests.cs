@@ -1,5 +1,4 @@
 ﻿using ESFA.DC.Summarisation.Data.Input.Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -7,46 +6,115 @@ using ESFA.DC.Serialization.Json;
 using ESFA.DC.Serialization.Interfaces;
 using Xunit;
 using FluentAssertions;
-using ESFA.DC.Summarisation.Main1819.Service.Tasks;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using ESFA.DC.Summarisation.Configuration;
 
 namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 {
-    public class SummarisationTaskTests
+    public class SummarisationServiceTests
     {
+        private int learningDeliveryRecords = 2;
+
+        public decimal periodValue = 10;
+
         [Fact]
         public void SummariseByPeriods()
         {
-            var task = new SummarisationTask();
+            var task = new SummarisationService();
 
-            var result = task.SummariseByPeriods(GetPeriodsData(5));
+            var result = task.SummarisePeriods(GetPeriodsData(5));
 
             result.Count().Should().Be(12);
 
             foreach (var item in result)
             {
-                item.ActualValue.Should().Be(5 * item.Period * 10);
+                item.ActualValue.Should().Be(5 * item.Period * periodValue);
             }
 
         }
 
-        [Fact]
-        public void SummariseByAttributes()
+        [Theory]
+        [InlineData("16-18 Apprenticeship")]
+        [InlineData("16-18 Trailblazer Apprenticeship")]
+        [InlineData("16-18 Traineeships (Adult funded)")]
+        [InlineData("19+ Traineeships (Adult funded)")]
+        [InlineData("19-23 Apprenticeship")]
+        [InlineData("19-23 Trailblazer Apprenticeship")]
+        [InlineData("19-24 Traineeship (non-procured)")]
+        [InlineData("19-24 Traineeship (procured from Nov 2017)")]
+        [InlineData("19-24 Traineeship")]
+        [InlineData("24+ Apprenticeship")]
+        [InlineData("24+ Trailblazer Apprenticeship")]
+        [InlineData("Advanced Learner Loans Bursary")]
+        [InlineData("AEB - Other Learning (non-procured)")]
+        [InlineData("AEB - Other Learning (procured from Nov 2017)")]
+        [InlineData("AEB - Other Learning")]
+        [InlineData("Audit Adjustments: 16-18 Apprenticeships")]
+        [InlineData("Audit Adjustments: 16-18 Trailblazer Apprenticeships")]
+        [InlineData("Audit Adjustments: 16-18 Traineeships")]
+        [InlineData("Audit Adjustments: 19-23 Apprenticeships")]
+        [InlineData("Audit Adjustments: 19-23 Trailblazer Apprenticeships")]
+        [InlineData("Audit Adjustments: 19-24 Traineeships (From Nov 2017)")]
+        [InlineData("Audit Adjustments: 19-24 Traineeships")]
+        [InlineData("Audit Adjustments: 24+ Apprenticeships")]
+        [InlineData("Audit Adjustments: 24+ Trailblazer Apprenticeships")]
+        [InlineData("Audit Adjustments: AEB-Other Learning (From Nov 2017)")]
+        [InlineData("Audit Adjustments: AEB-Other Learning")]
+        [InlineData("Authorised Claims: 16-18 Apprenticeships")]
+        [InlineData("Authorised Claims: 16-18 Trailblazer Apprenticeships")]
+        [InlineData("Authorised Claims: 16-18 Traineeships")]
+        [InlineData("Authorised Claims: 19-23 Apprenticeships")]
+        [InlineData("Authorised Claims: 19-23 Trailblazer Apprenticeships")]
+        [InlineData("Authorised Claims: 19-24 Traineeships (From Nov 2017)")]
+        [InlineData("Authorised Claims: 19-24 Traineeships")]
+        [InlineData("Authorised Claims: 24+ Apprenticeships")]
+        [InlineData("Authorised Claims: 24+ Trailblazer Apprenticeships")]
+        [InlineData("Authorised Claims: Advanced Learner Loans Bursary")]
+        [InlineData("Authorised Claims: AEB-Other Learning (From Nov 2017)")]
+        [InlineData("Authorised Claims: AEB-Other Learning")]
+        [InlineData("Discretionary Bursary: 16-19 Traineeships Bursary")]
+        [InlineData("Excess Learning Support: 16-18 Apprenticeships")]
+        [InlineData("Excess Learning Support: 16-18 Trailblazer Apprenticeships")]
+        [InlineData("Excess Learning Support: 16-18 Traineeships")]
+        [InlineData("Excess Learning Support: 19-23 Apprenticeships")]
+        [InlineData("Excess Learning Support: 19-23 Trailblazer Apprenticeships")]
+        [InlineData("Excess Learning Support: 19-24 Traineeships (From Nov 2017)")]
+        [InlineData("Excess Learning Support: 19-24 Traineeships")]
+        [InlineData("Excess Learning Support: 24+ Apprenticeships")]
+        [InlineData("Excess Learning Support: 24+ Trailblazer Apprenticeships")]
+        [InlineData("Excess Learning Support: AEB-Other Learning (From Nov 2017)")]
+        [InlineData("Excess Learning Support: AEB-Other Learning")]
+        [InlineData("Excess Support: Advanced Learner Loans Bursary")]
+        [InlineData("Free Meals: 16-19 Traineeships Bursary")]
+        [InlineData("Learner Support: 16-18 Apprenticeships")]
+        [InlineData("Learner Support: 19-23 Apprenticeships")]
+        [InlineData("Learner Support: 19-24 Traineeships (From Nov 2017)")]
+        [InlineData("Learner Support: 19-24 Traineeships")]
+        [InlineData("Learner Support: 24+ Apprenticeships")]
+        [InlineData("Princes Trust: AEB-Other Learning (From Nov 2017)")]
+        [InlineData("Princes Trust: AEB-Other Learning")]
+        [InlineData("Vulnerable Bursary: 16-19 Traineeships Bursary")]
+        public void GetPeriodsForFundLine(string strFundLine)
         {
-            HashSet<string> attributesInterested = new HashSet<string> { "AchievePayment","BalancePayment" };
 
-            var task = new SummarisationTask();
+            var fundLine = GetFundingTypes()
+                                  .SelectMany(ft => ft.FundingStreams)
+                                  .SelectMany(fs => fs.FundLines)
+                                  .Where(fl => fl.Fundline == strFundLine).First();
+                                  
+            var task = new SummarisationService();
 
-            var result = task.SummariseByAttribute(GetPeriodisedData(5),attributesInterested);
+            var result = task.GetPeriodsForFundLine(fundLine.UseAttributes? GetPeriodisedData(5) : GetPeriodisedDataNoAttributes(5), fundLine);
 
-            result.Count().Should().Be(12);
+            int attributeCount = 1;
 
-            foreach (var item in result)
+            if (fundLine.UseAttributes)
             {
-                item.ActualValue.Should().Be(5 * 2 * item.Period * 10);
+                attributeCount = fundLine.Attributes.Count();
             }
-
+            
+            result.Count().Should().Be(5 * attributeCount * 12);
+            
         }
 
         [Theory]
@@ -64,13 +132,13 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         [InlineData("AEBC1819", 6)]
         [InlineData("AEB-TOL1819", 3)]
         [InlineData("AEB-TOL1819", 6)]
-        //[InlineData("16-18TRN1819", 3)]
-        //[InlineData("APPS1819", 4)]
-        //[InlineData("APPS1819", 13)]
-        //[InlineData("AEBC1819", 4)]
-        //[InlineData("AEB-TOL1819", 4)]
-        //[InlineData("ALLB1819", 4)]
-        //[InlineData("ALLBC1819", 4)]
+        [InlineData("16-18TRN1819", 3)]
+        [InlineData("APPS1819", 4)]
+        [InlineData("APPS1819", 13)]
+        [InlineData("AEBC1819", 4)]
+        [InlineData("AEB-TOL1819", 4)]
+        [InlineData("ALLB1819", 4)]
+        [InlineData("ALLBC1819", 4)]
         [InlineData("16-18TRN1819", 2)]
         [InlineData("ALLB1819", 3)]
         [InlineData("ALLBC1819", 3)]
@@ -96,17 +164,24 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var ilrfundlinesCount = fundingStream.FundLines.Where(fl => fl.LineType != "EAS").Count();
 
-            var attributescount = fundingStream.FundLines.Where(flW => flW.LineType != "EAS").Select(fl=>fl.Attributes).First().Count();
+            int attributescount = 0;
 
-            var task = new SummarisationTask();
+            if (fundingStream.FundLines.Where(flW => flW.LineType != "EAS").Select(fl => fl.Attributes).Any())
+            {
+                attributescount = fundingStream.FundLines.Where(flW => flW.LineType != "EAS").Select(fl => fl.Attributes).First().Count();
+            }
+
+            var task = new SummarisationService();
 
             var results = task.SummariseByFundingStream(fundingStream, GetTestProvider()).OrderBy(x=>x.Period).ToList();
 
             results.Count().Should().Be(12);
+
             int i = 1;
+
             foreach (var item in results)
             {
-                item.ActualValue.Should().Be((2 * ilrfundlinesCount * attributescount * i * 10) + (2 * easfundlinesCount * i * 10 ));
+                item.ActualValue.Should().Be((learningDeliveryRecords * ilrfundlinesCount * attributescount * i * periodValue) + (learningDeliveryRecords * easfundlinesCount * i * periodValue));
 
                 i++;
             }
@@ -125,7 +200,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         [InlineData("LoansBursaryProgFundingCLP")]
         public void SummariseByFundingType(string key)
         {
-            var task = new SummarisationTask();
+            var task = new SummarisationService();
 
             var fundingType = GetFundingType(key);
 
@@ -137,64 +212,47 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             foreach (var item in fundingStreams)
             {
-                results.Where(r => r.FundingStreamPeriodCode == item.PeriodCode && r.DeliverableCode == item.DeliverableLineCode).Count().Should().Be(12);
+                results.Count(r => r.FundingStreamPeriodCode == item.PeriodCode && r.DeliverableCode == item.DeliverableLineCode).Should().Be(12);
+
+                SummariseByFundingStream(item.PeriodCode, item.DeliverableLineCode);
             }
             
         }
 
-        [Fact]
-        public void TestSummarisatonTask()
+        [Theory]
+        [InlineData("ProgFundingFM35andEAS")]
+        [InlineData("LearningSupportFM35andEAS")]
+        [InlineData("EASOnlydeliverables")]
+        [InlineData("ProgFundingFM25andEAS")]
+        [InlineData("LoansBursaryProgFunding")]
+        [InlineData("LoansBursarySupportFunding")]
+        [InlineData("ProgFundingTrailblazer")]
+        [InlineData("LearningSupportTrailblazer")]
+        [InlineData("ProgFundingTrailblazerILR")]
+        [InlineData("LoansBursaryProgFundingCLP")]
+        public void PerformanceTest(string key)
         {
-            Provider provider = GetData().First(x => x.UKPRN == 10023139);
-            FundingType fundingType = GetFundingType("ProgFundingFM35andEAS");
+            Provider provider = GetTestProvider();
 
-            var task = new SummarisationTask();
-
-            var results = task.Summarise(fundingType, provider);
-
-            results.Count().Should().Be(12);
-        }
-
-        [Fact]
-        public void PerformanceTest()
-        {
-            Provider provider = GetData().First(x => x.UKPRN == 10023139);
-
-            for (int i = 0; i < 18; i++)
+            for (int i = 0; i < 17; i++)
             {
                 provider.LearningDeliveries.AddRange(provider.LearningDeliveries);
             }
-            
-            FundingType fundingType = GetFundingType("ProgFundingFM35andEAS");
 
-            var task = new SummarisationTask();
+            FundingType fundingType = GetFundingType(key);
 
-            var results = task.Summarise(fundingType, provider);
+            var task = new SummarisationService();
 
-        }
+            var results = task.Summarise(fundingType, provider).ToList();
 
-        [Fact]
-        public void GetDataTest()
-        {
-            var result = GetData();
+            var fundingStreams = fundingType.FundingStreams.Select(fs => new { fs.PeriodCode, fs.DeliverableLineCode }).ToList();
 
-        }
-
-        private  List<Provider> GetData()
-        {
-           string TestDataFileName  = "ESFA.DC.Summarisation.Main1819.Service.Tests.JsonFiles.InputTestData.json";
-           IJsonSerializationService _jsonSerializationService = new JsonSerializationService();
-
-            List<Provider> result;
-
-            var assembly = Assembly.GetExecutingAssembly();
-
-            using (var stream = assembly.GetManifestResourceStream(TestDataFileName))
+            foreach (var item in fundingStreams)
             {
-                return result = _jsonSerializationService.Deserialize<List<Provider>>(stream);
+                results.Count(r => r.FundingStreamPeriodCode == item.PeriodCode && r.DeliverableCode == item.DeliverableLineCode).Should().Be(12);
             }
         }
-
+        
         private FundingTypesProvider NewFundingTypeProvider()
         {
             return new FundingTypesProvider(new JsonSerializationService());
@@ -214,7 +272,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             foreach (var item in GetFundLines())
             {
-                for (int i = 1; i <= 2; i++)
+                for (int i = 1; i <= learningDeliveryRecords; i++)
                 {
                     LearningDelivery learningDelivery = new LearningDelivery()
                     {
@@ -232,13 +290,13 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         }
 
 
-        private List<PeriodisedData> GetPeriodisedData(int lot)
+        private List<PeriodisedData> GetPeriodisedData(int lotSize)
         {
             HashSet<string> attributes = GetAllAttributes();
 
             List<PeriodisedData> periodisedDatas = new List<PeriodisedData>();
 
-            for (int j = 1; j <= lot; j++)
+            for (int j = 1; j <= lotSize; j++)
             {
                 foreach (var item in attributes)
                 {
@@ -272,14 +330,14 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             return periodisedDatas;
         }
 
-        private List<Period> GetPeriodsData(int lots)
+        private List<Period> GetPeriodsData(int lotSize)
         {
             List<Period> periods = new List<Period>();
-            for (int j = 1; j <= lots; j++)
+            for (int j = 1; j <= lotSize; j++)
             {
                 for (int i = 1; i <= 12; i++)
                 {
-                    Period period = new Period() { PeriodId = i, Value = i * 10 };
+                    Period period = new Period() { PeriodId = i, Value = i * periodValue };
                     periods.Add(period);
                 }
             }
@@ -289,13 +347,8 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
         private FundingType GetFundingType(string fundingType)
         {
-            FundingTypesProvider fundingTypesProvider = new FundingTypesProvider(new JsonSerializationService());
+          return GetFundingTypes().First(x => x.Key == fundingType);
 
-            var fundingTypes = fundingTypesProvider.Provide();
-            
-           // var allft = fundingTypes.Select(f => f.Key);
-
-            return fundingTypes.First(x => x.Key == fundingType);
         }
 
         private List<FundingType> GetFundingTypes()
@@ -394,76 +447,6 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             return fundLines;
         }
-        /*
-        private HashSet<string> GetILRFundlines()
-        {
-            return new HashSet<string> {"16-18 Apprenticeship",
-                                        "16-18 Trailblazer Apprenticeship",
-                                        "16-18 Traineeships (Adult funded)",
-                                        "19+ Traineeships (Adult funded)",
-                                        "19-23 Apprenticeship",
-                                        "19-23 Trailblazer Apprenticeship",
-                                        "19-24 Traineeship",
-                                        "19-24 Traineeship (non-procured)",
-                                        "19-24 Traineeship (procured from Nov 2017)",
-                                        "24+ Apprenticeship",
-                                        "24+ Trailblazer Apprenticeship",
-                                        "Advanced Learner Loans Bursary",
-                                        "AEB - Other Learning",
-                                        "AEB - Other Learning (non-procured)",
-                                        "AEB - Other Learning (procured from Nov 2017)" };
-        }
-        
-        private HashSet<string> GetEASFundlines()
-        {
-            return new HashSet<string> {"Audit Adjustments: 16-18 Apprenticeships",
-                                        "Audit Adjustments: 16-18 Trailblazer Apprenticeships",
-                                        "Audit Adjustments: 16-18 Traineeships",
-                                        "Audit Adjustments: 19-23 Apprenticeships",
-                                        "Audit Adjustments: 19-23 Trailblazer Apprenticeships",
-                                        "Audit Adjustments: 19-24 Traineeships",
-                                        "Audit Adjustments: 19-24 Traineeships (From Nov 2017)",
-                                        "Audit Adjustments: 24+ Apprenticeships",
-                                        "Audit Adjustments: 24+ Trailblazer Apprenticeships",
-                                        "Authorised Claims: Advanced Learner Loans Bursary",
-                                        "Audit Adjustments: AEB-Other Learning",
-                                        "Audit Adjustments: AEB-Other Learning (From Nov 2017)",
-                                        "Authorised Claims: 16-18 Apprenticeships",
-                                        "Authorised Claims: 16-18 Trailblazer Apprenticeships",
-                                        "Authorised Claims: 16-18 Traineeships",
-                                        "Authorised Claims: 19-23 Apprenticeships",
-                                        "Authorised Claims: 19-23 Trailblazer Apprenticeships",
-                                        "Authorised Claims: 19-24 Traineeships",
-                                        "Authorised Claims: 19-24 Traineeships (From Nov 2017)",
-                                        "Authorised Claims: 24+ Apprenticeships",
-                                        "Authorised Claims: 24+ Trailblazer Apprenticeships",
-                                        "Authorised Claims: AEB-Other Learning",
-                                        "Authorised Claims: AEB-Other Learning (From Nov 2017)",
-                                        "Discretionary Bursary: 16-19 Traineeships Bursary",
-                                        "Excess Learning Support: 16-18 Apprenticeships",
-                                        "Excess Learning Support: 16-18 Trailblazer Apprenticeships",
-                                        "Excess Learning Support: 16-18 Traineeships",
-                                        "Excess Learning Support: 19-23 Apprenticeships",
-                                        "Excess Learning Support: 19-23 Trailblazer Apprenticeships",
-                                        "Excess Learning Support: 19-24 Traineeships",
-                                        "Excess Learning Support: 19-24 Traineeships (From Nov 2017)",
-                                        "Excess Learning Support: 24+ Apprenticeships",
-                                        "Excess Learning Support: 24+ Trailblazer Apprenticeships",
-                                        "Excess Learning Support: AEB-Other Learning",
-                                        "Excess Learning Support: AEB-Other Learning (From Nov 2017)",
-                                        "Excess Support: Advanced Learner Loans Bursary",
-                                        "Free Meals: 16-19 Traineeships Bursary",
-                                        "Learner Support: 16-18 Apprenticeships",
-                                        "Learner Support: 19-23 Apprenticeships",
-                                        "Learner Support: 19-24 Traineeships",
-                                        "Learner Support: 19-24 Traineeships (From Nov 2017)",
-                                        "Learner Support: 24+ Apprenticeships",
-                                        "Vulnerable Bursary: 16-19 Traineeships Bursary",
-                                        "Princes Trust: AEB-Other Learning",
-                                        "Princes Trust: AEB-Other Learning (From Nov 2017)" };
-        }
-        */
-
 
     }
 
