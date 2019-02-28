@@ -22,7 +22,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Providers
 
             using (var stream = assembly.GetManifestResourceStream(ReferenceDataFileName))
             {
-                return _jsonSerializationService.Deserialize<List<T>>(stream);
+                return _jsonSerializationService.Deserialize<IEnumerable<T>>(stream);
             }
         }
     }
