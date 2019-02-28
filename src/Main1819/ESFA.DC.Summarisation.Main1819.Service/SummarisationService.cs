@@ -4,6 +4,7 @@ using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.output.Model;
 using ESFA.DC.Summarisation.Interfaces;
+using ESFA.DC.Summarisation.Data.Input.Interface;
 
 namespace ESFA.DC.Summarisation.Main1819.Service
 {
@@ -42,7 +43,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service
                     });
         }
 
-        public IEnumerable<Period> GetPeriodsForFundLine(IEnumerable<PeriodisedData> periodisedData, FundLine fundLine)
+        public IEnumerable<IPeriod> GetPeriodsForFundLine(IEnumerable<IPeriodisedData> periodisedData, FundLine fundLine)
         {
             if (fundLine.UseAttributes)
             {
@@ -52,7 +53,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service
             return periodisedData.SelectMany(fpd => fpd.Periods);
         }
                  
-        public IEnumerable<SummarisedActual> SummarisePeriods(IEnumerable<Period> periods)
+        public IEnumerable<SummarisedActual> SummarisePeriods(IEnumerable<IPeriod> periods)
         {
             return periods
                 .GroupBy(pg => pg.PeriodId)

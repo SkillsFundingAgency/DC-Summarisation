@@ -8,6 +8,7 @@ using Xunit;
 using FluentAssertions;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using ESFA.DC.Summarisation.Configuration;
+using ESFA.DC.Summarisation.Data.Input.Interface;
 
 namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 {
@@ -266,9 +267,9 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                 LearningDeliveries = GetLearningDeliveries()
             };
         }
-        private List<LearningDelivery> GetLearningDeliveries()
+        private List<ILearningDelivery> GetLearningDeliveries()
         {
-            List<LearningDelivery> learningDeliveries = new List<LearningDelivery>();
+            List<ILearningDelivery> learningDeliveries = new List<ILearningDelivery>();
 
             foreach (var item in GetFundLines())
             {
@@ -290,11 +291,11 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         }
 
 
-        private List<PeriodisedData> GetPeriodisedData(int lotSize)
+        private List<IPeriodisedData> GetPeriodisedData(int lotSize)
         {
             HashSet<string> attributes = GetAllAttributes();
 
-            List<PeriodisedData> periodisedDatas = new List<PeriodisedData>();
+            List<IPeriodisedData> periodisedDatas = new List<IPeriodisedData>();
 
             for (int j = 1; j <= lotSize; j++)
             {
@@ -313,13 +314,13 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             return periodisedDatas;
         }
 
-        private List<PeriodisedData> GetPeriodisedDataNoAttributes(int lotSize)
+        private List<IPeriodisedData> GetPeriodisedDataNoAttributes(int lotSize)
         {
-            List<PeriodisedData> periodisedDatas = new List<PeriodisedData>();
+            List<IPeriodisedData> periodisedDatas = new List<IPeriodisedData>();
 
             for (int j = 1; j <= lotSize; j++)
             {
-                PeriodisedData periodisedData = new PeriodisedData()
+                IPeriodisedData periodisedData = new PeriodisedData()
                 {
                     Periods = GetPeriodsData(1)
                 };
@@ -330,9 +331,9 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             return periodisedDatas;
         }
 
-        private List<Period> GetPeriodsData(int lotSize)
+        private List<IPeriod> GetPeriodsData(int lotSize)
         {
-            List<Period> periods = new List<Period>();
+            List<IPeriod> periods = new List<IPeriod>();
             for (int j = 1; j <= lotSize; j++)
             {
                 for (int i = 1; i <= 12; i++)
