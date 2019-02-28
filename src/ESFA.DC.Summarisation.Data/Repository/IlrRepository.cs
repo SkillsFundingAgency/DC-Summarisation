@@ -45,6 +45,35 @@ namespace ESFA.DC.Summarisation.Data.Repository
                 }).ToListAsync(cancellationToken);
         }
 
+        public async Task<IReadOnlyCollection<Provider>> RetrieveFM35ProvidersAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
+        {
+            return await _ilr.Fm35Learners
+                .GroupBy(l => l.Ukprn)
+                .OrderBy(o => o.Key)
+                .Skip((pageNumber -1) * pageSize)
+                .Take(pageSize)
+                .Select(l => new Provider
+                {
+                    UKPRN = l.Key,
+                    LearningDeliveries = l.SelectMany(ld => ld.Fm35LearningDeliveries
+                        .Select(
+                            ldd => new LearningDelivery
+                            {
+                                LearnRefNumber = ldd.LearnRefNumber,
+                                AimSeqNumber = ldd.AimSeqNumber,
+                                Fundline = ldd.FundLine,
+                                PeriodisedData = ldd.Fm35LearningDeliveryPeriodisedValues
+                                    .GroupBy(pv => pv.AttributeName)
+                                    .Select(group => new PeriodisedData
+                                    {
+                                        AttributeName = group.Key,
+                                        Periods = group.SelectMany(UnflattenToPeriod).ToList()
+                                    }).ToList()
+                            }
+                        )).ToList()
+                }).ToListAsync(cancellationToken);
+        }
+
         public async Task<IReadOnlyCollection<Provider>> RetrieveFM35ProvidersAsync(int Ukprn, CancellationToken cancellationToken)
         {
             return await _ilr.Fm35Learners

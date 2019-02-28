@@ -181,6 +181,102 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
         }
 
         [Fact]
+        public async Task RetrieveFm35ProvidersPagingTest()
+        {
+            var fm35Learners = new List<Fm35Learner>
+            {
+                new Fm35Learner
+                {
+                    Ukprn = 10000000,
+                    LearnRefNumber = "10000000Learner1",
+                    Fm35LearningDeliveries = new List<Fm35LearningDelivery>
+                    {
+                        new Fm35LearningDelivery
+                        {
+                            FundLine = "FundLine1",
+                            AimSeqNumber = 1,
+                            LearnRefNumber = "10000000Learner1",
+                            Fm35LearningDeliveryPeriodisedValues = new List<Fm35LearningDeliveryPeriodisedValue>
+                            {
+                                new Fm35LearningDeliveryPeriodisedValue
+                                {
+                                    AttributeName = "Attribute1",
+                                    Period1 = 10,
+                                    Period2 = 20,
+                                    Period3 = 30,
+                                    Period4 = 40
+                                }
+                            }
+                        }
+                    }
+                },
+                new Fm35Learner
+                {
+                    Ukprn = 10000001,
+                    LearnRefNumber = "10000001Learner2",
+                    Fm35LearningDeliveries = new List<Fm35LearningDelivery>
+                    {
+                        new Fm35LearningDelivery
+                        {
+                            FundLine = "FundLine1",
+                            AimSeqNumber = 1,
+                            Fm35LearningDeliveryPeriodisedValues = new List<Fm35LearningDeliveryPeriodisedValue>
+                            {
+                                new Fm35LearningDeliveryPeriodisedValue
+                                {
+                                    AttributeName = "Attribute1",
+                                    Period1 = 10,
+                                    Period2 = 20,
+                                    Period3 = 30,
+                                    Period4 = 40
+                                }
+                            }
+                        }
+                    }
+                },
+                new Fm35Learner
+                {
+                    Ukprn = 10000002,
+                    LearnRefNumber = "10000002Learner2",
+                    Fm35LearningDeliveries = new List<Fm35LearningDelivery>
+                    {
+                        new Fm35LearningDelivery
+                        {
+                            FundLine = "FundLine1",
+                            AimSeqNumber = 1,
+                            Fm35LearningDeliveryPeriodisedValues = new List<Fm35LearningDeliveryPeriodisedValue>
+                            {
+                                new Fm35LearningDeliveryPeriodisedValue
+                                {
+                                    AttributeName = "Attribute1",
+                                    Period1 = 10,
+                                    Period2 = 20,
+                                    Period3 = 30,
+                                    Period4 = 40
+                                }
+                            }
+                        }
+                    }
+                }
+            }.AsQueryable().BuildMock();
+
+            var ilrMock = new Mock<IIlr1819RulebaseContext>();
+            ilrMock
+                .Setup(s => s.Fm35Learners)
+                .Returns(fm35Learners.Object);
+
+            var service = new IlrRepository(ilrMock.Object);
+
+            var providers = await service.RetrieveFM35ProvidersAsync(1, 2, CancellationToken.None);
+
+            providers.Count.Should().Be(2);
+
+            providers = await service.RetrieveFM35ProvidersAsync(2, 2, CancellationToken.None);
+
+            providers.Count.Should().Be(1);
+        }
+
+        [Fact]
         public async Task RetrieveSingleFm35ProviderByUkprnTest()
         {
             var fm35Learners = new List<Fm35Learner>

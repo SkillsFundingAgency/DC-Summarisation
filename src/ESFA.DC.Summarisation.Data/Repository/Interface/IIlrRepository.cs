@@ -9,6 +9,8 @@ namespace ESFA.DC.Summarisation.Data.Repository.Interface
     {
         Task<IReadOnlyCollection<Provider>> RetrieveFM35ProvidersAsync(CancellationToken cancellationToken);
 
+        Task<IReadOnlyCollection<Provider>> RetrieveFM35ProvidersAsync(int pageSize, int pageNumber, CancellationToken cancellationToken);
+
         Task<IReadOnlyCollection<Provider>> RetrieveFM35ProvidersAsync(int Ukprn, CancellationToken cancellationToken);
     }
 }

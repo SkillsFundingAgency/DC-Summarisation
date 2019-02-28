@@ -38,6 +38,18 @@
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Core.4.3.1\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
+    <Reference Include="ESFA.DC.ILR1819.Database.EF, Version=0.1.324.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.324\lib\netstandard2.0\ESFA.DC.ILR1819.Database.EF.dll</HintPath>
+    </Reference>
+    <Reference Include="ESFA.DC.ILR1819.DataStore.EF, Version=0.1.324.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.324\lib\netstandard2.0\ESFA.DC.ILR1819.DataStore.EF.dll</HintPath>
+    </Reference>
+    <Reference Include="ESFA.DC.ILR1819.DataStore.EF.Invalid, Version=0.1.324.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.324\lib\netstandard2.0\ESFA.DC.ILR1819.DataStore.EF.Invalid.dll</HintPath>
+    </Reference>
+    <Reference Include="ESFA.DC.ILR1819.DataStore.EF.Valid, Version=0.1.324.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.324\lib\netstandard2.0\ESFA.DC.ILR1819.DataStore.EF.Valid.dll</HintPath>
+    </Reference>
     <Reference Include="ESFA.DC.ReferenceData.FCS.Model, Version=0.1.138.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.ReferenceData.FCS.Model.0.1.138\lib\netstandard2.0\ESFA.DC.ReferenceData.FCS.Model.dll</HintPath>
     </Reference>
