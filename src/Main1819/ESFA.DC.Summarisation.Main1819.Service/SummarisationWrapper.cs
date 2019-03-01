@@ -15,10 +15,11 @@ namespace ESFA.DC.Summarisation.Main1819.Service
 {
     public class SummarisationWrapper
     {
-        private IEnumerable<FundingStream> _fundingTypes;
+        private IEnumerable<CollectionPeriod> _collectionPeriods;
         private readonly IFcsRepository _fcsRepository;
         private readonly ICollection<IProviderRepository> _repositories;
-        private FundingTypesProvider _fundingTypesProvider;
+        private readonly FundingTypesProvider _fundingTypesProvider;
+        private readonly CollectionPeriodsProvider _collectionPeriodsProvider;
 
         private IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> _fcsContractAllocations;
 
@@ -26,15 +27,18 @@ namespace ESFA.DC.Summarisation.Main1819.Service
 
         public SummarisationWrapper(IFcsRepository fcsRepository,
                                     FundingTypesProvider fundingTypesProvider,
+                                    CollectionPeriodsProvider collectionPeriodsProvider,
                                     ICollection<IProviderRepository> repositories)
         {
             _fundingTypesProvider = fundingTypesProvider;
             _fcsRepository = fcsRepository;
             _repositories = repositories;
+            
         }
 
         public async void Summarise()
         {
+            _collectionPeriods = _collectionPeriodsProvider.Provide();
             _fcsContractAllocations = await _fcsRepository.RetrieveAsync(CancellationToken.None);
 
             foreach(var fundModel in Enum.GetValues(typeof(FundModel)).Cast<FundModel>())
@@ -65,17 +69,19 @@ namespace ESFA.DC.Summarisation.Main1819.Service
                 foreach (var provider in providers)
                 {
                     var contractFundingStreams = new List<FundingStream>();
+                    var allocations = new List<IFcsContractAllocation>();
                     foreach(var fs in fundingStreams)
                     {
                         if (_fcsContractAllocations[fs.PeriodCode].Any(x => x.DeliveryUkprn == provider.UKPRN))
                         {
                             contractFundingStreams.Add(fs);
+                            allocations.Add(_fcsContractAllocations[fs.PeriodCode].First(x => x.DeliveryUkprn == provider.UKPRN));
                         }
                     }
 
                     ISummarisationService summarisationService = new SummarisationService();
 
-                    actuals.AddRange(summarisationService.Summarise(contractFundingStreams, provider));
+                    actuals.AddRange(summarisationService.Summarise(contractFundingStreams, provider, allocations, _collectionPeriods));
                 }
 
                 pageNumber++;

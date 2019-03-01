@@ -9,6 +9,7 @@ using FluentAssertions;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.Input.Interface;
+using ESFA.DC.Summarisation.Data.External.FCS.Model;
 
 namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 {
@@ -17,6 +18,8 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         private int learningDeliveryRecords = 2;
 
         public decimal periodValue = 10;
+
+        private const int ukprn = 10000001;
 
         [Fact]
         public void SummariseByPeriods()
@@ -174,7 +177,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var task = new SummarisationService();
 
-            var results = task.Summarise(fundingStream, GetTestProvider()).OrderBy(x=>x.Period).ToList();
+            var results = task.Summarise(fundingStream, GetTestProvider(), GetContractAllocation(), GetCollectionPeriods()).OrderBy(x=>x.Period).ToList();
 
             results.Count().Should().Be(12);
 
@@ -205,7 +208,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var fundingType = GetFundingType(key);
 
-            var results = task.Summarise(fundingType, GetTestProvider());
+            var results = task.Summarise(fundingType, GetTestProvider(), GetContractAllocation(), GetCollectionPeriods());
 
             Dictionary<string, int> fspdlc = new Dictionary<string, int>();
 
@@ -234,6 +237,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         public void PerformanceTest(string key)
         {
             Provider provider = GetTestProvider();
+            List<CollectionPeriod> collectionPeriods = GetCollectionPeriods();
 
             for (int i = 0; i < 17; i++)
             {
@@ -244,7 +248,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var task = new SummarisationService();
 
-            var results = task.Summarise(fundingType, provider).ToList();
+            var results = task.Summarise(fundingType, provider, GetContractAllocation(),GetCollectionPeriods()).ToList();
 
             var fundingStreams = fundingType.FundingStreams.Select(fs => new { fs.PeriodCode, fs.DeliverableLineCode }).ToList();
 
@@ -263,7 +267,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         {
             return new Provider()
             {
-                UKPRN = 10000001,
+                UKPRN = ukprn,
                 LearningDeliveries = GetLearningDeliveries()
             };
         }
@@ -358,6 +362,33 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             return fundingTypesProvider.Provide().ToList();
 
+        }
+
+        private List<CollectionPeriod> GetCollectionPeriods()
+        {
+            var collectionPeriodsProvider = new CollectionPeriodsProvider(new JsonSerializationService());
+
+            return collectionPeriodsProvider.Provide().ToList();
+
+        }
+
+        private IList<FcsContractAllocation> GetContractAllocation()
+        {
+            IList<FcsContractAllocation> fcsContractAllocations = new List<FcsContractAllocation>();
+            var fundingStreams =  GetFundingTypes().SelectMany(ft => ft.FundingStreams);
+
+            foreach (var item in fundingStreams)
+            {
+                FcsContractAllocation allocation = new FcsContractAllocation()
+                {
+                    ContractAllocationNumber = $"Alloc{item.PeriodCode}",
+                    FundingStreamPeriodCode = item.PeriodCode,
+                    DeliveryUkprn = ukprn,
+                    DeliveryOrganisation = $"Org{ukprn}"
+                };
+                fcsContractAllocations.Add(allocation);
+            }
+            return fcsContractAllocations;
         }
 
         private HashSet<string> GetAllAttributes()
