@@ -8,5 +8,9 @@ namespace ESFA.DC.Summarisation.Interfaces
     public interface ISummarisationService
     {
         IEnumerable<SummarisedActual> Summarise(FundingType fundingType, IProvider provider);
+
+        IEnumerable<SummarisedActual> Summarise(FundingStream fundingStream, IProvider provider);
+
+        IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams, IProvider provider);
     }
 }

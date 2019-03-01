@@ -83,9 +83,9 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
                 .Setup(s => s.Fm35Learners)
                 .Returns(fm35Learners.Object);
 
-            var service = new IlrRepository(ilrMock.Object);
+            var service = new Fm35Repository(ilrMock.Object);
 
-            var providers = await service.RetrieveFM35ProvidersAsync(CancellationToken.None);
+            var providers = await service.RetrieveProvidersAsync(CancellationToken.None);
 
             providers.Count.Should().Be(1);
             providers.FirstOrDefault(x => x.UKPRN == 10000000)
@@ -162,9 +162,9 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
                 .Setup(s => s.Fm35Learners)
                 .Returns(fm35Learners.Object);
 
-            var service = new IlrRepository(ilrMock.Object);
+            var service = new Fm35Repository(ilrMock.Object);
 
-            var providers = await service.RetrieveFM35ProvidersAsync(CancellationToken.None);
+            var providers = await service.RetrieveProvidersAsync(CancellationToken.None);
 
             providers.Count.Should().Be(1);
             providers.FirstOrDefault(x => x.UKPRN == 10000000)
@@ -265,13 +265,13 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
                 .Setup(s => s.Fm35Learners)
                 .Returns(fm35Learners.Object);
 
-            var service = new IlrRepository(ilrMock.Object);
+            var service = new Fm35Repository(ilrMock.Object);
 
-            var providers = await service.RetrieveFM35ProvidersAsync(1, 2, CancellationToken.None);
+            var providers = await service.RetrieveProvidersAsync(1, 2, CancellationToken.None);
 
             providers.Count.Should().Be(2);
 
-            providers = await service.RetrieveFM35ProvidersAsync(2, 2, CancellationToken.None);
+            providers = await service.RetrieveProvidersAsync(2, 2, CancellationToken.None);
 
             providers.Count.Should().Be(1);
         }
@@ -337,9 +337,9 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
                 .Setup(s => s.Fm35Learners)
                 .Returns(fm35Learners.Object);
 
-            var service = new IlrRepository(ilrMock.Object);
+            var service = new Fm35Repository(ilrMock.Object);
 
-            var providers = await service.RetrieveFM35ProvidersAsync(10000000, CancellationToken.None);
+            var providers = await service.RetrieveProvidersAsync(10000000, CancellationToken.None);
 
             providers.Count.Should().Be(1);
             providers.FirstOrDefault(x => x.UKPRN == 10000000)
@@ -359,7 +359,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
         [InlineData(1, 10)]
         [InlineData(100, 10)]
         [InlineData(1000, 100)]
-        [InlineData(1000, 1000)]
+        //[InlineData(1000, 1000)] out of memory exception
         public async Task CreateBulkMockFm35LearnerData(int numOfProviders, int learnersPerProvider)
         {
             var learners = new List<Fm35Learner>();
@@ -432,12 +432,12 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
                 .Setup(s => s.Fm35Learners)
                 .Returns(learnersMock.Object);
 
-            var service = new IlrRepository(ilrMock.Object);
+            var service = new Fm35Repository(ilrMock.Object);
 
             var stopWatch = new Stopwatch();
 
             stopWatch.Start();
-            var providers = await service.RetrieveFM35ProvidersAsync(CancellationToken.None);
+            var providers = await service.RetrieveProvidersAsync(CancellationToken.None);
             stopWatch.Stop();
 
             _outputHelper.WriteLine($"Projecting {numOfProviders} of Providers with {learnersPerProvider} learners each took {stopWatch.Elapsed}");

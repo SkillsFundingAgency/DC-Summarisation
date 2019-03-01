@@ -174,7 +174,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var task = new SummarisationService();
 
-            var results = task.SummariseByFundingStream(fundingStream, GetTestProvider()).OrderBy(x=>x.Period).ToList();
+            var results = task.Summarise(fundingStream, GetTestProvider()).OrderBy(x=>x.Period).ToList();
 
             results.Count().Should().Be(12);
 

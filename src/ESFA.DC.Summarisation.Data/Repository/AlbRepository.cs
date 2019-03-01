@@ -4,103 +4,114 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interface;
+using ESFA.DC.Summarisation.Configuration;
+using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Data.Repository
 {
-    public class IlrRepository : IIlrRepository
+    public class AlbRepository : IProviderRepository
     {
         private readonly IIlr1819RulebaseContext _ilr;
 
-        public IlrRepository(IIlr1819RulebaseContext ilr)
+        public FundModel fundModel => FundModel.ALB;
+
+        public AlbRepository(IIlr1819RulebaseContext ilr)
         {
-               _ilr = ilr;
+            _ilr = ilr;
         }
 
-        public async Task<IReadOnlyCollection<Provider>> RetrieveFM35ProvidersAsync(CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<IProvider>> RetrieveProvidersAsync(CancellationToken cancellationToken)
         {
-            return await _ilr.Fm35Learners
+            return await _ilr.AlbLearners
                 .GroupBy(l => l.Ukprn)
                 .Select(l => new Provider
                 {
                     UKPRN = l.Key,
-                    LearningDeliveries = l.SelectMany(ld => ld.Fm35LearningDeliveries
+                    LearningDeliveries = l.SelectMany(ld => ld.AlbLearningDeliveries
                         .Select(
                             ldd => new LearningDelivery
                             {
                                 LearnRefNumber = ldd.LearnRefNumber,
                                 AimSeqNumber = ldd.AimSeqNumber,
                                 Fundline = ldd.FundLine,
-                                PeriodisedData = ldd.Fm35LearningDeliveryPeriodisedValues
+                                PeriodisedData = ldd.AlbLearningDeliveryPeriodisedValues
                                     .GroupBy(pv => pv.AttributeName)
                                     .Select(group => new PeriodisedData
                                     {
                                         AttributeName = group.Key,
                                         Periods = group.SelectMany(UnflattenToPeriod).ToList()
-                                    }).ToList()
-                            }
+                                    } as IPeriodisedData).ToList()
+                            } as ILearningDelivery
                         )).ToList()
                 }).ToListAsync(cancellationToken);
         }
 
-        public async Task<IReadOnlyCollection<Provider>> RetrieveFM35ProvidersAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
+        public async Task<int> RetrieveProviderPageCountAsync(int pageSize, CancellationToken cancellationToken)
         {
-            return await _ilr.Fm35Learners
+            return await _ilr.AlbLearners
+                .GroupBy(l => l.Ukprn)
+                .CountAsync(cancellationToken);
+        }
+
+        public async Task<IReadOnlyCollection<IProvider>> RetrieveProvidersAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
+        {
+            return await _ilr.AlbLearners
                 .GroupBy(l => l.Ukprn)
                 .OrderBy(o => o.Key)
-                .Skip((pageNumber -1) * pageSize)
+                .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .Select(l => new Provider
                 {
                     UKPRN = l.Key,
-                    LearningDeliveries = l.SelectMany(ld => ld.Fm35LearningDeliveries
+                    LearningDeliveries = l.SelectMany(ld => ld.AlbLearningDeliveries
                         .Select(
                             ldd => new LearningDelivery
                             {
                                 LearnRefNumber = ldd.LearnRefNumber,
                                 AimSeqNumber = ldd.AimSeqNumber,
                                 Fundline = ldd.FundLine,
-                                PeriodisedData = ldd.Fm35LearningDeliveryPeriodisedValues
+                                PeriodisedData = ldd.AlbLearningDeliveryPeriodisedValues
                                     .GroupBy(pv => pv.AttributeName)
                                     .Select(group => new PeriodisedData
                                     {
                                         AttributeName = group.Key,
                                         Periods = group.SelectMany(UnflattenToPeriod).ToList()
-                                    }).ToList()
-                            }
+                                    } as IPeriodisedData).ToList()
+                            } as ILearningDelivery
                         )).ToList()
                 }).ToListAsync(cancellationToken);
         }
 
-        public async Task<IReadOnlyCollection<Provider>> RetrieveFM35ProvidersAsync(int Ukprn, CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<IProvider>> RetrieveProvidersAsync(int Ukprn, CancellationToken cancellationToken)
         {
-            return await _ilr.Fm35Learners
+            return await _ilr.AlbLearners
                 .Where(p => p.Ukprn == Ukprn)
                 .Select(l => new Provider
                 {
                     UKPRN = l.Ukprn,
-                    LearningDeliveries = l.Fm35LearningDeliveries
+                    LearningDeliveries = l.AlbLearningDeliveries
                         .Select(
                             ldd => new LearningDelivery
                             {
                                 LearnRefNumber = ldd.LearnRefNumber,
                                 AimSeqNumber = ldd.AimSeqNumber,
                                 Fundline = ldd.FundLine,
-                                PeriodisedData = ldd.Fm35LearningDeliveryPeriodisedValues
+                                PeriodisedData = ldd.AlbLearningDeliveryPeriodisedValues
                                     .GroupBy(pv => pv.AttributeName)
                                     .Select(group => new PeriodisedData
                                     {
                                         AttributeName = group.Key,
                                         Periods = group.SelectMany(UnflattenToPeriod).ToList()
-                                    }).ToList()
-                            }
+                                    } as IPeriodisedData).ToList()
+                            } as ILearningDelivery
                         ).ToList()
                 }).ToListAsync(cancellationToken);
         }
 
-        private IEnumerable<Period> UnflattenToPeriod(Fm35LearningDeliveryPeriodisedValue values)
+        private IEnumerable<IPeriod> UnflattenToPeriod(AlbLearningDeliveryPeriodisedValue values)
         {
             return new List<Period>
             {

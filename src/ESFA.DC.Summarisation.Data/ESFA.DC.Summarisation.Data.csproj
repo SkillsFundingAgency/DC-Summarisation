@@ -9,4 +9,8 @@
     <PackageReference Include="ESFA.DC.ReferenceData.FCS.Model" Version="0.1.138" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Configuration\ESFA.DC.Summarisation.Configuration.csproj" />
+  </ItemGroup>
+
 </Project>

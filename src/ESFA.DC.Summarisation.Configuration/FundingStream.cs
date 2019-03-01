@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ESFA.DC.Summarisation.Configuration
 {
@@ -8,7 +9,19 @@ namespace ESFA.DC.Summarisation.Configuration
 
         public int DeliverableLineCode { get; set; }
 
+        public FundModel FundModel { get; set; }
+
         public List<FundLine> FundLines { get; set; }
 
+    }
+
+    [Flags]
+    public enum FundModel
+    {
+        FM35,
+        FM25,
+        ALB,
+        TBL,
+        EAS
     }
 }

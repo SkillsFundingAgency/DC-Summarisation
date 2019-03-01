@@ -9,6 +9,7 @@ namespace ESFA.DC.Summarisation.Data.Repository.Interface
 {
     public interface ISummarisedActualsRepository
     {
+
         Task<IEnumerable<CollectionReturnSummaryDto>> GetCollectionReturnSummariesForAsync(DateTime? collectionsClosedSince, int pageNumber, int pageSize, CancellationToken cancellationToken);
 
         Task<IEnumerable<CollectionReturnSummaryDto>> GetCollectionReturnSummariesForAsync(string collectionType, DateTime? collectionsClosedSince, int pageNumber, int pageSize, CancellationToken cancellationToken);

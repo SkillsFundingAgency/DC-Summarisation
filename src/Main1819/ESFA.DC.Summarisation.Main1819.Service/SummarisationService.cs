@@ -12,10 +12,15 @@ namespace ESFA.DC.Summarisation.Main1819.Service
     {
         public IEnumerable<SummarisedActual> Summarise(FundingType fundingType, IProvider provider)
         {
-            return fundingType.FundingStreams.SelectMany(fs => SummariseByFundingStream(fs, provider));
+            return fundingType.FundingStreams.SelectMany(fs => Summarise(fs, provider));
         }
 
-        public IEnumerable<SummarisedActual> SummariseByFundingStream(FundingStream fundingStream, IProvider provider)
+        public IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams , IProvider provider)
+        {
+            return fundingStreams.SelectMany(fs => Summarise(fs, provider));
+        }
+
+        public IEnumerable<SummarisedActual> Summarise(FundingStream fundingStream, IProvider provider)
         {
             var summarisedActuals = new List<SummarisedActual>();
 
