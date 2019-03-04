@@ -14,14 +14,4 @@ namespace ESFA.DC.Summarisation.Configuration
         public List<FundLine> FundLines { get; set; }
 
     }
-
-    [Flags]
-    public enum FundModel
-    {
-        FM35,
-        FM25,
-        ALB,
-        TBL,
-        EAS
-    }
 }

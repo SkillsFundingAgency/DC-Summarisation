@@ -5,12 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ESFA.DC.ILR1819.Database.EF" Version="0.1.322" />
-    <PackageReference Include="ESFA.DC.ReferenceData.FCS.Model" Version="0.1.138" />
+    <PackageReference Include="ESFA.DC.ILR1819.Database.EF" Version="0.1.333" />
+    <PackageReference Include="ESFA.DC.ReferenceData.FCS.Model" Version="0.1.176" />
+    <PackageReference Include="FastMember" Version="1.4.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ESFA.DC.Summarisation.Configuration\ESFA.DC.Summarisation.Configuration.csproj" />
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Model\ESFA.DC.Summarisation.Model.csproj" />
   </ItemGroup>
 
 </Project>

@@ -47,6 +47,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service
                         Period = collectionPeriods.First(cp => cp.Period == g.Key).ActualsSchemaPeriod,
                         ActualValue = g.Sum(x => x.ActualValue),
                         ContractAllocationNumber = allocations.First(a => a.FundingStreamPeriodCode == fundingStream.PeriodCode)?.ContractAllocationNumber,
+                        PeriodTypeCode = "AY"
                     });
         }
 
