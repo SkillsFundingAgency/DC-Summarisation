@@ -1,94 +1,130 @@
 ﻿using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.Input.Interface;
+using ESFA.DC.Summarisation.Data.Mapper;
+using ESFA.DC.Summarisation.Data.Mapper.Interface;
 using ESFA.DC.Summarisation.Data.output.Model;
+using ESFA.DC.Summarisation.Data.Repository;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using DestinationModel = ESFA.DC.Summarisation.Model;
 
 namespace ESFA.DC.Summarisation.Main1819.Service
 {
-    public class SummarisationWrapper
+    public class SummarisationWrapper : ISummarisationWrapper
     {
-        private IEnumerable<CollectionPeriod> _collectionPeriods;
+        private const int PageSize = 3;
+        
         private readonly IFcsRepository _fcsRepository;
         private readonly ICollection<IProviderRepository> _repositories;
-        private readonly FundingTypesProvider _fundingTypesProvider;
-        private readonly CollectionPeriodsProvider _collectionPeriodsProvider;
+        private readonly ISummarisationService _summarisationService;
+        private readonly IStaticDataProvider<FundingType> _fundingTypesProvider;
+        private readonly IStaticDataProvider<CollectionPeriod> _collectionPeriodsProvider;
 
-        private IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> _fcsContractAllocations;
-
-        private const int PageSize = 100;
+        //public SummarisationWrapper()
+        //{ }
 
         public SummarisationWrapper(IFcsRepository fcsRepository,
-                                    FundingTypesProvider fundingTypesProvider,
-                                    CollectionPeriodsProvider collectionPeriodsProvider,
-                                    ICollection<IProviderRepository> repositories)
+                                    IStaticDataProvider<FundingType> fundingTypesProvider,
+                                    IStaticDataProvider<CollectionPeriod> collectionPeriodsProvider,
+                                    ICollection<IProviderRepository> repositories,
+                                    ISummarisationService summarisationService)
         {
             _fundingTypesProvider = fundingTypesProvider;
             _fcsRepository = fcsRepository;
             _repositories = repositories;
-            
+            _summarisationService = summarisationService;
+            _collectionPeriodsProvider = collectionPeriodsProvider;            
         }
 
-        public async void Summarise()
+        public async Task Summarise()
         {
-            _collectionPeriods = _collectionPeriodsProvider.Provide();
-            _fcsContractAllocations = await _fcsRepository.RetrieveAsync(CancellationToken.None);
+            var collectionPeriods = _collectionPeriodsProvider.Provide();
+
+            var fcsContractAllocations = await _fcsRepository.RetrieveAsync(CancellationToken.None);
 
             foreach(var fundModel in Enum.GetValues(typeof(FundModel)).Cast<FundModel>())
             {
-                SummariseByFundModel(fundModel);
+                SummariseByFundModel(fundModel, collectionPeriods, fcsContractAllocations);
             }
         }
 
-        private async void SummariseByFundModel(FundModel fundModel)
+        private async void SummariseByFundModel(
+            FundModel fundModel,
+            IEnumerable<CollectionPeriod> collectionPeriods,
+            IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations)
         {
             var fundingStreams = _fundingTypesProvider.Provide().SelectMany(x => x.FundingStreams.Where(y => y.FundModel == fundModel)).ToList();
             var repository = _repositories.FirstOrDefault(r => r.fundModel == fundModel);
 
-            var actuals = await SummariseProviders(fundingStreams, repository);
+            var actuals = await SummariseProviders(fundingStreams, repository, collectionPeriods, fcsContractAllocations);
         }
 
-        private async Task<IList<SummarisedActual>> SummariseProviders(IList<FundingStream> fundingStreams, IProviderRepository repository)
+        public async Task<IList<SummarisedActual>> SummariseProviders(
+            IList<FundingStream> fundingStreams,
+            IProviderRepository repository,
+            IEnumerable<CollectionPeriod> collectionPeriods,
+            IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations)
         {
             var pageNumber = 1;
 
-            var providers = await repository.RetrieveProvidersAsync(PageSize, pageNumber, CancellationToken.None);
             var numberOfPages = await repository.RetrieveProviderPageCountAsync(PageSize, CancellationToken.None);
 
             var actuals = new List<SummarisedActual>();
 
             while (pageNumber <= numberOfPages)
             {
+                var providers = await repository.RetrieveProvidersAsync(PageSize, pageNumber, CancellationToken.None);
+
                 foreach (var provider in providers)
                 {
                     var contractFundingStreams = new List<FundingStream>();
-                    var allocations = new List<IFcsContractAllocation>();
+                    var allocations = new List<IFcsContractAllocation>();                                                           
+
                     foreach(var fs in fundingStreams)
                     {
-                        if (_fcsContractAllocations[fs.PeriodCode].Any(x => x.DeliveryUkprn == provider.UKPRN))
+                        if (fcsContractAllocations[fs.PeriodCode].Any(x => x.DeliveryUkprn == provider.UKPRN))
                         {
                             contractFundingStreams.Add(fs);
-                            allocations.Add(_fcsContractAllocations[fs.PeriodCode].First(x => x.DeliveryUkprn == provider.UKPRN));
+                            allocations.Add(fcsContractAllocations[fs.PeriodCode].First(x => x.DeliveryUkprn == provider.UKPRN));
                         }
                     }
-
-                    ISummarisationService summarisationService = new SummarisationService();
-
-                    actuals.AddRange(summarisationService.Summarise(contractFundingStreams, provider, allocations, _collectionPeriods));
+                    
+                    actuals.AddRange(_summarisationService.Summarise(contractFundingStreams, provider, allocations, collectionPeriods));
                 }
 
                 pageNumber++;
-                providers = await repository.RetrieveProvidersAsync(PageSize, pageNumber, CancellationToken.None);
             }
 
             return actuals;
         }
+
+        //private async IEnumerable<Task<IEnumerable<IProvider>>> PagedProviders(int numberOfPages, IProviderRepository repository)
+        //{
+        //    var pageNumber = 1;
+
+        //    while (pageNumber <= numberOfPages)
+        //    {
+        //        yield return repository.RetrieveProvidersAsync(PageSize, pageNumber, CancellationToken.None);
+        //    }
+        //}
+
+        //private void PersistSummarisedActuals(IList<SummarisedActual> summarisedActuals)
+        //{
+        //    ISummarisedActualsMapper summarisedActualsMapper = new SummarisedActualsMapper();
+
+        //    var summarisedActualsTobeSaved = summarisedActualsMapper.MapSummarisedActuals(summarisedActuals);
+
+        //    IBulkInsert bulkInsert = new BulkInsert();
+
+        //    bulkInsert.Insert("SummarisedActuals", summarisedActualsTobeSaved, _sqlConnection, CancellationToken.None);
+        //}
     }
 }
