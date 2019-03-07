@@ -1,6 +1,6 @@
 ﻿using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
-using ESFA.DC.Summarisation.Data.output.Model;
+using ESFA.DC.Summarisation.Data.Output.Model;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using System;

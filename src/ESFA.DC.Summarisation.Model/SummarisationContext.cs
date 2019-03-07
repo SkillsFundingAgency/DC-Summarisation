@@ -29,13 +29,11 @@ namespace ESFA.DC.Summarisation.Model
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("ProductVersion", "2.2.1-servicing-10028");
+            modelBuilder.HasAnnotation("ProductVersion", "2.2.2-servicing-10034");
 
             modelBuilder.Entity<CollectionReturn>(entity =>
             {
                 entity.ToTable("CollectionReturn");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.CollectionReturnCode)
                     .IsRequired()

@@ -5,18 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ESFA.DC.ILR1819.Database.EF" Version="0.1.333" />
-    <PackageReference Include="ESFA.DC.ReferenceData.FCS.Model" Version="0.1.176" />
     <PackageReference Include="FastMember" Version="1.4.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ESFA.DC.Summarisation.Configuration\ESFA.DC.Summarisation.Configuration.csproj" />
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Data\ESFA.DC.Summarisation.Data.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.Model\ESFA.DC.Summarisation.Model.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Mapper\Interface\" />
   </ItemGroup>
 
 </Project>

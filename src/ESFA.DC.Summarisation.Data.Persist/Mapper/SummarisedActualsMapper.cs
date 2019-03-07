@@ -1,15 +1,13 @@
-﻿using ESFA.DC.Summarisation.Data.Mapper.Interface;
-using ESFA.DC.Summarisation.Model;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
+using ESFA.DC.Summarisation.Model;
 
-namespace ESFA.DC.Summarisation.Data.Mapper
+namespace ESFA.DC.Summarisation.Data.Persist.Mapper
 {
     public class SummarisedActualsMapper : ISummarisedActualsMapper
     {
-        public IEnumerable<SummarisedActual> MapSummarisedActuals(IEnumerable<output.Model.SummarisedActual> actuals)
+        public IEnumerable<SummarisedActual> MapSummarisedActuals(IEnumerable<Output.Model.SummarisedActual> actuals, CollectionReturn collectionReturn)
         {
             return actuals.Select(actual => new SummarisedActual
             {
@@ -21,7 +19,8 @@ namespace ESFA.DC.Summarisation.Data.Mapper
                 ActualVolume = actual.ActualVolume,
                 ActualValue = actual.ActualValue,
                 PeriodTypeCode = actual.PeriodTypeCode,
-                ContractAllocationNumber = actual.ContractAllocationNumber
+                ContractAllocationNumber = actual.ContractAllocationNumber,
+                CollectionReturnId = collectionReturn.Id
             });
         }
     }
