@@ -26,9 +26,11 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             var cancellationToken = CancellationToken.None;
 
             var fm35RepositoryMock = new Mock<IProviderRepository>();
-            fm35RepositoryMock.Setup(r => r.RetrieveProvidersAsync(3, 1, cancellationToken)).Returns(Task.FromResult(GetTestProvidersData()));
-            
-            fm35RepositoryMock.Setup(r => r.RetrieveProviderPageCountAsync(3, cancellationToken)).Returns(Task.FromResult(1));
+            fm35RepositoryMock.Setup(r => r.RetrieveProvidersAsync(1, 1, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProvidersData(1,1)));
+            fm35RepositoryMock.Setup(r => r.RetrieveProvidersAsync(1, 2, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProvidersData(1, 2)));
+            fm35RepositoryMock.Setup(r => r.RetrieveProvidersAsync(1, 3, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProvidersData(1, 3)));
+
+            fm35RepositoryMock.Setup(r => r.RetrieveProviderPageCountAsync(1, It.IsAny<CancellationToken>())).Returns(Task.FromResult(3));
 
             var providerRepositories = new List<IProviderRepository>();
             providerRepositories.Add(fm35RepositoryMock.Object);
@@ -46,7 +48,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             ISummarisationService summarisationService = new SummarisationService();
 
             var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService);
-            var result = await wrapper.SummariseProviders(fundingStreams, fm35RepositoryMock.Object, collectionPeriods, GetContractAllocations());
+            var result = await wrapper.SummariseProviders(fundingStreams, fm35RepositoryMock.Object, collectionPeriods, GetContractAllocations(), CancellationToken.None);
 
             //var wrapperMock = new Mock<ISummarisationWrapper>();
             //awatiwrapperMock.Setup(w => w.SummariseProviders(fundingStreams, fm35RepositoryMock.Object, collectionPeriods, GetContractAllocations()));
@@ -92,6 +94,13 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             {
                 providersData.Add(GetTestProviderData(item));
             }
+
+            return providersData;
+        }
+
+        private IReadOnlyCollection<IProvider> GetTestProvidersData(int pageSize, int pageNumber)
+        {
+            var providersData = GetTestProvidersData().OrderBy(x => x.UKPRN).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
             return providersData;
         }

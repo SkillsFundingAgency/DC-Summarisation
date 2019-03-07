@@ -1,16 +1,10 @@
 ﻿using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
-using ESFA.DC.Summarisation.Data.Input.Interface;
-using ESFA.DC.Summarisation.Data.Mapper;
-using ESFA.DC.Summarisation.Data.Mapper.Interface;
 using ESFA.DC.Summarisation.Data.output.Model;
-using ESFA.DC.Summarisation.Data.Repository;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
-using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,16 +14,13 @@ namespace ESFA.DC.Summarisation.Main1819.Service
 {
     public class SummarisationWrapper : ISummarisationWrapper
     {
-        private const int PageSize = 3;
+        private const int PageSize = 1;
         
         private readonly IFcsRepository _fcsRepository;
         private readonly ICollection<IProviderRepository> _repositories;
         private readonly ISummarisationService _summarisationService;
         private readonly IStaticDataProvider<FundingType> _fundingTypesProvider;
         private readonly IStaticDataProvider<CollectionPeriod> _collectionPeriodsProvider;
-
-        //public SummarisationWrapper()
-        //{ }
 
         public SummarisationWrapper(IFcsRepository fcsRepository,
                                     IStaticDataProvider<FundingType> fundingTypesProvider,
@@ -44,44 +35,46 @@ namespace ESFA.DC.Summarisation.Main1819.Service
             _collectionPeriodsProvider = collectionPeriodsProvider;            
         }
 
-        public async Task Summarise()
+        public async Task Summarise(CancellationToken cancellationToken)
         {
             var collectionPeriods = _collectionPeriodsProvider.Provide();
 
-            var fcsContractAllocations = await _fcsRepository.RetrieveAsync(CancellationToken.None);
+            var fcsContractAllocations = await _fcsRepository.RetrieveAsync(cancellationToken);
 
             foreach(var fundModel in Enum.GetValues(typeof(FundModel)).Cast<FundModel>())
             {
-                SummariseByFundModel(fundModel, collectionPeriods, fcsContractAllocations);
+                SummariseByFundModel(fundModel, collectionPeriods, fcsContractAllocations, cancellationToken);
             }
         }
 
         private async void SummariseByFundModel(
             FundModel fundModel,
             IEnumerable<CollectionPeriod> collectionPeriods,
-            IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations)
+            IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations,
+            CancellationToken cancellationToken)
         {
             var fundingStreams = _fundingTypesProvider.Provide().SelectMany(x => x.FundingStreams.Where(y => y.FundModel == fundModel)).ToList();
             var repository = _repositories.FirstOrDefault(r => r.fundModel == fundModel);
 
-            var actuals = await SummariseProviders(fundingStreams, repository, collectionPeriods, fcsContractAllocations);
+            var actuals = await SummariseProviders(fundingStreams, repository, collectionPeriods, fcsContractAllocations, cancellationToken);
         }
 
         public async Task<IList<SummarisedActual>> SummariseProviders(
             IList<FundingStream> fundingStreams,
             IProviderRepository repository,
             IEnumerable<CollectionPeriod> collectionPeriods,
-            IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations)
+            IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations,
+            CancellationToken cancellationToken)
         {
             var pageNumber = 1;
 
-            var numberOfPages = await repository.RetrieveProviderPageCountAsync(PageSize, CancellationToken.None);
+            var numberOfPages = await repository.RetrieveProviderPageCountAsync(PageSize, cancellationToken);
 
             var actuals = new List<SummarisedActual>();
 
             while (pageNumber <= numberOfPages)
             {
-                var providers = await repository.RetrieveProvidersAsync(PageSize, pageNumber, CancellationToken.None);
+                var providers = await repository.RetrieveProvidersAsync(PageSize, pageNumber, cancellationToken);
 
                 foreach (var provider in providers)
                 {

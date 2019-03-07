@@ -5,6 +5,7 @@ using ESFA.DC.Summarisation.Data.Repository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ESFA.DC.Summarisation.Interfaces
@@ -15,6 +16,7 @@ namespace ESFA.DC.Summarisation.Interfaces
                 IList<FundingStream> fundingStreams,
                 IProviderRepository repository,
                 IEnumerable<CollectionPeriod> collectionPeriods,
-                IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations);
+                IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations,
+                CancellationToken cancellationToken);
     }
 }
