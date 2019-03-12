@@ -54,7 +54,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service
             CancellationToken cancellationToken)
         {
             var fundingStreams = _fundingTypesProvider.Provide().SelectMany(x => x.FundingStreams.Where(y => y.FundModel == fundModel)).ToList();
-            var repository = _repositories.FirstOrDefault(r => r.fundModel == fundModel);
+            var repository = _repositories.FirstOrDefault(r => r.FundModel == fundModel);
 
             var actuals = await SummariseProviders(fundingStreams, repository, collectionPeriods, fcsContractAllocations, cancellationToken);
         }
@@ -98,26 +98,6 @@ namespace ESFA.DC.Summarisation.Main1819.Service
 
             return actuals;
         }
-
-        //private async IEnumerable<Task<IEnumerable<IProvider>>> PagedProviders(int numberOfPages, IProviderRepository repository)
-        //{
-        //    var pageNumber = 1;
-
-        //    while (pageNumber <= numberOfPages)
-        //    {
-        //        yield return repository.RetrieveProvidersAsync(PageSize, pageNumber, CancellationToken.None);
-        //    }
-        //}
-
-        //private void PersistSummarisedActuals(IList<SummarisedActual> summarisedActuals)
-        //{
-        //    ISummarisedActualsMapper summarisedActualsMapper = new SummarisedActualsMapper();
-
-        //    var summarisedActualsTobeSaved = summarisedActualsMapper.MapSummarisedActuals(summarisedActuals);
-
-        //    IBulkInsert bulkInsert = new BulkInsert();
-
-        //    bulkInsert.Insert("SummarisedActuals", summarisedActualsTobeSaved, _sqlConnection, CancellationToken.None);
-        //}
+       
     }
 }

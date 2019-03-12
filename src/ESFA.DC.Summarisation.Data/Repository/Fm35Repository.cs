@@ -16,7 +16,7 @@ namespace ESFA.DC.Summarisation.Data.Repository
     {
         private readonly IIlr1819RulebaseContext _ilr;
 
-        public FundModel fundModel => FundModel.FM35;
+        public FundModel FundModel => FundModel.FM35;
 
         public Fm35Repository(IIlr1819RulebaseContext ilr)
         {

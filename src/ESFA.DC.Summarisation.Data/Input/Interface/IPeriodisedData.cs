@@ -6,6 +6,6 @@ namespace ESFA.DC.Summarisation.Data.Input.Interface
     {
         string AttributeName { get; }
 
-        List<IPeriod> Periods { get;  }
+        IList<IPeriod> Periods { get;  }
     }
 }

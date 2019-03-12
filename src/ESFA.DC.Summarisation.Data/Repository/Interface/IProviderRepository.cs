@@ -8,7 +8,7 @@ namespace ESFA.DC.Summarisation.Data.Repository.Interface
 {
     public interface IProviderRepository
     {
-        FundModel fundModel { get; }
+        FundModel FundModel { get; }
 
         Task<IReadOnlyCollection<IProvider>> RetrieveProvidersAsync(CancellationToken cancellationToken);
 
