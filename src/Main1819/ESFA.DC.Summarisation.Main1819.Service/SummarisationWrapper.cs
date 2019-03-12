@@ -83,7 +83,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service
 
                     foreach(var fs in fundingStreams)
                     {
-                        if (fcsContractAllocations[fs.PeriodCode].Any(x => x.DeliveryUkprn == provider.UKPRN))
+                        if (fcsContractAllocations.ContainsKey(fs.PeriodCode) &&  fcsContractAllocations[fs.PeriodCode].Any(x => x.DeliveryUkprn == provider.UKPRN))
                         {
                             contractFundingStreams.Add(fs);
                             allocations.Add(fcsContractAllocations[fs.PeriodCode].First(x => x.DeliveryUkprn == provider.UKPRN));
