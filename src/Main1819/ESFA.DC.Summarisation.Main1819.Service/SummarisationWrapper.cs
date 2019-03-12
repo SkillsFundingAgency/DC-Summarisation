@@ -35,25 +35,25 @@ namespace ESFA.DC.Summarisation.Main1819.Service
             _collectionPeriodsProvider = collectionPeriodsProvider;            
         }
 
-        public async Task Summarise(CancellationToken cancellationToken)
+        public async Task Summarise(IList<string> fundModels, CancellationToken cancellationToken)
         {
             var collectionPeriods = _collectionPeriodsProvider.Provide();
 
             var fcsContractAllocations = await _fcsRepository.RetrieveAsync(cancellationToken);
 
-            foreach(var fundModel in Enum.GetValues(typeof(FundModel)).Cast<FundModel>())
+            foreach(var fundModel in fundModels)
             {
                 SummariseByFundModel(fundModel, collectionPeriods, fcsContractAllocations, cancellationToken);
             }
         }
 
         private async void SummariseByFundModel(
-            FundModel fundModel,
+            string fundModel,
             IEnumerable<CollectionPeriod> collectionPeriods,
             IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations,
             CancellationToken cancellationToken)
         {
-            var fundingStreams = _fundingTypesProvider.Provide().SelectMany(x => x.FundingStreams.Where(y => y.FundModel == fundModel)).ToList();
+            var fundingStreams = _fundingTypesProvider.Provide().SelectMany(x => x.FundingStreams.Where(y => y.FundModel.ToString() == fundModel)).ToList();
             var repository = _repositories.FirstOrDefault(r => r.FundModel == fundModel);
 
             var actuals = await SummariseProviders(fundingStreams, repository, collectionPeriods, fcsContractAllocations, cancellationToken);

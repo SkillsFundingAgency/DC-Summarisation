@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interface;
-using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
@@ -16,7 +15,7 @@ namespace ESFA.DC.Summarisation.Data.Repository
     {
         private readonly IIlr1819RulebaseContext _ilr;
 
-        public FundModel FundModel => FundModel.ALB;
+        public string FundModel => nameof(Configuration.FundModel.ALB);
 
         public AlbRepository(IIlr1819RulebaseContext ilr)
         {
