@@ -43,11 +43,27 @@ namespace ESFA.DC.Summarisation.Main1819.Service
 
             foreach(var fundModel in fundModels)
             {
-                SummariseByFundModel(fundModel, collectionPeriods, fcsContractAllocations, cancellationToken);
+                await SummariseByFundModel(fundModel, collectionPeriods, fcsContractAllocations, cancellationToken);
             }
         }
 
-        private async void SummariseByFundModel(
+        public async Task<IEnumerable<SummarisedActual>> Summarise(IEnumerable<string> fundModels, CancellationToken cancellationToken, bool test)
+        {
+            var collectionPeriods = _collectionPeriodsProvider.Provide();
+
+            var fcsContractAllocations = await _fcsRepository.RetrieveAsync(cancellationToken);
+
+            var returnList = new List<SummarisedActual>();
+
+            foreach (var fundModel in fundModels)
+            {
+                returnList.AddRange(await SummariseByFundModel(fundModel, collectionPeriods, fcsContractAllocations, cancellationToken));
+            }
+
+            return returnList;
+        }
+
+        private async Task<IEnumerable<SummarisedActual>> SummariseByFundModel(
             string fundModel,
             IEnumerable<CollectionPeriod> collectionPeriods,
             IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations,
@@ -56,7 +72,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service
             var fundingStreams = _fundingTypesProvider.Provide().SelectMany(x => x.FundingStreams.Where(y => y.FundModel.ToString() == fundModel)).ToList();
             var repository = _repositories.FirstOrDefault(r => r.FundModel == fundModel);
 
-            var actuals = await SummariseProviders(fundingStreams, repository, collectionPeriods, fcsContractAllocations, cancellationToken);
+            return await SummariseProviders(fundingStreams, repository, collectionPeriods, fcsContractAllocations, cancellationToken);
         }
 
         public async Task<IEnumerable<SummarisedActual>> SummariseProviders(
