@@ -9,6 +9,6 @@ namespace ESFA.DC.Summarisation.Data.Input.Interface
         string LearnRefNumber { get;  }
         int AimSeqNumber { get;  }
         string Fundline { get;  }
-        List<IPeriodisedData> PeriodisedData { get;  }
+        IList<IPeriodisedData> PeriodisedData { get;  }
     }
 }

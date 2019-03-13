@@ -7,6 +7,6 @@ namespace ESFA.DC.Summarisation.Data.Input.Model
     {
         public int UKPRN { get; set; }
 
-        public List<ILearningDelivery> LearningDeliveries { get; set; }
+        public IList<ILearningDelivery> LearningDeliveries { get; set; }
     }
 }

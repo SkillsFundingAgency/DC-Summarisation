@@ -1,9 +1,7 @@
 ﻿using ESFA.DC.Summarisation.Data.Input.Model;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using ESFA.DC.Serialization.Json;
-using ESFA.DC.Serialization.Interfaces;
 using Xunit;
 using FluentAssertions;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
@@ -239,10 +237,14 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             Provider provider = GetTestProvider();
             List<CollectionPeriod> collectionPeriods = GetCollectionPeriods();
 
+            var learningDeliveries = provider.LearningDeliveries.ToList();
+
             for (int i = 0; i < 17; i++)
             {
-                provider.LearningDeliveries.AddRange(provider.LearningDeliveries);
+                learningDeliveries.AddRange(learningDeliveries);
             }
+
+            provider.LearningDeliveries = learningDeliveries;
 
             FundingType fundingType = GetFundingType(key);
 

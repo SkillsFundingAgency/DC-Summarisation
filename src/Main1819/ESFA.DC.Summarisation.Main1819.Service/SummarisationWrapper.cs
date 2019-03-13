@@ -35,31 +35,31 @@ namespace ESFA.DC.Summarisation.Main1819.Service
             _collectionPeriodsProvider = collectionPeriodsProvider;            
         }
 
-        public async Task Summarise(CancellationToken cancellationToken)
+        public async Task Summarise(IEnumerable<string> fundModels, CancellationToken cancellationToken)
         {
             var collectionPeriods = _collectionPeriodsProvider.Provide();
 
             var fcsContractAllocations = await _fcsRepository.RetrieveAsync(cancellationToken);
 
-            foreach(var fundModel in Enum.GetValues(typeof(FundModel)).Cast<FundModel>())
+            foreach(var fundModel in fundModels)
             {
                 SummariseByFundModel(fundModel, collectionPeriods, fcsContractAllocations, cancellationToken);
             }
         }
 
         private async void SummariseByFundModel(
-            FundModel fundModel,
+            string fundModel,
             IEnumerable<CollectionPeriod> collectionPeriods,
             IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations,
             CancellationToken cancellationToken)
         {
-            var fundingStreams = _fundingTypesProvider.Provide().SelectMany(x => x.FundingStreams.Where(y => y.FundModel == fundModel)).ToList();
-            var repository = _repositories.FirstOrDefault(r => r.fundModel == fundModel);
+            var fundingStreams = _fundingTypesProvider.Provide().SelectMany(x => x.FundingStreams.Where(y => y.FundModel.ToString() == fundModel)).ToList();
+            var repository = _repositories.FirstOrDefault(r => r.FundModel == fundModel);
 
             var actuals = await SummariseProviders(fundingStreams, repository, collectionPeriods, fcsContractAllocations, cancellationToken);
         }
 
-        public async Task<IList<SummarisedActual>> SummariseProviders(
+        public async Task<IEnumerable<SummarisedActual>> SummariseProviders(
             IList<FundingStream> fundingStreams,
             IProviderRepository repository,
             IEnumerable<CollectionPeriod> collectionPeriods,
@@ -83,7 +83,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service
 
                     foreach(var fs in fundingStreams)
                     {
-                        if (fcsContractAllocations[fs.PeriodCode].Any(x => x.DeliveryUkprn == provider.UKPRN))
+                        if (fcsContractAllocations.ContainsKey(fs.PeriodCode) &&  fcsContractAllocations[fs.PeriodCode].Any(x => x.DeliveryUkprn == provider.UKPRN))
                         {
                             contractFundingStreams.Add(fs);
                             allocations.Add(fcsContractAllocations[fs.PeriodCode].First(x => x.DeliveryUkprn == provider.UKPRN));
@@ -98,26 +98,6 @@ namespace ESFA.DC.Summarisation.Main1819.Service
 
             return actuals;
         }
-
-        //private async IEnumerable<Task<IEnumerable<IProvider>>> PagedProviders(int numberOfPages, IProviderRepository repository)
-        //{
-        //    var pageNumber = 1;
-
-        //    while (pageNumber <= numberOfPages)
-        //    {
-        //        yield return repository.RetrieveProvidersAsync(PageSize, pageNumber, CancellationToken.None);
-        //    }
-        //}
-
-        //private void PersistSummarisedActuals(IList<SummarisedActual> summarisedActuals)
-        //{
-        //    ISummarisedActualsMapper summarisedActualsMapper = new SummarisedActualsMapper();
-
-        //    var summarisedActualsTobeSaved = summarisedActualsMapper.MapSummarisedActuals(summarisedActuals);
-
-        //    IBulkInsert bulkInsert = new BulkInsert();
-
-        //    bulkInsert.Insert("SummarisedActuals", summarisedActualsTobeSaved, _sqlConnection, CancellationToken.None);
-        //}
+       
     }
 }

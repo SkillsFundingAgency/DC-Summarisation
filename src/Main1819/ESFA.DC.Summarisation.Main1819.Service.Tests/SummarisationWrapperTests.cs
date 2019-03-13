@@ -20,26 +20,28 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
     public class SummarisationWrapperTests
     {
-        [Fact]
-        public async Task SummmariseProviders()
+
+        [Theory]
+        [InlineData("ILR_FM35", FundModel.FM35)]
+        [InlineData("ILR_ALB", FundModel.ALB)]
+        public async Task SummmariseProviders(string lineType, FundModel fundModel)
         {
             var cancellationToken = CancellationToken.None;
+;
+            var repositoryMock = new Mock<IProviderRepository>();
+            repositoryMock.Setup(r => r.RetrieveProvidersAsync(1, 1, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProvidersData(1, 1, lineType)));
+            repositoryMock.Setup(r => r.RetrieveProvidersAsync(1, 2, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProvidersData(1, 2, lineType)));
+            repositoryMock.Setup(r => r.RetrieveProvidersAsync(1, 3, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProvidersData(1, 3, lineType)));
 
-            var fm35RepositoryMock = new Mock<IProviderRepository>();
-            fm35RepositoryMock.Setup(r => r.RetrieveProvidersAsync(1, 1, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProvidersData(1,1)));
-            fm35RepositoryMock.Setup(r => r.RetrieveProvidersAsync(1, 2, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProvidersData(1, 2)));
-            fm35RepositoryMock.Setup(r => r.RetrieveProvidersAsync(1, 3, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProvidersData(1, 3)));
-
-            fm35RepositoryMock.Setup(r => r.RetrieveProviderPageCountAsync(1, It.IsAny<CancellationToken>())).Returns(Task.FromResult(3));
+            repositoryMock.Setup(r => r.RetrieveProviderPageCountAsync(1, It.IsAny<CancellationToken>())).Returns(Task.FromResult(3));
 
             var providerRepositories = new List<IProviderRepository>();
-            providerRepositories.Add(fm35RepositoryMock.Object);
+            providerRepositories.Add(repositoryMock.Object);
 
             var fcsRepositoryMock = new Mock<IFcsRepository>();
-            //fcsRepositoryMock.Setup(f => f.RetrieveAsync(cancellationToken)).Returns(Task.FromResult(GetContractAllocations()));
 
             var fundingTypesProvider = new FundingTypesProvider(new JsonSerializationService());
-            var fundingStreams = fundingTypesProvider.Provide().SelectMany(x => x.FundingStreams.Where(y => y.FundModel == FundModel.FM35)).ToList();
+            var fundingStreams = fundingTypesProvider.Provide().SelectMany(x => x.FundingStreams.Where(y => y.FundModel == fundModel)).ToList();
 
             var collectionPeriodsProvider = new CollectionPeriodsProvider(new JsonSerializationService());
 
@@ -48,20 +50,123 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             ISummarisationService summarisationService = new SummarisationService();
 
             var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService);
-            var result = await wrapper.SummariseProviders(fundingStreams, fm35RepositoryMock.Object, collectionPeriods, GetContractAllocations(), CancellationToken.None);
+            var result = await wrapper.SummariseProviders(fundingStreams, repositoryMock.Object, collectionPeriods, GetContractAllocations(null), cancellationToken);
 
-            //var wrapperMock = new Mock<ISummarisationWrapper>();
-            //awatiwrapperMock.Setup(w => w.SummariseProviders(fundingStreams, fm35RepositoryMock.Object, collectionPeriods, GetContractAllocations()));
+            foreach (var ukprn in GetTestProviders())
+            {
+                if (fundModel == FundModel.FM35)
+                {
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Count().Should().Be(12);
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 11 && s.ActualValue != 0).Count().Should().Be(12);
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 14 && s.ActualValue != 0).Count().Should().Be(12);
 
-            result.Count.Should().BeGreaterThan(1);
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Count().Should().Be(12);
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 5 && s.ActualValue != 0).Count().Should().Be(12);
+
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Count().Should().Be(12);
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 5 && s.ActualValue != 0).Count().Should().Be(12);
+
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Count().Should().Be(12);
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 12 && s.ActualValue != 0).Count().Should().Be(12);
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 15 && s.ActualValue != 0).Count().Should().Be(12);
+
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Count().Should().Be(12);
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 6 && s.ActualValue != 0).Count().Should().Be(12);
+
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Count().Should().Be(12);
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 6 && s.ActualValue != 0).Count().Should().Be(12);
+                }
+                else if (fundModel == FundModel.ALB)
+                {
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLB1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Count().Should().Be(12);
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLBC1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Count().Should().Be(12);
+
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLB1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Count().Should().Be(12);
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLBC1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Count().Should().Be(12);
+                }
+            }
 
         }
 
-        private IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> GetContractAllocations()
+        [Theory]
+        [InlineData("ILR_FM35", FundModel.FM35)]
+        [InlineData("ILR_ALB", FundModel.ALB)]
+        public async Task SummmariseProviders_Nocontract(string lineType, FundModel fundModel)
+        {
+            var cancellationToken = CancellationToken.None;
+
+            var repositoryMock = new Mock<IProviderRepository>();
+            repositoryMock.Setup(r => r.RetrieveProvidersAsync(1, 1, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProvidersData(1, 1, lineType)));
+            repositoryMock.Setup(r => r.RetrieveProvidersAsync(1, 2, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProvidersData(1, 2, lineType)));
+            repositoryMock.Setup(r => r.RetrieveProvidersAsync(1, 3, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProvidersData(1, 3, lineType)));
+
+            repositoryMock.Setup(r => r.RetrieveProviderPageCountAsync(1, It.IsAny<CancellationToken>())).Returns(Task.FromResult(3));
+
+            var providerRepositories = new List<IProviderRepository>();
+            providerRepositories.Add(repositoryMock.Object);
+
+            var fcsRepositoryMock = new Mock<IFcsRepository>();
+
+            var fundingTypesProvider = new FundingTypesProvider(new JsonSerializationService());
+            var fundingStreams = fundingTypesProvider.Provide().SelectMany(x => x.FundingStreams.Where(y => y.FundModel == fundModel)).ToList();
+
+            var collectionPeriodsProvider = new CollectionPeriodsProvider(new JsonSerializationService());
+
+            var collectionPeriods = collectionPeriodsProvider.Provide().ToList();
+
+            ISummarisationService summarisationService = new SummarisationService();
+
+            var fspCodes = new HashSet<string>();
+           
+
+            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService);
+            var result = await wrapper.SummariseProviders(fundingStreams, repositoryMock.Object, collectionPeriods, GetContractAllocations(fspCodes), cancellationToken);
+
+
+            foreach (var ukprn in GetTestProviders())
+            {
+                if (fundModel == FundModel.FM35)
+                {
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Count().Should().Be(0);
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 11 && s.ActualValue != 0).Count().Should().Be(0);
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 14 && s.ActualValue != 0).Count().Should().Be(0);
+
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Count().Should().Be(0);
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 5 && s.ActualValue != 0).Count().Should().Be(0);
+
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Count().Should().Be(0);
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 5 && s.ActualValue != 0).Count().Should().Be(0);
+
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Count().Should().Be(0);
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 12 && s.ActualValue != 0).Count().Should().Be(0);
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 15 && s.ActualValue != 0).Count().Should().Be(0);
+
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Count().Should().Be(0);
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 6 && s.ActualValue != 0).Count().Should().Be(0);
+
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Count().Should().Be(0);
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 6 && s.ActualValue != 0).Count().Should().Be(0);
+                }
+                else if (fundModel == FundModel.ALB)
+                {
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLB1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Count().Should().Be(0);
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLBC1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Count().Should().Be(0);
+
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLB1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Count().Should().Be(0);
+                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLBC1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Count().Should().Be(0);
+                }
+            }
+
+        }
+
+        private IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> GetContractAllocations(HashSet<string> fspCodes)
         {
             Dictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fspContractAllocations = new Dictionary<string, IReadOnlyCollection<IFcsContractAllocation>>();
 
-            foreach (var fspCode in GetFundingStreamPeriodCodes())
+            if (fspCodes == null)
+                fspCodes = GetFundingStreamPeriodCodes();
+
+            foreach (var fspCode in fspCodes)
             {
                 List<IFcsContractAllocation> allocations = new List<IFcsContractAllocation>();
 
@@ -84,40 +189,40 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             return fspContractAllocations;
         }
 
-        private IReadOnlyCollection<IProvider> GetTestProvidersData()
+        private IReadOnlyCollection<IProvider> GetTestProvidersData(string lineType)
         {
             List<IProvider> providersData = new List<IProvider>();
 
             HashSet<int> providers = GetTestProviders();
 
-            foreach (var item in providers)
+            foreach (var ukprn in providers)
             {
-                providersData.Add(GetTestProviderData(item));
+                providersData.Add(GetTestProviderData(ukprn, lineType));
             }
 
             return providersData;
         }
 
-        private IReadOnlyCollection<IProvider> GetTestProvidersData(int pageSize, int pageNumber)
+        private IReadOnlyCollection<IProvider> GetTestProvidersData(int pageSize, int pageNumber, string lineType)
         {
-            var providersData = GetTestProvidersData().OrderBy(x => x.UKPRN).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+            var providersData = GetTestProvidersData(lineType).OrderBy(x => x.UKPRN).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
             return providersData;
         }
 
-        private Provider GetTestProviderData(int ukprn)
+        private Provider GetTestProviderData(int ukprn, string lineType)
         {
             return new Provider()
             {
                 UKPRN = ukprn,
-                LearningDeliveries = GetLearningDeliveries()
+                LearningDeliveries = GetLearningDeliveries(lineType)
             };
         }
-        private List<ILearningDelivery> GetLearningDeliveries()
+        private List<ILearningDelivery> GetLearningDeliveries(string lineType)
         {
             List<ILearningDelivery> learningDeliveries = new List<ILearningDelivery>();
 
-            foreach (var item in GetFundLines("ILR_FM35"))
+            foreach (var item in GetFundLines(lineType))
             {
                 for (int i = 1; i <= 2; i++)
                 {
@@ -263,7 +368,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             }
             else
             {
-                return fundLines.Where(fl => fl.LineType == "ILR_FM35").ToList();
+                return fundLines.Where(fl => fl.LineType == lineType).ToList();
             }
         }
 
@@ -306,5 +411,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                 "CLP1819"
             };
         }
+
+        
     }
 }
