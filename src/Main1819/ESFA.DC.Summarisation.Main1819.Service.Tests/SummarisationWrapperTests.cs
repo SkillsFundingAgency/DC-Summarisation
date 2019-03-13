@@ -52,9 +52,6 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService);
             var result = await wrapper.SummariseProviders(fundingStreams, repositoryMock.Object, collectionPeriods, GetContractAllocations(null), cancellationToken);
 
-
-            result.Count.Should().BeGreaterThan(1);
-
             foreach (var ukprn in GetTestProviders())
             {
                 if (fundModel == FundModel.FM35)

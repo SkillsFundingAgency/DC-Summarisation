@@ -12,7 +12,7 @@ namespace ESFA.DC.Summarisation.Interfaces
 {
     public interface ISummarisationWrapper
     {
-        Task<IList<SummarisedActual>> SummariseProviders(
+        Task<IEnumerable<SummarisedActual>> SummariseProviders(
                 IList<FundingStream> fundingStreams,
                 IProviderRepository repository,
                 IEnumerable<CollectionPeriod> collectionPeriods,

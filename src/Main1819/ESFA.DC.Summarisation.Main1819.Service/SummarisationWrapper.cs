@@ -35,7 +35,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service
             _collectionPeriodsProvider = collectionPeriodsProvider;            
         }
 
-        public async Task Summarise(IList<string> fundModels, CancellationToken cancellationToken)
+        public async Task Summarise(IEnumerable<string> fundModels, CancellationToken cancellationToken)
         {
             var collectionPeriods = _collectionPeriodsProvider.Provide();
 
@@ -59,7 +59,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service
             var actuals = await SummariseProviders(fundingStreams, repository, collectionPeriods, fcsContractAllocations, cancellationToken);
         }
 
-        public async Task<IList<SummarisedActual>> SummariseProviders(
+        public async Task<IEnumerable<SummarisedActual>> SummariseProviders(
             IList<FundingStream> fundingStreams,
             IProviderRepository repository,
             IEnumerable<CollectionPeriod> collectionPeriods,
