@@ -8,7 +8,7 @@ namespace ESFA.DC.Summarisation.Data.Input.Model
         public string LearnRefNumber { get; set; }
         public int AimSeqNumber { get; set; }
         public string Fundline { get; set; }
-        public List<IPeriodisedData> PeriodisedData { get; set; }
+        public IList<IPeriodisedData> PeriodisedData { get; set; }
 
     }
 }
