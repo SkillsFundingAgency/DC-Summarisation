@@ -6,7 +6,7 @@ namespace ESFA.DC.Summarisation.Data.Input.Interface
 {
     public interface IPeriod
     {
-        int Id { get; }
+        int PeriodId { get; }
 
         decimal? Value { get; }
     }

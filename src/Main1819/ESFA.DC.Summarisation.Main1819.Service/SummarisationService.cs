@@ -1,20 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.output.Model;
 using ESFA.DC.Summarisation.Interfaces;
+using ESFA.DC.Summarisation.Data.Input.Interface;
+using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 
 namespace ESFA.DC.Summarisation.Main1819.Service
 {
     public class SummarisationService : ISummarisationService
     {
-        public IEnumerable<SummarisedActual> Summarise(FundingType fundingType, Provider provider)
+        public IEnumerable<SummarisedActual> Summarise(FundingType fundingType, IProvider provider, IEnumerable<IFcsContractAllocation> allocations, IEnumerable<CollectionPeriod> collectionPeriods)
         {
-            return fundingType.FundingStreams.SelectMany(fs => SummariseByFundingStream(fs, provider));
+            return fundingType.FundingStreams.SelectMany(fs => Summarise(fs, provider, allocations, collectionPeriods));
         }
 
-        public IEnumerable<SummarisedActual> SummariseByFundingStream(FundingStream fundingStream, Provider provider)
+        public IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams , IProvider provider, IEnumerable<IFcsContractAllocation> allocations, IEnumerable<CollectionPeriod> collectionPeriods)
+        {
+            return fundingStreams.SelectMany(fs => Summarise(fs, provider, allocations, collectionPeriods));
+        }
+
+        public IEnumerable<SummarisedActual> Summarise(FundingStream fundingStream, IProvider provider, IEnumerable<IFcsContractAllocation> allocations, IEnumerable<CollectionPeriod> collectionPeriods)
         {
             var summarisedActuals = new List<SummarisedActual>();
 
@@ -35,14 +41,17 @@ namespace ESFA.DC.Summarisation.Main1819.Service
                 .Select(g =>
                     new SummarisedActual
                     {
+                        OrganisationId = allocations.First(a => a.FundingStreamPeriodCode == fundingStream.PeriodCode)?.DeliveryOrganisation,
                         DeliverableCode = fundingStream.DeliverableLineCode,
                         FundingStreamPeriodCode = fundingStream.PeriodCode,
-                        Period = g.Key,
-                        ActualValue = g.Sum(x => x.ActualValue)
+                        Period = collectionPeriods.First(cp => cp.Period == g.Key).ActualsSchemaPeriod,
+                        ActualValue = g.Sum(x => x.ActualValue),
+                        ContractAllocationNumber = allocations.First(a => a.FundingStreamPeriodCode == fundingStream.PeriodCode)?.ContractAllocationNumber,
+                        PeriodTypeCode = "AY"
                     });
         }
 
-        public IEnumerable<Period> GetPeriodsForFundLine(IEnumerable<PeriodisedData> periodisedData, FundLine fundLine)
+        public IEnumerable<IPeriod> GetPeriodsForFundLine(IEnumerable<IPeriodisedData> periodisedData, FundLine fundLine)
         {
             if (fundLine.UseAttributes)
             {
@@ -52,7 +61,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service
             return periodisedData.SelectMany(fpd => fpd.Periods);
         }
                  
-        public IEnumerable<SummarisedActual> SummarisePeriods(IEnumerable<Period> periods)
+        public IEnumerable<SummarisedActual> SummarisePeriods(IEnumerable<IPeriod> periods)
         {
             return periods
                 .GroupBy(pg => pg.PeriodId)

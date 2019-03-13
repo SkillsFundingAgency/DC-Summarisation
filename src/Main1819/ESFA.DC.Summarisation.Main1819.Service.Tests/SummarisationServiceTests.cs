@@ -1,13 +1,13 @@
 ﻿using ESFA.DC.Summarisation.Data.Input.Model;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using ESFA.DC.Serialization.Json;
-using ESFA.DC.Serialization.Interfaces;
 using Xunit;
 using FluentAssertions;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using ESFA.DC.Summarisation.Configuration;
+using ESFA.DC.Summarisation.Data.Input.Interface;
+using ESFA.DC.Summarisation.Data.External.FCS.Model;
 
 namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 {
@@ -16,6 +16,8 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         private int learningDeliveryRecords = 2;
 
         public decimal periodValue = 10;
+
+        private const int ukprn = 10000001;
 
         [Fact]
         public void SummariseByPeriods()
@@ -173,7 +175,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var task = new SummarisationService();
 
-            var results = task.SummariseByFundingStream(fundingStream, GetTestProvider()).OrderBy(x=>x.Period).ToList();
+            var results = task.Summarise(fundingStream, GetTestProvider(), GetContractAllocation(), GetCollectionPeriods()).OrderBy(x=>x.Period).ToList();
 
             results.Count().Should().Be(12);
 
@@ -204,7 +206,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var fundingType = GetFundingType(key);
 
-            var results = task.Summarise(fundingType, GetTestProvider());
+            var results = task.Summarise(fundingType, GetTestProvider(), GetContractAllocation(), GetCollectionPeriods());
 
             Dictionary<string, int> fspdlc = new Dictionary<string, int>();
 
@@ -233,17 +235,22 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         public void PerformanceTest(string key)
         {
             Provider provider = GetTestProvider();
+            List<CollectionPeriod> collectionPeriods = GetCollectionPeriods();
+
+            var learningDeliveries = provider.LearningDeliveries.ToList();
 
             for (int i = 0; i < 17; i++)
             {
-                provider.LearningDeliveries.AddRange(provider.LearningDeliveries);
+                learningDeliveries.AddRange(learningDeliveries);
             }
+
+            provider.LearningDeliveries = learningDeliveries;
 
             FundingType fundingType = GetFundingType(key);
 
             var task = new SummarisationService();
 
-            var results = task.Summarise(fundingType, provider).ToList();
+            var results = task.Summarise(fundingType, provider, GetContractAllocation(),GetCollectionPeriods()).ToList();
 
             var fundingStreams = fundingType.FundingStreams.Select(fs => new { fs.PeriodCode, fs.DeliverableLineCode }).ToList();
 
@@ -262,13 +269,13 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         {
             return new Provider()
             {
-                UKPRN = 10000001,
+                UKPRN = ukprn,
                 LearningDeliveries = GetLearningDeliveries()
             };
         }
-        private List<LearningDelivery> GetLearningDeliveries()
+        private List<ILearningDelivery> GetLearningDeliveries()
         {
-            List<LearningDelivery> learningDeliveries = new List<LearningDelivery>();
+            List<ILearningDelivery> learningDeliveries = new List<ILearningDelivery>();
 
             foreach (var item in GetFundLines())
             {
@@ -290,11 +297,11 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         }
 
 
-        private List<PeriodisedData> GetPeriodisedData(int lotSize)
+        private List<IPeriodisedData> GetPeriodisedData(int lotSize)
         {
             HashSet<string> attributes = GetAllAttributes();
 
-            List<PeriodisedData> periodisedDatas = new List<PeriodisedData>();
+            List<IPeriodisedData> periodisedDatas = new List<IPeriodisedData>();
 
             for (int j = 1; j <= lotSize; j++)
             {
@@ -313,13 +320,13 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             return periodisedDatas;
         }
 
-        private List<PeriodisedData> GetPeriodisedDataNoAttributes(int lotSize)
+        private List<IPeriodisedData> GetPeriodisedDataNoAttributes(int lotSize)
         {
-            List<PeriodisedData> periodisedDatas = new List<PeriodisedData>();
+            List<IPeriodisedData> periodisedDatas = new List<IPeriodisedData>();
 
             for (int j = 1; j <= lotSize; j++)
             {
-                PeriodisedData periodisedData = new PeriodisedData()
+                IPeriodisedData periodisedData = new PeriodisedData()
                 {
                     Periods = GetPeriodsData(1)
                 };
@@ -330,9 +337,9 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             return periodisedDatas;
         }
 
-        private List<Period> GetPeriodsData(int lotSize)
+        private List<IPeriod> GetPeriodsData(int lotSize)
         {
-            List<Period> periods = new List<Period>();
+            List<IPeriod> periods = new List<IPeriod>();
             for (int j = 1; j <= lotSize; j++)
             {
                 for (int i = 1; i <= 12; i++)
@@ -357,6 +364,33 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             return fundingTypesProvider.Provide().ToList();
 
+        }
+
+        private List<CollectionPeriod> GetCollectionPeriods()
+        {
+            var collectionPeriodsProvider = new CollectionPeriodsProvider(new JsonSerializationService());
+
+            return collectionPeriodsProvider.Provide().ToList();
+
+        }
+
+        private IList<FcsContractAllocation> GetContractAllocation()
+        {
+            IList<FcsContractAllocation> fcsContractAllocations = new List<FcsContractAllocation>();
+            var fundingStreams =  GetFundingTypes().SelectMany(ft => ft.FundingStreams);
+
+            foreach (var item in fundingStreams)
+            {
+                FcsContractAllocation allocation = new FcsContractAllocation()
+                {
+                    ContractAllocationNumber = $"Alloc{item.PeriodCode}",
+                    FundingStreamPeriodCode = item.PeriodCode,
+                    DeliveryUkprn = ukprn,
+                    DeliveryOrganisation = $"Org{ukprn}"
+                };
+                fcsContractAllocations.Add(allocation);
+            }
+            return fcsContractAllocations;
         }
 
         private HashSet<string> GetAllAttributes()

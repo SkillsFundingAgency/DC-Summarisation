@@ -3,11 +3,11 @@ using  System.Collections.Generic;
 
 namespace ESFA.DC.Summarisation.Data.Input.Model
 {
-    public class PeriodisedData 
+    public class PeriodisedData : IPeriodisedData
     {
         public string AttributeName { get; set; }
 
-        public List<Period> Periods { get; set; }
+        public IList<IPeriod> Periods { get; set; }
 
     }
 }
