@@ -51,7 +51,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             ISummarisationService summarisationService = new SummarisationService();
 
-            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService, summarisationMessage);
+            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService);
             var result = await wrapper.SummariseProviders(fundingStreams, repositoryMock.Object, collectionPeriods, GetContractAllocations(null), cancellationToken);
 
             foreach (var ukprn in GetTestProviders())
@@ -123,7 +123,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             var fspCodes = new HashSet<string>();
            
 
-            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService, summarisationMessage);
+            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService);
 
             var result = await wrapper.SummariseProviders(fundingStreams, repositoryMock.Object, collectionPeriods, GetContractAllocations(fspCodes), cancellationToken);
 

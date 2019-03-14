@@ -61,12 +61,11 @@ namespace ESFA.DC.Summarisation.Console
                                       fundingTypesProvider,
                                      collectionPeriodsProvider,
                                      repositories,
-                                    summarisationService,
-                                    summarisationMessage);
+                                    summarisationService);
 
             List<string> fundModels = new List<string> { "FM35" };
 
-            var result = await wrapper.Summarise(fundModels,CancellationToken.None, false);
+            var result = await wrapper.Summarise(fundModels, summarisationMessage, CancellationToken.None, false);
 
 
         }
