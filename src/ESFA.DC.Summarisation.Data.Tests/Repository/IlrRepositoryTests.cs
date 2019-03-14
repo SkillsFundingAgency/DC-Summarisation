@@ -25,52 +25,52 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
         [Fact]
         public async Task RetrieveSingleFm35ProvidersTest()
         {
-            var fm35Learners = new List<Fm35Learner>
+            var fm35Learners = new List<FM35_Learner>
             {
-                new Fm35Learner
+                new FM35_Learner
                 {
-                    Ukprn = 10000000,
+                    UKPRN = 10000000,
                     LearnRefNumber = "10000000Learner1",
-                    Fm35LearningDeliveries = new List<Fm35LearningDelivery>
+                    FM35_LearningDeliveries = new List<FM35_LearningDelivery>
                     {
-                        new Fm35LearningDelivery
+                        new FM35_LearningDelivery
                         {
                             FundLine = "FundLine1",
                             AimSeqNumber = 1,
                             LearnRefNumber = "10000000Learner1",
-                            Fm35LearningDeliveryPeriodisedValues = new List<Fm35LearningDeliveryPeriodisedValue>
+                            FM35_LearningDelivery_PeriodisedValues = new List<FM35_LearningDelivery_PeriodisedValue>
                             {
-                                new Fm35LearningDeliveryPeriodisedValue
+                                new FM35_LearningDelivery_PeriodisedValue
                                 {
                                     AttributeName = "Attribute1",
-                                    Period1 = 10,
-                                    Period2 = 20,
-                                    Period3 = 30,
-                                    Period4 = 40
+                                    Period_1 = 10,
+                                    Period_2 = 20,
+                                    Period_3 = 30,
+                                    Period_4 = 40
                                 }
                             }
                         }
                     }
                 },
-                new Fm35Learner
+                new FM35_Learner
                 {
-                    Ukprn = 10000000,
+                    UKPRN = 10000000,
                     LearnRefNumber = "10000000Learner2",
-                    Fm35LearningDeliveries = new List<Fm35LearningDelivery>
+                    FM35_LearningDeliveries = new List<FM35_LearningDelivery>
                     {
-                        new Fm35LearningDelivery
+                        new FM35_LearningDelivery
                         {
                             FundLine = "FundLine1",
                             AimSeqNumber = 1,
-                            Fm35LearningDeliveryPeriodisedValues = new List<Fm35LearningDeliveryPeriodisedValue>
+                            FM35_LearningDelivery_PeriodisedValues = new List<FM35_LearningDelivery_PeriodisedValue>
                             {
-                                new Fm35LearningDeliveryPeriodisedValue
+                                new FM35_LearningDelivery_PeriodisedValue
                                 {
                                     AttributeName = "Attribute1",
-                                    Period1 = 10,
-                                    Period2 = 20,
-                                    Period3 = 30,
-                                    Period4 = 40
+                                    Period_1 = 10,
+                                    Period_2 = 20,
+                                    Period_3 = 30,
+                                    Period_4 = 40
                                 }
                             }
                         }
@@ -80,7 +80,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
 
             var ilrMock = new Mock<IIlr1819RulebaseContext>();
             ilrMock
-                .Setup(s => s.Fm35Learners)
+                .Setup(s => s.FM35_Learners)
                 .Returns(fm35Learners.Object);
 
             var service = new Fm35Repository(ilrMock.Object);
@@ -104,52 +104,52 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
         [Fact]
         public async Task RetrieveMultipleFm35ProvidersTest()
         {
-            var fm35Learners = new List<Fm35Learner>
+            var fm35Learners = new List<FM35_Learner>
             {
-                new Fm35Learner
+                new FM35_Learner
                 {
-                    Ukprn = 10000000,
+                    UKPRN = 10000000,
                     LearnRefNumber = "10000000Learner1",
-                    Fm35LearningDeliveries = new List<Fm35LearningDelivery>
+                    FM35_LearningDeliveries = new List<FM35_LearningDelivery>
                     {
-                        new Fm35LearningDelivery
+                        new FM35_LearningDelivery
                         {
                             FundLine = "FundLine1",
                             AimSeqNumber = 1,
                             LearnRefNumber = "10000000Learner1",
-                            Fm35LearningDeliveryPeriodisedValues = new List<Fm35LearningDeliveryPeriodisedValue>
+                            FM35_LearningDelivery_PeriodisedValues = new List<FM35_LearningDelivery_PeriodisedValue>
                             {
-                                new Fm35LearningDeliveryPeriodisedValue
+                                new FM35_LearningDelivery_PeriodisedValue
                                 {
                                     AttributeName = "Attribute1",
-                                    Period1 = 10,
-                                    Period2 = 20,
-                                    Period3 = 30,
-                                    Period4 = 40
+                                    Period_1 = 10,
+                                    Period_2 = 20,
+                                    Period_3 = 30,
+                                    Period_4 = 40
                                 }
                             }
                         }
                     }
                 },
-                new Fm35Learner
+                new FM35_Learner
                 {
-                    Ukprn = 10000000,
+                    UKPRN = 10000000,
                     LearnRefNumber = "10000000Learner2",
-                    Fm35LearningDeliveries = new List<Fm35LearningDelivery>
+                    FM35_LearningDeliveries = new List<FM35_LearningDelivery>
                     {
-                        new Fm35LearningDelivery
+                        new FM35_LearningDelivery
                         {
                             FundLine = "FundLine1",
                             AimSeqNumber = 1,
-                            Fm35LearningDeliveryPeriodisedValues = new List<Fm35LearningDeliveryPeriodisedValue>
+                            FM35_LearningDelivery_PeriodisedValues = new List<FM35_LearningDelivery_PeriodisedValue>
                             {
-                                new Fm35LearningDeliveryPeriodisedValue
+                                new FM35_LearningDelivery_PeriodisedValue
                                 {
                                     AttributeName = "Attribute1",
-                                    Period1 = 10,
-                                    Period2 = 20,
-                                    Period3 = 30,
-                                    Period4 = 40
+                                    Period_1 = 10,
+                                    Period_2 = 20,
+                                    Period_3 = 30,
+                                    Period_4 = 40
                                 }
                             }
                         }
@@ -159,7 +159,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
 
             var ilrMock = new Mock<IIlr1819RulebaseContext>();
             ilrMock
-                .Setup(s => s.Fm35Learners)
+                .Setup(s => s.FM35_Learners)
                 .Returns(fm35Learners.Object);
 
             var service = new Fm35Repository(ilrMock.Object);
@@ -183,76 +183,76 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
         [Fact]
         public async Task RetrieveFm35ProvidersPagingTest()
         {
-            var fm35Learners = new List<Fm35Learner>
+            var fm35Learners = new List<FM35_Learner>
             {
-                new Fm35Learner
+                new FM35_Learner
                 {
-                    Ukprn = 10000000,
+                    UKPRN = 10000000,
                     LearnRefNumber = "10000000Learner1",
-                    Fm35LearningDeliveries = new List<Fm35LearningDelivery>
+                    FM35_LearningDeliveries = new List<FM35_LearningDelivery>
                     {
-                        new Fm35LearningDelivery
+                        new FM35_LearningDelivery
                         {
                             FundLine = "FundLine1",
                             AimSeqNumber = 1,
                             LearnRefNumber = "10000000Learner1",
-                            Fm35LearningDeliveryPeriodisedValues = new List<Fm35LearningDeliveryPeriodisedValue>
+                            FM35_LearningDelivery_PeriodisedValues = new List<FM35_LearningDelivery_PeriodisedValue>
                             {
-                                new Fm35LearningDeliveryPeriodisedValue
+                                new FM35_LearningDelivery_PeriodisedValue
                                 {
                                     AttributeName = "Attribute1",
-                                    Period1 = 10,
-                                    Period2 = 20,
-                                    Period3 = 30,
-                                    Period4 = 40
+                                    Period_1 = 10,
+                                    Period_2 = 20,
+                                    Period_3 = 30,
+                                    Period_4 = 40
                                 }
                             }
                         }
                     }
                 },
-                new Fm35Learner
+                new FM35_Learner
                 {
-                    Ukprn = 10000001,
+                    UKPRN = 10000001,
                     LearnRefNumber = "10000001Learner2",
-                    Fm35LearningDeliveries = new List<Fm35LearningDelivery>
+                    FM35_LearningDeliveries = new List<FM35_LearningDelivery>
                     {
-                        new Fm35LearningDelivery
+                        new FM35_LearningDelivery
                         {
                             FundLine = "FundLine1",
                             AimSeqNumber = 1,
-                            Fm35LearningDeliveryPeriodisedValues = new List<Fm35LearningDeliveryPeriodisedValue>
+                            FM35_LearningDelivery_PeriodisedValues = new List<FM35_LearningDelivery_PeriodisedValue>
                             {
-                                new Fm35LearningDeliveryPeriodisedValue
+                                new FM35_LearningDelivery_PeriodisedValue
                                 {
                                     AttributeName = "Attribute1",
-                                    Period1 = 10,
-                                    Period2 = 20,
-                                    Period3 = 30,
-                                    Period4 = 40
+                                    Period_1 = 10,
+                                    Period_2 = 20,
+                                    Period_3 = 30,
+                                    Period_4 = 40
                                 }
                             }
                         }
                     }
                 },
-                new Fm35Learner
+                new FM35_Learner
                 {
-                    Ukprn = 10000002,
+                    UKPRN = 10000002,
                     LearnRefNumber = "10000002Learner2",
-                    Fm35LearningDeliveries = new List<Fm35LearningDelivery>
+                    FM35_LearningDeliveries = new List<FM35_LearningDelivery>
                     {
-                        new Fm35LearningDelivery
+                        new FM35_LearningDelivery
                         {
                             FundLine = "FundLine1",
                             AimSeqNumber = 1,
-                            Fm35LearningDeliveryPeriodisedValues = new List<Fm35LearningDeliveryPeriodisedValue>
+                            FM35_LearningDelivery_PeriodisedValues = new List<FM35_LearningDelivery_PeriodisedValue>
                             {
-                                new Fm35LearningDeliveryPeriodisedValue
+                                new FM35_LearningDelivery_PeriodisedValue
                                 {
                                     AttributeName = "Attribute1",
-                                    Period1 = 10,
-                                    Period2 = 20,
-                                    Period3 = 30,
-                                    Period4 = 40
+                                    Period_1 = 10,
+                                    Period_2 = 20,
+                                    Period_3 = 30,
+                                    Period_4 = 40
                                 }
                             }
                         }
@@ -262,7 +262,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
 
             var ilrMock = new Mock<IIlr1819RulebaseContext>();
             ilrMock
-                .Setup(s => s.Fm35Learners)
+                .Setup(s => s.FM35_Learners)
                 .Returns(fm35Learners.Object);
 
             var service = new Fm35Repository(ilrMock.Object);
@@ -279,52 +279,52 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
         [Fact]
         public async Task RetrieveSingleFm35ProviderByUkprnTest()
         {
-            var fm35Learners = new List<Fm35Learner>
+            var fm35Learners = new List<FM35_Learner>
             {
-                new Fm35Learner
+                new FM35_Learner
                 {
-                    Ukprn = 10000000,
+                    UKPRN = 10000000,
                     LearnRefNumber = "10000000Learner1",
-                    Fm35LearningDeliveries = new List<Fm35LearningDelivery>
+                    FM35_LearningDeliveries = new List<FM35_LearningDelivery>
                     {
-                        new Fm35LearningDelivery
+                        new FM35_LearningDelivery
                         {
                             FundLine = "FundLine1",
                             AimSeqNumber = 1,
                             LearnRefNumber = "10000000Learner1",
-                            Fm35LearningDeliveryPeriodisedValues = new List<Fm35LearningDeliveryPeriodisedValue>
+                            FM35_LearningDelivery_PeriodisedValues = new List<FM35_LearningDelivery_PeriodisedValue>
                             {
-                                new Fm35LearningDeliveryPeriodisedValue
+                                new FM35_LearningDelivery_PeriodisedValue
                                 {
                                     AttributeName = "Attribute1",
-                                    Period1 = 10,
-                                    Period2 = 20,
-                                    Period3 = 30,
-                                    Period4 = 40
+                                    Period_1 = 10,
+                                    Period_2 = 20,
+                                    Period_3 = 30,
+                                    Period_4 = 40
                                 }
                             }
                         }
                     }
                 },
-                new Fm35Learner
+                new FM35_Learner
                 {
-                    Ukprn = 10000001,
+                    UKPRN = 10000001,
                     LearnRefNumber = "10000001Learner1",
-                    Fm35LearningDeliveries = new List<Fm35LearningDelivery>
+                    FM35_LearningDeliveries = new List<FM35_LearningDelivery>
                     {
-                        new Fm35LearningDelivery
+                        new FM35_LearningDelivery
                         {
                             FundLine = "FundLine1",
                             AimSeqNumber = 1,
-                            Fm35LearningDeliveryPeriodisedValues = new List<Fm35LearningDeliveryPeriodisedValue>
+                            FM35_LearningDelivery_PeriodisedValues = new List<FM35_LearningDelivery_PeriodisedValue>
                             {
-                                new Fm35LearningDeliveryPeriodisedValue
+                                new FM35_LearningDelivery_PeriodisedValue
                                 {
                                     AttributeName = "Attribute1",
-                                    Period1 = 10,
-                                    Period2 = 20,
-                                    Period3 = 30,
-                                    Period4 = 40
+                                    Period_1 = 10,
+                                    Period_2 = 20,
+                                    Period_3 = 30,
+                                    Period_4 = 40
                                 }
                             }
                         }
@@ -334,7 +334,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
 
             var ilrMock = new Mock<IIlr1819RulebaseContext>();
             ilrMock
-                .Setup(s => s.Fm35Learners)
+                .Setup(s => s.FM35_Learners)
                 .Returns(fm35Learners.Object);
 
             var service = new Fm35Repository(ilrMock.Object);
@@ -362,7 +362,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
         //[InlineData(1000, 1000)] out of memory exception
         public async Task CreateBulkMockFm35LearnerData(int numOfProviders, int learnersPerProvider)
         {
-            var learners = new List<Fm35Learner>();
+            var learners = new List<FM35_Learner>();
 
             for (int i = 0; i < numOfProviders; i++)
             {
@@ -372,51 +372,51 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
                 {
                     var learnRefNumber = $"{ukprn}Learner{l}";
 
-                    learners.Add(new Fm35Learner
+                    learners.Add(new FM35_Learner
                     {
 
-                        Ukprn = ukprn,
+                        UKPRN = ukprn,
                         LearnRefNumber = learnRefNumber,
-                        Fm35LearningDeliveries = new List<Fm35LearningDelivery>
+                        FM35_LearningDeliveries = new List<FM35_LearningDelivery>
                         {
-                            new Fm35LearningDelivery
+                            new FM35_LearningDelivery
                             {
                                 FundLine = $"FundLine{i}",
                                 AimSeqNumber = 1,
                                 LearnRefNumber = learnRefNumber,
-                                Fm35LearningDeliveryPeriodisedValues = new List<Fm35LearningDeliveryPeriodisedValue>
+                                FM35_LearningDelivery_PeriodisedValues = new List<FM35_LearningDelivery_PeriodisedValue>
                                 {
-                                    new Fm35LearningDeliveryPeriodisedValue
+                                    new FM35_LearningDelivery_PeriodisedValue
                                     {
                                         AttributeName = "Attribute1",
-                                        Period1 = 10,
-                                        Period2 = 20,
-                                        Period3 = 30,
-                                        Period4 = 40,
-                                        Period5 = 50,
-                                        Period6 = 60,
-                                        Period7 = 70,
-                                        Period8 = 80,
-                                        Period9 = 90,
-                                        Period10 = 100,
-                                        Period11 = 110,
-                                        Period12 = 120
+                                        Period_1 = 10,
+                                        Period_2 = 20,
+                                        Period_3 = 30,
+                                        Period_4 = 40,
+                                        Period_5 = 50,
+                                        Period_6 = 60,
+                                        Period_7 = 70,
+                                        Period_8 = 80,
+                                        Period_9 = 90,
+                                        Period_10 = 100,
+                                        Period_11 = 110,
+                                        Period_12 = 120
                                     },
-                                    new Fm35LearningDeliveryPeriodisedValue
+                                    new FM35_LearningDelivery_PeriodisedValue
                                     {
                                         AttributeName = "Attribute2",
-                                        Period1 = 10,
-                                        Period2 = 20,
-                                        Period3 = 30,
-                                        Period4 = 40,
-                                        Period5 = 50,
-                                        Period6 = 60,
-                                        Period7 = 70,
-                                        Period8 = 80,
-                                        Period9 = 90,
-                                        Period10 = 100,
-                                        Period11 = 110,
-                                        Period12 = 120
+                                        Period_1 = 10,
+                                        Period_2 = 20,
+                                        Period_3 = 30,
+                                        Period_4 = 40,
+                                        Period_5 = 50,
+                                        Period_6 = 60,
+                                        Period_7 = 70,
+                                        Period_8 = 80,
+                                        Period_9 = 90,
+                                        Period_10 = 100,
+                                        Period_11 = 110,
+                                        Period_12 = 120
                                     },
                                 }
                             }
@@ -429,7 +429,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
 
             var ilrMock = new Mock<IIlr1819RulebaseContext>();
             ilrMock
-                .Setup(s => s.Fm35Learners)
+                .Setup(s => s.FM35_Learners)
                 .Returns(learnersMock.Object);
 
             var service = new Fm35Repository(ilrMock.Object);
