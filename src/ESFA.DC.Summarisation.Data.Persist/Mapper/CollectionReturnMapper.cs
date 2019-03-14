@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
+﻿using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
 using ESFA.DC.Summarisation.Model;
 
 namespace ESFA.DC.Summarisation.Data.Persist.Mapper
@@ -15,7 +12,7 @@ namespace ESFA.DC.Summarisation.Data.Persist.Mapper
                 CollectionReturnCode = collectionReturn.CollectionReturnCode,
                 CollectionType = collectionReturn.CollectionType,
                 Id = collectionReturn.Id
-            }
+            };
         }
     }
 }
