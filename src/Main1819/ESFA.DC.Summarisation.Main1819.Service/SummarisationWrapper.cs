@@ -1,5 +1,6 @@
 ﻿using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
+using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.output.Model;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
@@ -21,18 +22,21 @@ namespace ESFA.DC.Summarisation.Main1819.Service
         private readonly ISummarisationService _summarisationService;
         private readonly IStaticDataProvider<FundingType> _fundingTypesProvider;
         private readonly IStaticDataProvider<CollectionPeriod> _collectionPeriodsProvider;
+        private readonly ISummarisationMessage _summarisationMessage;
 
         public SummarisationWrapper(IFcsRepository fcsRepository,
                                     IStaticDataProvider<FundingType> fundingTypesProvider,
                                     IStaticDataProvider<CollectionPeriod> collectionPeriodsProvider,
                                     ICollection<IProviderRepository> repositories,
-                                    ISummarisationService summarisationService)
+                                    ISummarisationService summarisationService,
+                                    ISummarisationMessage summarisationMessage)
         {
             _fundingTypesProvider = fundingTypesProvider;
             _fcsRepository = fcsRepository;
             _repositories = repositories;
             _summarisationService = summarisationService;
-            _collectionPeriodsProvider = collectionPeriodsProvider;            
+            _collectionPeriodsProvider = collectionPeriodsProvider;
+            _summarisationMessage = summarisationMessage;
         }
 
         public async Task Summarise(IEnumerable<string> fundModels, CancellationToken cancellationToken)

@@ -47,9 +47,11 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var collectionPeriods = collectionPeriodsProvider.Provide().ToList();
 
+            ISummarisationMessage summarisationMessage = new SummarisationMessage() { CollectionType = "ILR1819", CollectionReturnCode = "R01" };
+
             ISummarisationService summarisationService = new SummarisationService();
 
-            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService);
+            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService, summarisationMessage);
             var result = await wrapper.SummariseProviders(fundingStreams, repositoryMock.Object, collectionPeriods, GetContractAllocations(null), cancellationToken);
 
             foreach (var ukprn in GetTestProviders())
@@ -114,12 +116,15 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var collectionPeriods = collectionPeriodsProvider.Provide().ToList();
 
+            ISummarisationMessage summarisationMessage = new SummarisationMessage() { CollectionType = "ILR1819", CollectionReturnCode = "R01" };
+
             ISummarisationService summarisationService = new SummarisationService();
 
             var fspCodes = new HashSet<string>();
            
 
-            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService);
+            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService, summarisationMessage);
+
             var result = await wrapper.SummariseProviders(fundingStreams, repositoryMock.Object, collectionPeriods, GetContractAllocations(fspCodes), cancellationToken);
 
 
