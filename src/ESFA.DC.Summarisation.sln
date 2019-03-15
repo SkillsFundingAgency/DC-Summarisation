@@ -45,6 +45,8 @@ Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "ESFA.DC.Summarisation", "ES
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.Summarisation.Stateless", "ESFA.DC.Summarisation.Stateless\ESFA.DC.Summarisation.Stateless.csproj", "{8DEA5200-6C7A-412B-A9F7-A3C521CB800A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.Summarisation.Modules", "ESFA.DC.Summarisation.Modules\ESFA.DC.Summarisation.Modules.csproj", "{E90DB834-3D93-4976-9B2B-38E0455AF3FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -183,6 +185,14 @@ Global
 		{8DEA5200-6C7A-412B-A9F7-A3C521CB800A}.Release|Any CPU.ActiveCfg = Release|x64
 		{8DEA5200-6C7A-412B-A9F7-A3C521CB800A}.Release|x64.ActiveCfg = Release|x64
 		{8DEA5200-6C7A-412B-A9F7-A3C521CB800A}.Release|x64.Build.0 = Release|x64
+		{E90DB834-3D93-4976-9B2B-38E0455AF3FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E90DB834-3D93-4976-9B2B-38E0455AF3FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E90DB834-3D93-4976-9B2B-38E0455AF3FC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E90DB834-3D93-4976-9B2B-38E0455AF3FC}.Debug|x64.Build.0 = Debug|Any CPU
+		{E90DB834-3D93-4976-9B2B-38E0455AF3FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E90DB834-3D93-4976-9B2B-38E0455AF3FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E90DB834-3D93-4976-9B2B-38E0455AF3FC}.Release|x64.ActiveCfg = Release|Any CPU
+		{E90DB834-3D93-4976-9B2B-38E0455AF3FC}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
