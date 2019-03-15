@@ -78,7 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ESFA.DC.Serialization.Json">
-      <Version>0.1.5-beta0001</Version>
+      <Version>0.1.6-beta0001</Version>
     </PackageReference>
     <PackageReference Include="FluentAssertions">
       <Version>5.6.0</Version>
