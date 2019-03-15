@@ -39,6 +39,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.Summarisation.Data.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.Summarisation.Data.Persist.Tests", "ESFA.DC.Summarisation.Data.Persist.Tests\ESFA.DC.Summarisation.Data.Persist.Tests.csproj", "{6FFCC44C-DED4-4D9F-9CB5-381AD0C131A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.Summarisation.Console", "ESFA.DC.Summarisation.Console\ESFA.DC.Summarisation.Console.csproj", "{84347C0F-7563-498A-9A62-03C39AB32FF1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{6FFCC44C-DED4-4D9F-9CB5-381AD0C131A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FFCC44C-DED4-4D9F-9CB5-381AD0C131A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FFCC44C-DED4-4D9F-9CB5-381AD0C131A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84347C0F-7563-498A-9A62-03C39AB32FF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84347C0F-7563-498A-9A62-03C39AB32FF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84347C0F-7563-498A-9A62-03C39AB32FF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84347C0F-7563-498A-9A62-03C39AB32FF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

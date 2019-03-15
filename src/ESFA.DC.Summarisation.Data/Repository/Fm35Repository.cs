@@ -77,7 +77,7 @@ namespace ESFA.DC.Summarisation.Data.Repository
                                     .Select(group => new PeriodisedData
                                     {
                                         AttributeName = group.Key,
-                                        Periods = group.SelectMany(UnflattenToPeriod).ToList()
+                                        Periods = group.SelectMany(pd => UnflattenToPeriod(pd)).ToList()
                                     } as IPeriodisedData).ToList()
                             } as ILearningDelivery
                         )).ToList()

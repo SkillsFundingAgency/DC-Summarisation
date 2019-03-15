@@ -1,5 +1,6 @@
 ﻿using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
+using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Output.Model;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
@@ -43,8 +44,9 @@ namespace ESFA.DC.Summarisation.Main1819.Service
             _summarisedActualsConnectingString = summarisedActualsConnectionString;
         }
 
-        public async Task Summarise(IEnumerable<string> fundModels, CancellationToken cancellationToken)
+        public async Task Summarise(IEnumerable<string> fundModels, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
+           
             var collectionPeriods = _collectionPeriodsProvider.Provide();
 
             var fcsContractAllocations = await _fcsRepository.RetrieveAsync(cancellationToken);
@@ -52,13 +54,29 @@ namespace ESFA.DC.Summarisation.Main1819.Service
 
             foreach(var fundModel in fundModels)
             {
-                actuals.AddRange(await SummariseByFundModel(fundModel, collectionPeriods, fcsContractAllocations, cancellationToken));
+                await SummariseByFundModel(fundModel, collectionPeriods, fcsContractAllocations, cancellationToken);
             }
 
             // TODO Needs changing to pass through the collection return
             var collectionReturn = await _dataStorePersistenceService.StoreCollectionReturnAsync(new CollectionReturn(), cancellationToken);
 
             await _dataStorePersistenceService.StoreSummarisedActualsDataAsync(actuals, collectionReturn, _summarisedActualsConnectingString, cancellationToken);
+        }
+
+        public async Task<IEnumerable<SummarisedActual>> Summarise(IEnumerable<string> fundModels, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken, bool test)
+        {
+            var collectionPeriods = _collectionPeriodsProvider.Provide();
+
+            var fcsContractAllocations = await _fcsRepository.RetrieveAsync(cancellationToken);
+
+            var returnList = new List<SummarisedActual>();
+
+            foreach (var fundModel in fundModels)
+            {
+                returnList.AddRange(await SummariseByFundModel(fundModel, collectionPeriods, fcsContractAllocations, cancellationToken));
+            }
+
+            return returnList;
         }
 
         private async Task<IEnumerable<SummarisedActual>> SummariseByFundModel(

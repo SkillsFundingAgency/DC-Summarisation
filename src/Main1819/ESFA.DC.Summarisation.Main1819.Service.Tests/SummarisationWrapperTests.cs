@@ -51,6 +51,8 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var collectionPeriods = collectionPeriodsProvider.Provide().ToList();
 
+            ISummarisationMessage summarisationMessage = new SummarisationMessage() { CollectionType = "ILR1819", CollectionReturnCode = "R01" };
+
             ISummarisationService summarisationService = new SummarisationService();
 
             var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService, dataStorePersistenceServiceMock.Object, connectionString);
@@ -118,6 +120,8 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             var collectionPeriodsProvider = new CollectionPeriodsProvider(new JsonSerializationService());
 
             var collectionPeriods = collectionPeriodsProvider.Provide().ToList();
+
+            ISummarisationMessage summarisationMessage = new SummarisationMessage() { CollectionType = "ILR1819", CollectionReturnCode = "R01" };
 
             ISummarisationService summarisationService = new SummarisationService();
 
