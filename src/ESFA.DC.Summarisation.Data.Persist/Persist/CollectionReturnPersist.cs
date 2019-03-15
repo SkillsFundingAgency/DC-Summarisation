@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
 using ESFA.DC.Summarisation.Data.Persist.Persist.Interface;
 using ESFA.DC.Summarisation.Model;
@@ -16,9 +17,9 @@ namespace ESFA.DC.Summarisation.Data.Persist.Persist
             _summarisationContext = summarisationContext;
         }
 
-        public async Task<CollectionReturn> Save(Output.Model.CollectionReturn collectionReturn, CancellationToken cancellationToken)
+        public async Task<CollectionReturn> Save(ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
-            var mappedCollectionReturn = _collectionReturnMapper.MapCollectionReturn(collectionReturn);
+            var mappedCollectionReturn = _collectionReturnMapper.MapCollectionReturn(summarisationMessage);
             await _summarisationContext.AddAsync(mappedCollectionReturn, cancellationToken);
             await _summarisationContext.SaveChangesAsync(cancellationToken);
 

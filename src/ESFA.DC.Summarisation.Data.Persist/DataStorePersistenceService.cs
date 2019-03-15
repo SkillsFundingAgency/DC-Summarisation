@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Persist.Persist.Interface;
 using ESFA.DC.Summarisation.Model;
 
@@ -18,8 +19,8 @@ namespace ESFA.DC.Summarisation.Data.Persist
             _collectionReturnPersist = collectionReturnPersist;
         }
 
-        public async Task<CollectionReturn> StoreCollectionReturnAsync(Output.Model.CollectionReturn collectionReturn, CancellationToken cancellationToken)
-            => await _collectionReturnPersist.Save(collectionReturn, cancellationToken);
+        public async Task<CollectionReturn> StoreCollectionReturnAsync(ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+            => await _collectionReturnPersist.Save(summarisationMessage, cancellationToken);
 
         public async Task StoreSummarisedActualsDataAsync(IList<Output.Model.SummarisedActual> summarisedActuals, CollectionReturn collectionReturn, SqlConnection sqlConnection, CancellationToken cancellationToken)
             => await _summarisedActualsPersist.Save(summarisedActuals, collectionReturn, cancellationToken);
