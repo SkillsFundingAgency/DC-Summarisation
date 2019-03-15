@@ -5,9 +5,11 @@ using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.Summarisation.Data.Persist;
 using DestinationModel = ESFA.DC.Summarisation.Model;
 
 namespace ESFA.DC.Summarisation.Main1819.Service
@@ -21,18 +23,24 @@ namespace ESFA.DC.Summarisation.Main1819.Service
         private readonly ISummarisationService _summarisationService;
         private readonly IStaticDataProvider<FundingType> _fundingTypesProvider;
         private readonly IStaticDataProvider<CollectionPeriod> _collectionPeriodsProvider;
+        private readonly IDataStorePersistenceService _dataStorePersistenceService;
+        private readonly SqlConnection _summarisedActualsConnectingString;
 
         public SummarisationWrapper(IFcsRepository fcsRepository,
                                     IStaticDataProvider<FundingType> fundingTypesProvider,
                                     IStaticDataProvider<CollectionPeriod> collectionPeriodsProvider,
                                     ICollection<IProviderRepository> repositories,
-                                    ISummarisationService summarisationService)
+                                    ISummarisationService summarisationService,
+                                    IDataStorePersistenceService dataStorePersistenceService,
+                                    SqlConnection summarisedActualsConnectionString)
         {
             _fundingTypesProvider = fundingTypesProvider;
             _fcsRepository = fcsRepository;
             _repositories = repositories;
             _summarisationService = summarisationService;
-            _collectionPeriodsProvider = collectionPeriodsProvider;            
+            _collectionPeriodsProvider = collectionPeriodsProvider;
+            _dataStorePersistenceService = dataStorePersistenceService;
+            _summarisedActualsConnectingString = summarisedActualsConnectionString;
         }
 
         public async Task Summarise(IEnumerable<string> fundModels, CancellationToken cancellationToken)
@@ -40,14 +48,20 @@ namespace ESFA.DC.Summarisation.Main1819.Service
             var collectionPeriods = _collectionPeriodsProvider.Provide();
 
             var fcsContractAllocations = await _fcsRepository.RetrieveAsync(cancellationToken);
+            var actuals = new List<SummarisedActual>();
 
             foreach(var fundModel in fundModels)
             {
-                SummariseByFundModel(fundModel, collectionPeriods, fcsContractAllocations, cancellationToken);
+                actuals.AddRange(await SummariseByFundModel(fundModel, collectionPeriods, fcsContractAllocations, cancellationToken));
             }
+
+            // TODO Needs changing to pass through the collection return
+            var collectionReturn = await _dataStorePersistenceService.StoreCollectionReturnAsync(new CollectionReturn(), cancellationToken);
+
+            await _dataStorePersistenceService.StoreSummarisedActualsDataAsync(actuals, collectionReturn, _summarisedActualsConnectingString, cancellationToken);
         }
 
-        private async void SummariseByFundModel(
+        private async Task<IEnumerable<SummarisedActual>> SummariseByFundModel(
             string fundModel,
             IEnumerable<CollectionPeriod> collectionPeriods,
             IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations,
@@ -56,7 +70,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service
             var fundingStreams = _fundingTypesProvider.Provide().SelectMany(x => x.FundingStreams.Where(y => y.FundModel.ToString() == fundModel)).ToList();
             var repository = _repositories.FirstOrDefault(r => r.FundModel == fundModel);
 
-            var actuals = await SummariseProviders(fundingStreams, repository, collectionPeriods, fcsContractAllocations, cancellationToken);
+            return await SummariseProviders(fundingStreams, repository, collectionPeriods, fcsContractAllocations, cancellationToken);
         }
 
         public async Task<IEnumerable<SummarisedActual>> SummariseProviders(

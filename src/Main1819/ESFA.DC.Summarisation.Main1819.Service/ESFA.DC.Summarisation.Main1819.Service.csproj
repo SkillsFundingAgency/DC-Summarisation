@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Tasks\**" />
+    <EmbeddedResource Remove="Tasks\**" />
+    <None Remove="Tasks\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="JsonFiles\CollectionPeriods.json" />
     <None Remove="JsonFiles\FundingTypes.json" />
   </ItemGroup>
@@ -18,7 +24,6 @@
 
   <ItemGroup>
     <Folder Include="Config\Interface\" />
-    <Folder Include="Tasks\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +33,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Configuration\ESFA.DC.Summarisation.Configuration.csproj" />
+    <ProjectReference Include="..\..\ESFA.DC.Summarisation.Data.Persist\ESFA.DC.Summarisation.Data.Persist.csproj" />
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Data\ESFA.DC.Summarisation.Data.csproj" />
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Interfaces\ESFA.DC.Summarisation.Interfaces.csproj" />
   </ItemGroup>

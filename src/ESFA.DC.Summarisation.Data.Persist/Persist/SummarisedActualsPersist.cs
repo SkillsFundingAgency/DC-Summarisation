@@ -15,19 +15,17 @@ namespace ESFA.DC.Summarisation.Data.Persist.Persist
         private readonly IBulkInsert _bulkInsert;
         private readonly SqlConnection _sqlConnection;
         private readonly ISummarisedActualsMapper _summarisedActualsMapper;
-        private readonly CollectionReturn _collectionReturn;
 
-        public SummarisedActualsPersist(IBulkInsert bulkInsert, SqlConnection sqlConnection, ISummarisedActualsMapper summarisedActualsMapper, CollectionReturn collectionReturn)
+        public SummarisedActualsPersist(IBulkInsert bulkInsert, SqlConnection sqlConnection, ISummarisedActualsMapper summarisedActualsMapper)
         {
             _bulkInsert = bulkInsert;
             _sqlConnection = sqlConnection;
             _summarisedActualsMapper = summarisedActualsMapper;
-            _collectionReturn = collectionReturn;
         }
 
-        public async Task Save(IList<Output.Model.SummarisedActual> summarisedActuals, CancellationToken cancellationToken)
+        public async Task Save(IList<Output.Model.SummarisedActual> summarisedActuals, CollectionReturn collectionReturn, CancellationToken cancellationToken)
         {
-            var summarisedActualsMapped = _summarisedActualsMapper.MapSummarisedActuals(summarisedActuals, _collectionReturn);
+            var summarisedActualsMapped = _summarisedActualsMapper.MapSummarisedActuals(summarisedActuals, collectionReturn);
 
             await _bulkInsert.Insert(SummarisedActualsConstants.SummarisedActuals, summarisedActualsMapped, _sqlConnection, cancellationToken);
         }

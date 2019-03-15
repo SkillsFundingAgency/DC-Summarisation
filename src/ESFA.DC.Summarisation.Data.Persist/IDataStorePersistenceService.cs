@@ -10,6 +10,6 @@ namespace ESFA.DC.Summarisation.Data.Persist
     {
         Task<CollectionReturn> StoreCollectionReturnAsync(Output.Model.CollectionReturn collectionReturn, CancellationToken cancellationToken);
 
-        Task StoreSummarisedActualsDataAsync(IList<Output.Model.SummarisedActual> summarisedActuals, SqlConnection sqlConnection, CancellationToken cancellationToken);
+        Task StoreSummarisedActualsDataAsync(IList<Output.Model.SummarisedActual> summarisedActuals, CollectionReturn collectionReturn, SqlConnection sqlConnection, CancellationToken cancellationToken);
     }
 }
