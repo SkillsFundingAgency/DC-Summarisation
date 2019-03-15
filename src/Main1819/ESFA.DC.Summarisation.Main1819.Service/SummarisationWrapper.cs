@@ -1,14 +1,16 @@
 ﻿using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.Input.Interface;
-using ESFA.DC.Summarisation.Data.output.Model;
+using ESFA.DC.Summarisation.Data.Output.Model;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.Summarisation.Data.Persist;
 using DestinationModel = ESFA.DC.Summarisation.Model;
 
 namespace ESFA.DC.Summarisation.Main1819.Service
@@ -22,19 +24,24 @@ namespace ESFA.DC.Summarisation.Main1819.Service
         private readonly ISummarisationService _summarisationService;
         private readonly IStaticDataProvider<FundingType> _fundingTypesProvider;
         private readonly IStaticDataProvider<CollectionPeriod> _collectionPeriodsProvider;
+        private readonly IDataStorePersistenceService _dataStorePersistenceService;
+        private readonly SqlConnection _summarisedActualsConnectingString;
 
         public SummarisationWrapper(IFcsRepository fcsRepository,
                                     IStaticDataProvider<FundingType> fundingTypesProvider,
                                     IStaticDataProvider<CollectionPeriod> collectionPeriodsProvider,
                                     ICollection<IProviderRepository> repositories,
-                                    ISummarisationService summarisationService)
+                                    ISummarisationService summarisationService,
+                                    IDataStorePersistenceService dataStorePersistenceService,
+                                    SqlConnection summarisedActualsConnectionString)
         {
             _fundingTypesProvider = fundingTypesProvider;
             _fcsRepository = fcsRepository;
             _repositories = repositories;
             _summarisationService = summarisationService;
             _collectionPeriodsProvider = collectionPeriodsProvider;
-           
+            _dataStorePersistenceService = dataStorePersistenceService;
+            _summarisedActualsConnectingString = summarisedActualsConnectionString;
         }
 
         public async Task Summarise(IEnumerable<string> fundModels, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
@@ -43,11 +50,17 @@ namespace ESFA.DC.Summarisation.Main1819.Service
             var collectionPeriods = _collectionPeriodsProvider.Provide();
 
             var fcsContractAllocations = await _fcsRepository.RetrieveAsync(cancellationToken);
+            var actuals = new List<SummarisedActual>();
 
             foreach(var fundModel in fundModels)
             {
-                await SummariseByFundModel(fundModel, collectionPeriods, fcsContractAllocations, cancellationToken);
+                actuals.AddRange(await SummariseByFundModel(fundModel, collectionPeriods, fcsContractAllocations, cancellationToken));
             }
+
+
+            var collectionReturn = await _dataStorePersistenceService.StoreCollectionReturnAsync(summarisationMessage, cancellationToken);
+
+            await _dataStorePersistenceService.StoreSummarisedActualsDataAsync(actuals, collectionReturn, _summarisedActualsConnectingString, cancellationToken);
         }
 
         public async Task<IEnumerable<SummarisedActual>> Summarise(IEnumerable<string> fundModels, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken, bool test)

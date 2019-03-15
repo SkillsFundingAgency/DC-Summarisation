@@ -5,7 +5,6 @@ using ESFA.DC.ReferenceData.FCS.Model.Interface;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.Configuration;
-using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Data.Population.Service;
 using ESFA.DC.Summarisation.Data.Repository;
@@ -14,13 +13,17 @@ using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Main1819.Service;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
+using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.Summarisation.Data.Persist;
+using ESFA.DC.Summarisation.Data.Persist.BulkInsert;
+using ESFA.DC.Summarisation.Data.Persist.Mapper;
+using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
+using ESFA.DC.Summarisation.Data.Persist.Persist;
+using ESFA.DC.Summarisation.Data.Persist.Persist.Interface;
+using ESFA.DC.Summarisation.Model;
 
 namespace ESFA.DC.Summarisation.Console
 {
@@ -35,13 +38,18 @@ namespace ESFA.DC.Summarisation.Console
         {
             string fcsConnectionString = @"Server=(local);Database=FCS;Trusted_Connection=True;";
             string ilrConnectionString = @"Server=(local);Database=ILR1819DataStore;Trusted_Connection=True;";
+            string summarisedActualsConnectionString = @"Server=(local);Database=SummarisedActuals;Trusted_Connection=True;";
 
             DbContextOptions<FcsContext> fcsdbContextOptions = new DbContextOptionsBuilder<FcsContext>().UseSqlServer(fcsConnectionString).Options;
             DbContextOptions<ILR1819_DataStoreEntities> ilrdbContextOptions = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>().UseSqlServer(ilrConnectionString).Options;
 
+            DbContextOptions<SummarisationContext> summarisationDbContextOptions = new DbContextOptionsBuilder<SummarisationContext>().UseSqlServer(summarisedActualsConnectionString).Options;
+
             IFcsContext fcsContext = new FcsContext(fcsdbContextOptions);
 
             IFcsRepository fcsRepository = new FcsRepository(fcsContext);
+
+            SummarisationContext summarisationContext = new SummarisationContext(summarisationDbContextOptions);
 
             IJsonSerializationService jsonSerializationService = new JsonSerializationService();
 
@@ -55,19 +63,28 @@ namespace ESFA.DC.Summarisation.Console
 
             ISummarisationService summarisationService = new SummarisationService();
 
-            var summarisationMessage = new SummarisationMessage() { CollectionType = "ILR1819", CollectionReturnCode = "R01" };
+            IBulkInsert bulkInsert = new BulkInsert();
+            ISummarisedActualsMapper summarisedActualsMapper = new SummarisedActualsMapper();
+            ISummarisedActualsPersist summarisedActualsPersist = new SummarisedActualsPersist(bulkInsert, new SqlConnection(summarisedActualsConnectionString), summarisedActualsMapper);
+
+            ICollectionReturnMapper collectionReturnMapper = new CollectionReturnMapper();
+            ICollectionReturnPersist collectionReturnPersist = new CollectionReturnPersist(collectionReturnMapper, summarisationContext);
+
+            IDataStorePersistenceService dataStorePersistenceService = new DataStorePersistenceService(summarisedActualsPersist, collectionReturnPersist);
+
+            var summarisationMessage = new SummarisationMessage { CollectionType = "ILR1819", CollectionReturnCode = "R01" };
         
             SummarisationWrapper wrapper = new SummarisationWrapper(fcsRepository,
-                                      fundingTypesProvider,
-                                     collectionPeriodsProvider,
-                                     repositories,
-                                    summarisationService);
+                fundingTypesProvider,
+                collectionPeriodsProvider,
+                repositories,
+                summarisationService,
+                dataStorePersistenceService,
+                new SqlConnection(summarisedActualsConnectionString));
 
             List<string> fundModels = new List<string> { "FM35" };
 
             var result = await wrapper.Summarise(fundModels, summarisationMessage, CancellationToken.None, false);
-
-
         }
     }
 }

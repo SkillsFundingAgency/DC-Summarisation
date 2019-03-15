@@ -35,6 +35,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.Summarisation.Data.Persist", "ESFA.DC.Summarisation.Data.Persist\ESFA.DC.Summarisation.Data.Persist.csproj", "{147D4B0C-4706-4DC9-A844-3F89E107C572}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.Summarisation.Data.Persist.Tests", "ESFA.DC.Summarisation.Data.Persist.Tests\ESFA.DC.Summarisation.Data.Persist.Tests.csproj", "{6FFCC44C-DED4-4D9F-9CB5-381AD0C131A5}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.Summarisation.Console", "ESFA.DC.Summarisation.Console\ESFA.DC.Summarisation.Console.csproj", "{84347C0F-7563-498A-9A62-03C39AB32FF1}"
 EndProject
 Global
@@ -89,6 +93,14 @@ Global
 		{8D110D18-72D5-477A-9D4E-BE6CB6DE9E42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D110D18-72D5-477A-9D4E-BE6CB6DE9E42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D110D18-72D5-477A-9D4E-BE6CB6DE9E42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{147D4B0C-4706-4DC9-A844-3F89E107C572}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{147D4B0C-4706-4DC9-A844-3F89E107C572}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{147D4B0C-4706-4DC9-A844-3F89E107C572}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{147D4B0C-4706-4DC9-A844-3F89E107C572}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FFCC44C-DED4-4D9F-9CB5-381AD0C131A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FFCC44C-DED4-4D9F-9CB5-381AD0C131A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FFCC44C-DED4-4D9F-9CB5-381AD0C131A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FFCC44C-DED4-4D9F-9CB5-381AD0C131A5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{84347C0F-7563-498A-9A62-03C39AB32FF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{84347C0F-7563-498A-9A62-03C39AB32FF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84347C0F-7563-498A-9A62-03C39AB32FF1}.Release|Any CPU.ActiveCfg = Release|Any CPU

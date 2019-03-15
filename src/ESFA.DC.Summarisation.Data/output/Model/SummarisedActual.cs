@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ESFA.DC.Summarisation.Data.output.Model
+namespace ESFA.DC.Summarisation.Data.Output.Model
 {
     public class SummarisedActual
     {
