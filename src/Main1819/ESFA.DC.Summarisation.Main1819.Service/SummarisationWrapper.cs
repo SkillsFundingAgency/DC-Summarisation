@@ -54,7 +54,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service
 
             foreach(var fundModel in fundModels)
             {
-                await SummariseByFundModel(fundModel, collectionPeriods, fcsContractAllocations, cancellationToken);
+                actuals.AddRange(await SummariseByFundModel(fundModel, collectionPeriods, fcsContractAllocations, cancellationToken));
             }
 
             // TODO Needs changing to pass through the collection return
