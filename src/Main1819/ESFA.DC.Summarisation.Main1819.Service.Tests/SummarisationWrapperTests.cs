@@ -2,6 +2,7 @@
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using Moq;
 using Xunit;
@@ -13,6 +14,7 @@ using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.External.FCS.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Serialization.Json;
+using ESFA.DC.Summarisation.Data.Persist;
 using FluentAssertions;
 
 namespace ESFA.DC.Summarisation.Main1819.Service.Tests
@@ -28,6 +30,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         {
             var cancellationToken = CancellationToken.None;
 ;
+            var connectionString = new SqlConnection();
             var repositoryMock = new Mock<IProviderRepository>();
             repositoryMock.Setup(r => r.RetrieveProvidersAsync(1, 1, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProvidersData(1, 1, lineType)));
             repositoryMock.Setup(r => r.RetrieveProvidersAsync(1, 2, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProvidersData(1, 2, lineType)));
@@ -35,10 +38,11 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             repositoryMock.Setup(r => r.RetrieveProviderPageCountAsync(1, It.IsAny<CancellationToken>())).Returns(Task.FromResult(3));
 
-            var providerRepositories = new List<IProviderRepository>();
-            providerRepositories.Add(repositoryMock.Object);
+            var providerRepositories = new List<IProviderRepository> { repositoryMock.Object };
 
             var fcsRepositoryMock = new Mock<IFcsRepository>();
+
+            var dataStorePersistenceServiceMock = new Mock<IDataStorePersistenceService>();
 
             var fundingTypesProvider = new FundingTypesProvider(new JsonSerializationService());
             var fundingStreams = fundingTypesProvider.Provide().SelectMany(x => x.FundingStreams.Where(y => y.FundModel == fundModel)).ToList();
@@ -51,40 +55,40 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             ISummarisationService summarisationService = new SummarisationService();
 
-            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService);
+            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService, dataStorePersistenceServiceMock.Object, connectionString);
             var result = await wrapper.SummariseProviders(fundingStreams, repositoryMock.Object, collectionPeriods, GetContractAllocations(null), cancellationToken);
 
             foreach (var ukprn in GetTestProviders())
             {
                 if (fundModel == FundModel.FM35)
                 {
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Count().Should().Be(12);
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 11 && s.ActualValue != 0).Count().Should().Be(12);
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 14 && s.ActualValue != 0).Count().Should().Be(12);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(12);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 11 && s.ActualValue != 0).Should().Be(12);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 14 && s.ActualValue != 0).Should().Be(12);
 
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Count().Should().Be(12);
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 5 && s.ActualValue != 0).Count().Should().Be(12);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(12);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 5 && s.ActualValue != 0).Should().Be(12);
 
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Count().Should().Be(12);
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 5 && s.ActualValue != 0).Count().Should().Be(12);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(12);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 5 && s.ActualValue != 0).Should().Be(12);
 
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Count().Should().Be(12);
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 12 && s.ActualValue != 0).Count().Should().Be(12);
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 15 && s.ActualValue != 0).Count().Should().Be(12);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Should().Be(12);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 12 && s.ActualValue != 0).Should().Be(12);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 15 && s.ActualValue != 0).Should().Be(12);
 
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Count().Should().Be(12);
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 6 && s.ActualValue != 0).Count().Should().Be(12);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Should().Be(12);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 6 && s.ActualValue != 0).Should().Be(12);
 
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Count().Should().Be(12);
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 6 && s.ActualValue != 0).Count().Should().Be(12);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Should().Be(12);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 6 && s.ActualValue != 0).Should().Be(12);
                 }
                 else if (fundModel == FundModel.ALB)
                 {
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLB1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Count().Should().Be(12);
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLBC1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Count().Should().Be(12);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLB1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Should().Be(12);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLBC1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Should().Be(12);
 
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLB1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Count().Should().Be(12);
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLBC1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Count().Should().Be(12);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLB1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(12);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLBC1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(12);
                 }
             }
 
@@ -104,10 +108,11 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             repositoryMock.Setup(r => r.RetrieveProviderPageCountAsync(1, It.IsAny<CancellationToken>())).Returns(Task.FromResult(3));
 
-            var providerRepositories = new List<IProviderRepository>();
-            providerRepositories.Add(repositoryMock.Object);
+            var providerRepositories = new List<IProviderRepository> { repositoryMock.Object };
 
             var fcsRepositoryMock = new Mock<IFcsRepository>();
+
+            var dataStorePersistenceService = new Mock<IDataStorePersistenceService>();
 
             var fundingTypesProvider = new FundingTypesProvider(new JsonSerializationService());
             var fundingStreams = fundingTypesProvider.Provide().SelectMany(x => x.FundingStreams.Where(y => y.FundModel == fundModel)).ToList();
@@ -123,8 +128,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             var fspCodes = new HashSet<string>();
            
 
-            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService);
-
+            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService, dataStorePersistenceService.Object, new SqlConnection());
             var result = await wrapper.SummariseProviders(fundingStreams, repositoryMock.Object, collectionPeriods, GetContractAllocations(fspCodes), cancellationToken);
 
 
@@ -132,33 +136,33 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             {
                 if (fundModel == FundModel.FM35)
                 {
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Count().Should().Be(0);
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 11 && s.ActualValue != 0).Count().Should().Be(0);
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 14 && s.ActualValue != 0).Count().Should().Be(0);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(0);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 11 && s.ActualValue != 0).Should().Be(0);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 14 && s.ActualValue != 0).Should().Be(0);
 
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Count().Should().Be(0);
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 5 && s.ActualValue != 0).Count().Should().Be(0);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(0);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 5 && s.ActualValue != 0).Should().Be(0);
 
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Count().Should().Be(0);
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 5 && s.ActualValue != 0).Count().Should().Be(0);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(0);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 5 && s.ActualValue != 0).Should().Be(0);
 
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Count().Should().Be(0);
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 12 && s.ActualValue != 0).Count().Should().Be(0);
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 15 && s.ActualValue != 0).Count().Should().Be(0);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Should().Be(0);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 12 && s.ActualValue != 0).Should().Be(0);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1819" && s.DeliverableCode == 15 && s.ActualValue != 0).Should().Be(0);
 
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Count().Should().Be(0);
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 6 && s.ActualValue != 0).Count().Should().Be(0);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Should().Be(0);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC1819" && s.DeliverableCode == 6 && s.ActualValue != 0).Should().Be(0);
 
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Count().Should().Be(0);
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 6 && s.ActualValue != 0).Count().Should().Be(0);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Should().Be(0);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-TOL1819" && s.DeliverableCode == 6 && s.ActualValue != 0).Should().Be(0);
                 }
                 else if (fundModel == FundModel.ALB)
                 {
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLB1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Count().Should().Be(0);
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLBC1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Count().Should().Be(0);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLB1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Should().Be(0);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLBC1819" && s.DeliverableCode == 3 && s.ActualValue != 0).Should().Be(0);
 
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLB1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Count().Should().Be(0);
-                    result.Where(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLBC1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Count().Should().Be(0);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLB1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(0);
+                    result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLBC1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(0);
                 }
             }
 
@@ -415,8 +419,6 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                 "APPS1819",
                 "CLP1819"
             };
-        }
-
-        
+        }      
     }
 }
