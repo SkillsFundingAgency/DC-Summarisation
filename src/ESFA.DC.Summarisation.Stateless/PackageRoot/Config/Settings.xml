@@ -12,7 +12,4 @@
     <Parameter Name="AuditMaxConcurrentCalls" Value="" />
     <Parameter Name="LoggerConnectionString" Value="" />
   </Section>
-  <Section  Name="ReferenceDataSection">
-    <Parameter Name="FCSConnectionString" Value="" />
-  </Section>
 </Settings>
