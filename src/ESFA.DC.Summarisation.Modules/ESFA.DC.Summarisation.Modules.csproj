@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.1" />
+    <PackageReference Include="ESFA.DC.ReferenceData.FCS.Model" Version="0.1.218" />
+    <PackageReference Include="ESFA.DC.Serialization.Json" Version="0.1.6-beta0001" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Main1819\ESFA.DC.Summarisation.Main1819.Service\ESFA.DC.Summarisation.Main1819.Service.csproj" />
+  </ItemGroup>
+
+</Project>
