@@ -2,7 +2,9 @@
 using ESFA.DC.JobContextManager.Interface;
 using ESFA.DC.JobContextManager.Model;
 using ESFA.DC.Logging.Interfaces;
+using ESFA.DC.Summarisation.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using ExecutionContext = ESFA.DC.Logging.ExecutionContext;
@@ -34,12 +36,15 @@ namespace ESFA.DC.Summarisation.Stateless
                     _logger.LogInfo($"Summarisation Task Starting");
 
                     // TODO:
+                    var summarisationWrapper = childLifetimeScope.Resolve<ISummarisationWrapper>();
+
+                    List<string> fundModels = new List<string> { "FM35" };
+
+                    await summarisationWrapper.Summarise(fundModels, null, cancellationToken);
 
                     _logger.LogInfo($"Summarisation Task  Finished");
 
-                   return true;
-
-
+                    return true;
                 }
             }
             catch (Exception exception)

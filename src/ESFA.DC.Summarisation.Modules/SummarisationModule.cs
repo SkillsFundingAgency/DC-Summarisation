@@ -20,7 +20,10 @@ using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Main1819.Service;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
+using ESFA.DC.Summarisation.Modules.Stubs;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Data.SqlClient;
 
 namespace ESFA.DC.Summarisation.Modules
 {
@@ -30,7 +33,7 @@ namespace ESFA.DC.Summarisation.Modules
         {
             var configHelper = new ConfigurationHelper();
 
-            var referenceDataOptions = configHelper.GetSectionValues<SummarisationDataOptions>("SummarisationSection");
+            var referenceDataOptions = configHelper.GetSectionValues<SummarisationDataOptions>("ReferenceDataSection");
             containerBuilder.RegisterInstance(referenceDataOptions).As<ISummarisationDataOptions>().SingleInstance();
 
             containerBuilder.RegisterType<SummarisationWrapper>().As<ISummarisationWrapper>();
@@ -38,6 +41,9 @@ namespace ESFA.DC.Summarisation.Modules
 
             containerBuilder.RegisterType<FundingTypesProvider>().As<IStaticDataProvider<FundingType>>();
             containerBuilder.RegisterType<CollectionPeriodsProvider>().As<IStaticDataProvider<CollectionPeriod>>();
+
+            containerBuilder.RegisterType<Fm35Repository>().As<IProviderRepository>();
+            containerBuilder.RegisterType<AlbRepository>().As<IProviderRepository>();
 
             containerBuilder.RegisterType<JsonSerializationService>().As<IJsonSerializationService>();
 
@@ -50,7 +56,11 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<CollectionReturnMapper>().As<ICollectionReturnMapper>();
             containerBuilder.RegisterType<CollectionReturnPersist>().As<ICollectionReturnPersist>();
 
-            containerBuilder.RegisterType<DataStorePersistenceService>().As<IDataStorePersistenceService>();
+            containerBuilder.RegisterType<DataStorePersistenceServiceStub>().As<IDataStorePersistenceService>();
+
+            //containerBuilder.Register(c => new SqlConnection(c.Resolve<ISummarisationDataOptions>().ILR1819ConnectionString)).As<Func<SqlConnection>>();
+
+            containerBuilder.Register<Func<SqlConnection>>(c => () => new SqlConnection(c.Resolve<ISummarisationDataOptions>().ILR1819ConnectionString)).As<Func<SqlConnection>>();
 
             containerBuilder.Register(c =>
             {
