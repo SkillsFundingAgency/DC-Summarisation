@@ -65,7 +65,7 @@ namespace ESFA.DC.Summarisation.Console
 
             IBulkInsert bulkInsert = new BulkInsert();
             ISummarisedActualsMapper summarisedActualsMapper = new SummarisedActualsMapper();
-            ISummarisedActualsPersist summarisedActualsPersist = new SummarisedActualsPersist(bulkInsert, new SqlConnection(summarisedActualsConnectionString), summarisedActualsMapper);
+            ISummarisedActualsPersist summarisedActualsPersist = new SummarisedActualsPersist(bulkInsert, () => new SqlConnection(summarisedActualsConnectionString), summarisedActualsMapper);
 
             ICollectionReturnMapper collectionReturnMapper = new CollectionReturnMapper();
             ICollectionReturnPersist collectionReturnPersist = new CollectionReturnPersist(collectionReturnMapper, summarisationContext);

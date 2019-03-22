@@ -2,6 +2,7 @@
 using ESFA.DC.JobContextManager.Interface;
 using ESFA.DC.JobContextManager.Model;
 using ESFA.DC.Logging.Interfaces;
+using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,9 @@ namespace ESFA.DC.Summarisation.Stateless
 
                     List<string> fundModels = new List<string> { "FM35" };
 
-                    await summarisationWrapper.Summarise(fundModels, null, cancellationToken);
+                    var summarisationMessage = new SummarisationMessage { CollectionType = "ILR1819", CollectionReturnCode = "R01" };
+
+                    await summarisationWrapper.Summarise(fundModels, summarisationMessage, cancellationToken);
 
                     _logger.LogInfo($"Summarisation Task  Finished");
 
