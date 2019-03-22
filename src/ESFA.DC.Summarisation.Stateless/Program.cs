@@ -7,6 +7,7 @@ using ESFA.DC.JobContextManager.Interface;
 using ESFA.DC.JobContextManager.Model;
 using ESFA.DC.Summarisation.Common.Config;
 using ESFA.DC.Summarisation.Common.Modules;
+using ESFA.DC.Summarisation.Modules;
 
 namespace ESFA.DC.Summarisation.Stateless
 {
@@ -56,9 +57,9 @@ namespace ESFA.DC.Summarisation.Stateless
 
             containerBuilder.RegisterModule(new StatelessServiceModule(statelessServiceConfiguration));
             containerBuilder.RegisterModule<SerializationModule>();
-
-
             containerBuilder.RegisterType<JobContextMessageHandler>().As<IMessageHandler<JobContextMessage>>();
+
+            containerBuilder.RegisterModule<SummarisationModule>();
 
             return containerBuilder;
         }

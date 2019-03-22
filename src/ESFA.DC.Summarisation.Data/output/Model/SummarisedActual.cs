@@ -6,6 +6,7 @@ namespace ESFA.DC.Summarisation.Data.Output.Model
 {
     public class SummarisedActual
     {
+        public int CollectionReturnId { get; set; }
         public string OrganisationId { get; set; }
         public string UoPcode { get; set; }
         public string FundingStreamPeriodCode { get; set; }

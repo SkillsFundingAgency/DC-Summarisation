@@ -15,6 +15,9 @@
     <Parameter Name="AzureStorageConnectionString" DefaultValue="" />
     <Parameter Name="AzureStorageContainerName" DefaultValue="" />
     <Parameter Name="ProcessingServicePlacementConstraints" DefaultValue="" />
+    <Parameter Name="FCSConnectionString" DefaultValue="" />
+    <Parameter Name="ILR1819ConnectionString" DefaultValue="" />
+    <Parameter Name="SummarisedActualsConnectionString" DefaultValue="" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
@@ -35,6 +38,11 @@
             <Parameter Name="AuditQueueName" Value="[AuditQueueName]" />
             <Parameter Name="AuditMaxConcurrentCalls" Value="[AuditMaxConcurrentCalls]" />
             <Parameter Name="LoggerConnectionString" Value="[LoggerConnectionString]" />
+          </Section>
+          <Section Name="ReferenceDataSection">
+            <Parameter Name="FCSConnectionString" Value="[FCSConnectionString]" />
+            <Parameter Name="ILR1819ConnectionString" Value="[ILR1819ConnectionString]" />
+            <Parameter Name="SummarisedActualsConnectionString" Value="[SummarisedActualsConnectionString]" />
           </Section>
         </Settings>
       </ConfigOverride>

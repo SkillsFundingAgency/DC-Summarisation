@@ -47,7 +47,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.Summarisation.State
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.Summarisation.Modules", "ESFA.DC.Summarisation.Modules\ESFA.DC.Summarisation.Modules.csproj", "{E90DB834-3D93-4976-9B2B-38E0455AF3FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.Summarisation.Common", "ESFA.DC.Summarisation.Common\ESFA.DC.Summarisation.Common.csproj", "{0BA5B17A-7596-403D-B732-68AF0A266502}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.Summarisation.Common", "ESFA.DC.Summarisation.Common\ESFA.DC.Summarisation.Common.csproj", "{0BA5B17A-7596-403D-B732-68AF0A266502}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

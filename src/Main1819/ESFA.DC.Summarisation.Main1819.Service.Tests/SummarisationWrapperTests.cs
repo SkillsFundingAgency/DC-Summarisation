@@ -29,8 +29,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         public async Task SummmariseProviders(string lineType, FundModel fundModel)
         {
             var cancellationToken = CancellationToken.None;
-;
-            var connectionString = new SqlConnection();
+
             var repositoryMock = new Mock<IProviderRepository>();
             repositoryMock.Setup(r => r.RetrieveProvidersAsync(1, 1, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProvidersData(1, 1, lineType)));
             repositoryMock.Setup(r => r.RetrieveProvidersAsync(1, 2, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProvidersData(1, 2, lineType)));
@@ -55,7 +54,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             ISummarisationService summarisationService = new SummarisationService();
 
-            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService, dataStorePersistenceServiceMock.Object, connectionString);
+            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService, dataStorePersistenceServiceMock.Object, () => new SqlConnection());
             var result = await wrapper.SummariseProviders(fundingStreams, repositoryMock.Object, collectionPeriods, GetContractAllocations(null), cancellationToken);
 
             foreach (var ukprn in GetTestProviders())
@@ -128,7 +127,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             var fspCodes = new HashSet<string>();
            
 
-            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService, dataStorePersistenceService.Object, new SqlConnection());
+            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService, dataStorePersistenceService.Object, () => new SqlConnection());
             var result = await wrapper.SummariseProviders(fundingStreams, repositoryMock.Object, collectionPeriods, GetContractAllocations(fspCodes), cancellationToken);
 
 

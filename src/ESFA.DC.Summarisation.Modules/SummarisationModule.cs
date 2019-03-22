@@ -8,6 +8,8 @@ using ESFA.DC.Serialization.Json;
 using ESFA.DC.ServiceFabric.Helpers;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Configuration.Interface;
+using ESFA.DC.Summarisation.Data.Input.Interface;
+using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Data.Persist;
 using ESFA.DC.Summarisation.Data.Persist.BulkInsert;
 using ESFA.DC.Summarisation.Data.Persist.Mapper;
@@ -20,7 +22,12 @@ using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Main1819.Service;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
+using ESFA.DC.Summarisation.Model;
+using ESFA.DC.Summarisation.Model.Interface;
+using ESFA.DC.Summarisation.Modules.Stubs;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Data.SqlClient;
 
 namespace ESFA.DC.Summarisation.Modules
 {
@@ -30,7 +37,7 @@ namespace ESFA.DC.Summarisation.Modules
         {
             var configHelper = new ConfigurationHelper();
 
-            var referenceDataOptions = configHelper.GetSectionValues<SummarisationDataOptions>("SummarisationSection");
+            var referenceDataOptions = configHelper.GetSectionValues<SummarisationDataOptions>("ReferenceDataSection");
             containerBuilder.RegisterInstance(referenceDataOptions).As<ISummarisationDataOptions>().SingleInstance();
 
             containerBuilder.RegisterType<SummarisationWrapper>().As<ISummarisationWrapper>();
@@ -38,6 +45,9 @@ namespace ESFA.DC.Summarisation.Modules
 
             containerBuilder.RegisterType<FundingTypesProvider>().As<IStaticDataProvider<FundingType>>();
             containerBuilder.RegisterType<CollectionPeriodsProvider>().As<IStaticDataProvider<CollectionPeriod>>();
+
+            containerBuilder.RegisterType<Fm35Repository>().As<IProviderRepository>();
+            containerBuilder.RegisterType<AlbRepository>().As<IProviderRepository>();
 
             containerBuilder.RegisterType<JsonSerializationService>().As<IJsonSerializationService>();
 
@@ -49,9 +59,12 @@ namespace ESFA.DC.Summarisation.Modules
 
             containerBuilder.RegisterType<CollectionReturnMapper>().As<ICollectionReturnMapper>();
             containerBuilder.RegisterType<CollectionReturnPersist>().As<ICollectionReturnPersist>();
-
+            containerBuilder.RegisterType<SummarisationMessage>().As<ISummarisationMessage>();
+            
             containerBuilder.RegisterType<DataStorePersistenceService>().As<IDataStorePersistenceService>();
 
+            containerBuilder.Register(c => new SqlConnection(c.Resolve<ISummarisationDataOptions>().SummarisedActualsConnectionString)).As<SqlConnection>();
+         
             containerBuilder.Register(c =>
             {
                 DbContextOptions<FcsContext> options = new DbContextOptionsBuilder<FcsContext>()
@@ -65,6 +78,14 @@ namespace ESFA.DC.Summarisation.Modules
                 .UseSqlServer(c.Resolve<ISummarisationDataOptions>().ILR1819ConnectionString).Options;
                 return new ILR1819_DataStoreEntities(options);
             }).As<IIlr1819RulebaseContext>().InstancePerDependency();
+
+            containerBuilder.Register(c =>
+            {
+                DbContextOptions<SummarisationContext> options = new DbContextOptionsBuilder<SummarisationContext>()
+                .UseSqlServer(c.Resolve<ISummarisationDataOptions>().SummarisedActualsConnectionString).Options;
+                return new SummarisationContext(options);
+            }).As<ISummarisationContext>().As<SummarisationContext>()
+            .InstancePerDependency();
         }
     }
 }

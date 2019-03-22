@@ -15,5 +15,8 @@
     <Parameter Name="LoggerConnectionString" Value="__LoggerConnectionString__" />
     <Parameter Name="AzureStorageConnectionString" Value="__AzureStorageConnectionString__" />
     <Parameter Name="AzureStorageContainerName" Value="__AzureStorageContainerName__" />
+    <Parameter Name="FCSConnectionString" Value="__FCSDbConnectionString_EFCore_RO____" />
+    <Parameter Name="ILR1819ConnectionString" Value="__ILR1819DbConnectionString_EFCore_RO____" />
+    <Parameter Name="SummarisedActualsConnectionString" Value="__SADbConnectionString_EFCore_RO____" />
   </Parameters>
 </Application>
