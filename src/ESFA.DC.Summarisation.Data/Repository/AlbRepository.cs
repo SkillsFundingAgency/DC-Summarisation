@@ -58,30 +58,30 @@ namespace ESFA.DC.Summarisation.Data.Repository
         public async Task<IReadOnlyCollection<IProvider>> RetrieveProvidersAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
             return await _ilr.ALB_Learners
-                .GroupBy(l => l.UKPRN)
-                .OrderBy(o => o.Key)
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .Select(l => new Provider
-                {
-                    UKPRN = l.Key,
-                    LearningDeliveries = l.SelectMany(ld => ld.ALB_LearningDeliveries
-                        .Select(
-                            ldd => new LearningDelivery
-                            {
-                                LearnRefNumber = ldd.LearnRefNumber,
-                                AimSeqNumber = ldd.AimSeqNumber,
-                                Fundline = ldd.FundLine,
-                                PeriodisedData = ldd.ALB_LearningDelivery_PeriodisedValues
-                                    .GroupBy(pv => pv.AttributeName)
-                                    .Select(group => new PeriodisedData
-                                    {
-                                        AttributeName = group.Key,
-                                        Periods = group.SelectMany(UnflattenToPeriod).ToList()
-                                    } as IPeriodisedData).ToList()
-                            } as ILearningDelivery
-                        )).ToList()
-                }).ToListAsync(cancellationToken);
+                 .GroupBy(l => l.UKPRN)
+                 .OrderBy(o => o.Key)
+                 .Skip((pageNumber - 1) * pageSize)
+                 .Take(pageSize)
+                 .Select(l => new Provider
+                 {
+                     UKPRN = l.Key,
+                     LearningDeliveries = l.SelectMany(ld => ld.ALB_LearningDeliveries
+                         .Select(
+                             ldd => new LearningDelivery
+                             {
+                                 LearnRefNumber = ldd.LearnRefNumber,
+                                 AimSeqNumber = ldd.AimSeqNumber,
+                                 Fundline = ldd.FundLine,
+                                 PeriodisedData = ldd.ALB_LearningDelivery_PeriodisedValues
+                                     .GroupBy(pv => pv.AttributeName)
+                                     .Select(group => new PeriodisedData
+                                     {
+                                         AttributeName = group.Key,
+                                         Periods = group.SelectMany(pd => UnflattenToPeriod(pd)).ToList()
+                                     } as IPeriodisedData).ToList()
+                             } as ILearningDelivery
+                         )).ToList()
+                 }).ToListAsync(cancellationToken);
         }
 
         public async Task<IReadOnlyCollection<IProvider>> RetrieveProvidersAsync(int Ukprn, CancellationToken cancellationToken)
