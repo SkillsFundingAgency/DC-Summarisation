@@ -2,8 +2,10 @@
 using ESFA.DC.JobContextManager.Interface;
 using ESFA.DC.JobContextManager.Model;
 using ESFA.DC.Logging.Interfaces;
+using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Interfaces;
+using ESFA.DC.Summarisation.Stateless.Context;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -29,6 +31,8 @@ namespace ESFA.DC.Summarisation.Stateless
         {
             try
             {
+                var messageContext = new SummarisationMessageContext(message);
+
                 using (var childLifetimeScope = _lifetimeScope.BeginLifetimeScope())
                 {
                     var executionContext = (ExecutionContext)childLifetimeScope.Resolve<IExecutionContext>();
@@ -39,11 +43,14 @@ namespace ESFA.DC.Summarisation.Stateless
                     // TODO:
                     var summarisationWrapper = childLifetimeScope.Resolve<ISummarisationWrapper>();
 
-                    List<string> fundModels = new List<string> { "FM35" };
+                    var summarisationMessage = new SummarisationMessage ()
+                    {
+                        CollectionType = messageContext.CollectionType,
+                        CollectionReturnCode = messageContext.CollectionReturnCode,
+                        FundModels = messageContext.FundModels
+                    };
 
-                    var summarisationMessage = new SummarisationMessage { CollectionType = "ILR1819", CollectionReturnCode = "R01" };
-
-                    await summarisationWrapper.Summarise(fundModels, summarisationMessage, cancellationToken);
+                    await summarisationWrapper.Summarise(summarisationMessage, cancellationToken);
 
                     _logger.LogInfo($"Summarisation Task  Finished");
 

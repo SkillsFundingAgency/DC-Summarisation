@@ -10,5 +10,7 @@ namespace ESFA.DC.Summarisation.Data.Input.Model
         public string CollectionType { get; set; }
 
         public string CollectionReturnCode { get; set; }
+
+        public IEnumerable<string> FundModels { get; set; }
     }
 }
