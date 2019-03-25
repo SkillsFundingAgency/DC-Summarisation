@@ -44,14 +44,14 @@ namespace ESFA.DC.Summarisation.Main1819.Service
             _sqlConnectionFactory = sqlConnectionFactory;
         }
 
-        public async Task<IEnumerable<SummarisedActual>> Summarise(IEnumerable<string> fundModels, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<IEnumerable<SummarisedActual>> Summarise(ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {           
             var collectionPeriods = _collectionPeriodsProvider.Provide();
 
             var fcsContractAllocations = await _fcsRepository.RetrieveAsync(cancellationToken);
             var summarisedActuals = new List<SummarisedActual>();
 
-            foreach(var fundModel in fundModels)
+            foreach(var fundModel in summarisationMessage.FundModels)
             {
                 summarisedActuals.AddRange(await SummariseByFundModel(fundModel, collectionPeriods, fcsContractAllocations, cancellationToken));
             }

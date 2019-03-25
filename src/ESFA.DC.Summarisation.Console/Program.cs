@@ -72,7 +72,12 @@ namespace ESFA.DC.Summarisation.Console
 
             IDataStorePersistenceService dataStorePersistenceService = new DataStorePersistenceService(summarisedActualsPersist, collectionReturnPersist);
 
-            var summarisationMessage = new SummarisationMessage { CollectionType = "ILR1819", CollectionReturnCode = "R01" };
+            var summarisationMessage = new SummarisationMessage
+            {
+                CollectionType = "ILR1819",
+                CollectionReturnCode = "R01",
+                FundModels = new List<string> { "FM35" }
+            };
 
             SummarisationWrapper wrapper = new SummarisationWrapper(fcsRepository,
                 fundingTypesProvider,
@@ -82,9 +87,7 @@ namespace ESFA.DC.Summarisation.Console
                 dataStorePersistenceService,
                 () => new SqlConnection(summarisedActualsConnectionString));
 
-            List<string> fundModels = new List<string> { "FM35" };
-
-            await wrapper.Summarise(fundModels, summarisationMessage, CancellationToken.None);
+            await wrapper.Summarise(summarisationMessage, CancellationToken.None);
         }
     }
 }

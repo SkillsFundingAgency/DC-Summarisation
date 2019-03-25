@@ -8,5 +8,7 @@ namespace ESFA.DC.Summarisation.Data.Input.Interface
     {
         string CollectionType { get; }
         string CollectionReturnCode { get;}
+
+        IEnumerable<string> FundModels { get; set; }
     }
 }
