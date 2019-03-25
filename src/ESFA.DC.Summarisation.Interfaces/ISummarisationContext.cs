@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace ESFA.DC.Summarisation.Interfaces
 {
@@ -11,6 +9,5 @@ namespace ESFA.DC.Summarisation.Interfaces
         string CollectionReturnCode { get; }
 
         IEnumerable<string> FundModels { get; }
-        
     }
 }

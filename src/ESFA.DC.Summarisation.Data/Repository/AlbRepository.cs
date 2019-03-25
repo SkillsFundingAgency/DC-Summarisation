@@ -43,8 +43,7 @@ namespace ESFA.DC.Summarisation.Data.Repository
                                         AttributeName = group.Key,
                                         Periods = group.SelectMany(UnflattenToPeriod).ToList()
                                     } as IPeriodisedData).ToList()
-                            } as ILearningDelivery
-                        )).ToList()
+                            } as ILearningDelivery)).ToList()
                 }).ToListAsync(cancellationToken);
         }
 
@@ -79,8 +78,7 @@ namespace ESFA.DC.Summarisation.Data.Repository
                                          AttributeName = group.Key,
                                          Periods = group.SelectMany(pd => UnflattenToPeriod(pd)).ToList()
                                      } as IPeriodisedData).ToList()
-                             } as ILearningDelivery
-                         )).ToList()
+                             } as ILearningDelivery)).ToList()
                  }).ToListAsync(cancellationToken);
         }
 
@@ -105,8 +103,7 @@ namespace ESFA.DC.Summarisation.Data.Repository
                                         AttributeName = group.Key,
                                         Periods = group.SelectMany(UnflattenToPeriod).ToList()
                                     } as IPeriodisedData).ToList()
-                            } as ILearningDelivery
-                        ).ToList()
+                            } as ILearningDelivery).ToList()
                 }).ToListAsync(cancellationToken);
         }
 

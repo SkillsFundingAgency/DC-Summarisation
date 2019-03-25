@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Fabric;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.ServiceFabric.Services.Runtime;
 
 namespace ESFA.DC.Summarisation.Stateless
 {
@@ -25,7 +21,7 @@ namespace ESFA.DC.Summarisation.Stateless
         private ServiceEventSource() : base() { }
 
         #region Keywords
-        // Event keywords can be used to categorize events. 
+        // Event keywords can be used to categorize events.
         // Each keyword is a bit flag. A single event can be associated with multiple keywords (via EventAttribute.Keywords property).
         // Keywords must be defined as a public class named 'Keywords' inside EventSource that uses them.
         public static class Keywords
@@ -55,6 +51,7 @@ namespace ESFA.DC.Summarisation.Stateless
         }
 
         private const int MessageEventId = 1;
+
         [Event(MessageEventId, Level = EventLevel.Informational, Message = "{0}")]
         public void Message(string message)
         {
@@ -86,6 +83,7 @@ namespace ESFA.DC.Summarisation.Stateless
         // This results in more efficient parameter handling, but requires explicit allocation of EventData structure and unsafe code.
         // To enable this code path, define UNSAFE conditional compilation symbol and turn on unsafe code support in project properties.
         private const int ServiceMessageEventId = 2;
+
         [Event(ServiceMessageEventId, Level = EventLevel.Informational, Message = "{7}")]
         private
 #if UNSAFE
@@ -123,6 +121,7 @@ namespace ESFA.DC.Summarisation.Stateless
         }
 
         private const int ServiceTypeRegisteredEventId = 3;
+
         [Event(ServiceTypeRegisteredEventId, Level = EventLevel.Informational, Message = "Service host process {0} registered service type {1}", Keywords = Keywords.ServiceInitialization)]
         public void ServiceTypeRegistered(int hostProcessId, string serviceType)
         {
@@ -130,6 +129,7 @@ namespace ESFA.DC.Summarisation.Stateless
         }
 
         private const int ServiceHostInitializationFailedEventId = 4;
+
         [Event(ServiceHostInitializationFailedEventId, Level = EventLevel.Error, Message = "Service host initialization failed", Keywords = Keywords.ServiceInitialization)]
         public void ServiceHostInitializationFailed(string exception)
         {
@@ -140,6 +140,7 @@ namespace ESFA.DC.Summarisation.Stateless
         // These activities can be automatically picked up by debugging and profiling tools, which can compute their execution time, child activities,
         // and other statistics.
         private const int ServiceRequestStartEventId = 5;
+
         [Event(ServiceRequestStartEventId, Level = EventLevel.Informational, Message = "Service request '{0}' started", Keywords = Keywords.Requests)]
         public void ServiceRequestStart(string requestTypeName)
         {
@@ -147,6 +148,7 @@ namespace ESFA.DC.Summarisation.Stateless
         }
 
         private const int ServiceRequestStopEventId = 6;
+
         [Event(ServiceRequestStopEventId, Level = EventLevel.Informational, Message = "Service request '{0}' finished", Keywords = Keywords.Requests)]
         public void ServiceRequestStop(string requestTypeName, string exception = "")
         {

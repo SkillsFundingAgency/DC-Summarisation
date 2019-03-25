@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ESFA.DC.Summarisation.Common.Config.Interface
+﻿namespace ESFA.DC.Summarisation.Common.Config.Interface
 {
     public interface IStatelessServiceConfiguration
     {

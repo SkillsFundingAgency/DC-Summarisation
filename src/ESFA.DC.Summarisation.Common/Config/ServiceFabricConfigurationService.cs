@@ -1,8 +1,8 @@
-﻿using ESFA.DC.Summarisation.Common.Config.Interface;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Fabric;
 using System.Linq;
+using ESFA.DC.Summarisation.Common.Config.Interface;
 
 namespace ESFA.DC.Summarisation.Common.Config
 {

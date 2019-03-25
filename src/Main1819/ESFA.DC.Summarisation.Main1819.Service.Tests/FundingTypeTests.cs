@@ -1,12 +1,12 @@
-﻿using ESFA.DC.Serialization.Json;
-using FluentAssertions;
-using System.Linq;
+﻿using System.Linq;
+using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
+using FluentAssertions;
 using Xunit;
 
 namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 {
-    public class FundingTypeTests 
+    public class FundingTypeTests
     {
         [Fact]
         public void FundingTypesCount()

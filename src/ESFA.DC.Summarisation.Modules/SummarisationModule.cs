@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.Data.SqlClient;
+using Autofac;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interface;
 using ESFA.DC.ReferenceData.FCS.Model;
@@ -24,7 +25,6 @@ using ESFA.DC.Summarisation.Main1819.Service;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using ESFA.DC.Summarisation.Model;
 using Microsoft.EntityFrameworkCore;
-using System.Data.SqlClient;
 using ISummarisationContext = ESFA.DC.Summarisation.Model.Interface.ISummarisationContext;
 
 namespace ESFA.DC.Summarisation.Modules
@@ -58,11 +58,11 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<CollectionReturnMapper>().As<ICollectionReturnMapper>();
             containerBuilder.RegisterType<CollectionReturnPersist>().As<ICollectionReturnPersist>();
             containerBuilder.RegisterType<SummarisationMessage>().As<ISummarisationMessage>();
-            
+
             containerBuilder.RegisterType<DataStorePersistenceService>().As<IDataStorePersistenceService>();
 
             containerBuilder.Register(c => new SqlConnection(c.Resolve<ISummarisationDataOptions>().SummarisedActualsConnectionString)).As<SqlConnection>();
-         
+
             containerBuilder.Register(c =>
             {
                 DbContextOptions<FcsContext> options = new DbContextOptionsBuilder<FcsContext>()

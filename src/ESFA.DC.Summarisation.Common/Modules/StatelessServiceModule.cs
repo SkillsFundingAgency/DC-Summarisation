@@ -1,4 +1,6 @@
-﻿using Autofac;
+﻿using System;
+using System.Collections.Generic;
+using Autofac;
 using ESFA.DC.Auditing.Interface;
 using ESFA.DC.JobContext.Interface;
 using ESFA.DC.JobContextManager;
@@ -15,18 +17,15 @@ using ESFA.DC.Queueing;
 using ESFA.DC.Queueing.Interface;
 using ESFA.DC.Queueing.Interface.Configuration;
 using ESFA.DC.Summarisation.Common.Config.Interface;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ESFA.DC.Summarisation.Common.Modules
 {
     public class StatelessServiceModule : Module
     {
-        private readonly IStatelessServiceConfiguration _statelessServiceConfiguration;
-
         private const string QueueConfiguration = "queueConfiguration";
         private const string TopicConfiguration = "topicConfiguration";
+
+        private readonly IStatelessServiceConfiguration _statelessServiceConfiguration;
 
         public StatelessServiceModule(IStatelessServiceConfiguration statelessServiceConfiguration)
         {

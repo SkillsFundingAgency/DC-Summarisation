@@ -1,7 +1,5 @@
-﻿using ESFA.DC.Summarisation.Data.Input.Interface;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using ESFA.DC.Summarisation.Data.Input.Interface;
 
 namespace ESFA.DC.Summarisation.Data.Input.Model
 {

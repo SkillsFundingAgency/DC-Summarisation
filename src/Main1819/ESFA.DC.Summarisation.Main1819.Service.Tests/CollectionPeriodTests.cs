@@ -1,7 +1,7 @@
 ﻿using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
-using Xunit;
 using FluentAssertions;
+using Xunit;
 
 namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 {
@@ -26,7 +26,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         [InlineData(10, 5, 2019, 201905)]
         [InlineData(11, 6, 2019, 201906)]
         [InlineData(12, 7, 2019, 201907)]
-        public void CollectionPeriodConfig( int period, int calendarMonth, int calendarYear,int actualsSchemaPeriod)
+        public void CollectionPeriodConfig(int period, int calendarMonth, int calendarYear, int actualsSchemaPeriod)
         {
             var collectionPeriods = NewProvider().Provide();
 

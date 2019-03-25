@@ -2,9 +2,6 @@
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Serialization.Xml;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ESFA.DC.Summarisation.Common.Modules
 {

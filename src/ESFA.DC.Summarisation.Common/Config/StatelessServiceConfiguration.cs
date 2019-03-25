@@ -1,7 +1,4 @@
 ﻿using ESFA.DC.Summarisation.Common.Config.Interface;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ESFA.DC.Summarisation.Common.Config
 {

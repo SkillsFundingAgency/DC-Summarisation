@@ -8,5 +8,4 @@ namespace ESFA.DC.Summarisation.Configuration
 
         public List<FundingStream> FundingStreams { get; set; }
     }
-
 }

@@ -3,15 +3,13 @@ using System.Linq;
 using ESFA.DC.Summarisation.Data.Persist.Mapper;
 using ESFA.DC.Summarisation.Model;
 using FluentAssertions;
-using Xunit;
 using SummarisedActual = ESFA.DC.Summarisation.Data.Output.Model.SummarisedActual;
+using Xunit;
 
 namespace ESFA.DC.Summarisation.Data.Persist.Tests.MapperTests
 {
     public class SummarisedActualsMapperTests
     {
-        private SummarisedActualsMapper Mapper() => new SummarisedActualsMapper();
-
         [Fact]
         public void SummarisedActualsMapper()
         {
@@ -63,5 +61,7 @@ namespace ESFA.DC.Summarisation.Data.Persist.Tests.MapperTests
             mappedActuals.FirstOrDefault(x => x.OrganisationId == "Org002").PeriodTypeCode.Should().Be("R02");
             mappedActuals.FirstOrDefault(x => x.OrganisationId == "Org002").Period.Should().Be(5);
         }
+
+        private SummarisedActualsMapper Mapper() => new SummarisedActualsMapper();
     }
 }

@@ -1,10 +1,10 @@
-﻿using ESFA.DC.JobContextManager.Interface;
-using ESFA.DC.JobContextManager.Model;
-using Microsoft.ServiceFabric.Services.Runtime;
-using System;
+﻿using System;
 using System.Fabric;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.JobContextManager.Interface;
+using ESFA.DC.JobContextManager.Model;
+using Microsoft.ServiceFabric.Services.Runtime;
 
 namespace ESFA.DC.Summarisation.Common
 {

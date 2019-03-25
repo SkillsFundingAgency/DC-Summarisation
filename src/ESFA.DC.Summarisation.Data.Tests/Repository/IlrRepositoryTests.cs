@@ -17,6 +17,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
     public class IlrRepositoryTests
     {
         private readonly ITestOutputHelper _outputHelper;
+
         public IlrRepositoryTests(ITestOutputHelper outputHelper)
         {
             _outputHelper = outputHelper;
@@ -374,7 +375,6 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
 
                     learners.Add(new FM35_Learner
                     {
-
                         UKPRN = ukprn,
                         LearnRefNumber = learnRefNumber,
                         FM35_LearningDeliveries = new List<FM35_LearningDelivery>

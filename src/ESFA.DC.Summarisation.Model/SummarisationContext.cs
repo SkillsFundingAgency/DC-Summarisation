@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Model
 {
@@ -16,6 +14,7 @@ namespace ESFA.DC.Summarisation.Model
         }
 
         public virtual DbSet<CollectionReturn> CollectionReturns { get; set; }
+
         public virtual DbSet<SummarisedActual> SummarisedActuals { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

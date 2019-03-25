@@ -1,4 +1,8 @@
-﻿using ESFA.DC.ILR1819.DataStore.EF;
+﻿using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Threading;
+using System.Threading.Tasks;
+using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interface;
 using ESFA.DC.ReferenceData.FCS.Model;
 using ESFA.DC.ReferenceData.FCS.Model.Interface;
@@ -6,24 +10,20 @@ using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.Input.Model;
-using ESFA.DC.Summarisation.Data.Population.Service;
-using ESFA.DC.Summarisation.Data.Repository;
-using ESFA.DC.Summarisation.Data.Repository.Interface;
-using ESFA.DC.Summarisation.Interfaces;
-using ESFA.DC.Summarisation.Main1819.Service;
-using ESFA.DC.Summarisation.Main1819.Service.Providers;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Threading;
-using System.Threading.Tasks;
 using ESFA.DC.Summarisation.Data.Persist;
 using ESFA.DC.Summarisation.Data.Persist.BulkInsert;
 using ESFA.DC.Summarisation.Data.Persist.Mapper;
 using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
 using ESFA.DC.Summarisation.Data.Persist.Persist;
 using ESFA.DC.Summarisation.Data.Persist.Persist.Interface;
+using ESFA.DC.Summarisation.Data.Population.Service;
+using ESFA.DC.Summarisation.Data.Repository;
+using ESFA.DC.Summarisation.Data.Repository.Interface;
+using ESFA.DC.Summarisation.Interfaces;
+using ESFA.DC.Summarisation.Main1819.Service;
+using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using ESFA.DC.Summarisation.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Console
 {
@@ -79,7 +79,8 @@ namespace ESFA.DC.Summarisation.Console
                 FundModels = new List<string> { "FM35" }
             };
 
-            SummarisationWrapper wrapper = new SummarisationWrapper(fcsRepository,
+            SummarisationWrapper wrapper = new SummarisationWrapper(
+                fcsRepository,
                 fundingTypesProvider,
                 collectionPeriodsProvider,
                 repositories,

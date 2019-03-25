@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace ESFA.DC.Summarisation.Data.Input.Interface
 {
     public interface ISummarisationMessage
     {
         string CollectionType { get; }
-        string CollectionReturnCode { get;}
+
+        string CollectionReturnCode { get; }
 
         IEnumerable<string> FundModels { get; set; }
     }

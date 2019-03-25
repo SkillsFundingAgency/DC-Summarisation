@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ESFA.DC.Summarisation.Configuration
 {
@@ -12,6 +11,5 @@ namespace ESFA.DC.Summarisation.Configuration
         public FundModel FundModel { get; set; }
 
         public List<FundLine> FundLines { get; set; }
-
     }
 }

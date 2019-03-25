@@ -43,8 +43,7 @@ namespace ESFA.DC.Summarisation.Data.Repository
                                         AttributeName = group.Key,
                                         Periods = group.SelectMany(UnflattenToPeriod).ToList()
                                     } as IPeriodisedData).ToList()
-                            } as ILearningDelivery
-                        )).ToList()
+                            } as ILearningDelivery)).ToList()
                 }).ToListAsync(cancellationToken);
         }
 
@@ -60,7 +59,7 @@ namespace ESFA.DC.Summarisation.Data.Repository
             return await _ilr.FM35_Learners
                 .GroupBy(l => l.UKPRN)
                 .OrderBy(o => o.Key)
-                .Skip((pageNumber -1) * pageSize)
+                .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .Select(l => new Provider
                 {
@@ -79,8 +78,7 @@ namespace ESFA.DC.Summarisation.Data.Repository
                                         AttributeName = group.Key,
                                         Periods = group.SelectMany(pd => UnflattenToPeriod(pd)).ToList()
                                     } as IPeriodisedData).ToList()
-                            } as ILearningDelivery
-                        )).ToList()
+                            } as ILearningDelivery)).ToList()
                 }).ToListAsync(cancellationToken);
         }
 
@@ -105,8 +103,7 @@ namespace ESFA.DC.Summarisation.Data.Repository
                                         AttributeName = group.Key,
                                         Periods = group.SelectMany(UnflattenToPeriod).ToList()
                                     } as IPeriodisedData).ToList()
-                            } as ILearningDelivery
-                        ).ToList()
+                            } as ILearningDelivery).ToList()
                 }).ToListAsync(cancellationToken);
         }
 

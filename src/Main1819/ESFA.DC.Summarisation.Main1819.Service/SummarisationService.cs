@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.Summarisation.Configuration;
+using ESFA.DC.Summarisation.Data.External.FCS.Interface;
+using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Output.Model;
 using ESFA.DC.Summarisation.Interfaces;
-using ESFA.DC.Summarisation.Data.Input.Interface;
-using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 
 namespace ESFA.DC.Summarisation.Main1819.Service
 {
@@ -15,7 +15,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service
             return fundingType.FundingStreams.SelectMany(fs => Summarise(fs, provider, allocations, collectionPeriods));
         }
 
-        public IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams , IProvider provider, IEnumerable<IFcsContractAllocation> allocations, IEnumerable<CollectionPeriod> collectionPeriods)
+        public IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams, IProvider provider, IEnumerable<IFcsContractAllocation> allocations, IEnumerable<CollectionPeriod> collectionPeriods)
         {
             return fundingStreams.SelectMany(fs => Summarise(fs, provider, allocations, collectionPeriods));
         }
@@ -60,7 +60,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service
 
             return periodisedData.SelectMany(fpd => fpd.Periods);
         }
-                 
+
         public IEnumerable<SummarisedActual> SummarisePeriods(IEnumerable<IPeriod> periods)
         {
             return periods

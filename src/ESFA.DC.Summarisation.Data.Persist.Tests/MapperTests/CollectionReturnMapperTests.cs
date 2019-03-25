@@ -7,8 +7,6 @@ namespace ESFA.DC.Summarisation.Data.Persist.Tests.MapperTests
 {
     public class CollectionReturnMapperTests
     {
-        private CollectionReturnMapper Mapper() => new CollectionReturnMapper();
-
         [Fact]
         public void CollectionReturnMapper()
         {
@@ -19,5 +17,7 @@ namespace ESFA.DC.Summarisation.Data.Persist.Tests.MapperTests
             collectionReturn.CollectionReturnCode.Should().Be("R01");
             collectionReturn.CollectionType.Should().Be("ILR");
         }
+
+        private CollectionReturnMapper Mapper() => new CollectionReturnMapper();
     }
 }

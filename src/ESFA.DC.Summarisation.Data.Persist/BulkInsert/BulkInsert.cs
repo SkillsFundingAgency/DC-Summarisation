@@ -11,7 +11,6 @@ namespace ESFA.DC.Summarisation.Data.Persist.BulkInsert
 {
    public class BulkInsert : IBulkInsert
     {
-
         private List<string> sourceColumnNames = new List<string>
                         { "CollectionReturnId",
                         "OrganisationId",
@@ -22,8 +21,7 @@ namespace ESFA.DC.Summarisation.Data.Persist.BulkInsert
                         "ActualVolume",
                         "ActualValue",
                         "PeriodTypeCode",
-                        "ContractAllocationNumber"};
-
+                        "ContractAllocationNumber" };
 
         public async Task Insert<T>(string table, IEnumerable<T> source, SqlConnection sqlConnection, CancellationToken cancellationToken)
         {
@@ -55,7 +53,6 @@ namespace ESFA.DC.Summarisation.Data.Persist.BulkInsert
                         sqlBulkCopy.ColumnMappings.Add("ActualValue", "ActualValue");
                         sqlBulkCopy.ColumnMappings.Add("PeriodTypeCode", "PeriodTypeCode");
                         sqlBulkCopy.ColumnMappings.Add("ContractAllocationNumber", "ContractAllocationNumber");
-
 
                         await sqlBulkCopy.WriteToServerAsync(reader, cancellationToken);
                     }

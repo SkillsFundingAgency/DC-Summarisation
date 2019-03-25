@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ESFA.DC.Summarisation.Configuration.Interface
+﻿namespace ESFA.DC.Summarisation.Configuration.Interface
 {
     public interface ISummarisationDataOptions
     {
@@ -11,6 +7,5 @@ namespace ESFA.DC.Summarisation.Configuration.Interface
         string ILR1819ConnectionString { get; }
 
         string SummarisedActualsConnectionString { get; }
-
     }
 }

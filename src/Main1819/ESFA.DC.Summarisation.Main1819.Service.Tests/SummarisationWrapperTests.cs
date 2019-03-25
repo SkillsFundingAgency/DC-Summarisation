@@ -1,28 +1,26 @@
-﻿using ESFA.DC.Summarisation.Configuration;
-using ESFA.DC.Summarisation.Data.Repository.Interface;
-using ESFA.DC.Summarisation.Main1819.Service.Providers;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using Moq;
-using Xunit;
-using ESFA.DC.Summarisation.Data.Input.Model;
-using ESFA.DC.Summarisation.Data.Input.Interface;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.Serialization.Json;
+using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.External.FCS.Model;
-using ESFA.DC.Summarisation.Interfaces;
-using ESFA.DC.Serialization.Json;
+using ESFA.DC.Summarisation.Data.Input.Interface;
+using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Data.Persist;
+using ESFA.DC.Summarisation.Data.Repository.Interface;
+using ESFA.DC.Summarisation.Interfaces;
+using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using FluentAssertions;
+using Moq;
+using Xunit;
 
 namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 {
-
     public class SummarisationWrapperTests
     {
-
         [Theory]
         [InlineData("ILR_FM35", FundModel.FM35)]
         [InlineData("ILR_ALB", FundModel.ALB)]
@@ -90,7 +88,6 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                     result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLBC1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(12);
                 }
             }
-
         }
 
         [Theory]
@@ -125,11 +122,9 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             ISummarisationService summarisationService = new SummarisationService();
 
             var fspCodes = new HashSet<string>();
-           
 
             var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService, dataStorePersistenceService.Object, () => new SqlConnection());
             var result = await wrapper.SummariseProviders(fundingStreams, repositoryMock.Object, collectionPeriods, GetContractAllocations(fspCodes), cancellationToken);
-
 
             foreach (var ukprn in GetTestProviders())
             {
@@ -164,7 +159,6 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                     result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLBC1819" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(0);
                 }
             }
-
         }
 
         private IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> GetContractAllocations(HashSet<string> fspCodes)
@@ -191,7 +185,6 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                 }
 
                 fspContractAllocations.Add(fspCode, allocations);
-
             }
 
             return fspContractAllocations;
@@ -226,6 +219,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                 LearningDeliveries = GetLearningDeliveries(lineType)
             };
         }
+
         private List<ILearningDelivery> GetLearningDeliveries(string lineType)
         {
             List<ILearningDelivery> learningDeliveries = new List<ILearningDelivery>();
@@ -248,7 +242,6 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             return learningDeliveries;
         }
-
 
         private List<IPeriodisedData> GetPeriodisedData(int lotSize)
         {
@@ -418,6 +411,6 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                 "APPS1819",
                 "CLP1819"
             };
-        }      
+        }
     }
 }

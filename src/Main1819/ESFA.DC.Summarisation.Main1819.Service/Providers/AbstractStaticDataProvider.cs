@@ -9,12 +9,12 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Providers
     {
         private readonly IJsonSerializationService _jsonSerializationService;
 
-        protected internal abstract string ReferenceDataFileName { get; }
-
         public AbstractStaticDataProvider(IJsonSerializationService jsonSerializationService)
         {
             _jsonSerializationService = jsonSerializationService;
         }
+
+        protected internal abstract string ReferenceDataFileName { get; }
 
         public virtual IEnumerable<T> Provide()
         {

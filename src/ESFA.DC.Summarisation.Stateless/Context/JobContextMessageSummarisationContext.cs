@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace ESFA.DC.Summarisation.Stateless.Context
 {
-        
     public class JobContextMessageSummarisationContext : ISummarisationContext
     {
         private const string _collectionType = "CollectionType";
@@ -13,7 +12,7 @@ namespace ESFA.DC.Summarisation.Stateless.Context
         private const string _collectionReturnCode = "CollectionReturnCode";
 
         private readonly JobContextMessage _jobContextMessage;
-                
+
         public JobContextMessageSummarisationContext(JobContextMessage jobContextMessage)
         {
             _jobContextMessage = jobContextMessage;
@@ -36,7 +35,5 @@ namespace ESFA.DC.Summarisation.Stateless.Context
                 return _jobContextMessage.Topics[_jobContextMessage.TopicPointer].Tasks.SelectMany(t => t.Tasks);
             }
         }
-
-
     }
 }

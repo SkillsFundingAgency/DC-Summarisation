@@ -1,21 +1,21 @@
-﻿using ESFA.DC.Summarisation.Data.Input.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.Serialization.Json;
-using Xunit;
-using FluentAssertions;
-using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using ESFA.DC.Summarisation.Configuration;
-using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.External.FCS.Model;
+using ESFA.DC.Summarisation.Data.Input.Interface;
+using ESFA.DC.Summarisation.Data.Input.Model;
+using ESFA.DC.Summarisation.Main1819.Service.Providers;
+using FluentAssertions;
+using Xunit;
 
 namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 {
     public class SummarisationServiceTests
     {
-        private int learningDeliveryRecords = 2;
+        private const int learningDeliveryRecords = 2;
 
-        public decimal periodValue = 10;
+        private const decimal periodValue = 10;
 
         private const int ukprn = 10000001;
 
@@ -32,7 +32,6 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             {
                 item.ActualValue.Should().Be(5 * item.Period * periodValue);
             }
-
         }
 
         [Theory]
@@ -98,15 +97,14 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         [InlineData("Vulnerable Bursary: 16-19 Traineeships Bursary")]
         public void GetPeriodsForFundLine(string strFundLine)
         {
-
             var fundLine = GetFundingTypes()
                                   .SelectMany(ft => ft.FundingStreams)
                                   .SelectMany(fs => fs.FundLines)
                                   .Where(fl => fl.Fundline == strFundLine).First();
-                                  
+
             var task = new SummarisationService();
 
-            var result = task.GetPeriodsForFundLine(fundLine.UseAttributes? GetPeriodisedData(5) : GetPeriodisedDataNoAttributes(5), fundLine);
+            var result = task.GetPeriodsForFundLine(fundLine.UseAttributes ? GetPeriodisedData(5) : GetPeriodisedDataNoAttributes(5), fundLine);
 
             int attributeCount = 1;
 
@@ -114,9 +112,8 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             {
                 attributeCount = fundLine.Attributes.Count();
             }
-            
+
             result.Count().Should().Be(5 * attributeCount * 12);
-            
         }
 
         [Theory]
@@ -162,9 +159,9 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             FundingStream fundingStream = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == fspCode && fs.DeliverableLineCode == dlc).First();
 
-            var easfundlinesCount = fundingStream.FundLines.Where(fl => fl.LineType =="EAS").Count();
+            var easfundlinesCount = fundingStream.FundLines.Count(fl => fl.LineType == "EAS");
 
-            var ilrfundlinesCount = fundingStream.FundLines.Where(fl => fl.LineType != "EAS").Count();
+            var ilrfundlinesCount = fundingStream.FundLines.Count(fl => fl.LineType != "EAS");
 
             int attributescount = 0;
 
@@ -175,7 +172,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var task = new SummarisationService();
 
-            var results = task.Summarise(fundingStream, GetTestProvider(), GetContractAllocation(), GetCollectionPeriods()).OrderBy(x=>x.Period).ToList();
+            var results = task.Summarise(fundingStream, GetTestProvider(), GetContractAllocation(), GetCollectionPeriods()).OrderBy(x => x.Period).ToList();
 
             results.Count().Should().Be(12);
 
@@ -210,7 +207,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             Dictionary<string, int> fspdlc = new Dictionary<string, int>();
 
-            var fundingStreams = fundingType.FundingStreams.Select(fs => new {fs.PeriodCode, fs.DeliverableLineCode }).ToList();
+            var fundingStreams = fundingType.FundingStreams.Select(fs => new { fs.PeriodCode, fs.DeliverableLineCode }).ToList();
 
             foreach (var item in fundingStreams)
             {
@@ -218,7 +215,6 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
                 SummariseByFundingStream(item.PeriodCode, item.DeliverableLineCode);
             }
-            
         }
 
         [Theory]
@@ -250,7 +246,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var task = new SummarisationService();
 
-            var results = task.Summarise(fundingType, provider, GetContractAllocation(),GetCollectionPeriods()).ToList();
+            var results = task.Summarise(fundingType, provider, GetContractAllocation(), GetCollectionPeriods()).ToList();
 
             var fundingStreams = fundingType.FundingStreams.Select(fs => new { fs.PeriodCode, fs.DeliverableLineCode }).ToList();
 
@@ -259,7 +255,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                 results.Count(r => r.FundingStreamPeriodCode == item.PeriodCode && r.DeliverableCode == item.DeliverableLineCode).Should().Be(12);
             }
         }
-        
+
         private FundingTypesProvider NewFundingTypeProvider()
         {
             return new FundingTypesProvider(new JsonSerializationService());
@@ -273,6 +269,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                 LearningDeliveries = GetLearningDeliveries()
             };
         }
+
         private List<ILearningDelivery> GetLearningDeliveries()
         {
             List<ILearningDelivery> learningDeliveries = new List<ILearningDelivery>();
@@ -286,7 +283,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                         LearnRefNumber = "learnref" + i,
                         AimSeqNumber = i,
                         Fundline = item.Fundline,
-                        PeriodisedData = item.LineType == "EAS" ? GetPeriodisedDataNoAttributes(1) :  GetPeriodisedData(1)
+                        PeriodisedData = item.LineType == "EAS" ? GetPeriodisedDataNoAttributes(1) : GetPeriodisedData(1)
                     };
 
                     learningDeliveries.Add(learningDelivery);
@@ -295,7 +292,6 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             return learningDeliveries;
         }
-
 
         private List<IPeriodisedData> GetPeriodisedData(int lotSize)
         {
@@ -355,7 +351,6 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         private FundingType GetFundingType(string fundingType)
         {
           return GetFundingTypes().First(x => x.Key == fundingType);
-
         }
 
         private List<FundingType> GetFundingTypes()
@@ -363,7 +358,6 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             FundingTypesProvider fundingTypesProvider = new FundingTypesProvider(new JsonSerializationService());
 
             return fundingTypesProvider.Provide().ToList();
-
         }
 
         private List<CollectionPeriod> GetCollectionPeriods()
@@ -371,13 +365,12 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             var collectionPeriodsProvider = new CollectionPeriodsProvider(new JsonSerializationService());
 
             return collectionPeriodsProvider.Provide().ToList();
-
         }
 
         private IList<FcsContractAllocation> GetContractAllocation()
         {
             IList<FcsContractAllocation> fcsContractAllocations = new List<FcsContractAllocation>();
-            var fundingStreams =  GetFundingTypes().SelectMany(ft => ft.FundingStreams);
+            var fundingStreams = GetFundingTypes().SelectMany(ft => ft.FundingStreams);
 
             foreach (var item in fundingStreams)
             {
@@ -390,6 +383,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                 };
                 fcsContractAllocations.Add(allocation);
             }
+
             return fcsContractAllocations;
         }
 
@@ -413,7 +407,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                                         "LearnDelCarLearnPilotOnProgPayment",
                                         "LearnDelCarLearnPilotBalPayment" };
         }
-        
+
         private List<FundLine> GetFundLines()
         {
             List<FundLine> fundLines = new List<FundLine>();
@@ -481,8 +475,5 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             return fundLines;
         }
-
     }
-
-   
 }

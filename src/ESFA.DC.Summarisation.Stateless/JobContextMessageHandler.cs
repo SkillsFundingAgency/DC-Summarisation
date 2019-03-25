@@ -2,12 +2,10 @@
 using ESFA.DC.JobContextManager.Interface;
 using ESFA.DC.JobContextManager.Model;
 using ESFA.DC.Logging.Interfaces;
-using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Stateless.Context;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using ExecutionContext = ESFA.DC.Logging.ExecutionContext;
@@ -19,13 +17,11 @@ namespace ESFA.DC.Summarisation.Stateless
         private readonly ILifetimeScope _lifetimeScope;
         private readonly ILogger _logger;
 
-
         public JobContextMessageHandler(ILifetimeScope lifetimeScope, ILogger logger)
         {
             _lifetimeScope = lifetimeScope;
             _logger = logger;
         }
-
 
         public async Task<bool> HandleAsync(JobContextMessage message, CancellationToken cancellationToken)
         {
@@ -43,7 +39,7 @@ namespace ESFA.DC.Summarisation.Stateless
                     // TODO:
                     var summarisationWrapper = childLifetimeScope.Resolve<ISummarisationWrapper>();
 
-                    var summarisationMessage = new SummarisationMessage ()
+                    var summarisationMessage = new SummarisationMessage()
                     {
                         CollectionType = messageContext.CollectionType,
                         CollectionReturnCode = messageContext.CollectionReturnCode,

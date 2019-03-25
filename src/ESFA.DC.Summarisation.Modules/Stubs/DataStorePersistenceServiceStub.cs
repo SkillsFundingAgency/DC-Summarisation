@@ -1,10 +1,10 @@
-﻿using ESFA.DC.Summarisation.Data.Input.Interface;
-using ESFA.DC.Summarisation.Data.Persist;
-using ESFA.DC.Summarisation.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.Summarisation.Data.Input.Interface;
+using ESFA.DC.Summarisation.Data.Persist;
+using ESFA.DC.Summarisation.Model;
 
 namespace ESFA.DC.Summarisation.Modules.Stubs
 {

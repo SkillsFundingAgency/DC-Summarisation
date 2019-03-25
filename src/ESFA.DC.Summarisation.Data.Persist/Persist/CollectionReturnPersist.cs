@@ -11,6 +11,7 @@ namespace ESFA.DC.Summarisation.Data.Persist.Persist
     {
         private readonly ICollectionReturnMapper _collectionReturnMapper;
         private readonly SummarisationContext _summarisationContext;
+
         public CollectionReturnPersist(ICollectionReturnMapper collectionReturnMapper, SummarisationContext summarisationContext)
         {
             _collectionReturnMapper = collectionReturnMapper;
