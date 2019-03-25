@@ -23,11 +23,9 @@ using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Main1819.Service;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using ESFA.DC.Summarisation.Model;
-using ESFA.DC.Summarisation.Model.Interface;
-using ESFA.DC.Summarisation.Modules.Stubs;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Data.SqlClient;
+using ISummarisationContext = ESFA.DC.Summarisation.Model.Interface.ISummarisationContext;
 
 namespace ESFA.DC.Summarisation.Modules
 {

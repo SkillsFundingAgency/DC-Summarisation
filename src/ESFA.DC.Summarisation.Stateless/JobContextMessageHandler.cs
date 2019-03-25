@@ -31,7 +31,7 @@ namespace ESFA.DC.Summarisation.Stateless
         {
             try
             {
-                var messageContext = new SummarisationMessageContext(message);
+                var messageContext = new JobContextMessageSummarisationContext(message);
 
                 using (var childLifetimeScope = _lifetimeScope.BeginLifetimeScope())
                 {

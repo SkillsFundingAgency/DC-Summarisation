@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ESFA.DC.Summarisation.Interfaces
 {
-    public interface ISummarisationMessageContext
+    public interface ISummarisationContext
     {
         string CollectionType { get; }
 

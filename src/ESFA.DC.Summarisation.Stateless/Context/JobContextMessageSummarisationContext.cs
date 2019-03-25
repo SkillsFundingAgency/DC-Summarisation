@@ -1,15 +1,12 @@
 ﻿using ESFA.DC.JobContextManager.Model;
 using ESFA.DC.Summarisation.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ESFA.DC.Summarisation.Stateless.Context
 {
         
-    public class SummarisationMessageContext : ISummarisationMessageContext
+    public class JobContextMessageSummarisationContext : ISummarisationContext
     {
         private const string _collectionType = "CollectionType";
 
@@ -17,7 +14,7 @@ namespace ESFA.DC.Summarisation.Stateless.Context
 
         private readonly JobContextMessage _jobContextMessage;
                 
-        public SummarisationMessageContext(JobContextMessage jobContextMessage)
+        public JobContextMessageSummarisationContext(JobContextMessage jobContextMessage)
         {
             _jobContextMessage = jobContextMessage;
         }
