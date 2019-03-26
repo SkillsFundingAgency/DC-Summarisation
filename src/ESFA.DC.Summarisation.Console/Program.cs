@@ -22,7 +22,6 @@ using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Main1819.Service;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
-using ESFA.DC.Summarisation.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Console
