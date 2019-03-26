@@ -46,7 +46,7 @@ namespace ESFA.DC.Summarisation.Stateless
                         FundModels = messageContext.FundModels
                     };
 
-                    await summarisationWrapper.Summarise(summarisationMessage, cancellationToken);
+                    await summarisationWrapper.Summarise(summarisationMessage, _logger, cancellationToken);
 
                     _logger.LogInfo($"Summarisation Task  Finished");
 

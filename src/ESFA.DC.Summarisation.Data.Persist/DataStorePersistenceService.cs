@@ -39,9 +39,11 @@ namespace ESFA.DC.Summarisation.Data.Persist
                     var collectionReturn = _collectionReturnMapper.MapCollectionReturn(summarisationMessage);
                     var collectionReturnId = await sqlConnection.InsertAsync(collectionReturn, transaction);
 
-                    var mappedActuals = _summarisedActualsMapper.MapSummarisedActuals(summarisedActuals, collectionReturnId).ToList();
+                    //var mappedActuals = _summarisedActualsMapper.MapSummarisedActuals(summarisedActuals, collectionReturnId).ToList();
 
-                    await _summarisedActualsPersist.Save(mappedActuals, sqlConnection, transaction, cancellationToken);
+                    //await _summarisedActualsPersist.Save(mappedActuals, sqlConnection, transaction, cancellationToken);
+
+                    await _summarisedActualsPersist.Save(summarisedActuals, collectionReturnId, sqlConnection, transaction, cancellationToken);
 
                     if (cancellationToken.IsCancellationRequested)
                     {

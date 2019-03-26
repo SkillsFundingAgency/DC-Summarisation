@@ -40,5 +40,22 @@ namespace ESFA.DC.Summarisation.Data.Persist.Mapper
                 CollectionReturnId = collectionReturnId
             });
         }
+
+        public IEnumerable<Output.Model.SummarisedActual> MapSummarisedActualsOutputModel(IEnumerable<Output.Model.SummarisedActual> actuals, int collectionReturnId)
+        {
+            return actuals.Select(actual => new Output.Model.SummarisedActual
+            {
+                OrganisationId = actual.OrganisationId,
+                UoPcode = actual.UoPcode,
+                FundingStreamPeriodCode = actual.FundingStreamPeriodCode,
+                Period = actual.Period,
+                DeliverableCode = actual.DeliverableCode,
+                ActualVolume = actual.ActualVolume,
+                ActualValue = actual.ActualValue,
+                PeriodTypeCode = actual.PeriodTypeCode,
+                ContractAllocationNumber = actual.ContractAllocationNumber,
+                CollectionReturnId = collectionReturnId
+            });
+        }
     }
 }

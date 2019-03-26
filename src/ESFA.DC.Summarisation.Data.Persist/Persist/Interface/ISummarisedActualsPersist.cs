@@ -7,6 +7,8 @@ namespace ESFA.DC.Summarisation.Data.Persist.Persist.Interface
 {
     public interface ISummarisedActualsPersist
     {
-        Task Save(IList<Model.SummarisedActual> summarisedActuals, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken);
+        //Task Save(IList<Model.SummarisedActual> summarisedActuals, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken);
+
+        Task Save(IList<Output.Model.SummarisedActual> summarisedActuals, int collectionReturnId, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken);
     }
 }

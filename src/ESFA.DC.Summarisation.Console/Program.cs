@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interface;
+using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.ReferenceData.FCS.Model;
 using ESFA.DC.ReferenceData.FCS.Model.Interface;
 using ESFA.DC.Serialization.Interfaces;
@@ -22,6 +23,7 @@ using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Main1819.Service;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
+using ESFA.DC.Summarisation.Main1819.Service.Tests.Stubs;
 using ESFA.DC.Summarisation.Model;
 using Microsoft.EntityFrameworkCore;
 
@@ -67,6 +69,8 @@ namespace ESFA.DC.Summarisation.Console
 
             IDataStorePersistenceService dataStorePersistenceService = new DataStorePersistenceService(summarisedActualsPersist, collectionReturnMapper, summarisedActualsMapper, () => new SqlConnection(summarisedActualsConnectionString));
 
+            ILogger logger = new LoggerStub();
+
             var summarisationMessage = new SummarisationMessage
             {
                 CollectionType = "ILR1819",
@@ -82,7 +86,7 @@ namespace ESFA.DC.Summarisation.Console
                 summarisationService,
                 dataStorePersistenceService);
 
-            await wrapper.Summarise(summarisationMessage, CancellationToken.None);
+            await wrapper.Summarise(summarisationMessage, logger, CancellationToken.None);
         }
     }
 }

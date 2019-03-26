@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.Input.Interface;
@@ -41,19 +40,36 @@ namespace ESFA.DC.Summarisation.Main1819.Service
             _dataStorePersistenceService = dataStorePersistenceService;
         }
 
-        public async Task<IEnumerable<SummarisedActual>> Summarise(ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<IEnumerable<SummarisedActual>> Summarise(ISummarisationMessage summarisationMessage, ILogger logger, CancellationToken cancellationToken)
         {
+            logger.LogInfo($"Summarisation Wrapper: Retrieving Collection Periods Start");
+
             var collectionPeriods = _collectionPeriodsProvider.Provide();
 
+            logger.LogInfo($"Summarisation Wrapper: Retrieving Collection Periods End");
+
+            logger.LogInfo($"Summarisation Wrapper: Retrieving FCS Contracts Start");
+
             var fcsContractAllocations = await _fcsRepository.RetrieveAsync(cancellationToken);
+
+            logger.LogInfo($"Summarisation Wrapper: Retrieving FCS Contracts End");
+
             var summarisedActuals = new List<SummarisedActual>();
 
             foreach (var fundModel in summarisationMessage.FundModels)
             {
-                summarisedActuals.AddRange(await SummariseByFundModel(fundModel, collectionPeriods, fcsContractAllocations, cancellationToken));
+                logger.LogInfo($"Summarisation Wrapper: Summarising Fundmodel {fundModel} Start");
+
+                summarisedActuals.AddRange(await SummariseByFundModel(fundModel, collectionPeriods, fcsContractAllocations, logger, cancellationToken));
+
+                logger.LogInfo($"Summarisation Wrapper: Summarising Fundmodel {fundModel} End");
             }
 
+            logger.LogInfo($"Summarisation Wrapper: Storing data to Summarised Actuals Start");
+
             await _dataStorePersistenceService.StoreSummarisedActualsDataAsync(summarisedActuals, summarisationMessage, cancellationToken);
+
+            logger.LogInfo($"Summarisation Wrapper: Storing data to Summarised Actuals End");
 
             return summarisedActuals;
         }
@@ -63,6 +79,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service
             IProviderRepository repository,
             IEnumerable<CollectionPeriod> collectionPeriods,
             IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations,
+            ILogger logger,
             CancellationToken cancellationToken)
         {
             var pageNumber = 1;
@@ -73,10 +90,16 @@ namespace ESFA.DC.Summarisation.Main1819.Service
 
             while (pageNumber <= numberOfPages)
             {
+                logger.LogInfo($"Summarisation Wrapper: Retrieving Provider Data PageNumber: {pageNumber}, PageSize: {PageSize} Start");
+
                 var providers = await repository.RetrieveProvidersAsync(PageSize, pageNumber, cancellationToken);
+
+                logger.LogInfo($"Summarisation Wrapper: Retrieving Provider Data PageNumber: {pageNumber}, PageSize: {PageSize} End");
 
                 foreach (var provider in providers)
                 {
+                    logger.LogInfo($"Summarisation Wrapper: Summarising UKPRN: {provider.UKPRN} Start");
+
                     var contractFundingStreams = new List<FundingStream>();
                     var allocations = new List<IFcsContractAllocation>();
 
@@ -90,6 +113,8 @@ namespace ESFA.DC.Summarisation.Main1819.Service
                     }
 
                     actuals.AddRange(_summarisationService.Summarise(contractFundingStreams, provider, allocations, collectionPeriods));
+
+                    logger.LogInfo($"Summarisation Wrapper: Summarising UKPRN: {provider.UKPRN} End");
                 }
 
                 pageNumber++;
@@ -102,12 +127,13 @@ namespace ESFA.DC.Summarisation.Main1819.Service
             string fundModel,
             IEnumerable<CollectionPeriod> collectionPeriods,
             IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations,
+            ILogger logger,
             CancellationToken cancellationToken)
         {
             var fundingStreams = _fundingTypesProvider.Provide().SelectMany(x => x.FundingStreams.Where(y => y.FundModel.ToString() == fundModel)).ToList();
             var repository = _repositories.FirstOrDefault(r => r.FundModel == fundModel);
 
-            return await SummariseProviders(fundingStreams, repository, collectionPeriods, fcsContractAllocations, cancellationToken);
+            return await SummariseProviders(fundingStreams, repository, collectionPeriods, fcsContractAllocations, logger, cancellationToken);
         }
     }
 }
