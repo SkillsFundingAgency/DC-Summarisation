@@ -43,13 +43,9 @@ namespace ESFA.DC.Summarisation.Console
             DbContextOptions<FcsContext> fcsdbContextOptions = new DbContextOptionsBuilder<FcsContext>().UseSqlServer(fcsConnectionString).Options;
             DbContextOptions<ILR1819_DataStoreEntities> ilrdbContextOptions = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>().UseSqlServer(ilrConnectionString).Options;
 
-            DbContextOptions<SummarisationContext> summarisationDbContextOptions = new DbContextOptionsBuilder<SummarisationContext>().UseSqlServer(summarisedActualsConnectionString).Options;
-
             IFcsContext fcsContext = new FcsContext(fcsdbContextOptions);
 
             IFcsRepository fcsRepository = new FcsRepository(fcsContext);
-
-            SummarisationContext summarisationContext = new SummarisationContext(summarisationDbContextOptions);
 
             IJsonSerializationService jsonSerializationService = new JsonSerializationService();
 
@@ -65,12 +61,11 @@ namespace ESFA.DC.Summarisation.Console
 
             IBulkInsert bulkInsert = new BulkInsert();
             ISummarisedActualsMapper summarisedActualsMapper = new SummarisedActualsMapper();
-            ISummarisedActualsPersist summarisedActualsPersist = new SummarisedActualsPersist(bulkInsert, () => new SqlConnection(summarisedActualsConnectionString), summarisedActualsMapper);
+            ISummarisedActualsPersist summarisedActualsPersist = new SummarisedActualsPersist(bulkInsert);
 
             ICollectionReturnMapper collectionReturnMapper = new CollectionReturnMapper();
-            ICollectionReturnPersist collectionReturnPersist = new CollectionReturnPersist(collectionReturnMapper, summarisationContext);
 
-            IDataStorePersistenceService dataStorePersistenceService = new DataStorePersistenceService(summarisedActualsPersist, collectionReturnPersist);
+            IDataStorePersistenceService dataStorePersistenceService = new DataStorePersistenceService(summarisedActualsPersist, collectionReturnMapper, summarisedActualsMapper, () => new SqlConnection(summarisedActualsConnectionString));
 
             var summarisationMessage = new SummarisationMessage
             {
@@ -85,8 +80,7 @@ namespace ESFA.DC.Summarisation.Console
                 collectionPeriodsProvider,
                 repositories,
                 summarisationService,
-                dataStorePersistenceService,
-                () => new SqlConnection(summarisedActualsConnectionString));
+                dataStorePersistenceService);
 
             await wrapper.Summarise(summarisationMessage, CancellationToken.None);
         }
