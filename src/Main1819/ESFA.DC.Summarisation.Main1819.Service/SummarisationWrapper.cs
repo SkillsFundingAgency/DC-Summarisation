@@ -24,7 +24,6 @@ namespace ESFA.DC.Summarisation.Main1819.Service
         private readonly IStaticDataProvider<FundingType> _fundingTypesProvider;
         private readonly IStaticDataProvider<CollectionPeriod> _collectionPeriodsProvider;
         private readonly IDataStorePersistenceService _dataStorePersistenceService;
-        private readonly Func<SqlConnection> _sqlConnectionFactory;
 
         public SummarisationWrapper(
             IFcsRepository fcsRepository,
@@ -32,8 +31,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service
             IStaticDataProvider<CollectionPeriod> collectionPeriodsProvider,
             ICollection<IProviderRepository> repositories,
             ISummarisationService summarisationService,
-            IDataStorePersistenceService dataStorePersistenceService,
-            Func<SqlConnection> sqlConnectionFactory)
+            IDataStorePersistenceService dataStorePersistenceService)
         {
             _fundingTypesProvider = fundingTypesProvider;
             _fcsRepository = fcsRepository;
@@ -41,7 +39,6 @@ namespace ESFA.DC.Summarisation.Main1819.Service
             _summarisationService = summarisationService;
             _collectionPeriodsProvider = collectionPeriodsProvider;
             _dataStorePersistenceService = dataStorePersistenceService;
-            _sqlConnectionFactory = sqlConnectionFactory;
         }
 
         public async Task<IEnumerable<SummarisedActual>> Summarise(ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)

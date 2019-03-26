@@ -80,8 +80,7 @@ namespace ESFA.DC.Summarisation.Console
                 collectionPeriodsProvider,
                 repositories,
                 summarisationService,
-                dataStorePersistenceService,
-                () => new SqlConnection(summarisedActualsConnectionString));
+                dataStorePersistenceService);
 
             await wrapper.Summarise(summarisationMessage, CancellationToken.None);
         }
