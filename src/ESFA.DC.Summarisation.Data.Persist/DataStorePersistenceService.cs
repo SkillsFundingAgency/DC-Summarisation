@@ -41,7 +41,7 @@ namespace ESFA.DC.Summarisation.Data.Persist
 
                     var mappedActuals = _summarisedActualsMapper.MapSummarisedActuals(summarisedActuals, collectionReturnId).ToList();
 
-                    await _summarisedActualsPersist.Save(mappedActuals, sqlConnection, cancellationToken);
+                    await _summarisedActualsPersist.Save(mappedActuals, sqlConnection, transaction, cancellationToken);
 
                     if (cancellationToken.IsCancellationRequested)
                     {
