@@ -36,7 +36,6 @@ namespace ESFA.DC.Summarisation.Stateless
 
                     _logger.LogInfo($"Summarisation Task Starting");
 
-                    // TODO:
                     var summarisationWrapper = childLifetimeScope.Resolve<ISummarisationWrapper>();
 
                     var summarisationMessage = new SummarisationMessage()

@@ -11,18 +11,6 @@ namespace ESFA.DC.Summarisation.Data.Persist.BulkInsert
 {
    public class BulkInsert : IBulkInsert
     {
-        private List<string> sourceColumnNames = new List<string>
-                        { "CollectionReturnId",
-                        "OrganisationId",
-                        "UoPcode",
-                        "FundingStreamPeriodCode",
-                        "Period",
-                        "DeliverableCode",
-                        "ActualVolume",
-                        "ActualValue",
-                        "PeriodTypeCode",
-                        "ContractAllocationNumber" };
-
         public async Task Insert<T>(string table, IEnumerable<T> source, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
             using (var sqlBulkCopy = BuildSqlBulkCopy(sqlConnection, sqlTransaction))
@@ -39,20 +27,17 @@ namespace ESFA.DC.Summarisation.Data.Persist.BulkInsert
                         return;
                     }
 
-                    using (var reader = ObjectReader.Create(source, sourceColumnNames.ToArray()))
+                    var columnNames = typeof(T).GetProperties().Where(p => !p.GetMethod.IsVirtual).Select(p => p.Name)
+                       .ToArray();
+
+                    using (var reader = ObjectReader.Create(source, columnNames))
                     {
                         sqlBulkCopy.DestinationTableName = table;
 
-                        sqlBulkCopy.ColumnMappings.Add("CollectionReturnId", "CollectionReturnId");
-                        sqlBulkCopy.ColumnMappings.Add("OrganisationId", "OrganisationId");
-                        sqlBulkCopy.ColumnMappings.Add("UoPcode", "UoPCode");
-                        sqlBulkCopy.ColumnMappings.Add("FundingStreamPeriodCode", "FundingStreamPeriodCode");
-                        sqlBulkCopy.ColumnMappings.Add("Period", "Period");
-                        sqlBulkCopy.ColumnMappings.Add("DeliverableCode", "DeliverableCode");
-                        sqlBulkCopy.ColumnMappings.Add("ActualVolume", "ActualVolume");
-                        sqlBulkCopy.ColumnMappings.Add("ActualValue", "ActualValue");
-                        sqlBulkCopy.ColumnMappings.Add("PeriodTypeCode", "PeriodTypeCode");
-                        sqlBulkCopy.ColumnMappings.Add("ContractAllocationNumber", "ContractAllocationNumber");
+                        foreach (var name in columnNames)
+                        {
+                            sqlBulkCopy.ColumnMappings.Add(name, name);
+                        }
 
                         await sqlBulkCopy.WriteToServerAsync(reader, cancellationToken);
                     }

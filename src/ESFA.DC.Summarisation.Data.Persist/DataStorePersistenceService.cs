@@ -16,17 +16,14 @@ namespace ESFA.DC.Summarisation.Data.Persist
     {
         private const string InsertCollectionReturnSql = @"INSERT INTO CollectionReturn (CollectionType, CollectionReturnCode) VALUES (@CollectionType, @CollectionReturnCode); SELECT CAST(SCOPE_IDENTITY() as int)";
         private readonly ICollectionReturnMapper _collectionReturnMapper;
-        private readonly ISummarisedActualsMapper _summarisedActualsMapper;
-
         private readonly ISummarisedActualsPersist _summarisedActualsPersist;
         private readonly Func<SqlConnection> _sqlConnectionFactory;
 
-        public DataStorePersistenceService(ISummarisedActualsPersist summarisedActualsPersist, ICollectionReturnMapper collectionReturnMapper, ISummarisedActualsMapper summarisedActualsMapper, Func<SqlConnection> sqlConnectionFactory)
+        public DataStorePersistenceService(ISummarisedActualsPersist summarisedActualsPersist, ICollectionReturnMapper collectionReturnMapper, Func<SqlConnection> sqlConnectionFactory)
         {
             _summarisedActualsPersist = summarisedActualsPersist;
             _sqlConnectionFactory = sqlConnectionFactory;
             _collectionReturnMapper = collectionReturnMapper;
-            _summarisedActualsMapper = summarisedActualsMapper;
         }
 
         public async Task StoreSummarisedActualsDataAsync(IList<Output.Model.SummarisedActual> summarisedActuals, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
@@ -39,10 +36,6 @@ namespace ESFA.DC.Summarisation.Data.Persist
                 {
                     var collectionReturn = _collectionReturnMapper.MapCollectionReturn(summarisationMessage);
                     var collectionReturnId = await this.InsertCollectionReturnAsync(collectionReturn, sqlConnection, transaction);
-
-                    //var mappedActuals = _summarisedActualsMapper.MapSummarisedActuals(summarisedActuals, collectionReturnId).ToList();
-
-                    //await _summarisedActualsPersist.Save(mappedActuals, sqlConnection, transaction, cancellationToken);
 
                     await _summarisedActualsPersist.Save(summarisedActuals, collectionReturnId, sqlConnection, transaction, cancellationToken);
 
