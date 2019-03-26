@@ -56,12 +56,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service
                 summarisedActuals.AddRange(await SummariseByFundModel(fundModel, collectionPeriods, fcsContractAllocations, cancellationToken));
             }
 
-            var collectionReturn = await _dataStorePersistenceService.StoreCollectionReturnAsync(summarisationMessage, cancellationToken);
-
-            using (var sqlConnection = _sqlConnectionFactory.Invoke())
-            {
-                await _dataStorePersistenceService.StoreSummarisedActualsDataAsync(summarisedActuals, collectionReturn, sqlConnection, cancellationToken);
-            }
+            await _dataStorePersistenceService.StoreSummarisedActualsDataAsync(summarisedActuals, summarisationMessage, cancellationToken);
 
             return summarisedActuals;
         }

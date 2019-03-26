@@ -14,26 +14,13 @@ namespace ESFA.DC.Summarisation.Data.Persist.Persist
     public class SummarisedActualsPersist : ISummarisedActualsPersist
     {
         private readonly IBulkInsert _bulkInsert;
-        private readonly ISummarisedActualsMapper _summarisedActualsMapper;
-        private readonly Func<SqlConnection> _sqlConnectionFactory;
 
-        public SummarisedActualsPersist(IBulkInsert bulkInsert, Func<SqlConnection> sqlConnectionFactory, ISummarisedActualsMapper summarisedActualsMapper)
+        public SummarisedActualsPersist(IBulkInsert bulkInsert)
         {
             _bulkInsert = bulkInsert;
-            _sqlConnectionFactory = sqlConnectionFactory;
-            _summarisedActualsMapper = summarisedActualsMapper;
         }
 
-        public async Task Save(IList<Output.Model.SummarisedActual> summarisedActuals, CollectionReturn collectionReturn, CancellationToken cancellationToken)
-        {
-            var summarisedActualsMapped = _summarisedActualsMapper.MapSummarisedActuals(summarisedActuals, collectionReturn);
-
-            using (var sqlConnection = _sqlConnectionFactory.Invoke())
-            {
-                await sqlConnection.OpenAsync(cancellationToken);
-
-                await _bulkInsert.Insert(SummarisedActualsConstants.SummarisedActuals, summarisedActualsMapped, sqlConnection, cancellationToken);
-            }
-        }
+        public async Task Save(IList<SummarisedActual> summarisedActuals, SqlConnection sqlConnection, SqlTransaction transaction, CancellationToken cancellationToken)
+            => await _bulkInsert.Insert(SummarisedActualsConstants.SummarisedActuals, summarisedActuals, sqlConnection, transaction, cancellationToken);
     }
 }

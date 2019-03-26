@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Persist;
 using ESFA.DC.Summarisation.Model;
+using SummarisedActual = ESFA.DC.Summarisation.Data.Output.Model.SummarisedActual;
 
 namespace ESFA.DC.Summarisation.Modules.Stubs
 {
@@ -15,7 +15,7 @@ namespace ESFA.DC.Summarisation.Modules.Stubs
             return Task.FromResult(new CollectionReturn());
         }
 
-        public Task StoreSummarisedActualsDataAsync(IList<Data.Output.Model.SummarisedActual> summarisedActuals, CollectionReturn collectionReturn, SqlConnection sqlConnection, CancellationToken cancellationToken)
+        public Task StoreSummarisedActualsDataAsync(IList<SummarisedActual> summarisedActuals, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }
