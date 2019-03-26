@@ -24,7 +24,6 @@ using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Main1819.Service;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using ESFA.DC.Summarisation.Main1819.Service.Tests.Stubs;
-using ESFA.DC.Summarisation.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Console
@@ -62,12 +61,12 @@ namespace ESFA.DC.Summarisation.Console
             ISummarisationService summarisationService = new SummarisationService();
 
             IBulkInsert bulkInsert = new BulkInsert();
-            ISummarisedActualsMapper summarisedActualsMapper = new SummarisedActualsMapper();
+
             ISummarisedActualsPersist summarisedActualsPersist = new SummarisedActualsPersist(bulkInsert);
 
             ICollectionReturnMapper collectionReturnMapper = new CollectionReturnMapper();
 
-            IDataStorePersistenceService dataStorePersistenceService = new DataStorePersistenceService(summarisedActualsPersist, collectionReturnMapper, summarisedActualsMapper, () => new SqlConnection(summarisedActualsConnectionString));
+            IDataStorePersistenceService dataStorePersistenceService = new DataStorePersistenceService(summarisedActualsPersist, collectionReturnMapper, () => new SqlConnection(summarisedActualsConnectionString));
 
             ILogger logger = new LoggerStub();
 
