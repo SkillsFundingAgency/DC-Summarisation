@@ -23,9 +23,9 @@ namespace ESFA.DC.Summarisation.Data.Persist.BulkInsert
                         "PeriodTypeCode",
                         "ContractAllocationNumber" };
 
-        public async Task Insert<T>(string table, IEnumerable<T> source, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
+        public async Task Insert<T>(string table, IEnumerable<T> source, SqlConnection sqlConnection, CancellationToken cancellationToken)
         {
-            using (var sqlBulkCopy = BuildSqlBulkCopy(sqlConnection, sqlTransaction))
+            using (var sqlBulkCopy = BuildSqlBulkCopy(sqlConnection))
             {
                 try
                 {
@@ -67,9 +67,9 @@ namespace ESFA.DC.Summarisation.Data.Persist.BulkInsert
         }
 
         // transaction is null in order to use existing Connection with Options overload.
-        private SqlBulkCopy BuildSqlBulkCopy(SqlConnection sqlConnection, SqlTransaction sqlTransaction)
+        private SqlBulkCopy BuildSqlBulkCopy(SqlConnection sqlConnection)
         {
-            return new SqlBulkCopy(sqlConnection, SqlBulkCopyOptions.Default, sqlTransaction)
+            return new SqlBulkCopy(sqlConnection)
             {
                 BatchSize = 5_000, // https://stackoverflow.com/questions/779690/what-is-the-recommended-batch-size-for-sqlbulkcopy
                 BulkCopyTimeout = 600

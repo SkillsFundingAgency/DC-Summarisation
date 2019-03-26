@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.Summarisation.Data.Persist.Constants;
-using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
 using ESFA.DC.Summarisation.Data.Persist.Persist.Interface;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Model;
@@ -20,7 +18,7 @@ namespace ESFA.DC.Summarisation.Data.Persist.Persist
             _bulkInsert = bulkInsert;
         }
 
-        public async Task Save(IList<SummarisedActual> summarisedActuals, SqlConnection sqlConnection, SqlTransaction transaction, CancellationToken cancellationToken)
-            => await _bulkInsert.Insert(SummarisedActualsConstants.SummarisedActuals, summarisedActuals, sqlConnection, transaction, cancellationToken);
+        public async Task Save(IList<SummarisedActual> summarisedActuals, SqlConnection sqlConnection, CancellationToken cancellationToken)
+            => await _bulkInsert.Insert(SummarisedActualsConstants.SummarisedActuals, summarisedActuals, sqlConnection, cancellationToken);
     }
 }
