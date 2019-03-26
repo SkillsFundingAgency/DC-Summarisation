@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Dapper.Contrib.Extensions;
+using Dapper;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
 using ESFA.DC.Summarisation.Data.Persist.Persist.Interface;
@@ -14,6 +14,7 @@ namespace ESFA.DC.Summarisation.Data.Persist
 {
     public class DataStorePersistenceService : IDataStorePersistenceService
     {
+        private const string InsertCollectionReturnSql = @"INSERT INTO CollectionReturn (CollectionType, CollectionReturnCode) VALUES (@CollectionType, @CollectionReturnCode); SELECT CAST(SCOPE_IDENTITY() as int)";
         private readonly ICollectionReturnMapper _collectionReturnMapper;
         private readonly ISummarisedActualsMapper _summarisedActualsMapper;
 
@@ -37,7 +38,7 @@ namespace ESFA.DC.Summarisation.Data.Persist
                 using (var transaction = sqlConnection.BeginTransaction())
                 {
                     var collectionReturn = _collectionReturnMapper.MapCollectionReturn(summarisationMessage);
-                    var collectionReturnId = await sqlConnection.InsertAsync(collectionReturn, transaction);
+                    var collectionReturnId = await this.InsertCollectionReturnAsync(collectionReturn, sqlConnection, transaction);
 
                     //var mappedActuals = _summarisedActualsMapper.MapSummarisedActuals(summarisedActuals, collectionReturnId).ToList();
 
@@ -55,6 +56,12 @@ namespace ESFA.DC.Summarisation.Data.Persist
                     }
                 }
             }
+        }
+
+        private async Task<int> InsertCollectionReturnAsync(CollectionReturn collectionReturn, SqlConnection sqlConnection, SqlTransaction sqlTransaction)
+        {
+            var result = await sqlConnection.QueryAsync<int>(InsertCollectionReturnSql, collectionReturn, sqlTransaction);
+            return result.Single();
         }
     }
 }
