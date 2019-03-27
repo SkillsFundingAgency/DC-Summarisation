@@ -1,6 +1,7 @@
-﻿using ESFA.DC.Summarisation.Data.Input.Model;
-using ESFA.DC.Summarisation.Data.Persist.Mapper;
+﻿using ESFA.DC.Summarisation.Data.Persist.Mapper;
+using ESFA.DC.Summarisation.Interfaces;
 using FluentAssertions;
+using Moq;
 using Xunit;
 
 namespace ESFA.DC.Summarisation.Data.Persist.Tests.MapperTests
@@ -10,9 +11,12 @@ namespace ESFA.DC.Summarisation.Data.Persist.Tests.MapperTests
         [Fact]
         public void CollectionReturnMapper()
         {
-            var summarisationMessage = new SummarisationMessage { CollectionReturnCode = "R01", CollectionType = "ILR" };
+            var summarisationContextMock = new Mock<ISummarisationContext>();
 
-            var collectionReturn = Mapper().MapCollectionReturn(summarisationMessage);
+            summarisationContextMock.SetupGet(s => s.CollectionType).Returns("ILR");
+            summarisationContextMock.SetupGet(s => s.CollectionReturnCode).Returns("R01");
+
+            var collectionReturn = Mapper().MapCollectionReturn(summarisationContextMock.Object);
 
             collectionReturn.CollectionReturnCode.Should().Be("R01");
             collectionReturn.CollectionType.Should().Be("ILR");

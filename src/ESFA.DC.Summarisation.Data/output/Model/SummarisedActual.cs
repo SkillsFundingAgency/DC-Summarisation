@@ -6,7 +6,7 @@
 
         public string OrganisationId { get; set; }
 
-        public string UoPcode { get; set; }
+        public string UoPCode { get; set; }
 
         public string FundingStreamPeriodCode { get; set; }
 

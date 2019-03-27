@@ -4,11 +4,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interface;
+using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.ReferenceData.FCS.Model;
 using ESFA.DC.ReferenceData.FCS.Model.Interface;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.Configuration;
+using ESFA.DC.Summarisation.Console.Stubs;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Data.Persist;
 using ESFA.DC.Summarisation.Data.Persist.BulkInsert;
@@ -22,6 +24,7 @@ using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Main1819.Service;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
+using ESFA.DC.Summarisation.Main1819.Service.Tests.Stubs;
 using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Console
@@ -59,19 +62,16 @@ namespace ESFA.DC.Summarisation.Console
             ISummarisationService summarisationService = new SummarisationService();
 
             IBulkInsert bulkInsert = new BulkInsert();
-            ISummarisedActualsMapper summarisedActualsMapper = new SummarisedActualsMapper();
+
             ISummarisedActualsPersist summarisedActualsPersist = new SummarisedActualsPersist(bulkInsert);
 
             ICollectionReturnMapper collectionReturnMapper = new CollectionReturnMapper();
 
-            IDataStorePersistenceService dataStorePersistenceService = new DataStorePersistenceService(summarisedActualsPersist, collectionReturnMapper, summarisedActualsMapper, () => new SqlConnection(summarisedActualsConnectionString));
+            IDataStorePersistenceService dataStorePersistenceService = new DataStorePersistenceService(summarisedActualsPersist, collectionReturnMapper, () => new SqlConnection(summarisedActualsConnectionString));
 
-            var summarisationMessage = new SummarisationMessage
-            {
-                CollectionType = "ILR1819",
-                CollectionReturnCode = "R01",
-                FundModels = new List<string> { "FM35" }
-            };
+            ILogger logger = new LoggerStub();
+
+            var summarisationMessage = new SummarisationContextStub();
 
             SummarisationWrapper wrapper = new SummarisationWrapper(
                 fcsRepository,
@@ -81,7 +81,7 @@ namespace ESFA.DC.Summarisation.Console
                 summarisationService,
                 dataStorePersistenceService);
 
-            await wrapper.Summarise(summarisationMessage, CancellationToken.None);
+            await wrapper.Summarise(summarisationMessage, logger, CancellationToken.None);
         }
     }
 }

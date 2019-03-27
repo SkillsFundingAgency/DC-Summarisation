@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
@@ -48,12 +49,17 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var collectionPeriods = collectionPeriodsProvider.Provide().ToList();
 
-            ISummarisationMessage summarisationMessage = new SummarisationMessage() { CollectionType = "ILR1819", CollectionReturnCode = "R01" };
+            var summarisationContextMock = new Mock<ISummarisationContext>();
+
+            summarisationContextMock.SetupGet(s => s.CollectionType).Returns("ILR1819");
+            summarisationContextMock.SetupGet(s => s.CollectionReturnCode).Returns("R01");
 
             ISummarisationService summarisationService = new SummarisationService();
 
+            var logger = new Mock<ILogger>();
+
             var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService, dataStorePersistenceServiceMock.Object);
-            var result = await wrapper.SummariseProviders(fundingStreams, repositoryMock.Object, collectionPeriods, GetContractAllocations(null), cancellationToken);
+            var result = await wrapper.SummariseProviders(fundingStreams, repositoryMock.Object, collectionPeriods, GetContractAllocations(null), logger.Object, cancellationToken);
 
             foreach (var ukprn in GetTestProviders())
             {
@@ -117,14 +123,19 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var collectionPeriods = collectionPeriodsProvider.Provide().ToList();
 
-            ISummarisationMessage summarisationMessage = new SummarisationMessage() { CollectionType = "ILR1819", CollectionReturnCode = "R01" };
+            var summarisationContextMock = new Mock<ISummarisationContext>();
+
+            summarisationContextMock.SetupGet(s => s.CollectionType).Returns("ILR1819");
+            summarisationContextMock.SetupGet(s => s.CollectionReturnCode).Returns("R01");
 
             ISummarisationService summarisationService = new SummarisationService();
 
             var fspCodes = new HashSet<string>();
 
+            var logger = new Mock<ILogger>();
+
             var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, providerRepositories, summarisationService, dataStorePersistenceService.Object);
-            var result = await wrapper.SummariseProviders(fundingStreams, repositoryMock.Object, collectionPeriods, GetContractAllocations(fspCodes), cancellationToken);
+            var result = await wrapper.SummariseProviders(fundingStreams, repositoryMock.Object, collectionPeriods, GetContractAllocations(fspCodes), logger.Object, cancellationToken);
 
             foreach (var ukprn in GetTestProviders())
             {

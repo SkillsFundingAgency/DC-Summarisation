@@ -52,11 +52,10 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<FcsRepository>().As<IFcsRepository>();
 
             containerBuilder.RegisterType<BulkInsert>().As<IBulkInsert>();
-            containerBuilder.RegisterType<SummarisedActualsMapper>().As<ISummarisedActualsMapper>();
             containerBuilder.RegisterType<SummarisedActualsPersist>().As<ISummarisedActualsPersist>();
 
             containerBuilder.RegisterType<CollectionReturnMapper>().As<ICollectionReturnMapper>();
-            containerBuilder.RegisterType<SummarisationMessage>().As<ISummarisationMessage>();
+            //containerBuilder.RegisterType<SummarisationMessage>().As<ISummarisationMessage>();
 
             containerBuilder.RegisterType<DataStorePersistenceService>().As<IDataStorePersistenceService>();
 

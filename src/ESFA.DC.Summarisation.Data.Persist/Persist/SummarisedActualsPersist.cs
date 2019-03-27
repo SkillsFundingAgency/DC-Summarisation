@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using ESFA.DC.Summarisation.Data.Persist.Constants;
 using ESFA.DC.Summarisation.Data.Persist.Persist.Interface;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
-using ESFA.DC.Summarisation.Model;
 
 namespace ESFA.DC.Summarisation.Data.Persist.Persist
 {
@@ -18,7 +17,14 @@ namespace ESFA.DC.Summarisation.Data.Persist.Persist
             _bulkInsert = bulkInsert;
         }
 
-        public async Task Save(IList<SummarisedActual> summarisedActuals, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
-            => await _bulkInsert.Insert(SummarisedActualsConstants.SummarisedActuals, summarisedActuals, sqlConnection, sqlTransaction, cancellationToken);
+        public async Task Save(IList<Output.Model.SummarisedActual> summarisedActuals, int collectionReturnId, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
+        {
+            foreach (var item in summarisedActuals)
+            {
+                item.CollectionReturnId = collectionReturnId;
+            }
+
+            await _bulkInsert.Insert(SummarisedActualsConstants.SummarisedActuals, summarisedActuals, sqlConnection, sqlTransaction, cancellationToken);
+        }
     }
 }
