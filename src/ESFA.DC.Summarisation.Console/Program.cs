@@ -10,6 +10,7 @@ using ESFA.DC.ReferenceData.FCS.Model.Interface;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.Configuration;
+using ESFA.DC.Summarisation.Console.Stubs;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Data.Persist;
 using ESFA.DC.Summarisation.Data.Persist.BulkInsert;
@@ -70,12 +71,7 @@ namespace ESFA.DC.Summarisation.Console
 
             ILogger logger = new LoggerStub();
 
-            var summarisationMessage = new SummarisationMessage
-            {
-                CollectionType = "ILR1819",
-                CollectionReturnCode = "R01",
-                FundModels = new List<string> { "FM35" }
-            };
+            var summarisationMessage = new SummarisationContextStub();
 
             SummarisationWrapper wrapper = new SummarisationWrapper(
                 fcsRepository,

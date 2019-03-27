@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
-using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
 using ESFA.DC.Summarisation.Data.Persist.Persist.Interface;
+using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Model;
 
 namespace ESFA.DC.Summarisation.Data.Persist
@@ -26,7 +26,7 @@ namespace ESFA.DC.Summarisation.Data.Persist
             _collectionReturnMapper = collectionReturnMapper;
         }
 
-        public async Task StoreSummarisedActualsDataAsync(IList<Output.Model.SummarisedActual> summarisedActuals, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task StoreSummarisedActualsDataAsync(IList<Output.Model.SummarisedActual> summarisedActuals, ISummarisationContext summarisationMessage, CancellationToken cancellationToken)
         {
             using (var sqlConnection = _sqlConnectionFactory.Invoke())
             {

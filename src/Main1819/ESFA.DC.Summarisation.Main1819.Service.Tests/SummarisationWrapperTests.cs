@@ -49,7 +49,10 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var collectionPeriods = collectionPeriodsProvider.Provide().ToList();
 
-            ISummarisationMessage summarisationMessage = new SummarisationMessage() { CollectionType = "ILR1819", CollectionReturnCode = "R01" };
+            var summarisationContextMock = new Mock<ISummarisationContext>();
+
+            summarisationContextMock.SetupGet(s => s.CollectionType).Returns("ILR1819");
+            summarisationContextMock.SetupGet(s => s.CollectionReturnCode).Returns("R01");
 
             ISummarisationService summarisationService = new SummarisationService();
 
@@ -120,7 +123,10 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var collectionPeriods = collectionPeriodsProvider.Provide().ToList();
 
-            ISummarisationMessage summarisationMessage = new SummarisationMessage() { CollectionType = "ILR1819", CollectionReturnCode = "R01" };
+            var summarisationContextMock = new Mock<ISummarisationContext>();
+
+            summarisationContextMock.SetupGet(s => s.CollectionType).Returns("ILR1819");
+            summarisationContextMock.SetupGet(s => s.CollectionReturnCode).Returns("R01");
 
             ISummarisationService summarisationService = new SummarisationService();
 

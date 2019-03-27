@@ -40,7 +40,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service
             _dataStorePersistenceService = dataStorePersistenceService;
         }
 
-        public async Task<IEnumerable<SummarisedActual>> Summarise(ISummarisationMessage summarisationMessage, ILogger logger, CancellationToken cancellationToken)
+        public async Task<IEnumerable<SummarisedActual>> Summarise(ISummarisationContext summarisationContext, ILogger logger, CancellationToken cancellationToken)
         {
             logger.LogInfo($"Summarisation Wrapper: Retrieving Collection Periods Start");
 
@@ -56,7 +56,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service
 
             var summarisedActuals = new List<SummarisedActual>();
 
-            foreach (var fundModel in summarisationMessage.FundModels)
+            foreach (var fundModel in summarisationContext.FundModels)
             {
                 logger.LogInfo($"Summarisation Wrapper: Summarising Fundmodel {fundModel} Start");
 
@@ -67,7 +67,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service
 
             logger.LogInfo($"Summarisation Wrapper: Storing data to Summarised Actuals Start");
 
-            await _dataStorePersistenceService.StoreSummarisedActualsDataAsync(summarisedActuals, summarisationMessage, cancellationToken);
+            await _dataStorePersistenceService.StoreSummarisedActualsDataAsync(summarisedActuals, summarisationContext, cancellationToken);
 
             logger.LogInfo($"Summarisation Wrapper: Storing data to Summarised Actuals End");
 
