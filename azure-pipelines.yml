@@ -29,9 +29,10 @@ steps:
     versionSelector: latestStable
 
 - task: NuGetToolInstaller@0
-  displayName: 'Use NuGet 4.7.1'
+  displayName: 'Use NuGet >4.9.0'
   inputs:
-    versionSpec: 4.7.1
+    versionSpec: '>4.9.0'
+    checkLatest: true
 
 - task: NuGetCommand@2
   displayName: 'NuGet restore'
@@ -46,7 +47,7 @@ steps:
     msbuildArchitecture: x64
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
-    msbuildArguments: ' /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\ServiceFabric\applicationpackage" /p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)' 
+    msbuildArguments: ' /p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)' 
     clean: true
     maximumCpuCount: true
     logProjectEvents: true
@@ -61,8 +62,8 @@ steps:
     msbuildArchitecture: x64
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
-    msbuildArguments: ' /p:DeployOnBuild=false /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\ServiceFabric\applicationpackage" /p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)' 
-    clean: false
+     msbuildArguments: '/t:Package /p:PackageLocation="$(build.artifactstagingdirectory)\ServiceFabric\applicationpackage" /p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)'
+  clean: false
     maximumCpuCount: true
     logProjectEvents: true
     createLogFile: true
