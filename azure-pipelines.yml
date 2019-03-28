@@ -69,7 +69,7 @@ steps:
    
 - task: CopyFiles@2
   displayName: 'Copy Files to: Publish Profiles '
-  enabled: false
+  enabled: true
   inputs:
     SourceFolder: '$(build.sourcesdirectory)\src\$(ServiceFabricProjectFolderName)'
     Contents: '**\PublishProfiles\*.xml'
@@ -78,7 +78,7 @@ steps:
 
 - task: CopyFiles@2
   displayName: 'Copy Files to: Application Parameters'
-  enabled: false
+  enabled: true
   inputs:
     SourceFolder: '$(build.sourcesdirectory)\src\$(ServiceFabricProjectFolderName)'
     Contents: '**\ApplicationParameters\*.xml'
@@ -98,7 +98,7 @@ steps:
 
 - task: ServiceFabricUpdateManifests@2
   displayName: 'Update Service Fabric Manifests (Manifest versions)'
-  enabled: false
+  enabled: true
   inputs:
     applicationPackagePath: '$(build.artifactstagingdirectory)\ServiceFabric\ApplicationPackage'
     versionBehavior: Replace
