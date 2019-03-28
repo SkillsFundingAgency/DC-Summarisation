@@ -22,7 +22,11 @@ steps:
   displayName: 'Use .NET Core sdk 2.2.104'
   inputs:
     version: 2.2.104
-  enabled: true
+
+- task: VisualStudioTestPlatformInstaller@1
+  displayName: 'Visual Studio Test Platform Installer'
+  inputs:
+    versionSelector: latestStable
 
 - task: NuGetToolInstaller@0
   displayName: 'Use NuGet 4.7.1'
@@ -42,7 +46,7 @@ steps:
     msbuildArchitecture: x64
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
-    msbuildArguments: ' /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\applicationpackage" /p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)' 
+    msbuildArguments: ' /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\ServiceFabric\applicationpackage" /p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)' 
     clean: true
     maximumCpuCount: true
     logProjectEvents: true
@@ -51,37 +55,34 @@ steps:
 
 - task: MSBuild@1
   displayName: 'Build SF Project'
-  enabled: false
+  enabled: true
   inputs:
     solution: '**/$(ServiceFabricProjectFolderName)/*.sfproj'
     msbuildArchitecture: x64
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
-    msbuildArguments: ' /p:DeployOnBuild=false /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\applicationpackage" /p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)' 
-    clean: true
+    msbuildArguments: ' /p:DeployOnBuild=false /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\ServiceFabric\applicationpackage" /p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)' 
+    clean: false
     maximumCpuCount: true
     logProjectEvents: true
     createLogFile: true
    
-
-
-
 - task: CopyFiles@2
-  displayName: 'Copy Files to: $(build.artifactstagingdirectory)\PublishProfiles '
+  displayName: 'Copy Files to: Publish Profiles '
   enabled: false
   inputs:
     SourceFolder: '$(build.sourcesdirectory)\src\$(ServiceFabricProjectFolderName)'
     Contents: '**\PublishProfiles\*.xml'
-    TargetFolder: '$(build.artifactstagingdirectory)\PublishProfiles '
+    TargetFolder: '$(build.artifactstagingdirectory)\ServiceFabric\PublishProfiles '
 
 
 - task: CopyFiles@2
-  displayName: 'Copy Files to: $(build.artifactstagingdirectory)\ApplicationParameters'
+  displayName: 'Copy Files to: Application Parameters'
   enabled: false
   inputs:
     SourceFolder: '$(build.sourcesdirectory)\src\$(ServiceFabricProjectFolderName)'
     Contents: '**\ApplicationParameters\*.xml'
-    TargetFolder: '$(build.artifactstagingdirectory)\ApplicationParameters'
+    TargetFolder: '$(build.artifactstagingdirectory)\ServiceFabric\ApplicationParameters'
     CleanTargetFolder: true
     flattenFolders: true
 
@@ -99,13 +100,8 @@ steps:
   displayName: 'Update Service Fabric Manifests (Manifest versions)'
   enabled: false
   inputs:
-    applicationPackagePath: '$(build.artifactstagingdirectory)\ApplicationPackage'
+    applicationPackagePath: '$(build.artifactstagingdirectory)\ServiceFabric\ApplicationPackage'
     versionBehavior: Replace
-
-- task: VisualStudioTestPlatformInstaller@1
-  displayName: 'Visual Studio Test Platform Installer'
-  inputs:
-    versionSelector: latestStable
 
 - task: VSTest@2
   displayName: 'VsTest - testAssemblies'
