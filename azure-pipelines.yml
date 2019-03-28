@@ -29,9 +29,9 @@ steps:
     versionSelector: latestStable
 
 - task: NuGetToolInstaller@0
-  displayName: 'Use NuGet >4.9.0'
+  displayName: 'Use NuGet >4.7.1'
   inputs:
-    versionSpec: '>4.9.0'
+    versionSpec: '<4.7.1'
     checkLatest: true
 
 - task: NuGetCommand@2
