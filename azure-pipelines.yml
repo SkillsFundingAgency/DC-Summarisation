@@ -60,7 +60,7 @@ steps:
   inputs:
     solution: '**/$(ServiceFabricProjectFolderName)/*.sfproj'
     msbuildArchitecture: x64
-    platform: '$(BuildPlatform)'
+    platform: 'x64'
     configuration: '$(BuildConfiguration)'
     msbuildArguments: '/t:Package /p:PackageLocation="$(build.artifactstagingdirectory)\ServiceFabric\applicationpackage" /p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)'
     clean: false
