@@ -1,17 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using ESFA.DC.Logging.Interfaces;
+﻿using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
-using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Output.Model;
 using ESFA.DC.Summarisation.Data.Persist;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
+using ESFA.DC.Summarisation.Interface;
 using ESFA.DC.Summarisation.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace ESFA.DC.Summarisation.Main1819.Service
+namespace ESFA.DC.Summarisation.Service
 {
     public class SummarisationWrapper : ISummarisationWrapper
     {

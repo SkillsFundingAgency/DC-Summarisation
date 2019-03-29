@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 
-namespace ESFA.DC.Summarisation.Data.Repository.Interface
+namespace ESFA.DC.Summarisation.Interface
 {
     public interface IProviderRepository
     {

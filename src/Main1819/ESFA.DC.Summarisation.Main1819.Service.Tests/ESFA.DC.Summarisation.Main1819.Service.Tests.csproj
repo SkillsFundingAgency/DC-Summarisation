@@ -58,6 +58,10 @@
     <None Include="ESFA.DC.Summarisation.Main1819.Service.Tests.ruleset" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ESF.DC.Summarisation.Main1819.Data\ESF.DC.Summarisation.Main1819.Data.csproj">
+      <Project>{98F8DF97-A434-4B24-B3D4-30C4A71EC42C}</Project>
+      <Name>ESF.DC.Summarisation.Main1819.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Configuration\ESFA.DC.Summarisation.Configuration.csproj">
       <Project>{6B10F154-0C66-49C8-BEFB-646A8C8909DA}</Project>
       <Name>ESFA.DC.Summarisation.Configuration</Name>
@@ -73,6 +77,10 @@
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Interfaces\ESFA.DC.Summarisation.Interfaces.csproj">
       <Project>{2710AFB6-C198-4438-B676-8AF1A0B2E272}</Project>
       <Name>ESFA.DC.Summarisation.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ESFA.DC.Summarisation.Service\ESFA.DC.Summarisation.Service.csproj">
+      <Project>{79FBA70B-AB9E-4B43-B850-9CF41340B638}</Project>
+      <Name>ESFA.DC.Summarisation.Service</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.Summarisation.Main1819.Service\ESFA.DC.Summarisation.Main1819.Service.csproj">
       <Project>{a8ba4aa3-e515-4d80-8712-dd3b8899e7e2}</Project>

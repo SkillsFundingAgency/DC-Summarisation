@@ -11,7 +11,6 @@ using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Console.Stubs;
-using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Data.Persist;
 using ESFA.DC.Summarisation.Data.Persist.BulkInsert;
 using ESFA.DC.Summarisation.Data.Persist.Mapper;
@@ -19,12 +18,13 @@ using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
 using ESFA.DC.Summarisation.Data.Persist.Persist;
 using ESFA.DC.Summarisation.Data.Persist.Persist.Interface;
 using ESFA.DC.Summarisation.Data.Population.Service;
-using ESFA.DC.Summarisation.Data.Repository;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
+using ESFA.DC.Summarisation.Interface;
 using ESFA.DC.Summarisation.Interfaces;
-using ESFA.DC.Summarisation.Main1819.Service;
+using ESFA.DC.Summarisation.Main1819.Data.Repository;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using ESFA.DC.Summarisation.Main1819.Service.Tests.Stubs;
+using ESFA.DC.Summarisation.Service;
 using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Console
@@ -82,6 +82,7 @@ namespace ESFA.DC.Summarisation.Console
                 dataStorePersistenceService);
 
             await wrapper.Summarise(summarisationMessage, logger, CancellationToken.None);
+
         }
     }
 }

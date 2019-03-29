@@ -6,6 +6,7 @@ using ESFA.DC.Summarisation.Data.External.FCS.Model;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
+using ESFA.DC.Summarisation.Service;
 using FluentAssertions;
 using Xunit;
 
@@ -183,76 +184,6 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                 item.ActualValue.Should().Be((learningDeliveryRecords * ilrfundlinesCount * attributescount * i * periodValue) + (learningDeliveryRecords * easfundlinesCount * i * periodValue));
 
                 i++;
-            }
-        }
-
-        [Theory]
-        [InlineData("ProgFundingFM35andEAS")]
-        [InlineData("LearningSupportFM35andEAS")]
-        [InlineData("EASOnlydeliverables")]
-        [InlineData("ProgFundingFM25andEAS")]
-        [InlineData("LoansBursaryProgFunding")]
-        [InlineData("LoansBursarySupportFunding")]
-        [InlineData("ProgFundingTrailblazer")]
-        [InlineData("LearningSupportTrailblazer")]
-        [InlineData("ProgFundingTrailblazerILR")]
-        [InlineData("LoansBursaryProgFundingCLP")]
-        public void SummariseByFundingType(string key)
-        {
-            var task = new SummarisationService();
-
-            var fundingType = GetFundingType(key);
-
-            var results = task.Summarise(fundingType, GetTestProvider(), GetContractAllocation(), GetCollectionPeriods());
-
-            Dictionary<string, int> fspdlc = new Dictionary<string, int>();
-
-            var fundingStreams = fundingType.FundingStreams.Select(fs => new { fs.PeriodCode, fs.DeliverableLineCode }).ToList();
-
-            foreach (var item in fundingStreams)
-            {
-                results.Count(r => r.FundingStreamPeriodCode == item.PeriodCode && r.DeliverableCode == item.DeliverableLineCode).Should().Be(12);
-
-                SummariseByFundingStream(item.PeriodCode, item.DeliverableLineCode);
-            }
-        }
-
-        [Theory]
-        [InlineData("ProgFundingFM35andEAS")]
-        [InlineData("LearningSupportFM35andEAS")]
-        [InlineData("EASOnlydeliverables")]
-        [InlineData("ProgFundingFM25andEAS")]
-        [InlineData("LoansBursaryProgFunding")]
-        [InlineData("LoansBursarySupportFunding")]
-        [InlineData("ProgFundingTrailblazer")]
-        [InlineData("LearningSupportTrailblazer")]
-        [InlineData("ProgFundingTrailblazerILR")]
-        [InlineData("LoansBursaryProgFundingCLP")]
-        public void PerformanceTest(string key)
-        {
-            Provider provider = GetTestProvider();
-            List<CollectionPeriod> collectionPeriods = GetCollectionPeriods();
-
-            var learningDeliveries = provider.LearningDeliveries.ToList();
-
-            for (int i = 0; i < 17; i++)
-            {
-                learningDeliveries.AddRange(learningDeliveries);
-            }
-
-            provider.LearningDeliveries = learningDeliveries;
-
-            FundingType fundingType = GetFundingType(key);
-
-            var task = new SummarisationService();
-
-            var results = task.Summarise(fundingType, provider, GetContractAllocation(), GetCollectionPeriods()).ToList();
-
-            var fundingStreams = fundingType.FundingStreams.Select(fs => new { fs.PeriodCode, fs.DeliverableLineCode }).ToList();
-
-            foreach (var item in fundingStreams)
-            {
-                results.Count(r => r.FundingStreamPeriodCode == item.PeriodCode && r.DeliverableCode == item.DeliverableLineCode).Should().Be(12);
             }
         }
 

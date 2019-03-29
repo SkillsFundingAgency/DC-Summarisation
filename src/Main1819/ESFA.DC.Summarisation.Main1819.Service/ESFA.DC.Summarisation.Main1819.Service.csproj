@@ -19,6 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="SummarisationService.cs" />
+    <Compile Remove="SummarisationWrapper.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="JsonFiles\CollectionPeriods.json" />
     <None Remove="JsonFiles\FundingTypes.json" />
   </ItemGroup>
@@ -28,10 +33,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="JsonFiles\FundingTypes.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Config\Interface\" />
   </ItemGroup>
 
   <ItemGroup>
