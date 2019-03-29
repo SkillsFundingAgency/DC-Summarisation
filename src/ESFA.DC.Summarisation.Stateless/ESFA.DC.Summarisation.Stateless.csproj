@@ -83,10 +83,6 @@
       <Project>{E90DB834-3D93-4976-9B2B-38E0455AF3FC}</Project>
       <Name>ESFA.DC.Summarisation.Modules</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Main1819\ESFA.DC.Summarisation.Main1819.Service\ESFA.DC.Summarisation.Main1819.Service.csproj">
-      <Project>{A8BA4AA3-E515-4D80-8712-DD3B8899E7E2}</Project>
-      <Name>ESFA.DC.Summarisation.Main1819.Service</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac">
