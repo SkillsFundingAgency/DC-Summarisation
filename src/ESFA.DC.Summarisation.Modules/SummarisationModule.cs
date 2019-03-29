@@ -9,8 +9,6 @@ using ESFA.DC.Serialization.Json;
 using ESFA.DC.ServiceFabric.Helpers;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Configuration.Interface;
-using ESFA.DC.Summarisation.Data.Input.Interface;
-using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Data.Persist;
 using ESFA.DC.Summarisation.Data.Persist.BulkInsert;
 using ESFA.DC.Summarisation.Data.Persist.Mapper;
@@ -18,12 +16,13 @@ using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
 using ESFA.DC.Summarisation.Data.Persist.Persist;
 using ESFA.DC.Summarisation.Data.Persist.Persist.Interface;
 using ESFA.DC.Summarisation.Data.Population.Service;
-using ESFA.DC.Summarisation.Data.Repository;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
-using ESFA.DC.Summarisation.Main1819.Service;
+using ESFA.DC.Summarisation.Main1819.Data.Repository;
+using ESFA.DC.Summarisation.Main1819.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using ESFA.DC.Summarisation.Model;
+using ESFA.DC.Summarisation.Service;
 using Microsoft.EntityFrameworkCore;
 using ISummarisationContext = ESFA.DC.Summarisation.Model.Interface.ISummarisationContext;
 
@@ -55,7 +54,6 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<SummarisedActualsPersist>().As<ISummarisedActualsPersist>();
 
             containerBuilder.RegisterType<CollectionReturnMapper>().As<ICollectionReturnMapper>();
-            //containerBuilder.RegisterType<SummarisationMessage>().As<ISummarisationMessage>();
 
             containerBuilder.RegisterType<DataStorePersistenceService>().As<IDataStorePersistenceService>();
 

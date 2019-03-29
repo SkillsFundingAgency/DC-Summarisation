@@ -59,6 +59,10 @@
     <None Include="ESFA.DC.Summarisation.Console.ruleset" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ESF.DC.Summarisation.Main1819.Data\ESF.DC.Summarisation.Main1819.Data.csproj">
+      <Project>{98F8DF97-A434-4B24-B3D4-30C4A71EC42C}</Project>
+      <Name>ESF.DC.Summarisation.Main1819.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.Summarisation.Configuration\ESFA.DC.Summarisation.Configuration.csproj">
       <Project>{6B10F154-0C66-49C8-BEFB-646A8C8909DA}</Project>
       <Name>ESFA.DC.Summarisation.Configuration</Name>
@@ -78,6 +82,10 @@
     <ProjectReference Include="..\ESFA.DC.Summarisation.Model\ESFA.DC.Summarisation.Model.csproj">
       <Project>{B0FF12A8-3050-453E-B2C2-76E197977F8A}</Project>
       <Name>ESFA.DC.Summarisation.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Service\ESFA.DC.Summarisation.Service.csproj">
+      <Project>{79FBA70B-AB9E-4B43-B850-9CF41340B638}</Project>
+      <Name>ESFA.DC.Summarisation.Service</Name>
     </ProjectReference>
     <ProjectReference Include="..\Main1819\ESFA.DC.Summarisation.Main1819.Service\ESFA.DC.Summarisation.Main1819.Service.csproj">
       <Project>{a8ba4aa3-e515-4d80-8712-dd3b8899e7e2}</Project>

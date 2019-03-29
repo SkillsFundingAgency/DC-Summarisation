@@ -23,6 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ESF.DC.Summarisation.Main1819.Data\ESF.DC.Summarisation.Main1819.Data.csproj" />
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Service\ESFA.DC.Summarisation.Service.csproj" />
     <ProjectReference Include="..\Main1819\ESFA.DC.Summarisation.Main1819.Service\ESFA.DC.Summarisation.Main1819.Service.csproj" />
   </ItemGroup>
 

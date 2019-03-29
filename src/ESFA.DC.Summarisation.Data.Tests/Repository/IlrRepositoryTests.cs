@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interface;
-using ESFA.DC.Summarisation.Data.Repository;
+using ESFA.DC.Summarisation.Main1819.Data.Repository;
 using FluentAssertions;
 using MockQueryable.Moq;
 using Moq;

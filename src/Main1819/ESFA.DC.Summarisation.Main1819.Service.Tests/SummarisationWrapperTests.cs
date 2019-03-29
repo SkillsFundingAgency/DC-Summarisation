@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +12,9 @@ using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Data.Persist;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
+using ESFA.DC.Summarisation.Main1819.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
+using ESFA.DC.Summarisation.Service;
 using FluentAssertions;
 using Moq;
 using Xunit;

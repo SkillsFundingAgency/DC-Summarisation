@@ -1,20 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ESFA.DC.Summarisation.Configuration;
+﻿using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Output.Model;
 using ESFA.DC.Summarisation.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace ESFA.DC.Summarisation.Main1819.Service
+namespace ESFA.DC.Summarisation.Service
 {
     public class SummarisationService : ISummarisationService
     {
-        public IEnumerable<SummarisedActual> Summarise(FundingType fundingType, IProvider provider, IEnumerable<IFcsContractAllocation> allocations, IEnumerable<CollectionPeriod> collectionPeriods)
-        {
-            return fundingType.FundingStreams.SelectMany(fs => Summarise(fs, provider, allocations, collectionPeriods));
-        }
-
         public IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams, IProvider provider, IEnumerable<IFcsContractAllocation> allocations, IEnumerable<CollectionPeriod> collectionPeriods)
         {
             return fundingStreams.SelectMany(fs => Summarise(fs, provider, allocations, collectionPeriods));

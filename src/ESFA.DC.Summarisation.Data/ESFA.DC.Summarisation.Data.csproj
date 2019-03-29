@@ -13,6 +13,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Repository\AlbRepository.cs" />
+    <Compile Remove="Repository\Fm35Repository.cs" />
+    <Compile Remove="Repository\Interface\IProviderRepository.cs" />
     <Compile Remove="Repository\SummarisedActualsPersist.cs" />
   </ItemGroup>
 
