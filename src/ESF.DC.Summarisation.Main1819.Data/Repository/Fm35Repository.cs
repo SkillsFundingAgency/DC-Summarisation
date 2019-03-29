@@ -22,31 +22,6 @@ namespace ESFA.DC.Summarisation.Main1819.Data.Repository
                _ilr = ilr;
         }
 
-        public async Task<IReadOnlyCollection<IProvider>> RetrieveProvidersAsync(CancellationToken cancellationToken)
-        {
-            return await _ilr.FM35_Learners
-                .GroupBy(l => l.UKPRN)
-                .Select(l => new Provider
-                {
-                    UKPRN = l.Key,
-                    LearningDeliveries = l.SelectMany(ld => ld.FM35_LearningDeliveries
-                        .Select(
-                            ldd => new LearningDelivery
-                            {
-                                LearnRefNumber = ldd.LearnRefNumber,
-                                AimSeqNumber = ldd.AimSeqNumber,
-                                Fundline = ldd.FundLine,
-                                PeriodisedData = ldd.FM35_LearningDelivery_PeriodisedValues
-                                    .GroupBy(pv => pv.AttributeName)
-                                    .Select(group => new PeriodisedData
-                                    {
-                                        AttributeName = group.Key,
-                                        Periods = group.SelectMany(UnflattenToPeriod).ToList()
-                                    } as IPeriodisedData).ToList()
-                            } as ILearningDelivery)).ToList()
-                }).ToListAsync(cancellationToken);
-        }
-
         public async Task<int> RetrieveProviderPageCountAsync(int pageSize, CancellationToken cancellationToken)
         {
             return await _ilr.FM35_Learners
@@ -79,31 +54,6 @@ namespace ESFA.DC.Summarisation.Main1819.Data.Repository
                                         Periods = group.SelectMany(pd => UnflattenToPeriod(pd)).ToList()
                                     } as IPeriodisedData).ToList()
                             } as ILearningDelivery)).ToList()
-                }).ToListAsync(cancellationToken);
-        }
-
-        public async Task<IReadOnlyCollection<IProvider>> RetrieveProvidersAsync(int Ukprn, CancellationToken cancellationToken)
-        {
-            return await _ilr.FM35_Learners
-                .Where(p => p.UKPRN == Ukprn)
-                .Select(l => new Provider
-                {
-                    UKPRN = l.UKPRN,
-                    LearningDeliveries = l.FM35_LearningDeliveries
-                        .Select(
-                            ldd => new LearningDelivery
-                            {
-                                LearnRefNumber = ldd.LearnRefNumber,
-                                AimSeqNumber = ldd.AimSeqNumber,
-                                Fundline = ldd.FundLine,
-                                PeriodisedData = ldd.FM35_LearningDelivery_PeriodisedValues
-                                    .GroupBy(pv => pv.AttributeName)
-                                    .Select(group => new PeriodisedData
-                                    {
-                                        AttributeName = group.Key,
-                                        Periods = group.SelectMany(UnflattenToPeriod).ToList()
-                                    } as IPeriodisedData).ToList()
-                            } as ILearningDelivery).ToList()
                 }).ToListAsync(cancellationToken);
         }
 

@@ -40,8 +40,8 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<SummarisationWrapper>().As<ISummarisationWrapper>();
             containerBuilder.RegisterType<SummarisationService>().As<ISummarisationService>();
 
-            containerBuilder.RegisterType<FundingTypesProvider>().As<IStaticDataProvider<FundingType>>();
-            containerBuilder.RegisterType<CollectionPeriodsProvider>().As<IStaticDataProvider<CollectionPeriod>>();
+            containerBuilder.RegisterType<FundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();
+            containerBuilder.RegisterType<CollectionPeriodsProvider>().As<ISummarisationConfigProvider<CollectionPeriod>>();
 
             containerBuilder.RegisterType<Fm35Repository>().As<IProviderRepository>();
             containerBuilder.RegisterType<AlbRepository>().As<IProviderRepository>();

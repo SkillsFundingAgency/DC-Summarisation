@@ -51,9 +51,9 @@ namespace ESFA.DC.Summarisation.Console
 
             IJsonSerializationService jsonSerializationService = new JsonSerializationService();
 
-            IStaticDataProvider<FundingType> fundingTypesProvider = new FundingTypesProvider(jsonSerializationService);
+            ISummarisationConfigProvider<FundingType> fundingTypesProvider = new FundingTypesProvider(jsonSerializationService);
 
-            IStaticDataProvider<CollectionPeriod> collectionPeriodsProvider = new CollectionPeriodsProvider(jsonSerializationService);
+            ISummarisationConfigProvider<CollectionPeriod> collectionPeriodsProvider = new CollectionPeriodsProvider(jsonSerializationService);
 
             IIlr1819RulebaseContext ilr1819RulebaseContext = new ILR1819_DataStoreEntities(ilrdbContextOptions);
 

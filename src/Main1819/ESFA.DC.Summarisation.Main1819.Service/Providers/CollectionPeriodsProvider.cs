@@ -3,7 +3,7 @@ using ESFA.DC.Summarisation.Configuration;
 
 namespace ESFA.DC.Summarisation.Main1819.Service.Providers
 {
-    public class CollectionPeriodsProvider : AbstractStaticDataProvider<CollectionPeriod>
+    public class CollectionPeriodsProvider : AbstractSummarisationConfigProvider<CollectionPeriod>
     {
         public CollectionPeriodsProvider(IJsonSerializationService jsonSerializationService)
             : base(jsonSerializationService)

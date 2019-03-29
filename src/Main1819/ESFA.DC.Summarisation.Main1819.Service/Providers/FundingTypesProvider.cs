@@ -3,7 +3,7 @@ using ESFA.DC.Summarisation.Configuration;
 
 namespace ESFA.DC.Summarisation.Main1819.Service.Providers
 {
-    public class FundingTypesProvider : AbstractStaticDataProvider<FundingType>
+    public class FundingTypesProvider : AbstractSummarisationConfigProvider<FundingType>
     {
         public FundingTypesProvider(IJsonSerializationService jsonSerializationService)
             : base(jsonSerializationService)
