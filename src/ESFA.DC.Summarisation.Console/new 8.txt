@@ -1,0 +1,80 @@
+SELECT
+    UKPRN,
+    SV.CollectionPeriod,
+    PT.PaymentName,
+    SV.PaymentValue,
+    FL.Name
+FROM EAS_Submission S
+INNER JOIN EAS_Submission_Values SV
+    ON S.Submission_Id = SV.Submission_Id
+INNER JOIN Payment_Types PT
+    ON SV.Payment_Id = PT.Payment_Id
+INNER JOIN FundingLine FL
+    ON PT.FundingLineId = FL.Id
+WHERE PT.PaymentName IN
+(
+    'Authorised Claims: 16-18 Apprenticeships',
+    'Audit Adjustments: 16-18 Apprenticeships',
+    'Authorised Claims: 19-23 Apprenticeships',
+    'Audit Adjustments: 19-23 Apprenticeships',
+    'Authorised Claims: 24+ Apprenticeships',
+    'Audit Adjustments: 24+ Apprenticeships',
+    'Authorised Claims: 19-24 Traineeships',
+    'Audit Adjustments: 19-24 Traineeships',
+    'Audit Adjustments: AEB-Other Learning',
+    'Authorised Claims: AEB-Other Learning',
+    'Princes Trust: AEB-Other Learning',
+    'Authorised Claims: 19-24 Traineeships (From Nov 2017)',
+    'Audit Adjustments: 19-24 Traineeships (From Nov 2017)',
+    'Audit Adjustments: AEB-Other Learning (From Nov 2017)',
+    'Authorised Claims: AEB-Other Learning (From Nov 2017)',
+    'Princes Trust: AEB-Other Learning (From Nov 2017)',
+
+    'Excess Learning Support: 16-18 Apprenticeships',
+    'Excess Learning Support: 19-23 Apprenticeships',
+    'Excess Learning Support: 24+ Apprenticeships',
+    'Excess Learning Support: 19-24 Traineeships',
+    'Excess Learning Support: AEB-Other Learning',
+    'Excess Learning Support: 19-24 Traineeships (From Nov 2017)',
+    'AEB-Other Learning: Excess Learning Support (From Nov 2017)',
+
+    'Vulnerable Bursary: 16-19 Traineeships Bursary',
+    'Free Meals: 16-19 Traineeships Bursary',
+    'Discretionary Bursary: 16-19 Traineeships Bursary',
+    'Learner Support: 16-18 Apprenticeships',
+    'Learner Support: 24+  Apprenticeships',
+    'Learner Support: 19-23 Apprenticeships',
+    'Learner Support: 19-24 Traineeships',
+    'Learner Support: 19-24 Traineeships (From Nov 2017)',
+    'Excess Support: Advanced Learner Loans Bursary',
+
+    'Authorised Claims: Advanced Learner Loans Bursary',
+
+    'Audit Adjustments: 16-18 Trailblazer Apprenticeships',
+    'Authorised Claims: 16-18 Trailblazer Apprenticeships',
+    'Audit Adjustments: 19-23 Trailblazer Apprenticeships',
+    'Authorised Claims: 19-23 Trailblazer Apprenticeships',
+    'Audit Adjustments: 24+ Trailblazer Apprenticeships',
+    'Authorised Claims: 24+ Trailblazer Apprenticeships',
+
+    'Excess Learning Support: 16-18 Trailblazer Apprenticeships',
+    'Excess Learning Support: 19-23 Trailblazer Apprenticeships',
+    'Excess Learning Support: 24+ Trailblazer Apprenticeships'
+)
+
+SELECT
+    UKPRN,
+    SV.CollectionPeriod,
+    SUM(SV.PaymentValue),
+    FL.Name
+FROM EAS_Submission S
+INNER JOIN EAS_Submission_Values SV
+    ON S.Submission_Id = SV.Submission_Id
+INNER JOIN Payment_Types PT
+    ON SV.Payment_Id = PT.Payment_Id
+INNER JOIN FundingLine FL
+    ON PT.FundingLineId = FL.Id
+GROUP BY UKPRN, FL.Name, SV.CollectionPeriod
+
+
+SELECT UKPRN, COUNT(Submission_Id) FROM EAS_Submission
