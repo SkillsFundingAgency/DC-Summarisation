@@ -8,6 +8,6 @@ namespace ESFA.DC.Summarisation.Interfaces
 
         string CollectionReturnCode { get; }
 
-        IEnumerable<string> FundModels { get; }
+        IEnumerable<string> SummarisationTypes { get; }
     }
 }

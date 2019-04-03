@@ -15,7 +15,9 @@ namespace ESFA.DC.Summarisation.Main1819.Data.Repository
     {
         private readonly IIlr1819RulebaseContext _ilr;
 
-        public string FundModel => nameof(Configuration.FundModel.ALB);
+        public string SummarisationType => nameof(Configuration.Enum.SummarisationType.Main1819_ALB);
+
+        public string CollectionType => nameof(Configuration.Enum.CollectionType.ILR1819);
 
         public AlbRepository(IIlr1819RulebaseContext ilr)
         {
