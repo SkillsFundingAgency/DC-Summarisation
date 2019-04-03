@@ -7,7 +7,9 @@ namespace ESFA.DC.Summarisation.Interface
 {
     public interface IProviderRepository
     {
-        string FundModel { get; }
+        string SummarisationType { get; }
+
+        string CollectionType { get; }
 
         Task<IReadOnlyCollection<IProvider>> RetrieveProvidersAsync(int pageSize, int pageNumber, CancellationToken cancellationToken);
 

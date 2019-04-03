@@ -28,7 +28,7 @@ namespace ESFA.DC.Summarisation.Stateless.Context
             get => _jobContextMessage.KeyValuePairs[_collectionReturnCode].ToString();
         }
 
-        public IEnumerable<string> FundModels
+        public IEnumerable<string> SummarisationTypes
         {
             get
             {

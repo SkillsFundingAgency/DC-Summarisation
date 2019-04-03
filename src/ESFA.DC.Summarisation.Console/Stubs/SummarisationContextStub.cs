@@ -1,9 +1,5 @@
 ﻿using ESFA.DC.Summarisation.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ESFA.DC.Summarisation.Console.Stubs
 {
@@ -13,6 +9,6 @@ namespace ESFA.DC.Summarisation.Console.Stubs
 
         public string CollectionReturnCode => "R01";
 
-        public IEnumerable<string> FundModels => new List<string> { "FM35" };
+        public IEnumerable<string> SummarisationTypes => new List<string> { "Main1819_FM35" };
     }
 }

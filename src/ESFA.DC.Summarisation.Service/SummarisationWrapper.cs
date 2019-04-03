@@ -56,13 +56,13 @@ namespace ESFA.DC.Summarisation.Service
 
             var summarisedActuals = new List<SummarisedActual>();
 
-            foreach (var fundModel in summarisationContext.FundModels)
+            foreach (var SummarisationType in summarisationContext.SummarisationTypes)
             {
-                logger.LogInfo($"Summarisation Wrapper: Summarising Fundmodel {fundModel} Start");
+                logger.LogInfo($"Summarisation Wrapper: Summarising Fundmodel {SummarisationType} Start");
 
-                summarisedActuals.AddRange(await SummariseByFundModel(fundModel, collectionPeriods, fcsContractAllocations, logger, cancellationToken));
+                summarisedActuals.AddRange(await SummariseByFundModel(summarisationContext.CollectionType, SummarisationType, collectionPeriods, fcsContractAllocations, logger, cancellationToken));
 
-                logger.LogInfo($"Summarisation Wrapper: Summarising Fundmodel {fundModel} End");
+                logger.LogInfo($"Summarisation Wrapper: Summarising Fundmodel {SummarisationType} End");
             }
 
             logger.LogInfo($"Summarisation Wrapper: Storing data to Summarised Actuals Start");
@@ -72,6 +72,22 @@ namespace ESFA.DC.Summarisation.Service
             logger.LogInfo($"Summarisation Wrapper: Storing data to Summarised Actuals End");
 
             return summarisedActuals;
+        }
+
+        private async Task<IEnumerable<SummarisedActual>> SummariseByFundModel(
+           string collectionType,
+           string summarisationType,
+           IEnumerable<CollectionPeriod> collectionPeriods,
+           IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations,
+           ILogger logger,
+           CancellationToken cancellationToken)
+        {
+
+            var fundingStreams = _fundingTypesProvider.Provide().Where(x => x.Key == summarisationType).SelectMany(fs => fs.FundingStreams).ToList();
+
+            var repository = _repositories.FirstOrDefault(r => r.SummarisationType == summarisationType && r.CollectionType == collectionType);
+
+            return await SummariseProviders(fundingStreams, repository, collectionPeriods, fcsContractAllocations, logger, cancellationToken);
         }
 
         public async Task<IEnumerable<SummarisedActual>> SummariseProviders(
@@ -123,17 +139,6 @@ namespace ESFA.DC.Summarisation.Service
             return actuals;
         }
 
-        private async Task<IEnumerable<SummarisedActual>> SummariseByFundModel(
-            string fundModel,
-            IEnumerable<CollectionPeriod> collectionPeriods,
-            IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations,
-            ILogger logger,
-            CancellationToken cancellationToken)
-        {
-            var fundingStreams = _fundingTypesProvider.Provide().SelectMany(x => x.FundingStreams.Where(y => y.FundModel.ToString() == fundModel)).ToList();
-            var repository = _repositories.FirstOrDefault(r => r.FundModel == fundModel);
-
-            return await SummariseProviders(fundingStreams, repository, collectionPeriods, fcsContractAllocations, logger, cancellationToken);
-        }
+       
     }
 }
