@@ -17,6 +17,6 @@
     <Parameter Name="AzureStorageContainerName" Value="__AzureStorageContainerName__" />
     <Parameter Name="FCSConnectionString" Value="__FcsDbConnectionString_RO__" />
     <Parameter Name="ILR1819ConnectionString" Value="__ILR1819DataStoreConnectionStringRO__" />
-    <Parameter Name="SummarisedActualsConnectionString" Value="__SummarisedActuals_Connectionstring_RO__" />
+    <Parameter Name="SummarisedActualsConnectionString" Value="__SummarisedActuals_Connectionstring_RW__" />
   </Parameters>
 </Application>
