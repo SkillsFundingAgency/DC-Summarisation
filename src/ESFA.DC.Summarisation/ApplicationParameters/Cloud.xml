@@ -3,20 +3,21 @@
   <Parameters>
     <Parameter Name="ESFA.DC.Summarisation.Stateless_InstanceCount" Value="-1" />
     <Parameter Name="ProcessingServicePlacementConstraints" Value="__ProcessingServicePlacementConstraints__" />
-    <Parameter Name="ServiceBusConnectionString" Value="__ServiceBusConnectionStringServiceFabric__" />
-    <Parameter Name="TopicName" Value="__TopicName__" />
-    <Parameter Name="SubscriptionName" Value="__SubscriptionName__" />
-    <Parameter Name="TopicMaxConcurrentCalls" Value="__TopicMaxConcurrentCalls__" />
-    <Parameter Name="TopicMaxCallbackTimeSpanMinutes" Value="__TopicMaxCallbackTimeSpanMinutes__" />
+    <Parameter Name="ServiceBusConnectionString" Value="__SBSAPServFabPrimaryConnectionString__" />
+    <Parameter Name="TopicName" Value="__TopicSummarisation__" />
+    <Parameter Name="SubscriptionName" Value="__SubscriptionSummarisation__" />
+    <Parameter Name="TopicMaxConcurrentCalls" Value="__SummarisationTopicMaxConcurrentCalls__" />
+    <Parameter Name="TopicMaxCallbackTimeSpanMinutes" Value="__SummarisationTopicMaxCallbackTimeSpanMinutes__" />
     <Parameter Name="JobStatusQueueName" Value="__JobStatusQueueName__" />
     <Parameter Name="JobStatusMaxConcurrentCalls" Value="__JobStatusMaxConcurrentCalls__" />
     <Parameter Name="AuditQueueName" Value="__AuditQueue__" />
     <Parameter Name="AuditMaxConcurrentCalls" Value="__AuditMaxConcurrentCalls__" />
     <Parameter Name="LoggerConnectionString" Value="__LoggerConnectionString__" />
-    <Parameter Name="AzureStorageConnectionString" Value="__AzureStorageConnectionString__" />
-    <Parameter Name="AzureStorageContainerName" Value="__AzureStorageContainerName__" />
+    <Parameter Name="AzureStorageConnectionString" Value="__StorageAccountConnectionStringILR__" />
+    <Parameter Name="AzureStorageContainerName" Value="__ilr_1819_Storage_Container_Name__" />
     <Parameter Name="FCSConnectionString" Value="__FcsDbConnectionString_RO__" />
-    <Parameter Name="ILR1819ConnectionString" Value="__ILR1819ConnectionString_EF_RO__" />
-    <Parameter Name="SummarisedActualsConnectionString" Value="__SummarisedActuals_Connectionstring_RO__" />
+    <Parameter Name="ILR1819ConnectionString" Value="__ILR1819DataStoreConnectionStringRO__" />
+    <Parameter Name="SummarisedActualsConnectionString" Value="__SummarisedActuals_Connectionstring_RW__" />
   </Parameters>
 </Application>
+
