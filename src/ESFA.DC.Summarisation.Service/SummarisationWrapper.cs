@@ -83,7 +83,7 @@ namespace ESFA.DC.Summarisation.Service
            CancellationToken cancellationToken)
         {
 
-            var fundingStreams = _fundingTypesProvider.Provide().Where(x => x.Key == summarisationType).SelectMany(fs => fs.FundingStreams).ToList();
+            var fundingStreams = _fundingTypesProvider.Provide().Where(x => x.SummarisationType == summarisationType).SelectMany(fs => fs.FundingStreams).ToList();
 
             var repository = _repositories.FirstOrDefault(r => r.SummarisationType == summarisationType && r.CollectionType == collectionType);
 
