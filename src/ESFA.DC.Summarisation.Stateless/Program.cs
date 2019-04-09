@@ -5,9 +5,9 @@ using Autofac;
 using Autofac.Integration.ServiceFabric;
 using ESFA.DC.JobContextManager.Interface;
 using ESFA.DC.JobContextManager.Model;
-using ESFA.DC.Summarisation.Common.Config;
-using ESFA.DC.Summarisation.Common.Modules;
 using ESFA.DC.Summarisation.Modules;
+using ESFA.DC.ServiceFabric.Common.Config;
+using ESFA.DC.ServiceFabric.Common.Modules;
 
 namespace ESFA.DC.Summarisation.Stateless
 {
@@ -28,13 +28,13 @@ namespace ESFA.DC.Summarisation.Stateless
 
                 builder.RegisterServiceFabricSupport();
 
-                builder.RegisterStatelessService<Summarisation.Common.Stateless>("ESFA.DC.Summarisation.StatelessType");
+                builder.RegisterStatelessService<ServiceFabric.Common.Stateless>("ESFA.DC.Summarisation.StatelessType");
 
                 using (var container = builder.Build())
                 {
                     var manager = container.Resolve<IJobContextManager<JobContextMessage>>();
 
-                    ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(Summarisation.Common.Stateless).Name);
+                    ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(ServiceFabric.Common.Stateless).Name);
 
                     // Prevents this host process from terminating so services keep running.
                     Thread.Sleep(Timeout.Infinite);
