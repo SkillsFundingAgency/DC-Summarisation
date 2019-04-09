@@ -105,15 +105,15 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         [InlineData("Main1819_TBL", "APPS1819", 21, "24+ Trailblazer Apprenticeship", "ILR_TBL")]
 
         [InlineData("Main1819_ALB", "CLP1819", 1, "Advanced Learner Loans Bursary", "ILR_ALB")]
-        public void FundLineConfiguration(string fundingTypeKey, string fspCode, int dlc, string fundLine, string lineType)
+        public void FundLineConfiguration(string summarisationType, string fspCode, int dlc, string fundLine, string lineType)
         {
             FundingTypesProvider fundingTypesProvider = NewProvider();
 
             var fundingTypes = fundingTypesProvider.Provide();
 
-            fundingTypes.Should().Contain(ft => ft.Key == fundingTypeKey);
+            fundingTypes.Should().Contain(ft => ft.SummarisationType == summarisationType);
 
-            var fundingStreams = fundingTypes.First(ft => ft.Key == fundingTypeKey).FundingStreams;
+            var fundingStreams = fundingTypes.First(ft => ft.SummarisationType == summarisationType).FundingStreams;
 
             fundingStreams.Should().Contain(fs => fs.PeriodCode == fspCode && fs.DeliverableLineCode == dlc);
 

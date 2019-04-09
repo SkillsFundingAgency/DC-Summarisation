@@ -281,7 +281,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
         private FundingType GetFundingType(string fundingType)
         {
-          return GetFundingTypes().First(x => x.Key == fundingType);
+          return GetFundingTypes().First(x => x.SummarisationType == fundingType);
         }
 
         private List<FundingType> GetFundingTypes()

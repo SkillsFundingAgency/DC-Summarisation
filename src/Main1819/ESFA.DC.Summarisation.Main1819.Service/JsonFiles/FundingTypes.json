@@ -1,6 +1,6 @@
 [
   {
-    "Key": "Main1819_FM35",
+    "SummarisationType": "Main1819_FM35",
     "FundingStreams": [
       {
         "PeriodCode": "APPS1819",
@@ -394,12 +394,12 @@
     ]
   },
   {
-    "Key": "Main1819_EAS",
+    "SummarisationType": "Main1819_EAS",
     "FundingStreams": [
       {
         "PeriodCode": "16-18TRN1819",
         "DeliverableLineCode": 3,
-        "FundModel":  "EAS",
+        "FundModel": "EAS",
         "FundLines": [
           {
             "Fundline": "Vulnerable Bursary: 16-19 Traineeships Bursary",
@@ -421,7 +421,7 @@
       {
         "PeriodCode": "APPS1819",
         "DeliverableLineCode": 4,
-        "FundModel":  "EAS",
+        "FundModel": "EAS",
         "FundLines": [
           {
             "Fundline": "Learner Support: 16-18 Apprenticeships",
@@ -433,7 +433,7 @@
       {
         "PeriodCode": "APPS1819",
         "DeliverableLineCode": 13,
-        "FundModel":  "EAS",
+        "FundModel": "EAS",
         "FundLines": [
           {
             "Fundline": "Learner Support: 24+ Apprenticeships",
@@ -450,7 +450,7 @@
       {
         "PeriodCode": "AEBC1819",
         "DeliverableLineCode": 4,
-        "FundModel":  "EAS",
+        "FundModel": "EAS",
         "FundLines": [
           {
             "Fundline": "Learner Support: 19-24 Traineeships",
@@ -462,7 +462,7 @@
       {
         "PeriodCode": "AEB-TOL1819",
         "DeliverableLineCode": 4,
-        "FundModel":  "EAS",
+        "FundModel": "EAS",
         "FundLines": [
           {
             "Fundline": "Learner Support: 19-24 Traineeships (From Nov 2017)",
@@ -474,7 +474,7 @@
       {
         "PeriodCode": "ALLB1819",
         "DeliverableLineCode": 4,
-        "FundModel":  "EAS",
+        "FundModel": "EAS",
         "FundLines": [
           {
             "Fundline": "Excess Support: Advanced Learner Loans Bursary",
@@ -486,7 +486,7 @@
       {
         "PeriodCode": "ALLBC1819",
         "DeliverableLineCode": 4,
-        "FundModel":  "EAS",
+        "FundModel": "EAS",
         "FundLines": [
           {
             "Fundline": "Excess Support: Advanced Learner Loans Bursary",
@@ -498,12 +498,12 @@
     ]
   },
   {
-    "Key": "Main1819_FM25",
+    "SummarisationType": "Main1819_FM25",
     "FundingStreams": [
       {
         "PeriodCode": "16-18TRN1819",
         "DeliverableLineCode": 2,
-        "FundModel":  "FM25",
+        "FundModel": "FM25",
         "FundLines": [
           {
             "Fundline": "Authorised Claims: 16-18 Traineeships",
@@ -541,7 +541,7 @@
     ]
   },
   {
-    "Key": "Main1819_ALB",
+    "SummarisationType": "Main1819_ALB",
     "FundingStreams": [
       {
         "PeriodCode": "ALLB1819",
@@ -634,7 +634,7 @@
     ]
   },
   {
-    "Key": "Main1819_TBL",
+    "SummarisationType": "Main1819_TBL",
     "FundingStreams": [
       {
         "PeriodCode": "APPS1819",

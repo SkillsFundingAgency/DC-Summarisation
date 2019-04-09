@@ -1,10 +1,6 @@
 ﻿using ESFA.DC.Serialization.Json;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace ESFA.DC.Summarisation.ESF.Service.Tests
@@ -60,15 +56,15 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
         [InlineData("ESF_ILR_Supp_Value", "ESF1420", 2, "RQ01")]
         [InlineData("ESF_ILR_Supp_Value", "ESF1420", 3, "NR01")]
 
-        public void FundLineConfiguration(string fundingTypeKey, string fspCode, int dlc, string deliverableCode)
+        public void FundLineConfiguration(string summarisationType, string fspCode, int dlc, string deliverableCode)
         {
             FundingTypesProvider fundingTypesProvider = NewProvider();
 
             var fundingTypes = fundingTypesProvider.Provide();
 
-            fundingTypes.Should().Contain(ft => ft.Key == fundingTypeKey);
+            fundingTypes.Should().Contain(ft => ft.SummarisationType == summarisationType);
            
-            var fundingStreams = fundingTypes.First(ft => ft.Key == fundingTypeKey).FundingStreams;
+            var fundingStreams = fundingTypes.First(ft => ft.SummarisationType == summarisationType).FundingStreams;
 
             fundingStreams.Should().Contain(fs => fs.PeriodCode == fspCode && fs.DeliverableLineCode == dlc && fs.DeliverableCode == deliverableCode);
 

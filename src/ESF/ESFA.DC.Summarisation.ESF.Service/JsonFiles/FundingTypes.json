@@ -1,6 +1,6 @@
 [
   {
-    "Key": "ESF_Supp_Value",
+    "SummarisationType": "ESF_Supp_Value",
     "FundingStreams": [
       {
         "PeriodCode": "ESF1420",
@@ -23,7 +23,7 @@
     ]
   },
   {
-    "Key": "ESF_Supp_Value_Volume",
+    "SummarisationType": "ESF_Supp_Value_Volume",
     "FundingStreams": [
       {
         "PeriodCode": "ESF1420",
@@ -89,7 +89,7 @@
     ]
   },
   {
-    "Key": "ESF_ILR_Value_Volume",
+    "SummarisationType": "ESF_ILR_Value_Volume",
     "FundingStreams": [
       {
         "PeriodCode": "ESF1420",
@@ -346,7 +346,7 @@
     ]
   },
   {
-    "Key": "ESF_ILR_Supp_Value",
+    "SummarisationType": "ESF_ILR_Supp_Value",
     "FundingStreams": [
       {
         "PeriodCode": "ESF1420",
