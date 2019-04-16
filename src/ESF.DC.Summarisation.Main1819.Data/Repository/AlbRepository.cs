@@ -26,12 +26,17 @@ namespace ESFA.DC.Summarisation.Main1819.Data.Repository
 
         public async Task<int> RetrieveProviderPageCountAsync(int pageSize, CancellationToken cancellationToken)
         {
-            return await _ilr.ALB_Learners
-                .GroupBy(l => l.UKPRN)
-                .CountAsync(cancellationToken);
+            var providerCount = await _ilr.ALB_Learners
+                 .GroupBy(l => l.UKPRN)
+                 .CountAsync(cancellationToken);
+
+            return (providerCount % pageSize) > 0
+                ? (providerCount / pageSize) + 1
+                : (providerCount / pageSize);
+            
         }
 
-        public async Task<IReadOnlyCollection<IProvider>> RetrieveProvidersAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<IProvider>> RetrieveProvidersAsync(int pageSize, int pageNumber, CancellationToken cancellationToken)
         {
             return await _ilr.ALB_Learners
                  .GroupBy(l => l.UKPRN)

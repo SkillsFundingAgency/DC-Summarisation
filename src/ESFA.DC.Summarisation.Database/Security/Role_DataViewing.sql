@@ -4,7 +4,7 @@ GO
 
 -- Grant access rights to a specific schema in the database
 GRANT 
-	REFERENCES, 
+	--REFERENCES, 
 	SELECT, 
 	VIEW DEFINITION 
 ON SCHEMA::dbo

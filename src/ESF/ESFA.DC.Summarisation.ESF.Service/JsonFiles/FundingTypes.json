@@ -1,0 +1,377 @@
+[
+  {
+    "SummarisationType": "ESF_Supp_Value",
+    "FundingStreams": [
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 5,
+        "DeliverableCode": "AC01",
+        "UseAttributes": false
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 6,
+        "DeliverableCode": "CG01",
+        "UseAttributes": false
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 7,
+        "DeliverableCode": "CG02",
+        "UseAttributes": false
+      }
+    ]
+  },
+  {
+    "SummarisationType": "ESF_Supp_Value_Volume",
+    "FundingStreams": [
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 8,
+        "DeliverableCode": "SD01",
+        "UseAttributes": false
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 9,
+        "DeliverableCode": "SD02",
+        "UseAttributes": false
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 10,
+        "DeliverableCode": "SD03",
+        "UseAttributes": false
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 11,
+        "DeliverableCode": "SD04",
+        "UseAttributes": false
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 12,
+        "DeliverableCode": "SD05",
+        "UseAttributes": false
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 13,
+        "DeliverableCode": "SD06",
+        "UseAttributes": false
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 14,
+        "DeliverableCode": "SD07",
+        "UseAttributes": false
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 15,
+        "DeliverableCode": "SD08",
+        "UseAttributes": false
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 16,
+        "DeliverableCode": "SD09",
+        "UseAttributes": false
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 17,
+        "DeliverableCode": "SD10",
+        "UseAttributes": false
+      }
+
+    ]
+  },
+  {
+    "SummarisationType": "ESF_ILR_Value_Volume",
+    "FundingStreams": [
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 1,
+        "DeliverableCode": "ST01",
+        "UseAttributes": true,
+        "Attributes": [
+          "StartEarnings",
+          "AchievementEarnings",
+          "AdditionalProgCostEarnings",
+          "ProgressionEarnings"
+        ]
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 4,
+        "DeliverableCode": "FS01",
+        "UseAttributes": true,
+        "Attributes": [
+          "StartEarnings",
+          "AchievementEarnings",
+          "AdditionalProgCostEarnings",
+          "ProgressionEarnings"
+        ]
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 18,
+        "DeliverableCode": "PG01",
+        "UseAttributes": true,
+        "Attributes": [
+          "StartEarnings",
+          "AchievementEarnings",
+          "AdditionalProgCostEarnings",
+          "ProgressionEarnings"
+        ]
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 19,
+        "DeliverableCode": "PG02",
+        "UseAttributes": true,
+        "Attributes": [
+          "StartEarnings",
+          "AchievementEarnings",
+          "AdditionalProgCostEarnings",
+          "ProgressionEarnings"
+        ]
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 20,
+        "DeliverableCode": "PG03",
+        "UseAttributes": true,
+        "Attributes": [
+          "StartEarnings",
+          "AchievementEarnings",
+          "AdditionalProgCostEarnings",
+          "ProgressionEarnings"
+        ]
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 21,
+        "DeliverableCode": "PG04",
+        "UseAttributes": true,
+        "Attributes": [
+          "StartEarnings",
+          "AchievementEarnings",
+          "AdditionalProgCostEarnings",
+          "ProgressionEarnings"
+        ]
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 22,
+        "DeliverableCode": "PG05",
+        "UseAttributes": true,
+        "Attributes": [
+          "StartEarnings",
+          "AchievementEarnings",
+          "AdditionalProgCostEarnings",
+          "ProgressionEarnings"
+        ]
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 23,
+        "DeliverableCode": "PG06",
+        "UseAttributes": true,
+        "Attributes": [
+          "StartEarnings",
+          "AchievementEarnings",
+          "AdditionalProgCostEarnings",
+          "ProgressionEarnings"
+        ]
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 24,
+        "DeliverableCode": "SU01",
+        "UseAttributes": true,
+        "Attributes": [
+          "StartEarnings",
+          "AchievementEarnings",
+          "AdditionalProgCostEarnings",
+          "ProgressionEarnings"
+        ]
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 25,
+        "DeliverableCode": "SU02",
+        "UseAttributes": true,
+        "Attributes": [
+          "StartEarnings",
+          "AchievementEarnings",
+          "AdditionalProgCostEarnings",
+          "ProgressionEarnings"
+        ]
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 26,
+        "DeliverableCode": "SU03",
+        "UseAttributes": true,
+        "Attributes": [
+          "StartEarnings",
+          "AchievementEarnings",
+          "AdditionalProgCostEarnings",
+          "ProgressionEarnings"
+        ]
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 27,
+        "DeliverableCode": "SU04",
+        "UseAttributes": true,
+        "Attributes": [
+          "StartEarnings",
+          "AchievementEarnings",
+          "AdditionalProgCostEarnings",
+          "ProgressionEarnings"
+        ]
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 28,
+        "DeliverableCode": "SU05"
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 29,
+        "DeliverableCode": "SU11",
+        "UseAttributes": true,
+        "Attributes": [
+          "StartEarnings",
+          "AchievementEarnings",
+          "AdditionalProgCostEarnings",
+          "ProgressionEarnings"
+        ]
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 30,
+        "DeliverableCode": "SU12",
+        "UseAttributes": true,
+        "Attributes": [
+          "StartEarnings",
+          "AchievementEarnings",
+          "AdditionalProgCostEarnings",
+          "ProgressionEarnings"
+        ]
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 31,
+        "DeliverableCode": "SU13",
+        "UseAttributes": true,
+        "Attributes": [
+          "StartEarnings",
+          "AchievementEarnings",
+          "AdditionalProgCostEarnings",
+          "ProgressionEarnings"
+        ]
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 32,
+        "DeliverableCode": "SU14"
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 33,
+        "DeliverableCode": "SU15",
+        "UseAttributes": true,
+        "Attributes": [
+          "StartEarnings",
+          "AchievementEarnings",
+          "AdditionalProgCostEarnings",
+          "ProgressionEarnings"
+        ]
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 34,
+        "DeliverableCode": "SU21",
+        "UseAttributes": true,
+        "Attributes": [
+          "StartEarnings",
+          "AchievementEarnings",
+          "AdditionalProgCostEarnings",
+          "ProgressionEarnings"
+        ]
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 35,
+        "DeliverableCode": "SU22",
+        "UseAttributes": true,
+        "Attributes": [
+          "StartEarnings",
+          "AchievementEarnings",
+          "AdditionalProgCostEarnings",
+          "ProgressionEarnings"
+        ]
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 36,
+        "DeliverableCode": "SU23",
+        "UseAttributes": true,
+        "Attributes": [
+          "StartEarnings",
+          "AchievementEarnings",
+          "AdditionalProgCostEarnings",
+          "ProgressionEarnings"
+        ]
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 37,
+        "DeliverableCode": "SU24",
+        "UseAttributes": true,
+        "Attributes": [
+          "StartEarnings",
+          "AchievementEarnings",
+          "AdditionalProgCostEarnings",
+          "ProgressionEarnings"
+        ]
+      }
+
+
+    ]
+  },
+  {
+    "SummarisationType": "ESF_ILR_Supp_Value",
+    "FundingStreams": [
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 2,
+        "DeliverableCode": "RQ01",
+        "UseAttributes": true,
+        "Attributes": [
+          "StartEarnings",
+          "AchievementEarnings",
+          "AdditionalProgCostEarnings",
+          "ProgressionEarnings"
+        ]
+      },
+      {
+        "PeriodCode": "ESF1420",
+        "DeliverableLineCode": 3,
+        "DeliverableCode": "NR01",
+        "UseAttributes": true,
+        "Attributes": [
+          "StartEarnings",
+          "AchievementEarnings",
+          "AdditionalProgCostEarnings",
+          "ProgressionEarnings"
+        ]
+      }
+    ]
+  }
+]

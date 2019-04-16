@@ -1,8 +1,8 @@
 ﻿
 GO
-ALTER ROLE [DataProcessing] ADD MEMBER [DCSummarisation_RW_User];
+ALTER ROLE [DataProcessing] ADD MEMBER [SummarisedActuals_RW_User];
 GO
-ALTER ROLE [DataViewing] ADD MEMBER [DCSummarisation_RO_User];
+ALTER ROLE [DataViewing] ADD MEMBER [SummarisedActuals_RO_User];
 GO
 ALTER ROLE [DataViewing] ADD MEMBER [User_DSCI];
 GO

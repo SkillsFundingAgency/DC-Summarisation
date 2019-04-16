@@ -74,6 +74,7 @@
     <Build Include="Security\User_DSCI.sql" />
     <Build Include="Security\User_RO.sql" />
     <Build Include="Security\User_RW.sql" />
+    <None Include="z.ExtendedProperties.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="BUILD_BRANCHNAME">
