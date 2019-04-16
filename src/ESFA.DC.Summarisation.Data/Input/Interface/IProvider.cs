@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ESFA.DC.Summarisation.Data.Input.Model;
 
 namespace ESFA.DC.Summarisation.Data.Input.Interface
 {
@@ -6,6 +7,6 @@ namespace ESFA.DC.Summarisation.Data.Input.Interface
     {
         int UKPRN { get;  }
 
-        IList<ILearningDelivery> LearningDeliveries { get;  }
+        IList<LearningDelivery> LearningDeliveries { get;  }
     }
 }

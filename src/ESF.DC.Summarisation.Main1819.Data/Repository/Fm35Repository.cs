@@ -1,130 +1,151 @@
-﻿using System.Collections.Generic;
-using System.IO.Compression;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.ILR1819.DataStore.EF;
-using ESFA.DC.ILR1819.DataStore.EF.Interface;
+using Dapper;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Interface;
-using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace ESFA.DC.Summarisation.Main1819.Data.Repository
 {
     public class Fm35Repository : IProviderRepository
     {
-        private readonly IIlr1819RulebaseContext _ilr;
+        private readonly Func<SqlConnection> _sqlConnectionFactory;
+
+        private const string providerCountsql = @"SELECT COUNT(DISTINCT UKPRN) FROM Rulebase.FM35_Learner";
+
+        private const string querySql = @";WITH UKPRN_CTE AS
+                                        (
+                                            SELECT
+                                                UKPRN
+                                            FROM Rulebase.FM35_Learner
+	                                        GROUP BY UKPRN
+                                            ORDER BY UKPRN ASC
+                                            OFFSET @offSet ROWS
+                                            FETCH NEXT @pageSize ROWS ONLY
+                                        ),
+                                        Periods_CTE AS
+                                        (
+                                            SELECT
+                                                AttributeUnpivot.UKPRN,
+                                                LearnRefNumber,
+                                                AimSeqNumber,
+                                                AttributeName,
+		                                        JSON_QUERY((
+			                                        SELECT
+				                                        CAST(SUBSTRING(PeriodId, 8,2) AS INT) as Period,
+				                                        Value
+			                                        FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+		                                        )) AS Json
+	                                        FROM Rulebase.FM35_LearningDelivery_PeriodisedValues LDPV
+                                            UNPIVOT
+                                            (
+                                                Value
+                                                FOR PeriodId IN (Period_1, Period_2, Period_3, Period_4, Period_5, Period_6, Period_7, Period_8, Period_9, Period_10, Period_11, Period_12)
+                                            ) as AttributeUnpivot
+	                                        INNER JOIN UKPRN_CTE
+		                                        ON UKPRN_CTE.UKPRN = AttributeUnpivot.UKPRN
+                                        ),
+                                        Attributes_CTE AS
+                                        (
+	                                        SELECT 
+		                                        UKPRN,
+		                                        LearnRefNumber,
+		                                        AimSeqNumber,
+		                                        AttributeName,
+		                                        Json = JSON_QUERY((
+			                                        SELECT
+				                                        AttributeName,
+				                                        Periods = JSON_QUERY('[' + STRING_AGG(Json, ',') + ']')
+			                                        FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+		                                        ))
+	                                        FROM Periods_CTE
+	                                        GROUP BY
+		                                        UKPRN,
+		                                        LearnRefNumber,
+		                                        AimSeqNumber,
+		                                        AttributeName
+                                        ),
+                                        LearningDelivery_CTE AS
+                                        (
+	                                        SELECT
+		                                        ACTE.UKPRN,
+		                                        ACTE.LearnRefNumber,
+		                                        ACTE.AimSeqNumber,
+		                                        Json = JSON_QUERY((
+			                                        SELECT
+				                                        ACTE.LearnRefNumber,
+				                                        ACTE.AimSeqNumber,
+				                                        LD.FundLine,
+				                                        PeriodisedData = JSON_QUERY('[' + STRING_AGG(Json, ',') + ']')
+			                                        FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+		                                        ))
+	                                        FROM Attributes_CTE ACTE
+	                                        INNER JOIN Rulebase.FM35_LearningDelivery LD
+	                                        ON ACTE.UKPRN = LD.UKPRN
+		                                        AND ACTE.LearnRefNumber = LD.LearnRefNumber
+		                                        AND ACTE.AimSeqNumber = LD.AimSeqNumber
+		                                        
+	                                        GROUP BY
+		                                        ACTE.UKPRN,
+		                                        ACTE.LearnRefNumber,
+		                                        ACTE.AimSeqNumber,
+		                                        LD.FundLine
+                                        ),
+                                        Providers_CTE AS
+                                        (
+	                                        SELECT
+		                                        UKPRN,
+		                                        Json = JSON_QUERY((
+			                                        SELECT
+				                                        UKPRN,
+				                                        LearningDeliveries = JSON_QUERY('[' + STRING_AGG(Json, ',') + ']') 
+			                                        FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+		                                        ))
+	                                        FROM LearningDelivery_CTE
+	                                        GROUP BY UKPRN
+                                        )
+                                        SELECT
+	                                        JSON_QUERY('[' + STRING_AGG(Json, ',') + ']') 
+                                        FROM Providers_CTE";
 
         public string SummarisationType => nameof(Configuration.Enum.SummarisationType.Main1819_FM35);
 
         public string CollectionType => nameof(Configuration.Enum.CollectionType.ILR1819);
 
-        public Fm35Repository(IIlr1819RulebaseContext ilr)
+        public Fm35Repository(Func<SqlConnection> sqlConnectionFactory)
         {
-               _ilr = ilr;
+            _sqlConnectionFactory = sqlConnectionFactory;
+        }
+
+        public async Task<IReadOnlyCollection<IProvider>> RetrieveProvidersAsync(int pageSize, int pageNumber, CancellationToken cancellationToken)
+        {
+            var offset = (pageNumber - 1) * pageSize;
+
+            using (var connection = _sqlConnectionFactory.Invoke())
+            {
+                var json = await connection.QueryAsync<string>(querySql, new { offset, pageSize });
+
+                var results = JsonConvert.DeserializeObject<IList<Provider>>(string.Join("", json));
+
+                return results.ToList();
+            }
         }
 
         public async Task<int> RetrieveProviderPageCountAsync(int pageSize, CancellationToken cancellationToken)
         {
-            return await _ilr.FM35_Learners
-                .GroupBy(l => l.UKPRN)
-                .CountAsync(cancellationToken);
-        }
-
-        public async Task<IReadOnlyCollection<IProvider>> RetrieveProvidersAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
-        {
-            return await _ilr.FM35_Learners
-                .GroupBy(l => l.UKPRN)
-                .OrderBy(o => o.Key)
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .Select(l => new Provider
-                {
-                    UKPRN = l.Key,
-                    LearningDeliveries = l.SelectMany(ld => ld.FM35_LearningDeliveries
-                        .Select(
-                            ldd => new LearningDelivery
-                            {
-                                LearnRefNumber = ldd.LearnRefNumber,
-                                AimSeqNumber = ldd.AimSeqNumber,
-                                Fundline = ldd.FundLine,
-                                PeriodisedData = ldd.FM35_LearningDelivery_PeriodisedValues
-                                    .GroupBy(pv => pv.AttributeName)
-                                    .Select(group => new PeriodisedData
-                                    {
-                                        AttributeName = group.Key,
-                                        Periods = group.SelectMany(pd => UnflattenToPeriod(pd)).ToList()
-                                    } as IPeriodisedData).ToList()
-                            } as ILearningDelivery)).ToList()
-                }).ToListAsync(cancellationToken);
-        }
-
-        private IEnumerable<IPeriod> UnflattenToPeriod(FM35_LearningDelivery_PeriodisedValue values)
-        {
-            return new List<Period>
+            using (var connection = _sqlConnectionFactory.Invoke())
             {
-                new Period
-                {
-                    PeriodId = 1,
-                    Value = values.Period_1
-                },
-                new Period
-                {
-                    PeriodId = 2,
-                    Value = values.Period_2
-                },
-                new Period
-                {
-                    PeriodId = 3,
-                    Value = values.Period_3
-                },
-                new Period
-                {
-                    PeriodId = 4,
-                    Value = values.Period_4
-                },
-                new Period
-                {
-                    PeriodId = 5,
-                    Value = values.Period_5
-                },
-                new Period
-                {
-                    PeriodId = 6,
-                    Value = values.Period_6
-                },
-                new Period
-                {
-                    PeriodId = 7,
-                    Value = values.Period_7
-                },
-                new Period
-                {
-                    PeriodId = 8,
-                    Value = values.Period_8
-                },
-                new Period
-                {
-                    PeriodId = 9,
-                    Value = values.Period_9
-                },
-                new Period
-                {
-                    PeriodId = 10,
-                    Value = values.Period_10
-                },
-                new Period
-                {
-                    PeriodId = 11,
-                    Value = values.Period_11
-                },
-                new Period
-                {
-                    PeriodId = 12,
-                    Value = values.Period_12
-                }
-            };
+                var providerCount = await connection.ExecuteScalarAsync<int>(providerCountsql);
+
+                return (providerCount % pageSize) > 0
+                    ? (providerCount / pageSize) + 1
+                    : (providerCount / pageSize);
+            }
         }
     }
 }

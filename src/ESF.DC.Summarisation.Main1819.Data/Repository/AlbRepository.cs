@@ -54,12 +54,12 @@ namespace ESFA.DC.Summarisation.Main1819.Data.Repository
                                      {
                                          AttributeName = group.Key,
                                          Periods = group.SelectMany(pd => UnflattenToPeriod(pd)).ToList()
-                                     } as IPeriodisedData).ToList()
-                             } as ILearningDelivery)).ToList()
+                                     }).ToList()
+                             })).ToList()
                  }).ToListAsync(cancellationToken);
         }
 
-        private IEnumerable<IPeriod> UnflattenToPeriod(ALB_LearningDelivery_PeriodisedValue values)
+        private IEnumerable<Period> UnflattenToPeriod(ALB_LearningDelivery_PeriodisedValue values)
         {
             return new List<Period>
             {

@@ -138,7 +138,5 @@ namespace ESFA.DC.Summarisation.Service
 
             return actuals;
         }
-
-       
     }
 }
