@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace ESFA.DC.Summarisation.ESF.Service
 {
-    public class CollectionPeriodsProvider : AbstractStaticDataProvider<CollectionPeriod>
+    public class CollectionPeriodsProvider : AbstractSummarisationConfigProvider<CollectionPeriod>
     {
         public CollectionPeriodsProvider(IJsonSerializationService jsonSerializationService)
             : base(jsonSerializationService)
