@@ -102,6 +102,8 @@ namespace ESFA.DC.Summarisation.Service
 
             var numberOfPages = await repository.RetrieveProviderPageCountAsync(PageSize, cancellationToken);
 
+            logger.LogInfo($"Summarisation Wrapper: Number of page to process: {numberOfPages}");
+
             var actuals = new List<SummarisedActual>();
 
             while (pageNumber <= numberOfPages)

@@ -270,7 +270,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
 
             var providers = await service.RetrieveProvidersAsync(1, 2, CancellationToken.None);
 
-            providers.Count.Should().Be(2);
+            providers.Count.Should().Be(1);
 
             providers = await service.RetrieveProvidersAsync(2, 2, CancellationToken.None);
 
