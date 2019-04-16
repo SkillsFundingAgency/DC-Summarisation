@@ -37,7 +37,7 @@ namespace ESFA.DC.Summarisation.Main1819.Data.Repository
                                                 AttributeName,
 		                                        JSON_QUERY((
 			                                        SELECT
-				                                        CAST(SUBSTRING(PeriodId, 8,2) AS INT) as Period,
+				                                        SUBSTRING(PeriodId, 8,2) as PeriodId,
 				                                        Value
 			                                        FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
 		                                        )) AS Json
@@ -49,6 +49,7 @@ namespace ESFA.DC.Summarisation.Main1819.Data.Repository
                                             ) as AttributeUnpivot
 	                                        INNER JOIN UKPRN_CTE
 		                                        ON UKPRN_CTE.UKPRN = AttributeUnpivot.UKPRN
+                                            WHERE Value > 0
                                         ),
                                         Attributes_CTE AS
                                         (
