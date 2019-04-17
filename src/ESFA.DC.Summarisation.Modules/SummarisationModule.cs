@@ -46,12 +46,14 @@ namespace ESFA.DC.Summarisation.Modules
 
             containerBuilder.Register(c =>
             {
-                return new Fm35Repository(() => new SqlConnection(c.Resolve<ISummarisationDataOptions>().ILR1819ConnectionString));
+                var connectionString = c.Resolve<ISummarisationDataOptions>().ILR1819ConnectionString;
+                return new Fm35Repository(() => new SqlConnection(connectionString));
             }).As<IProviderRepository>();
 
             containerBuilder.Register(c =>
             {
-                return new EasRepository(() => new SqlConnection(c.Resolve<ISummarisationDataOptions>().EAS1819ConnectionString));
+                var connectionString = c.Resolve<ISummarisationDataOptions>().EAS1819ConnectionString;
+                return new EasRepository(() => new SqlConnection(connectionString));
             }).As<IProviderRepository>();
 
             containerBuilder.RegisterType<AlbRepository>().As<IProviderRepository>();
