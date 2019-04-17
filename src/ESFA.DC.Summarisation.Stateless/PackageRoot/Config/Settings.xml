@@ -16,5 +16,6 @@
     <Parameter Name="FCSConnectionString" Value="" />
     <Parameter Name="ILR1819ConnectionString" Value="" />
     <Parameter Name="SummarisedActualsConnectionString" Value=""/>
+    <Parameter Name="EASConnectionString" Value=""/>
   </Section>
 </Settings>
