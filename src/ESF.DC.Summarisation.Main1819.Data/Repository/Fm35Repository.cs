@@ -1,24 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Dapper;
-using ESFA.DC.Summarisation.Data.Input.Interface;
-using ESFA.DC.Summarisation.Data.Input.Model;
-using ESFA.DC.Summarisation.Interface;
-using Newtonsoft.Json;
+using ESF.DC.Summarisation.Main1819.Data.Repository;
 
 namespace ESFA.DC.Summarisation.Main1819.Data.Repository
 {
-    public class Fm35Repository : IProviderRepository
+    public class Fm35Repository : AbstractJsonRepository
     {
-        private readonly Func<SqlConnection> _sqlConnectionFactory;
+        protected override string countSql { get; } = @"SELECT COUNT(DISTINCT UKPRN) FROM Rulebase.FM35_Learner";
 
-        private const string providerCountsql = @"SELECT COUNT(DISTINCT UKPRN) FROM Rulebase.FM35_Learner";
-
-        private const string querySql = @";WITH UKPRN_CTE AS
+        protected override string querySql { get; } = @";WITH UKPRN_CTE AS
                                         (
                                             SELECT
                                                 UKPRN
@@ -114,39 +104,12 @@ namespace ESFA.DC.Summarisation.Main1819.Data.Repository
 	                                        JSON_QUERY('[' + STRING_AGG(Json, ',') + ']') 
                                         FROM Providers_CTE";
 
-        public string SummarisationType => nameof(Configuration.Enum.SummarisationType.Main1819_FM35);
+        public override string SummarisationType => nameof(Configuration.Enum.SummarisationType.Main1819_FM35);
 
-        public string CollectionType => nameof(Configuration.Enum.CollectionType.ILR1819);
+        public override string CollectionType => nameof(Configuration.Enum.CollectionType.ILR1819);
 
-        public Fm35Repository(Func<SqlConnection> sqlConnectionFactory)
+        public Fm35Repository(Func<SqlConnection> sqlConnectionFactory) : base(sqlConnectionFactory)
         {
-            _sqlConnectionFactory = sqlConnectionFactory;
-        }
-
-        public async Task<IReadOnlyCollection<IProvider>> RetrieveProvidersAsync(int pageSize, int pageNumber, CancellationToken cancellationToken)
-        {
-            var offset = (pageNumber - 1) * pageSize;
-
-            using (var connection = _sqlConnectionFactory.Invoke())
-            {
-                var json = await connection.QueryAsync<string>(querySql, new { offset, pageSize });
-
-                var results = JsonConvert.DeserializeObject<IList<Provider>>(string.Join("", json));
-
-                return results.ToList();
-            }
-        }
-
-        public async Task<int> RetrieveProviderPageCountAsync(int pageSize, CancellationToken cancellationToken)
-        {
-            using (var connection = _sqlConnectionFactory.Invoke())
-            {
-                var providerCount = await connection.ExecuteScalarAsync<int>(providerCountsql);
-
-                return (providerCount % pageSize) > 0
-                    ? (providerCount / pageSize) + 1
-                    : (providerCount / pageSize);
-            }
         }
     }
 }
