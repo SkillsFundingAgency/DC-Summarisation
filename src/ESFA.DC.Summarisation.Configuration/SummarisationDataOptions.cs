@@ -9,5 +9,7 @@ namespace ESFA.DC.Summarisation.Configuration
         public string ILR1819ConnectionString { get; set; }
 
         public string SummarisedActualsConnectionString { get; set; }
+
+        public string EAS1819ConnectionString { get; set; }
     }
 }

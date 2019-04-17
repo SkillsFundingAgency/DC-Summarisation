@@ -18,6 +18,7 @@
     <Parameter Name="FCSConnectionString" DefaultValue="" />
     <Parameter Name="ILR1819ConnectionString" DefaultValue="" />
     <Parameter Name="SummarisedActualsConnectionString" DefaultValue="" />
+    <Parameter Name="EAS1819ConnectionString" DefaultValue="" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
@@ -43,6 +44,7 @@
             <Parameter Name="FCSConnectionString" Value="[FCSConnectionString]" />
             <Parameter Name="ILR1819ConnectionString" Value="[ILR1819ConnectionString]" />
             <Parameter Name="SummarisedActualsConnectionString" Value="[SummarisedActualsConnectionString]" />
+            <Parameter Name="EAS1819ConnectionString" Value="[EAS1819ConnectionString]" />
           </Section>
         </Settings>
       </ConfigOverride>

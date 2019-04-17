@@ -2,7 +2,7 @@
 
 namespace ESFA.DC.Summarisation.Interfaces
 {
-    public interface IStaticDataProvider<T>
+    public interface ISummarisationConfigProvider<T>
     {
         IEnumerable<T> Provide();
     }

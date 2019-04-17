@@ -20,14 +20,14 @@ namespace ESFA.DC.Summarisation.Service
         private readonly IFcsRepository _fcsRepository;
         private readonly ICollection<IProviderRepository> _repositories;
         private readonly ISummarisationService _summarisationService;
-        private readonly IStaticDataProvider<FundingType> _fundingTypesProvider;
-        private readonly IStaticDataProvider<CollectionPeriod> _collectionPeriodsProvider;
+        private readonly ISummarisationConfigProvider<FundingType> _fundingTypesProvider;
+        private readonly ISummarisationConfigProvider<CollectionPeriod> _collectionPeriodsProvider;
         private readonly IDataStorePersistenceService _dataStorePersistenceService;
 
         public SummarisationWrapper(
             IFcsRepository fcsRepository,
-            IStaticDataProvider<FundingType> fundingTypesProvider,
-            IStaticDataProvider<CollectionPeriod> collectionPeriodsProvider,
+            ISummarisationConfigProvider<FundingType> fundingTypesProvider,
+            ISummarisationConfigProvider<CollectionPeriod> collectionPeriodsProvider,
             ICollection<IProviderRepository> repositories,
             ISummarisationService summarisationService,
             IDataStorePersistenceService dataStorePersistenceService)
@@ -140,7 +140,5 @@ namespace ESFA.DC.Summarisation.Service
 
             return actuals;
         }
-
-       
     }
 }
