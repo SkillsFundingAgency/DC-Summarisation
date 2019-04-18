@@ -7,6 +7,8 @@ namespace ESFA.DC.Summarisation.Data.Input.Model
     {
         public string AttributeName { get; set; }
 
+        public string DeliverableCode { get; set; }
+
         public IList<IPeriod> Periods { get; set; }
     }
 }

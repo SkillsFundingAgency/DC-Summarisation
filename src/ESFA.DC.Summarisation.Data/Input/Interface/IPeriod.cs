@@ -5,5 +5,7 @@
         int PeriodId { get; }
 
         decimal? Value { get; }
+
+        int? Volume { get; }
     }
 }

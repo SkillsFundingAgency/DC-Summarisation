@@ -10,6 +10,8 @@ namespace ESFA.DC.Summarisation.Data.Input.Interface
 
         string Fundline { get;  }
 
+        string ConRefNumber { get; set; }
+
         IList<IPeriodisedData> PeriodisedData { get;  }
     }
 }
