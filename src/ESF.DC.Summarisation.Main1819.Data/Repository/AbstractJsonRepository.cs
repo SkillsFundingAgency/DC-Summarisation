@@ -37,7 +37,12 @@ namespace ESF.DC.Summarisation.Main1819.Data.Repository
             {
                 var json = await connection.QueryAsync<string>(querySql, new { offset, pageSize });
 
-                var results = JsonConvert.DeserializeObject<IList<Provider>>(string.Join("", json));
+                var results = new List<Provider>();
+
+                if (json.FirstOrDefault() != null)
+                {
+                    results = JsonConvert.DeserializeObject<List<Provider>>(string.Join("", json));
+                }
 
                 return results.ToList();
             }
