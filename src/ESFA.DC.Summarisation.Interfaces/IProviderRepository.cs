@@ -11,12 +11,8 @@ namespace ESFA.DC.Summarisation.Interface
 
         string CollectionType { get; }
 
-        Task<IReadOnlyCollection<IProvider>> RetrieveProvidersAsync(CancellationToken cancellationToken);
-
         Task<IReadOnlyCollection<IProvider>> RetrieveProvidersAsync(int pageSize, int pageNumber, CancellationToken cancellationToken);
 
         Task<int> RetrieveProviderPageCountAsync(int pageSize, CancellationToken cancellationToken);
-
-        Task<IReadOnlyCollection<IProvider>> RetrieveProvidersAsync(int Ukprn, CancellationToken cancellationToken);
     }
 }

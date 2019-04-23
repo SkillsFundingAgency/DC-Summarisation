@@ -5,11 +5,11 @@ using System.Reflection;
 
 namespace ESFA.DC.Summarisation.Service.Providers
 {
-    public abstract class AbstractStaticDataProvider<T> : IStaticDataProvider<T>
+    public abstract class AbstractSummarisationConfigProvider<T> : ISummarisationConfigProvider<T>
     {
         private readonly IJsonSerializationService _jsonSerializationService;
 
-        public AbstractStaticDataProvider(IJsonSerializationService jsonSerializationService)
+        public AbstractSummarisationConfigProvider(IJsonSerializationService jsonSerializationService)
         {
             _jsonSerializationService = jsonSerializationService;
         }

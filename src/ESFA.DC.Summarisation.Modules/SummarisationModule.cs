@@ -1,5 +1,6 @@
 ﻿using System.Data.SqlClient;
 using Autofac;
+using ESF.DC.Summarisation.Main1819.Data.Repository;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interface;
 using ESFA.DC.ReferenceData.FCS.Model;
@@ -40,10 +41,21 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<SummarisationWrapper>().As<ISummarisationWrapper>();
             containerBuilder.RegisterType<SummarisationService>().As<ISummarisationService>();
 
-            containerBuilder.RegisterType<FundingTypesProvider>().As<IStaticDataProvider<FundingType>>();
-            containerBuilder.RegisterType<CollectionPeriodsProvider>().As<IStaticDataProvider<CollectionPeriod>>();
+            containerBuilder.RegisterType<FundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();
+            containerBuilder.RegisterType<CollectionPeriodsProvider>().As<ISummarisationConfigProvider<CollectionPeriod>>();
 
-            containerBuilder.RegisterType<Fm35Repository>().As<IProviderRepository>();
+            containerBuilder.Register(c =>
+            {
+                var connectionString = c.Resolve<ISummarisationDataOptions>().ILR1819ConnectionString;
+                return new Fm35Repository(() => new SqlConnection(connectionString));
+            }).As<IProviderRepository>();
+
+            containerBuilder.Register(c =>
+            {
+                var connectionString = c.Resolve<ISummarisationDataOptions>().EAS1819ConnectionString;
+                return new EasRepository(() => new SqlConnection(connectionString));
+            }).As<IProviderRepository>();
+
             containerBuilder.RegisterType<AlbRepository>().As<IProviderRepository>();
 
             containerBuilder.RegisterType<JsonSerializationService>().As<IJsonSerializationService>();

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ESFA.DC.Summarisation.Data.Input.Model;
 
 namespace ESFA.DC.Summarisation.Data.Input.Interface
 {
@@ -10,8 +11,6 @@ namespace ESFA.DC.Summarisation.Data.Input.Interface
 
         string Fundline { get;  }
 
-        string ConRefNumber { get; set; }
-
-        IList<IPeriodisedData> PeriodisedData { get;  }
+        IList<PeriodisedData> PeriodisedData { get;  }
     }
 }

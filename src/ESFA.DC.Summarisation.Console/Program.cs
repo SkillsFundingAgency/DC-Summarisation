@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
+using Dapper;
+using ESF.DC.Summarisation.Main1819.Data.Repository;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interface;
 using ESFA.DC.Logging.Interfaces;
@@ -40,10 +43,11 @@ namespace ESFA.DC.Summarisation.Console
         {
             string fcsConnectionString = @"Server=(local);Database=FCS;Trusted_Connection=True;";
             string ilrConnectionString = @"Server=(local);Database=ILR1819DataStore;Trusted_Connection=True;";
+
             string summarisedActualsConnectionString = @"Server=(local);Database=SummarisedActuals;Trusted_Connection=True;";
+            string easConnectionString = @"Server=(local);Database=EAS1819;Trusted_Connection=True;";
 
             DbContextOptions<FcsContext> fcsdbContextOptions = new DbContextOptionsBuilder<FcsContext>().UseSqlServer(fcsConnectionString).Options;
-            DbContextOptions<ILR1819_DataStoreEntities> ilrdbContextOptions = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>().UseSqlServer(ilrConnectionString).Options;
 
             IFcsContext fcsContext = new FcsContext(fcsdbContextOptions);
 
@@ -51,13 +55,11 @@ namespace ESFA.DC.Summarisation.Console
 
             IJsonSerializationService jsonSerializationService = new JsonSerializationService();
 
-            IStaticDataProvider<FundingType> fundingTypesProvider = new FundingTypesProvider(jsonSerializationService);
+            ISummarisationConfigProvider<FundingType> fundingTypesProvider = new FundingTypesProvider(jsonSerializationService);
 
-            IStaticDataProvider<CollectionPeriod> collectionPeriodsProvider = new CollectionPeriodsProvider(jsonSerializationService);
+            ISummarisationConfigProvider<CollectionPeriod> collectionPeriodsProvider = new CollectionPeriodsProvider(jsonSerializationService);
 
-            IIlr1819RulebaseContext ilr1819RulebaseContext = new ILR1819_DataStoreEntities(ilrdbContextOptions);
-
-            ICollection<IProviderRepository> repositories = new List<IProviderRepository>() { new Fm35Repository(ilr1819RulebaseContext) };
+            ICollection<IProviderRepository> repositories = new List<IProviderRepository>() { new Fm35Repository(() => new SqlConnection(ilrConnectionString)), new EasRepository(() => new SqlConnection(easConnectionString)) };
 
             ISummarisationService summarisationService = new SummarisationService();
 
