@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using ESFA.DC.Summarisation.Data.Input.Interface;
-using Newtonsoft.Json;
 
 namespace ESFA.DC.Summarisation.Data.Input.Model
 {
@@ -12,6 +10,8 @@ namespace ESFA.DC.Summarisation.Data.Input.Model
         public int AimSeqNumber { get; set; }
 
         public string Fundline { get; set; }
+
+        public string ConRefNumber { get; set; }
 
         public IList<PeriodisedData> PeriodisedData { get; set; }
     }
