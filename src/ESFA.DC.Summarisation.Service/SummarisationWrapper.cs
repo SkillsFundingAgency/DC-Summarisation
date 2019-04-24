@@ -1,4 +1,5 @@
-﻿using ESFA.DC.Logging.Interfaces;
+﻿using System.Collections.Concurrent;
+using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.Output.Model;
@@ -18,7 +19,7 @@ namespace ESFA.DC.Summarisation.Service
         private const int PageSize = 1;
 
         private readonly IFcsRepository _fcsRepository;
-        private readonly ICollection<IProviderRepository> _repositories;
+        private readonly IProviderRepository _repository;
         private readonly ISummarisationService _summarisationService;
         private readonly ISummarisationConfigProvider<FundingType> _fundingTypesProvider;
         private readonly ISummarisationConfigProvider<CollectionPeriod> _collectionPeriodsProvider;
@@ -28,13 +29,13 @@ namespace ESFA.DC.Summarisation.Service
             IFcsRepository fcsRepository,
             ISummarisationConfigProvider<FundingType> fundingTypesProvider,
             ISummarisationConfigProvider<CollectionPeriod> collectionPeriodsProvider,
-            ICollection<IProviderRepository> repositories,
+            IProviderRepository repository,
             ISummarisationService summarisationService,
             IDataStorePersistenceService dataStorePersistenceService)
         {
             _fundingTypesProvider = fundingTypesProvider;
             _fcsRepository = fcsRepository;
-            _repositories = repositories;
+            _repository = repository;
             _summarisationService = summarisationService;
             _collectionPeriodsProvider = collectionPeriodsProvider;
             _dataStorePersistenceService = dataStorePersistenceService;
@@ -82,60 +83,43 @@ namespace ESFA.DC.Summarisation.Service
            ILogger logger,
            CancellationToken cancellationToken)
         {
-
             var fundingStreams = _fundingTypesProvider.Provide().Where(x => x.SummarisationType == summarisationType).SelectMany(fs => fs.FundingStreams).ToList();
 
-            var repository = _repositories.FirstOrDefault(r => r.SummarisationType == summarisationType && r.CollectionType == collectionType);
-
-            return await SummariseProviders(fundingStreams, repository, collectionPeriods, fcsContractAllocations, logger, cancellationToken);
+            return await SummariseProviders(fundingStreams, collectionPeriods, fcsContractAllocations, logger, cancellationToken);
         }
 
         public async Task<IEnumerable<SummarisedActual>> SummariseProviders(
             IList<FundingStream> fundingStreams,
-            IProviderRepository repository,
             IEnumerable<CollectionPeriod> collectionPeriods,
             IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations,
             ILogger logger,
             CancellationToken cancellationToken)
         {
-            var pageNumber = 1;
-
-            var numberOfPages = await repository.RetrieveProviderPageCountAsync(PageSize, cancellationToken);
-
-            logger.LogInfo($"Summarisation Wrapper: Number of page to process: {numberOfPages}");
+            var providerIdentifiers = await _repository.GetAllProviderIdentifiersAsync(cancellationToken);
 
             var actuals = new List<SummarisedActual>();
 
-            while (pageNumber <= numberOfPages)
+            foreach (var identifier in providerIdentifiers)
             {
-                logger.LogInfo($"Summarisation Wrapper: Retrieving Provider Data PageNumber: {pageNumber}, PageSize: {PageSize} Start");
+                var provider = await _repository.ProvideAsync(identifier, cancellationToken);
 
-                var providers = await repository.RetrieveProvidersAsync(PageSize, pageNumber, cancellationToken);
+                logger.LogInfo($"Summarisation Wrapper: Summarising UKPRN: {provider.UKPRN} Start");
 
-                logger.LogInfo($"Summarisation Wrapper: Retrieving Provider Data PageNumber: {pageNumber}, PageSize: {PageSize} End");
+                var contractFundingStreams = new List<FundingStream>();
+                var allocations = new List<IFcsContractAllocation>();
 
-                foreach (var provider in providers)
+                foreach (var fs in fundingStreams)
                 {
-                    logger.LogInfo($"Summarisation Wrapper: Summarising UKPRN: {provider.UKPRN} Start");
-
-                    var contractFundingStreams = new List<FundingStream>();
-                    var allocations = new List<IFcsContractAllocation>();
-
-                    foreach (var fs in fundingStreams)
+                    if (fcsContractAllocations.ContainsKey(fs.PeriodCode) && fcsContractAllocations[fs.PeriodCode].Any(x => x.DeliveryUkprn == provider.UKPRN))
                     {
-                        if (fcsContractAllocations.ContainsKey(fs.PeriodCode) && fcsContractAllocations[fs.PeriodCode].Any(x => x.DeliveryUkprn == provider.UKPRN))
-                        {
-                            contractFundingStreams.Add(fs);
-                            allocations.Add(fcsContractAllocations[fs.PeriodCode].First(x => x.DeliveryUkprn == provider.UKPRN));
-                        }
+                        contractFundingStreams.Add(fs);
+                        allocations.Add(fcsContractAllocations[fs.PeriodCode].First(x => x.DeliveryUkprn == provider.UKPRN));
                     }
-
-                    actuals.AddRange(_summarisationService.Summarise(contractFundingStreams, provider, allocations, collectionPeriods));
-
-                    logger.LogInfo($"Summarisation Wrapper: Summarising UKPRN: {provider.UKPRN} End");
                 }
 
-                pageNumber++;
+                actuals.AddRange(_summarisationService.Summarise(contractFundingStreams, provider, allocations, collectionPeriods));
+
+                logger.LogInfo($"Summarisation Wrapper: Summarising UKPRN: {provider.UKPRN} End");
             }
 
             return actuals;

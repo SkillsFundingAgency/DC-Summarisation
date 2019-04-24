@@ -48,8 +48,10 @@ namespace ESFA.DC.Summarisation.Console
             string easConnectionString = @"Server=(local);Database=EAS1819;Trusted_Connection=True;";
 
             DbContextOptions<FcsContext> fcsdbContextOptions = new DbContextOptionsBuilder<FcsContext>().UseSqlServer(fcsConnectionString).Options;
+            DbContextOptions<ILR1819_DataStoreEntities> ilrdbContextOptions = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>().UseSqlServer(ilrConnectionString).Options;
 
             IFcsContext fcsContext = new FcsContext(fcsdbContextOptions);
+            IIlr1819RulebaseContext ilrContext = new ILR1819_DataStoreEntities(ilrdbContextOptions);
 
             IFcsRepository fcsRepository = new FcsRepository(fcsContext);
 
@@ -59,7 +61,13 @@ namespace ESFA.DC.Summarisation.Console
 
             ISummarisationConfigProvider<CollectionPeriod> collectionPeriodsProvider = new CollectionPeriodsProvider(jsonSerializationService);
 
-            ICollection<IProviderRepository> repositories = new List<IProviderRepository>() { new Fm35Repository(() => new SqlConnection(ilrConnectionString)), new EasRepository(() => new SqlConnection(easConnectionString)) };
+            //ICollection<IProviderRepository> repositories = new List<IProviderRepository>() { new Fm35Repository(() => new SqlConnection(ilrConnectionString)), new EasRepository(() => new SqlConnection(easConnectionString)) };
+
+            IProviderRepository repository = new ProviderRepository(new List<ILearningDeliveryProvider>
+            {
+                new Fm35Provider(ilrContext),
+                new AlbProvider(ilrContext)
+            });
 
             ISummarisationService summarisationService = new SummarisationService();
 
@@ -79,7 +87,7 @@ namespace ESFA.DC.Summarisation.Console
                 fcsRepository,
                 fundingTypesProvider,
                 collectionPeriodsProvider,
-                repositories,
+                repository,
                 summarisationService,
                 dataStorePersistenceService);
 

@@ -6,12 +6,12 @@ using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interface;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
-using ESFA.DC.Summarisation.Interface;
+using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Main1819.Data.Repository
 {
-    public class AlbRepository : IProviderRepository
+    public class AlbProvider : ILearningDeliveryProvider
     {
         private readonly IIlr1819RulebaseContext _ilr;
 
@@ -19,52 +19,35 @@ namespace ESFA.DC.Summarisation.Main1819.Data.Repository
 
         public string CollectionType => nameof(Configuration.Enum.CollectionType.ILR1819);
 
-        public AlbRepository(IIlr1819RulebaseContext ilr)
+        public AlbProvider(IIlr1819RulebaseContext ilr)
         {
             _ilr = ilr;
         }
 
-        public async Task<int> RetrieveProviderPageCountAsync(int pageSize, CancellationToken cancellationToken)
+        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
         {
-            var providerCount = await _ilr.ALB_Learners
-                 .GroupBy(l => l.UKPRN)
-                 .CountAsync(cancellationToken);
-
-            return (providerCount % pageSize) > 0
-                ? (providerCount / pageSize) + 1
-                : (providerCount / pageSize);
-            
+            return await _ilr.ALB_LearningDeliveries
+                .Where(ld => ld.UKPRN == ukprn)
+                .Select(ld => new LearningDelivery
+                {
+                    LearnRefNumber = ld.LearnRefNumber,
+                    AimSeqNumber = ld.AimSeqNumber,
+                    Fundline = ld.FundLine,
+                    PeriodisedData = ld.ALB_LearningDelivery_PeriodisedValues
+                        .Select(pv => new PeriodisedData
+                        {
+                            AttributeName = pv.AttributeName,
+                            Periods = ConvertToPeriodsList(pv)
+                        }).ToList()
+                }).ToListAsync(cancellationToken);
         }
 
-        public async Task<IReadOnlyCollection<IProvider>> RetrieveProvidersAsync(int pageSize, int pageNumber, CancellationToken cancellationToken)
+        public async Task<IList<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
         {
-            return await _ilr.ALB_Learners
-                 .GroupBy(l => l.UKPRN)
-                 .OrderBy(o => o.Key)
-                 .Skip((pageNumber - 1) * pageSize)
-                 .Take(pageSize)
-                 .Select(l => new Provider
-                 {
-                     UKPRN = l.Key,
-                     LearningDeliveries = l.SelectMany(ld => ld.ALB_LearningDeliveries
-                         .Select(
-                             ldd => new LearningDelivery
-                             {
-                                 LearnRefNumber = ldd.LearnRefNumber,
-                                 AimSeqNumber = ldd.AimSeqNumber,
-                                 Fundline = ldd.FundLine,
-                                 PeriodisedData = ldd.ALB_LearningDelivery_PeriodisedValues
-                                     .GroupBy(pv => pv.AttributeName)
-                                     .Select(group => new PeriodisedData
-                                     {
-                                         AttributeName = group.Key,
-                                         Periods = group.SelectMany(pd => UnflattenToPeriod(pd)).ToList()
-                                     }).ToList()
-                             })).ToList()
-                 }).ToListAsync(cancellationToken);
+            return await _ilr.ALB_Learners.Select(l => l.UKPRN).Distinct().ToListAsync(cancellationToken);
         }
 
-        private IEnumerable<Period> UnflattenToPeriod(ALB_LearningDelivery_PeriodisedValue values)
+        private IList<Period> ConvertToPeriodsList(ALB_LearningDelivery_PeriodisedValue values)
         {
             return new List<Period>
             {

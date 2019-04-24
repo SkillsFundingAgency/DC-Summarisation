@@ -44,19 +44,9 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<FundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();
             containerBuilder.RegisterType<CollectionPeriodsProvider>().As<ISummarisationConfigProvider<CollectionPeriod>>();
 
-            containerBuilder.Register(c =>
-            {
-                var connectionString = c.Resolve<ISummarisationDataOptions>().ILR1819ConnectionString;
-                return new Fm35Repository(() => new SqlConnection(connectionString));
-            }).As<IProviderRepository>();
-
-            containerBuilder.Register(c =>
-            {
-                var connectionString = c.Resolve<ISummarisationDataOptions>().EAS1819ConnectionString;
-                return new EasRepository(() => new SqlConnection(connectionString));
-            }).As<IProviderRepository>();
-
-            containerBuilder.RegisterType<AlbRepository>().As<IProviderRepository>();
+            containerBuilder.RegisterType<AlbProvider>().As<ILearningDeliveryProvider>();
+            containerBuilder.RegisterType<Fm35Provider>().As<ILearningDeliveryProvider>();
+            containerBuilder.RegisterType<ProviderRepository>().As<IProviderRepository>();
 
             containerBuilder.RegisterType<JsonSerializationService>().As<IJsonSerializationService>();
 
