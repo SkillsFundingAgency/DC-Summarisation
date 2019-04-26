@@ -83,15 +83,16 @@ namespace ESFA.DC.Summarisation.Console
 
             var summarisationMessage = new SummarisationContextStub();
 
-            SummarisationWrapper wrapper = new SummarisationWrapper(
-                fcsRepository,
-                fundingTypesProvider,
-                collectionPeriodsProvider,
-                repository,
-                summarisationService,
-                dataStorePersistenceService);
+            //SummarisationWrapper wrapper = new SummarisationWrapper(
+            //    fcsRepository,
+            //    fundingTypesProvider,
+            //    collectionPeriodsProvider,
+            //    repository,
+            //    summarisationService,
+            //    dataStorePersistenceService,
+            //    logger);
 
-            await wrapper.Summarise(summarisationMessage, logger, CancellationToken.None);
+            //await wrapper.Summarise(summarisationMessage, CancellationToken.None);
 
         }
     }

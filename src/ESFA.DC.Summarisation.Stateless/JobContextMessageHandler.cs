@@ -41,7 +41,7 @@ namespace ESFA.DC.Summarisation.Stateless
 
                     await summarisationWrapper.Summarise(messageContext, cancellationToken);
 
-                    _logger.LogInfo($"Summarisation Task  Finished");
+                    _logger.LogInfo($"Summarisation Task Finished");
 
                     return true;
                 }
