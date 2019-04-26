@@ -30,7 +30,6 @@ namespace ESFA.DC.Summarisation.Service
             IFcsRepository fcsRepository,
             ISummarisationConfigProvider<FundingType> fundingTypesProvider,
             ISummarisationConfigProvider<CollectionPeriod> collectionPeriodsProvider,
-            IProviderRepository repository,
             ISummarisationService summarisationService,
             IDataStorePersistenceService dataStorePersistenceService,
             Func<IProviderRepository> repositoryFactory,
