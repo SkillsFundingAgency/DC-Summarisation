@@ -34,10 +34,73 @@ namespace ESFA.DC.Summarisation.Main1819.Data.Repository
                     AimSeqNumber = ld.AimSeqNumber,
                     Fundline = ld.FundLine,
                     PeriodisedData = ld.FM35_LearningDelivery_PeriodisedValues
+                        .Where(x => (x.Period_1 + x.Period_2 + x.Period_3 + x.Period_4 + x.Period_5 + x.Period_6 + x.Period_7 + x.Period_8 + x.Period_9 + x.Period_10 + x.Period_11 + x.Period_12) > 0)
                         .Select(pv => new PeriodisedData
                         {
                             AttributeName = pv.AttributeName,
-                            Periods = ConvertToPeriodsList(pv)
+                            Periods = new List<Period>
+                            {
+                                new Period
+                                {
+                                    PeriodId = 1,
+                                    Value = pv.Period_1
+                                },
+                                new Period
+                                {
+                                    PeriodId = 2,
+                                    Value = pv.Period_2
+                                },
+                                new Period
+                                {
+                                    PeriodId = 3,
+                                    Value = pv.Period_3
+                                },
+                                new Period
+                                {
+                                    PeriodId = 4,
+                                    Value = pv.Period_4
+                                },
+                                new Period
+                                {
+                                    PeriodId = 5,
+                                    Value = pv.Period_5
+                                },
+                                new Period
+                                {
+                                    PeriodId = 6,
+                                    Value = pv.Period_6
+                                },
+                                new Period
+                                {
+                                    PeriodId = 7,
+                                    Value = pv.Period_7
+                                },
+                                new Period
+                                {
+                                    PeriodId = 8,
+                                    Value = pv.Period_8
+                                },
+                                new Period
+                                {
+                                    PeriodId = 9,
+                                    Value = pv.Period_9
+                                },
+                                new Period
+                                {
+                                    PeriodId = 10,
+                                    Value = pv.Period_10
+                                },
+                                new Period
+                                {
+                                    PeriodId = 11,
+                                    Value = pv.Period_11
+                                },
+                                new Period
+                                {
+                                    PeriodId = 12,
+                                    Value = pv.Period_12
+                                }
+                            }
                         }).ToList()
                 }).ToListAsync(cancellationToken);
         }
@@ -45,73 +108,6 @@ namespace ESFA.DC.Summarisation.Main1819.Data.Repository
         public async Task<IList<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
         {
             return await _ilr.FM35_Learners.Select(l => l.UKPRN).Distinct().ToListAsync(cancellationToken);
-        }
-
-        private IList<Period> ConvertToPeriodsList(FM35_LearningDelivery_PeriodisedValue values)
-        {
-            return new List<Period>
-            {
-                new Period
-                {
-                    PeriodId = 1,
-                    Value = values.Period_1
-                },
-                new Period
-                {
-                    PeriodId = 2,
-                    Value = values.Period_2
-                },
-                new Period
-                {
-                    PeriodId = 3,
-                    Value = values.Period_3
-                },
-                new Period
-                {
-                    PeriodId = 4,
-                    Value = values.Period_4
-                },
-                new Period
-                {
-                    PeriodId = 5,
-                    Value = values.Period_5
-                },
-                new Period
-                {
-                    PeriodId = 6,
-                    Value = values.Period_6
-                },
-                new Period
-                {
-                    PeriodId = 7,
-                    Value = values.Period_7
-                },
-                new Period
-                {
-                    PeriodId = 8,
-                    Value = values.Period_8
-                },
-                new Period
-                {
-                    PeriodId = 9,
-                    Value = values.Period_9
-                },
-                new Period
-                {
-                    PeriodId = 10,
-                    Value = values.Period_10
-                },
-                new Period
-                {
-                    PeriodId = 11,
-                    Value = values.Period_11
-                },
-                new Period
-                {
-                    PeriodId = 12,
-                    Value = values.Period_12
-                }
-            };
         }
     }
 }
