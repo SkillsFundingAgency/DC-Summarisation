@@ -60,7 +60,18 @@ namespace ESFA.DC.Summarisation.Service
 
             var summarisedActuals = new List<SummarisedActual>();
 
-            var providerIdentifiers = await _repositoryFactory.Invoke().GetAllProviderIdentifiersAsync(cancellationToken);
+            IList<int> providerIdentifiers;
+
+            if (!string.IsNullOrEmpty(summarisationContext.Ukprn))
+            {
+                providerIdentifiers = new List<int>();
+
+                providerIdentifiers.Add(Convert.ToInt32(summarisationContext.Ukprn));
+            }
+            else
+            {
+                providerIdentifiers = await _repositoryFactory.Invoke().GetAllProviderIdentifiersAsync(cancellationToken);
+            }
 
             var providersData = new ConcurrentDictionary<int, IProvider>();
 

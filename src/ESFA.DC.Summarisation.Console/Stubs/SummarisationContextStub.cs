@@ -10,5 +10,7 @@ namespace ESFA.DC.Summarisation.Console.Stubs
         public string CollectionReturnCode => "R01";
 
         public IEnumerable<string> SummarisationTypes => new List<string> { "Main1819_FM35" };
+
+        public string Ukprn => string.Empty;
     }
 }
