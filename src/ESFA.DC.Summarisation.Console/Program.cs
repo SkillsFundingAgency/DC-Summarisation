@@ -59,7 +59,12 @@ namespace ESFA.DC.Summarisation.Console
 
             ISummarisationConfigProvider<CollectionPeriod> collectionPeriodsProvider = new CollectionPeriodsProvider(jsonSerializationService);
 
-            ICollection<IProviderRepository> repositories = new List<IProviderRepository>() { new Fm35Repository(() => new SqlConnection(ilrConnectionString)), new EasRepository(() => new SqlConnection(easConnectionString)) };
+            ICollection<IProviderRepository> repositories
+                = new List<IProviderRepository>()
+                {
+                    new Fm35Repository(() => new SqlConnection(ilrConnectionString)),
+                    new EasRepository(() => new SqlConnection(easConnectionString))
+                };
 
             ISummarisationService summarisationService = new SummarisationService();
 
@@ -69,7 +74,8 @@ namespace ESFA.DC.Summarisation.Console
 
             ICollectionReturnMapper collectionReturnMapper = new CollectionReturnMapper();
 
-            IDataStorePersistenceService dataStorePersistenceService = new DataStorePersistenceService(summarisedActualsPersist, collectionReturnMapper, () => new SqlConnection(summarisedActualsConnectionString));
+            IDataStorePersistenceService dataStorePersistenceService
+                = new DataStorePersistenceService(summarisedActualsPersist, collectionReturnMapper, () => new SqlConnection(summarisedActualsConnectionString));
 
             ILogger logger = new LoggerStub();
 

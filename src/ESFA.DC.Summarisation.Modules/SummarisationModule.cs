@@ -55,7 +55,7 @@ namespace ESFA.DC.Summarisation.Modules
                 var connectionString = c.Resolve<ISummarisationDataOptions>().EAS1819ConnectionString;
                 return new EasRepository(() => new SqlConnection(connectionString));
             }).As<IProviderRepository>();
-
+            containerBuilder.RegisterType<TblRepository>().As<IProviderRepository>();
             containerBuilder.RegisterType<AlbRepository>().As<IProviderRepository>();
 
             containerBuilder.RegisterType<JsonSerializationService>().As<IJsonSerializationService>();
