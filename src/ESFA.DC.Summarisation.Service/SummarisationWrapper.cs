@@ -79,10 +79,6 @@ namespace ESFA.DC.Summarisation.Service
 
             foreach (var ukprn in providerIdentifiers)
             {
-                //_logger.LogInfo($"Summarisation Wrapper: Retrieving Data for UKPRN: {ukprn} Start");
-                // var provider = await _repository.ProvideAsync(ukprn, cancellationToken);
-                //_logger.LogInfo($"Summarisation Wrapper: Retrieving Data for UKPRN: {ukprn} End");
-
                 foreach (var SummarisationType in summarisationContext.SummarisationTypes)
                 {
                     _logger.LogInfo($"Summarisation Wrapper: Summarising Fundmodel {SummarisationType} Start");
