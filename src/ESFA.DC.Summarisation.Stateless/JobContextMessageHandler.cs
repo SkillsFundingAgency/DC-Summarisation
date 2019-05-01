@@ -39,9 +39,9 @@ namespace ESFA.DC.Summarisation.Stateless
 
                     var summarisationWrapper = childLifetimeScope.Resolve<ISummarisationWrapper>();
 
-                    await summarisationWrapper.Summarise(messageContext, _logger, cancellationToken);
+                    await summarisationWrapper.Summarise(messageContext, cancellationToken);
 
-                    _logger.LogInfo($"Summarisation Task  Finished");
+                    _logger.LogInfo($"Summarisation Task Finished");
 
                     return true;
                 }

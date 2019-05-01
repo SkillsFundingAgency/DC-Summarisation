@@ -8,6 +8,8 @@ namespace ESFA.DC.Summarisation.Interfaces
 
         string CollectionReturnCode { get; }
 
+        string Ukprn { get; }
+
         IEnumerable<string> SummarisationTypes { get; }
     }
 }

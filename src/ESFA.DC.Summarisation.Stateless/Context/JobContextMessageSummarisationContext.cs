@@ -11,6 +11,8 @@ namespace ESFA.DC.Summarisation.Stateless.Context
 
         private const string _collectionReturnCode = "CollectionReturnCode";
 
+        private const string _ukprn = "UkPrn";
+
         private readonly JobContextMessage _jobContextMessage;
 
         public JobContextMessageSummarisationContext(JobContextMessage jobContextMessage)
@@ -26,6 +28,11 @@ namespace ESFA.DC.Summarisation.Stateless.Context
         public string CollectionReturnCode
         {
             get => _jobContextMessage.KeyValuePairs[_collectionReturnCode].ToString();
+        }
+
+        public string Ukprn
+        {
+            get => _jobContextMessage.KeyValuePairs[_ukprn].ToString();
         }
 
         public IEnumerable<string> SummarisationTypes
