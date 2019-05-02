@@ -9,5 +9,7 @@
         string SummarisedActualsConnectionString { get; }
 
         string EAS1819ConnectionString { get; }
+
+        string MaxParallelisation { get; }
     }
 }
