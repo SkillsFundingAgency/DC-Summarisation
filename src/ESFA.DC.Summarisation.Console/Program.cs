@@ -93,6 +93,7 @@ namespace ESFA.DC.Summarisation.Console
                 summarisationService,
                 dataStorePersistenceService,
                 () => repository,
+                new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
                 logger);
 
             await wrapper.Summarise(summarisationMessage, CancellationToken.None);
