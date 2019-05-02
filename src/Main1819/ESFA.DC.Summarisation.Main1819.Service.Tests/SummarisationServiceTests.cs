@@ -279,11 +279,6 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             return periods;
         }
 
-        private FundingType GetFundingType(string fundingType)
-        {
-          return GetFundingTypes().First(x => x.SummarisationType == fundingType);
-        }
-
         private List<FundingType> GetFundingTypes()
         {
             FundingTypesProvider fundingTypesProvider = new FundingTypesProvider(new JsonSerializationService());
@@ -341,68 +336,69 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
         private List<FundLine> GetFundLines()
         {
-            List<FundLine> fundLines = new List<FundLine>();
-
-            fundLines.Add(new FundLine() { Fundline = "16-18 Apprenticeship", LineType = "ILR_FM35" });
-            fundLines.Add(new FundLine() { Fundline = "16-18 Trailblazer Apprenticeship", LineType = "ILR_TBL" });
-            fundLines.Add(new FundLine() { Fundline = "16-18 Traineeships (Adult funded)", LineType = "ILR_FM25" });
-            fundLines.Add(new FundLine() { Fundline = "19+ Traineeships (Adult funded)", LineType = "ILR_FM25" });
-            fundLines.Add(new FundLine() { Fundline = "19-23 Apprenticeship", LineType = "ILR_FM35" });
-            fundLines.Add(new FundLine() { Fundline = "19-23 Trailblazer Apprenticeship", LineType = "ILR_TBL" });
-            fundLines.Add(new FundLine() { Fundline = "19-24 Traineeship", LineType = "ILR_FM35" });
-            fundLines.Add(new FundLine() { Fundline = "19-24 Traineeship (non-procured)", LineType = "ILR_FM35" });
-            fundLines.Add(new FundLine() { Fundline = "19-24 Traineeship (procured from Nov 2017)", LineType = "ILR_FM35" });
-            fundLines.Add(new FundLine() { Fundline = "24+ Apprenticeship", LineType = "ILR_FM35" });
-            fundLines.Add(new FundLine() { Fundline = "24+ Trailblazer Apprenticeship", LineType = "ILR_TBL" });
-            fundLines.Add(new FundLine() { Fundline = "Advanced Learner Loans Bursary", LineType = "ILR_ALB" });
-            fundLines.Add(new FundLine() { Fundline = "AEB - Other Learning", LineType = "ILR_FM35" });
-            fundLines.Add(new FundLine() { Fundline = "AEB - Other Learning (non-procured)", LineType = "ILR_FM35" });
-            fundLines.Add(new FundLine() { Fundline = "AEB - Other Learning (procured from Nov 2017)", LineType = "ILR_FM35" });
-            fundLines.Add(new FundLine() { Fundline = "Audit Adjustments: 16-18 Apprenticeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Audit Adjustments: 16-18 Trailblazer Apprenticeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Audit Adjustments: 16-18 Traineeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Audit Adjustments: 19-23 Apprenticeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Audit Adjustments: 19-23 Trailblazer Apprenticeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Audit Adjustments: 19-24 Traineeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Audit Adjustments: 19-24 Traineeships (From Nov 2017)", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Audit Adjustments: 24+ Apprenticeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Audit Adjustments: 24+ Trailblazer Apprenticeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Authorised Claims: Advanced Learner Loans Bursary", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Audit Adjustments: AEB-Other Learning", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Audit Adjustments: AEB-Other Learning (From Nov 2017)", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Authorised Claims: 16-18 Apprenticeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Authorised Claims: 16-18 Trailblazer Apprenticeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Authorised Claims: 16-18 Traineeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Authorised Claims: 19-23 Apprenticeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Authorised Claims: 19-23 Trailblazer Apprenticeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Authorised Claims: 19-24 Traineeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Authorised Claims: 19-24 Traineeships (From Nov 2017)", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Authorised Claims: 24+ Apprenticeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Authorised Claims: 24+ Trailblazer Apprenticeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Authorised Claims: AEB-Other Learning", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Authorised Claims: AEB-Other Learning (From Nov 2017)", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Discretionary Bursary: 16-19 Traineeships Bursary", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Excess Learning Support: 16-18 Apprenticeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Excess Learning Support: 16-18 Trailblazer Apprenticeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Excess Learning Support: 16-18 Traineeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Excess Learning Support: 19-23 Apprenticeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Excess Learning Support: 19-23 Trailblazer Apprenticeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Excess Learning Support: 19-24 Traineeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Excess Learning Support: 19-24 Traineeships (From Nov 2017)", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Excess Learning Support: 24+ Apprenticeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Excess Learning Support: 24+ Trailblazer Apprenticeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Excess Learning Support: AEB-Other Learning", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Excess Learning Support: AEB-Other Learning (From Nov 2017)", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Excess Support: Advanced Learner Loans Bursary", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Free Meals: 16-19 Traineeships Bursary", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Learner Support: 16-18 Apprenticeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Learner Support: 19-23 Apprenticeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Learner Support: 19-24 Traineeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Learner Support: 19-24 Traineeships (From Nov 2017)", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Learner Support: 24+ Apprenticeships", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Vulnerable Bursary: 16-19 Traineeships Bursary", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Princes Trust: AEB-Other Learning", LineType = "EAS" });
-            fundLines.Add(new FundLine() { Fundline = "Princes Trust: AEB-Other Learning (From Nov 2017)", LineType = "EAS" });
+            List<FundLine> fundLines = new List<FundLine>
+            {
+                new FundLine { Fundline = "16-18 Apprenticeship", LineType = "ILR_FM35" },
+                new FundLine { Fundline = "16-18 Trailblazer Apprenticeship", LineType = "ILR_TBL" },
+                new FundLine { Fundline = "16-18 Traineeships (Adult funded)", LineType = "ILR_FM25" },
+                new FundLine { Fundline = "19+ Traineeships (Adult funded)", LineType = "ILR_FM25" },
+                new FundLine { Fundline = "19-23 Apprenticeship", LineType = "ILR_FM35" },
+                new FundLine { Fundline = "19-23 Trailblazer Apprenticeship", LineType = "ILR_TBL" },
+                new FundLine { Fundline = "19-24 Traineeship", LineType = "ILR_FM35" },
+                new FundLine { Fundline = "19-24 Traineeship (non-procured)", LineType = "ILR_FM35" },
+                new FundLine { Fundline = "19-24 Traineeship (procured from Nov 2017)", LineType = "ILR_FM35" },
+                new FundLine { Fundline = "24+ Apprenticeship", LineType = "ILR_FM35" },
+                new FundLine { Fundline = "24+ Trailblazer Apprenticeship", LineType = "ILR_TBL" },
+                new FundLine { Fundline = "Advanced Learner Loans Bursary", LineType = "ILR_ALB" },
+                new FundLine { Fundline = "AEB - Other Learning", LineType = "ILR_FM35" },
+                new FundLine { Fundline = "AEB - Other Learning (non-procured)", LineType = "ILR_FM35" },
+                new FundLine { Fundline = "AEB - Other Learning (procured from Nov 2017)", LineType = "ILR_FM35" },
+                new FundLine { Fundline = "Audit Adjustments: 16-18 Apprenticeships", LineType = "EAS" },
+                new FundLine { Fundline = "Audit Adjustments: 16-18 Trailblazer Apprenticeships", LineType = "EAS" },
+                new FundLine { Fundline = "Audit Adjustments: 16-18 Traineeships", LineType = "EAS" },
+                new FundLine { Fundline = "Audit Adjustments: 19-23 Apprenticeships", LineType = "EAS" },
+                new FundLine { Fundline = "Audit Adjustments: 19-23 Trailblazer Apprenticeships", LineType = "EAS" },
+                new FundLine { Fundline = "Audit Adjustments: 19-24 Traineeships", LineType = "EAS" },
+                new FundLine { Fundline = "Audit Adjustments: 19-24 Traineeships (From Nov 2017)", LineType = "EAS" },
+                new FundLine { Fundline = "Audit Adjustments: 24+ Apprenticeships", LineType = "EAS" },
+                new FundLine { Fundline = "Audit Adjustments: 24+ Trailblazer Apprenticeships", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Advanced Learner Loans Bursary", LineType = "EAS" },
+                new FundLine { Fundline = "Audit Adjustments: AEB-Other Learning", LineType = "EAS" },
+                new FundLine { Fundline = "Audit Adjustments: AEB-Other Learning (From Nov 2017)", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Apprenticeships", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Trailblazer Apprenticeships", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Traineeships", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 19-23 Apprenticeships", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 19-23 Trailblazer Apprenticeships", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 19-24 Traineeships", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 19-24 Traineeships (From Nov 2017)", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 24+ Apprenticeships", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 24+ Trailblazer Apprenticeships", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: AEB-Other Learning", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: AEB-Other Learning (From Nov 2017)", LineType = "EAS" },
+                new FundLine { Fundline = "Discretionary Bursary: 16-19 Traineeships Bursary", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: 16-18 Apprenticeships", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: 16-18 Trailblazer Apprenticeships", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: 16-18 Traineeships", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: 19-23 Apprenticeships", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: 19-23 Trailblazer Apprenticeships", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: 19-24 Traineeships", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: 19-24 Traineeships (From Nov 2017)", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: 24+ Apprenticeships", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: 24+ Trailblazer Apprenticeships", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: AEB-Other Learning", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: AEB-Other Learning (From Nov 2017)", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Support: Advanced Learner Loans Bursary", LineType = "EAS" },
+                new FundLine { Fundline = "Free Meals: 16-19 Traineeships Bursary", LineType = "EAS" },
+                new FundLine { Fundline = "Learner Support: 16-18 Apprenticeships", LineType = "EAS" },
+                new FundLine { Fundline = "Learner Support: 19-23 Apprenticeships", LineType = "EAS" },
+                new FundLine { Fundline = "Learner Support: 19-24 Traineeships", LineType = "EAS" },
+                new FundLine { Fundline = "Learner Support: 19-24 Traineeships (From Nov 2017)", LineType = "EAS" },
+                new FundLine { Fundline = "Learner Support: 24+ Apprenticeships", LineType = "EAS" },
+                new FundLine { Fundline = "Vulnerable Bursary: 16-19 Traineeships Bursary", LineType = "EAS" },
+                new FundLine { Fundline = "Princes Trust: AEB-Other Learning", LineType = "EAS" },
+                new FundLine { Fundline = "Princes Trust: AEB-Other Learning (From Nov 2017)", LineType = "EAS" }
+            };
 
             return fundLines;
         }

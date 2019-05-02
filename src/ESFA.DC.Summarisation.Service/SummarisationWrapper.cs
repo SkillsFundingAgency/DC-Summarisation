@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.Summarisation.Configuration.Interface;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 
 namespace ESFA.DC.Summarisation.Service
@@ -25,6 +26,7 @@ namespace ESFA.DC.Summarisation.Service
         private readonly IDataStorePersistenceService _dataStorePersistenceService;
         private readonly ILogger _logger;
         private readonly Func<IProviderRepository> _repositoryFactory;
+        private readonly int _dataRetrievalMaxConcurrentCalls;
 
         public SummarisationWrapper(
             IFcsRepository fcsRepository,
@@ -33,6 +35,7 @@ namespace ESFA.DC.Summarisation.Service
             ISummarisationService summarisationService,
             IDataStorePersistenceService dataStorePersistenceService,
             Func<IProviderRepository> repositoryFactory,
+            ISummarisationDataOptions dataOptions,
             ILogger logger)
         {
             _fundingTypesProvider = fundingTypesProvider;
@@ -42,6 +45,9 @@ namespace ESFA.DC.Summarisation.Service
             _dataStorePersistenceService = dataStorePersistenceService;
             _logger = logger;
             _repositoryFactory = repositoryFactory;
+
+            _dataRetrievalMaxConcurrentCalls = 4;
+            int.TryParse(dataOptions.DataRetrievalMaxConcurrentCalls, out _dataRetrievalMaxConcurrentCalls);
         }
 
         public async Task<IEnumerable<SummarisedActual>> Summarise(ISummarisationContext summarisationContext, CancellationToken cancellationToken)
@@ -64,18 +70,15 @@ namespace ESFA.DC.Summarisation.Service
 
             if (!string.IsNullOrEmpty(summarisationContext.Ukprn))
             {
-                providerIdentifiers = new List<int>();
+                providerIdentifiers = new List<int> { Convert.ToInt32(summarisationContext.Ukprn) };
 
-                providerIdentifiers.Add(Convert.ToInt32(summarisationContext.Ukprn));
             }
             else
             {
                 providerIdentifiers = await _repositoryFactory.Invoke().GetAllProviderIdentifiersAsync(cancellationToken);
             }
 
-            var providersData = new ConcurrentDictionary<int, IProvider>();
-
-            RetrieveProvidersData(providerIdentifiers, providersData, cancellationToken);
+            var providersData = await RetrieveProvidersData(providerIdentifiers, cancellationToken);
 
             foreach (var ukprn in providerIdentifiers)
             {
@@ -96,39 +99,6 @@ namespace ESFA.DC.Summarisation.Service
             _logger.LogInfo($"Summarisation Wrapper: Storing data to Summarised Actuals End");
 
             return summarisedActuals;
-        }
-
-        private void RetrieveProvidersData(IList<int> providerIdentifiers, ConcurrentDictionary<int, IProvider> providerDictionary, CancellationToken cancellationToken)
-        {
-            var identifiers = new ConcurrentBag<int>(providerIdentifiers);
-
-            List<Task> retrievalTasks = new List<Task>
-            {
-                RetrieveProviderData(identifiers, providerDictionary, cancellationToken),
-                RetrieveProviderData(identifiers, providerDictionary, cancellationToken),
-                RetrieveProviderData(identifiers, providerDictionary, cancellationToken),
-                RetrieveProviderData(identifiers, providerDictionary, cancellationToken)
-            };
-
-            Task.WaitAll(retrievalTasks.ToArray());
-        }
-
-        private async Task RetrieveProviderData(ConcurrentBag<int> identifiers, ConcurrentDictionary<int, IProvider> providerDictionary, CancellationToken cancellationToken)
-        {
-            int providerIdentifier;
-            while (!identifiers.IsEmpty)
-            {
-                var repo = _repositoryFactory.Invoke();
-                if (identifiers.TryTake(out providerIdentifier))
-                {
-                    _logger.LogInfo($"Summarisation Wrapper: Retrieving Data for UKPRN: {providerIdentifier} Start");
-                    var providerData = await repo.ProvideAsync(providerIdentifier, cancellationToken);
-                    _logger.LogInfo($"Summarisation Wrapper: Retrieving Data for UKPRN: {providerIdentifier} End");
-
-
-                    providerDictionary.TryAdd(providerIdentifier, providerData);
-                }
-            }
         }
 
         private IEnumerable<SummarisedActual> SummariseByFundModel(
@@ -160,6 +130,39 @@ namespace ESFA.DC.Summarisation.Service
             _logger.LogInfo($"Summarisation Wrapper: Summarising UKPRN: {provider.UKPRN} End");
 
             return actuals;
+        }
+
+        private async Task<IDictionary<int, IProvider>> RetrieveProvidersData(IList<int> providerIdentifiers, CancellationToken cancellationToken)
+        {
+            var identifiers = new ConcurrentQueue<int>(providerIdentifiers);
+
+            var tasks = Enumerable.Range(1, _dataRetrievalMaxConcurrentCalls).Select(async _ =>
+            {
+                var dictionary = new Dictionary<int, IProvider>();
+
+                while (identifiers.TryDequeue(out int identifier))
+                {
+                    dictionary.Add(identifier, await RetrieveProviderData(identifier, cancellationToken));
+                }
+
+                return dictionary;
+            }).ToList();
+
+            await Task.WhenAll(tasks);
+
+            return tasks.SelectMany(t => t.Result).ToDictionary(p => p.Key, p => p.Value);
+        }
+
+        private async Task<IProvider> RetrieveProviderData(int identifier, CancellationToken cancellationToken)
+        {
+            var repo = _repositoryFactory.Invoke();
+
+            _logger.LogInfo($"Summarisation Wrapper: Retrieving Data for UKPRN: {identifier} Start");
+            var providerData = await repo.ProvideAsync(identifier, cancellationToken);
+
+            _logger.LogInfo($"Summarisation Wrapper: Retrieving Data for UKPRN: {identifier} End");
+
+            return providerData;
         }
     }
 }
