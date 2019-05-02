@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
-using Dapper;
 using ESF.DC.Summarisation.Main1819.Data.Repository;
+using ESFA.DC.EAS1819.EF;
+using ESFA.DC.EAS1819.EF.Interface;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interface;
 using ESFA.DC.Logging.Interfaces;
@@ -24,6 +24,7 @@ using ESFA.DC.Summarisation.Data.Population.Service;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interface;
 using ESFA.DC.Summarisation.Interfaces;
+using ESFA.DC.Summarisation.Main1819.Data.Providers;
 using ESFA.DC.Summarisation.Main1819.Data.Repository;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using ESFA.DC.Summarisation.Main1819.Service.Tests.Stubs;
@@ -49,9 +50,11 @@ namespace ESFA.DC.Summarisation.Console
 
             DbContextOptions<FcsContext> fcsdbContextOptions = new DbContextOptionsBuilder<FcsContext>().UseSqlServer(fcsConnectionString).Options;
             DbContextOptions<ILR1819_DataStoreEntities> ilrdbContextOptions = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>().UseSqlServer(ilrConnectionString).Options;
+            DbContextOptions<EasContext> easdbContextOptions = new DbContextOptionsBuilder<EasContext>().UseSqlServer(easConnectionString).Options;
 
             IFcsContext fcsContext = new FcsContext(fcsdbContextOptions);
             IIlr1819RulebaseContext ilrContext = new ILR1819_DataStoreEntities(ilrdbContextOptions);
+            IEasdbContext easContext = new EasContext(easdbContextOptions);
 
             IFcsRepository fcsRepository = new FcsRepository(fcsContext);
 
@@ -61,12 +64,11 @@ namespace ESFA.DC.Summarisation.Console
 
             ISummarisationConfigProvider<CollectionPeriod> collectionPeriodsProvider = new CollectionPeriodsProvider(jsonSerializationService);
 
-            //ICollection<IProviderRepository> repositories = new List<IProviderRepository>() { new Fm35Repository(() => new SqlConnection(ilrConnectionString)), new EasRepository(() => new SqlConnection(easConnectionString)) };
-
             IProviderRepository repository = new ProviderRepository(new List<ILearningDeliveryProvider>
             {
                 new Fm35Provider(ilrContext),
-                new AlbProvider(ilrContext)
+                new AlbProvider(ilrContext),
+                new EasProvider(easContext)
             });
 
             ISummarisationService summarisationService = new SummarisationService();
@@ -83,16 +85,16 @@ namespace ESFA.DC.Summarisation.Console
 
             var summarisationMessage = new SummarisationContextStub();
 
-            //SummarisationWrapper wrapper = new SummarisationWrapper(
-            //    fcsRepository,
-            //    fundingTypesProvider,
-            //    collectionPeriodsProvider,
-            //    repository,
-            //    summarisationService,
-            //    dataStorePersistenceService,
-            //    logger);
+            SummarisationWrapper wrapper = new SummarisationWrapper(
+                fcsRepository,
+                fundingTypesProvider,
+                collectionPeriodsProvider,
+                summarisationService,
+                dataStorePersistenceService,
+                () => repository,
+                logger);
 
-            //await wrapper.Summarise(summarisationMessage, CancellationToken.None);
+            await wrapper.Summarise(summarisationMessage, CancellationToken.None);
 
         }
     }
