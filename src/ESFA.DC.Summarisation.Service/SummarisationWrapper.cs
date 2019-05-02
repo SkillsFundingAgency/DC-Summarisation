@@ -26,7 +26,7 @@ namespace ESFA.DC.Summarisation.Service
         private readonly IDataStorePersistenceService _dataStorePersistenceService;
         private readonly ILogger _logger;
         private readonly Func<IProviderRepository> _repositoryFactory;
-        private readonly int _maxParallelisation;
+        private readonly int _dataRetrievalMaxConcurrentCalls;
 
         public SummarisationWrapper(
             IFcsRepository fcsRepository,
@@ -46,8 +46,8 @@ namespace ESFA.DC.Summarisation.Service
             _logger = logger;
             _repositoryFactory = repositoryFactory;
 
-            _maxParallelisation = 4;
-            int.TryParse(dataOptions.MaxParallelisation, out _maxParallelisation);
+            _dataRetrievalMaxConcurrentCalls = 4;
+            int.TryParse(dataOptions.DataRetrievalMaxConcurrentCalls, out _dataRetrievalMaxConcurrentCalls);
         }
 
         public async Task<IEnumerable<SummarisedActual>> Summarise(ISummarisationContext summarisationContext, CancellationToken cancellationToken)
@@ -70,16 +70,15 @@ namespace ESFA.DC.Summarisation.Service
 
             if (!string.IsNullOrEmpty(summarisationContext.Ukprn))
             {
-                providerIdentifiers = new List<int>();
+                providerIdentifiers = new List<int> { Convert.ToInt32(summarisationContext.Ukprn) };
 
-                providerIdentifiers.Add(Convert.ToInt32(summarisationContext.Ukprn));
             }
             else
             {
                 providerIdentifiers = await _repositoryFactory.Invoke().GetAllProviderIdentifiersAsync(cancellationToken);
             }
 
-            var providersData = await RetrieveProvidersData(providerIdentifiers, _maxParallelisation, cancellationToken);
+            var providersData = await RetrieveProvidersData(providerIdentifiers, cancellationToken);
 
             foreach (var ukprn in providerIdentifiers)
             {
@@ -133,11 +132,11 @@ namespace ESFA.DC.Summarisation.Service
             return actuals;
         }
 
-        private async Task<IDictionary<int, IProvider>> RetrieveProvidersData(IList<int> providerIdentifiers, int maxDegreesOfParallelism, CancellationToken cancellationToken)
+        private async Task<IDictionary<int, IProvider>> RetrieveProvidersData(IList<int> providerIdentifiers, CancellationToken cancellationToken)
         {
             var identifiers = new ConcurrentQueue<int>(providerIdentifiers);
 
-            var tasks = Enumerable.Range(1, maxDegreesOfParallelism).Select(async _ =>
+            var tasks = Enumerable.Range(1, _dataRetrievalMaxConcurrentCalls).Select(async _ =>
             {
                 var dictionary = new Dictionary<int, IProvider>();
 
