@@ -48,6 +48,7 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<CollectionPeriodsProvider>().As<ISummarisationConfigProvider<CollectionPeriod>>();
 
             containerBuilder.RegisterType<AlbProvider>().As<ILearningDeliveryProvider>();
+            containerBuilder.RegisterType<TblProvider>().As<ILearningDeliveryProvider>();
             containerBuilder.RegisterType<Fm35Provider>().As<ILearningDeliveryProvider>();
             containerBuilder.RegisterType<EasProvider>().As<ILearningDeliveryProvider>();
             containerBuilder.RegisterType<ProviderRepository>().As<IProviderRepository>();
