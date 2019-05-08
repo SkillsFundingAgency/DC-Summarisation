@@ -19,6 +19,7 @@ namespace ESFA.DC.Summarisation.Service
     public class SummarisationWrapper : ISummarisationWrapper
     {
         private readonly IFcsRepository _fcsRepository;
+        private readonly ISummarisedActualsRepository _summarisedActualsRepository;
         private readonly ISummarisationService _summarisationService;
         private readonly ISummarisationConfigProvider<FundingType> _fundingTypesProvider;
         private readonly ISummarisationConfigProvider<CollectionPeriod> _collectionPeriodsProvider;
@@ -28,6 +29,7 @@ namespace ESFA.DC.Summarisation.Service
 
         public SummarisationWrapper(
             IFcsRepository fcsRepository,
+            ISummarisedActualsRepository summarisedActualsRepository,
             ISummarisationConfigProvider<FundingType> fundingTypesProvider,
             ISummarisationConfigProvider<CollectionPeriod> collectionPeriodsProvider,
             ISummarisationService summarisationService,
@@ -37,6 +39,7 @@ namespace ESFA.DC.Summarisation.Service
         {
             _fundingTypesProvider = fundingTypesProvider;
             _fcsRepository = fcsRepository;
+            _summarisedActualsRepository = summarisedActualsRepository;
             _summarisationService = summarisationService;
             _collectionPeriodsProvider = collectionPeriodsProvider;
             _dataStorePersistenceService = dataStorePersistenceService;
@@ -87,7 +90,20 @@ namespace ESFA.DC.Summarisation.Service
 
                     _logger.LogInfo($"Summarisation Wrapper: Summarising Fundmodel {SummarisationType} End");
                 }
+                
             }
+
+            _logger.LogInfo($"Summarisation Wrapper: Reteieve Latest Summarised Actuals Start");
+
+            var summarisedActualsLast = await _summarisedActualsRepository.GetLatestSummarisedActualsAsync(summarisationContext.CollectionType, cancellationToken);
+
+            _logger.LogInfo($"Summarisation Wrapper: Reteieve Latest Summarised Actuals End");
+
+            _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed Start");
+
+            summarisedActuals.AddRange(GetFundingDataRemoved(summarisedActualsLast, summarisedActuals));
+
+            _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed End");
 
             _logger.LogInfo($"Summarisation Wrapper: Storing data to Summarised Actuals Start");
 
@@ -160,6 +176,22 @@ namespace ESFA.DC.Summarisation.Service
             _logger.LogInfo($"Summarisation Wrapper: Summarising UKPRN: {provider.UKPRN} End");
 
             return actuals;
+        }
+
+        public IEnumerable<SummarisedActual> GetFundingDataRemoved(
+            IEnumerable<SummarisedActual> summarisedActualsLast,
+            IEnumerable<SummarisedActual> summarisedActualsCurrent)
+        {
+            var fundingRemovedActuals = new List<SummarisedActual>();
+
+            fundingRemovedActuals = summarisedActualsLast.GroupJoin(summarisedActualsCurrent,
+                            last => new { last.OrganisationId, last.FundingStreamPeriodCode, last.DeliverableCode, last.Period, last.UoPCode },
+                            current => new { current.OrganisationId, current.FundingStreamPeriodCode, current.DeliverableCode, current.Period, current.UoPCode },
+                            (last, current) => new { last, current })
+                            .Where(res => !res.current.Any(x => x.OrganisationId == null))
+                            .Select(res => res.last).ToList();
+
+            return fundingRemovedActuals;
         }
     }
 }
