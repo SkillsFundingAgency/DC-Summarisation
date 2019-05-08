@@ -72,7 +72,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var logger = new Mock<ILogger>();
 
-            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, summarisedActualsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, summarisationService, dataStorePersistenceServiceMock.Object, providerRepositoryFunc, logger.Object);
+            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, summarisedActualsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, summarisationService, dataStorePersistenceServiceMock.Object, providerRepositoryFunc, dataOptions, logger.Object);
             var result = await wrapper.Summarise(summarisationContextMock.Object, cancellationToken);
 
             if (fundModel == FundModel.FM35)
@@ -156,7 +156,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var logger = new Mock<ILogger>();
 
-            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, summarisedActualsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, summarisationService, dataStorePersistenceServiceMock.Object, providerRepositoryFunc, logger.Object);
+            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, summarisedActualsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, summarisationService, dataStorePersistenceServiceMock.Object, providerRepositoryFunc, dataOptions, logger.Object);
             var result = await wrapper.Summarise(summarisationContextMock.Object, cancellationToken);
 
             if (fundModel == FundModel.FM35)
@@ -219,7 +219,9 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var logger = new Mock<ILogger>();
 
-            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, summarisedActualsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, summarisationService, dataStorePersistenceServiceMock.Object, providerRepositoryFunc, logger.Object);
+            var dataOptions = new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" };
+
+            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, summarisedActualsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, summarisationService, dataStorePersistenceServiceMock.Object, providerRepositoryFunc, dataOptions, logger.Object);
 
             var summarisedActuals = GetSummarisedActuals();
 
