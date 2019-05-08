@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using ESFA.DC.Summarisation;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.Summarisation.Interfaces;
@@ -23,9 +24,9 @@ namespace ESFA.DC.Summarisation.Main1819.Data.Repository
             _ilrContext = ilrContext;
         }
 
-        public string SummarisationType => nameof(ESFA.DC.Summarisation.Configuration.Enum.SummarisationType.Main1819_TBL);
+        public string SummarisationType => nameof(Configuration.Enum.SummarisationType.Main1819_TBL);
 
-        public string CollectionType => nameof(ESFA.DC.Summarisation.Configuration.Enum.CollectionType.ILR1819);
+        public string CollectionType => nameof(Configuration.Enum.CollectionType.ILR1819);
 
         public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
         {
