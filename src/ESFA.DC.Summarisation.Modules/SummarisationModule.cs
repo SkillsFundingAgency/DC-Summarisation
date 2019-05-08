@@ -19,6 +19,7 @@ using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
 using ESFA.DC.Summarisation.Data.Persist.Persist;
 using ESFA.DC.Summarisation.Data.Persist.Persist.Interface;
 using ESFA.DC.Summarisation.Data.Population.Service;
+using ESFA.DC.Summarisation.Data.Repository;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interface;
 using ESFA.DC.Summarisation.Interfaces;
@@ -55,6 +56,7 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<JsonSerializationService>().As<IJsonSerializationService>();
 
             containerBuilder.RegisterType<FcsRepository>().As<IFcsRepository>();
+            containerBuilder.RegisterType<SummarisedActualsProcessRepository>().As<ISummarisedActualsProcessRepository>();
 
             containerBuilder.RegisterType<BulkInsert>().As<IBulkInsert>();
             containerBuilder.RegisterType<SummarisedActualsPersist>().As<ISummarisedActualsPersist>();
