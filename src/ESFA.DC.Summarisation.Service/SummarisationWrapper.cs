@@ -196,8 +196,8 @@ namespace ESFA.DC.Summarisation.Service
 
             fundingRemovedActuals = summarisedActualsLast.GroupJoin(
                     summarisedActualsCurrent,
-                    last => new { last.OrganisationId, last.FundingStreamPeriodCode, last.DeliverableCode, last.Period, UoPCode = last.UoPCode ?? string.Empty},
-                    current => new { current.OrganisationId, current.FundingStreamPeriodCode, current.DeliverableCode, current.Period, UoPCode = current.UoPCode ?? string.Empty},
+                    last => new { last.OrganisationId, last.FundingStreamPeriodCode, last.DeliverableCode, last.Period, last.UoPCode},
+                    current => new { current.OrganisationId, current.FundingStreamPeriodCode, current.DeliverableCode, current.Period, current.UoPCode},
                     (last, current) => new { last, current })
                 .SelectMany(
                     x => x.current.DefaultIfEmpty(),
