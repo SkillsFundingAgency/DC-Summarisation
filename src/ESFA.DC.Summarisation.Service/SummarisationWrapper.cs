@@ -187,12 +187,16 @@ namespace ESFA.DC.Summarisation.Service
         {
             var fundingRemovedActuals = new List<SummarisedActual>();
 
-            fundingRemovedActuals = summarisedActualsLast.GroupJoin(summarisedActualsCurrent,
-                            last => new { last.OrganisationId, last.FundingStreamPeriodCode, last.DeliverableCode, last.Period, last.UoPCode },
-                            current => new { current.OrganisationId, current.FundingStreamPeriodCode, current.DeliverableCode, current.Period, current.UoPCode },
-                            (last, current) => new { last, current })
-                            .Where(res => !res.current.Any(x => x.OrganisationId == null))
-                            .Select(res => res.last).ToList();
+            fundingRemovedActuals = summarisedActualsLast.GroupJoin(
+                    summarisedActualsCurrent,
+                    last => new { last.OrganisationId, last.FundingStreamPeriodCode, last.DeliverableCode, last.Period, last.UoPCode },
+                    current => new { current.OrganisationId, current.FundingStreamPeriodCode, current.DeliverableCode, current.Period, current.UoPCode },
+                    (last, current) => new { last, current })
+                .SelectMany(
+                    x => x.current.DefaultIfEmpty(),
+                    (x, y) => new { x.last, current = y })
+                .Where(x => x.current == null)
+                .Select(x => x.last).ToList();
 
             return fundingRemovedActuals;
         }
