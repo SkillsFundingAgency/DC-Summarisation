@@ -78,6 +78,10 @@
       <Project>{2710AFB6-C198-4438-B676-8AF1A0B2E272}</Project>
       <Name>ESFA.DC.Summarisation.Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ESFA.DC.Summarisation.Model\ESFA.DC.Summarisation.Model.csproj">
+      <Project>{B0FF12A8-3050-453E-B2C2-76E197977F8A}</Project>
+      <Name>ESFA.DC.Summarisation.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Service\ESFA.DC.Summarisation.Service.csproj">
       <Project>{79FBA70B-AB9E-4B43-B850-9CF41340B638}</Project>
       <Name>ESFA.DC.Summarisation.Service</Name>

@@ -62,7 +62,7 @@ namespace ESFA.DC.Summarisation.Console
 
             IFcsRepository fcsRepository = new FcsRepository(fcsContext);
 
-            ISummarisedActualsRepository saRepository = new SummarisedActualsRepository(saContext);
+            ISummarisedActualsProcessRepository saRepository = new SummarisedActualsProcessRepository(saContext);
 
             IJsonSerializationService jsonSerializationService = new JsonSerializationService();
 

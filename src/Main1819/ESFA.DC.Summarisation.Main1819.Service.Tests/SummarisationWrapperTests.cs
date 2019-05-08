@@ -16,6 +16,7 @@ using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
+using ESFA.DC.Summarisation.Model;
 using ESFA.DC.Summarisation.Service;
 using FluentAssertions;
 using Moq;
@@ -47,9 +48,9 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             fcsRepositoryMock.Setup(r => r.RetrieveAsync(It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetContractAllocations(null)));
 
-            var summarisedActualsRepositoryMock = new Mock<ISummarisedActualsRepository>();
-
-            summarisedActualsRepositoryMock.Setup(r => r.GetLatestSummarisedActualsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetSummarisedActuals()));
+            var summarisedActualsRepositoryMock = new Mock<ISummarisedActualsProcessRepository>();
+            summarisedActualsRepositoryMock.Setup(r => r.GetLastCollectionReturnForCollectionTypeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetLatestCollectionReturn()));
+            summarisedActualsRepositoryMock.Setup(r => r.GetLatestSummarisedActualsAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetSummarisedActuals()));
 
             var dataStorePersistenceServiceMock = new Mock<IDataStorePersistenceService>();
 
@@ -73,6 +74,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             var logger = new Mock<ILogger>();
 
             var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, summarisedActualsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, summarisationService, dataStorePersistenceServiceMock.Object, providerRepositoryFunc, dataOptions, logger.Object);
+
             var result = await wrapper.Summarise(summarisationContextMock.Object, cancellationToken);
 
             if (fundModel == FundModel.FM35)
@@ -131,9 +133,11 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             fcsRepositoryMock.Setup(r => r.RetrieveAsync(It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetContractAllocations(fspCodes)));
 
-            var summarisedActualsRepositoryMock = new Mock<ISummarisedActualsRepository>();
+            var summarisedActualsRepositoryMock = new Mock<ISummarisedActualsProcessRepository>();
 
-            summarisedActualsRepositoryMock.Setup(r => r.GetLatestSummarisedActualsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetSummarisedActuals()));
+            summarisedActualsRepositoryMock.Setup(r => r.GetLastCollectionReturnForCollectionTypeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetLatestCollectionReturn()));
+
+            summarisedActualsRepositoryMock.Setup(r => r.GetLatestSummarisedActualsAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetSummarisedActuals()));
 
             var dataStorePersistenceServiceMock = new Mock<IDataStorePersistenceService>();
 
@@ -205,7 +209,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var fcsRepositoryMock = new Mock<IFcsRepository>();
 
-            var summarisedActualsRepositoryMock = new Mock<ISummarisedActualsRepository>();
+            var summarisedActualsRepositoryMock = new Mock<ISummarisedActualsProcessRepository>();
 
             var dataStorePersistenceServiceMock = new Mock<IDataStorePersistenceService>();
 
@@ -262,11 +266,21 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             return fspContractAllocations;
         }
 
-        private IEnumerable<SummarisedActual> GetSummarisedActuals()
+        private CollectionReturn GetLatestCollectionReturn()
         {
-            return new List<SummarisedActual>()
+            return new CollectionReturn()
             {
-                new SummarisedActual()
+                Id = 1,
+                CollectionType = "ILR1819",
+                CollectionReturnCode = "R01"
+            };
+         }
+
+        private IEnumerable<Summarisation.Data.Output.Model.SummarisedActual> GetSummarisedActuals()
+        {
+            return new List<Summarisation.Data.Output.Model.SummarisedActual>()
+            {
+                new Summarisation.Data.Output.Model.SummarisedActual()
                 {
                     OrganisationId = "Org1",
                     UoPCode = null,
@@ -278,10 +292,10 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                     PeriodTypeCode = "AY",
                     ContractAllocationNumber = "CA-1111"
                 },
-                new SummarisedActual()
+                new Summarisation.Data.Output.Model. SummarisedActual()
                 {
                     OrganisationId = "Org2",
-                    UoPCode = null,
+                    UoPCode = string.Empty,
                     FundingStreamPeriodCode = "AEBC1819",
                     Period = 201801,
                     DeliverableCode = 1,

@@ -75,37 +75,5 @@ namespace ESFA.DC.Summarisation.API.Stub
                     }
                 });
         }
-
-        public async Task<IEnumerable<SummarisedActual>> GetLatestSummarisedActualsAsync(string collectionType, CancellationToken cancellationToken)
-        {
-            return await Task.FromResult(
-                new List<SummarisedActual>()
-                {
-                    new SummarisedActual()
-                    {
-                        ActualValue = 1.1m,
-                        ActualVolume = 1,
-                        ContractAllocationNumber = "ContractAllocationNumber1",
-                        DeliverableCode = 1,
-                        FundingStreamPeriodCode = "FundingStreamPeriodCode1",
-                        OrganisationId = "OrganidationId1",
-                        Period = 1,
-                        PeriodTypeCode = "PeriodTypeCode1",
-                        UoPCode = "UoPCode1"
-                    },
-                    new SummarisedActual()
-                    {
-                        ActualValue = 1.1m,
-                        ActualVolume = 1,
-                        ContractAllocationNumber = "ContractAllocationNumber2",
-                        DeliverableCode = 1,
-                        FundingStreamPeriodCode = "FundingStreamPeriodCode2",
-                        OrganisationId = "OrganidationId2",
-                        Period = 1,
-                        PeriodTypeCode = "PeriodTypeCode2",
-                        UoPCode = "UoPCode2"
-                    }
-                });
-        }
     }
 }

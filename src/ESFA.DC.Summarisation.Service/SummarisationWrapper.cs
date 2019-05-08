@@ -20,7 +20,7 @@ namespace ESFA.DC.Summarisation.Service
     public class SummarisationWrapper : ISummarisationWrapper
     {
         private readonly IFcsRepository _fcsRepository;
-        private readonly ISummarisedActualsRepository _summarisedActualsRepository;
+        private readonly ISummarisedActualsProcessRepository _summarisedActualsProcessRepository;
         private readonly ISummarisationService _summarisationService;
         private readonly ISummarisationConfigProvider<FundingType> _fundingTypesProvider;
         private readonly ISummarisationConfigProvider<CollectionPeriod> _collectionPeriodsProvider;
@@ -31,7 +31,7 @@ namespace ESFA.DC.Summarisation.Service
 
         public SummarisationWrapper(
             IFcsRepository fcsRepository,
-            ISummarisedActualsRepository summarisedActualsRepository,
+            ISummarisedActualsProcessRepository summarisedActualsProcessRepository,
             ISummarisationConfigProvider<FundingType> fundingTypesProvider,
             ISummarisationConfigProvider<CollectionPeriod> collectionPeriodsProvider,
             ISummarisationService summarisationService,
@@ -42,7 +42,7 @@ namespace ESFA.DC.Summarisation.Service
         {
             _fundingTypesProvider = fundingTypesProvider;
             _fcsRepository = fcsRepository;
-            _summarisedActualsRepository = summarisedActualsRepository;
+            _summarisedActualsProcessRepository = summarisedActualsProcessRepository;
             _summarisationService = summarisationService;
             _collectionPeriodsProvider = collectionPeriodsProvider;
             _dataStorePersistenceService = dataStorePersistenceService;
@@ -98,7 +98,14 @@ namespace ESFA.DC.Summarisation.Service
 
             _logger.LogInfo($"Summarisation Wrapper: Reteieve Latest Summarised Actuals Start");
 
-            var summarisedActualsLast = await _summarisedActualsRepository.GetLatestSummarisedActualsAsync(summarisationContext.CollectionType, cancellationToken);
+            var latestCollectionReturn = await _summarisedActualsProcessRepository.GetLastCollectionReturnForCollectionTypeAsync(summarisationContext.CollectionType, cancellationToken);
+
+            IEnumerable<SummarisedActual> summarisedActualsLast = new List<SummarisedActual>();
+
+            if (latestCollectionReturn != null)
+            {
+                summarisedActualsLast = await _summarisedActualsProcessRepository.GetLatestSummarisedActualsAsync(latestCollectionReturn.Id, cancellationToken);
+            }
 
             _logger.LogInfo($"Summarisation Wrapper: Reteieve Latest Summarised Actuals End");
 
@@ -188,8 +195,8 @@ namespace ESFA.DC.Summarisation.Service
             var fundingRemovedActuals = new List<SummarisedActual>();
 
             fundingRemovedActuals = summarisedActualsLast.GroupJoin(summarisedActualsCurrent,
-                            last => new { last.OrganisationId, last.FundingStreamPeriodCode, last.DeliverableCode, last.Period, last.UoPCode },
-                            current => new { current.OrganisationId, current.FundingStreamPeriodCode, current.DeliverableCode, current.Period, current.UoPCode },
+                            last => new { last.OrganisationId, last.FundingStreamPeriodCode, last.DeliverableCode, last.Period, UoPCode = last.UoPCode ?? string.Empty },
+                            current => new { current.OrganisationId, current.FundingStreamPeriodCode, current.DeliverableCode, current.Period, UoPCode = current.UoPCode ?? string.Empty },
                             (last, current) => new { last, current })
                             .Where(res => !res.current.Any(x => x.OrganisationId == null))
                             .Select(res => res.last).ToList();

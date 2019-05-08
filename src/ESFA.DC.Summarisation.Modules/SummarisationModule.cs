@@ -56,7 +56,7 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<JsonSerializationService>().As<IJsonSerializationService>();
 
             containerBuilder.RegisterType<FcsRepository>().As<IFcsRepository>();
-            containerBuilder.RegisterType<SummarisedActualsRepository>().As<ISummarisedActualsRepository>();
+            containerBuilder.RegisterType<SummarisedActualsProcessRepository>().As<ISummarisedActualsProcessRepository>();
 
             containerBuilder.RegisterType<BulkInsert>().As<IBulkInsert>();
             containerBuilder.RegisterType<SummarisedActualsPersist>().As<ISummarisedActualsPersist>();
