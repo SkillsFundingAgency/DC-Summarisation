@@ -72,9 +72,10 @@ namespace ESFA.DC.Summarisation.Console
 
             IProviderRepository repository = new ProviderRepository(new List<ILearningDeliveryProvider>
             {
-                new Fm35Provider(ilrContext),
                 new AlbProvider(ilrContext),
-                new EasProvider(easContext)
+                new EasProvider(easContext),
+                new Fm35Provider(ilrContext),
+                new TblProvider(ilrContext)
             });
 
             ISummarisationService summarisationService = new SummarisationService();
