@@ -21,6 +21,7 @@ using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
 using ESFA.DC.Summarisation.Data.Persist.Persist;
 using ESFA.DC.Summarisation.Data.Persist.Persist.Interface;
 using ESFA.DC.Summarisation.Data.Population.Service;
+using ESFA.DC.Summarisation.Data.Repository;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interface;
 using ESFA.DC.Summarisation.Interfaces;
@@ -28,6 +29,7 @@ using ESFA.DC.Summarisation.Main1819.Data.Providers;
 using ESFA.DC.Summarisation.Main1819.Data.Repository;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using ESFA.DC.Summarisation.Main1819.Service.Tests.Stubs;
+using ESFA.DC.Summarisation.Model;
 using ESFA.DC.Summarisation.Service;
 using Microsoft.EntityFrameworkCore;
 
@@ -51,12 +53,16 @@ namespace ESFA.DC.Summarisation.Console
             DbContextOptions<FcsContext> fcsdbContextOptions = new DbContextOptionsBuilder<FcsContext>().UseSqlServer(fcsConnectionString).Options;
             DbContextOptions<ILR1819_DataStoreEntities> ilrdbContextOptions = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>().UseSqlServer(ilrConnectionString).Options;
             DbContextOptions<EasContext> easdbContextOptions = new DbContextOptionsBuilder<EasContext>().UseSqlServer(easConnectionString).Options;
+            DbContextOptions<SummarisationContext> sadbContextOptions = new DbContextOptionsBuilder<SummarisationContext>().UseSqlServer(summarisedActualsConnectionString).Options;
 
             IFcsContext fcsContext = new FcsContext(fcsdbContextOptions);
             IIlr1819RulebaseContext ilrContext = new ILR1819_DataStoreEntities(ilrdbContextOptions);
             IEasdbContext easContext = new EasContext(easdbContextOptions);
+            SummarisationContext saContext = new SummarisationContext(sadbContextOptions);
 
             IFcsRepository fcsRepository = new FcsRepository(fcsContext);
+
+            ISummarisedActualsProcessRepository saRepository = new SummarisedActualsProcessRepository(saContext);
 
             IJsonSerializationService jsonSerializationService = new JsonSerializationService();
 
@@ -88,6 +94,7 @@ namespace ESFA.DC.Summarisation.Console
 
             SummarisationWrapper wrapper = new SummarisationWrapper(
                 fcsRepository,
+                saRepository,
                 fundingTypesProvider,
                 collectionPeriodsProvider,
                 summarisationService,
