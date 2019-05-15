@@ -1,5 +1,6 @@
 ﻿using System.Data.SqlClient;
 using Autofac;
+using ESF.DC.Summarisation.Main1819.Data.Providers;
 using ESF.DC.Summarisation.Main1819.Data.Repository;
 using ESFA.DC.EAS1819.EF;
 using ESFA.DC.EAS1819.EF.Interface;
@@ -50,6 +51,7 @@ namespace ESFA.DC.Summarisation.Modules
 
             containerBuilder.RegisterType<AlbProvider>().As<ILearningDeliveryProvider>();
             containerBuilder.RegisterType<TblProvider>().As<ILearningDeliveryProvider>();
+            containerBuilder.RegisterType<Fm25Provider>().As<ILearningDeliveryProvider>();
             containerBuilder.RegisterType<Fm35Provider>().As<ILearningDeliveryProvider>();
             containerBuilder.RegisterType<EasProvider>().As<ILearningDeliveryProvider>();
             containerBuilder.RegisterType<ProviderRepository>().As<IProviderRepository>();
