@@ -1,16 +1,11 @@
 ﻿using ESFA.DC.ILR1819.DataStore.EF.Interface;
-using ESFA.DC.Summarisation.Data.Input.Interface;
-using ESFA.DC.Summarisation.Interface;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
-using System.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using ESFA.DC.Summarisation;
 using ESFA.DC.Summarisation.Data.Input.Model;
-using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.Summarisation.Interfaces;
 
 namespace ESFA.DC.Summarisation.Main1819.Data.Repository
@@ -38,7 +33,19 @@ namespace ESFA.DC.Summarisation.Main1819.Data.Repository
                     AimSeqNumber = ld.AimSeqNumber,
                     Fundline = ld.FundLine,
                     PeriodisedData = ld.TBL_LearningDelivery_PeriodisedValues
-                        .Where(x => (x.Period_1 + x.Period_2 + x.Period_3 + x.Period_4 + x.Period_5 + x.Period_6 + x.Period_7 + x.Period_8 + x.Period_9 + x.Period_10 + x.Period_11 + x.Period_12) > 0)
+                        .Where(x => (
+                            x.Period_1 + 
+                            x.Period_2 + 
+                            x.Period_3 + 
+                            x.Period_4 + 
+                            x.Period_5 + 
+                            x.Period_6 + 
+                            x.Period_7 + 
+                            x.Period_8 + 
+                            x.Period_9 + 
+                            x.Period_10 + 
+                            x.Period_11 + 
+                            x.Period_12) > 0)
                         .Select(pv => new PeriodisedData
                         {
                             AttributeName = pv.AttributeName,
@@ -111,7 +118,9 @@ namespace ESFA.DC.Summarisation.Main1819.Data.Repository
 
         public async Task<IList<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
         {
-            return await _ilrContext.TBL_Learners.Select(l => l.UKPRN).Distinct().ToListAsync(cancellationToken);
+            return await _ilrContext.TBL_Learners
+                .Select(l => l.UKPRN).Distinct()
+                .ToListAsync(cancellationToken);
         }
     }
 }
