@@ -74,31 +74,44 @@ namespace ESFA.DC.Summarisation.Service
             if (!string.IsNullOrEmpty(summarisationContext.Ukprn))
             {
                 providerIdentifiers = new List<int> { Convert.ToInt32(summarisationContext.Ukprn) };
-
             }
             else
             {
                 providerIdentifiers = await _repositoryFactory.Invoke().GetAllProviderIdentifiersAsync(cancellationToken);
             }
 
+            var latestCollectionReturn = await _summarisedActualsProcessRepository.GetLastCollectionReturnForCollectionTypeAsync(summarisationContext.CollectionType, cancellationToken);
+
             var providersData = await RetrieveProvidersData(providerIdentifiers, cancellationToken);
 
             foreach (var ukprn in providerIdentifiers)
             {
+                var providerActuals = new List<SummarisedActual>();
+
                 foreach (var SummarisationType in summarisationContext.SummarisationTypes)
                 {
                     _logger.LogInfo($"Summarisation Wrapper: Summarising Fundmodel {SummarisationType} Start");
 
-                    summarisedActuals.AddRange(SummariseByFundModel(SummarisationType, collectionPeriods, fcsContractAllocations, providersData[ukprn]));
+                    providerActuals.AddRange(SummariseByFundModel(SummarisationType, collectionPeriods, fcsContractAllocations, providersData[ukprn]));
 
                     _logger.LogInfo($"Summarisation Wrapper: Summarising Fundmodel {SummarisationType} End");
                 }
-                
+
+                var organistions = providerActuals.Select(x => x.OrganisationId).Distinct();
+
+                foreach (var organisation in organistions)
+                {
+                    var previousActuals = await _summarisedActualsProcessRepository.GetSummarisedActualsForCollectionReturnAndOrganisationAsync(latestCollectionReturn.Id, organisation, cancellationToken);
+                    var actualsToCarry = previousActuals.Except(providerActuals, new SummarisedActualsComparer());
+
+                    summarisedActuals.AddRange(actualsToCarry);
+                }
+
+                summarisedActuals.AddRange(providerActuals);
             }
 
             _logger.LogInfo($"Summarisation Wrapper: Reteieve Latest Summarised Actuals Start");
 
-            var latestCollectionReturn = await _summarisedActualsProcessRepository.GetLastCollectionReturnForCollectionTypeAsync(summarisationContext.CollectionType, cancellationToken);
 
             IEnumerable<SummarisedActual> summarisedActualsLast = new List<SummarisedActual>();
 
@@ -109,11 +122,11 @@ namespace ESFA.DC.Summarisation.Service
 
             _logger.LogInfo($"Summarisation Wrapper: Reteieve Latest Summarised Actuals End");
 
-            _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed Start");
+            //_logger.LogInfo($"Summarisation Wrapper: Funding Data Removed Start");
 
-            summarisedActuals.AddRange(GetFundingDataRemoved(summarisedActualsLast, summarisedActuals));
+            //summarisedActuals.AddRange(GetFundingDataRemoved(summarisedActualsLast, summarisedActuals));
 
-            _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed End");
+            //_logger.LogInfo($"Summarisation Wrapper: Funding Data Removed End");
 
             _logger.LogInfo($"Summarisation Wrapper: Storing data to Summarised Actuals Start");
 
@@ -188,24 +201,37 @@ namespace ESFA.DC.Summarisation.Service
             return providerData;
         }
 
-        public IEnumerable<SummarisedActual> GetFundingDataRemoved(
-            IEnumerable<SummarisedActual> summarisedActualsLast,
-            IEnumerable<SummarisedActual> summarisedActualsCurrent)
+        //public IEnumerable<SummarisedActual> GetFundingDataRemoved(
+        //    IEnumerable<SummarisedActual> summarisedActualsLast,
+        //    IEnumerable<SummarisedActual> summarisedActualsCurrent)
+        //{
+        //    var fundingRemovedActuals = new List<SummarisedActual>();
+
+        //    fundingRemovedActuals = summarisedActualsLast.GroupJoin(
+        //            summarisedActualsCurrent,
+        //            last => new { last.OrganisationId, last.FundingStreamPeriodCode, last.DeliverableCode, last.Period, last.UoPCode},
+        //            current => new { current.OrganisationId, current.FundingStreamPeriodCode, current.DeliverableCode, current.Period, current.UoPCode},
+        //            (last, current) => new { last, current })
+        //        .SelectMany(
+        //            x => x.current.DefaultIfEmpty(),
+        //            (x, y) => new { x.last, current = y })
+        //        .Where(x => x.current == null)
+        //        .Select(x => x.last).ToList();
+
+        //    return fundingRemovedActuals;
+        //}
+    }
+
+    public class SummarisedActualsComparer : IEqualityComparer<SummarisedActual>
+    {
+        public bool Equals(SummarisedActual x, SummarisedActual y)
         {
-            var fundingRemovedActuals = new List<SummarisedActual>();
+            throw new System.NotImplementedException();
+        }
 
-            fundingRemovedActuals = summarisedActualsLast.GroupJoin(
-                    summarisedActualsCurrent,
-                    last => new { last.OrganisationId, last.FundingStreamPeriodCode, last.DeliverableCode, last.Period, last.UoPCode},
-                    current => new { current.OrganisationId, current.FundingStreamPeriodCode, current.DeliverableCode, current.Period, current.UoPCode},
-                    (last, current) => new { last, current })
-                .SelectMany(
-                    x => x.current.DefaultIfEmpty(),
-                    (x, y) => new { x.last, current = y })
-                .Where(x => x.current == null)
-                .Select(x => x.last).ToList();
-
-            return fundingRemovedActuals;
+        public int GetHashCode(SummarisedActual obj)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
