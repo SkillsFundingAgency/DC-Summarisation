@@ -1,6 +1,7 @@
 ﻿using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interface;
 using ESFA.DC.Summarisation;
+using ESFA.DC.Summarisation.Configuration.Enum;
 using ESFA.DC.Summarisation.Main1819.Data.Repository;
 using FluentAssertions;
 using MockQueryable.Moq;
@@ -14,7 +15,7 @@ using Xunit;
 
 namespace ESFA.DC.Summarisation.Data.Tests.Repository
 {
-    public class TblRepositoryTests
+    public class TblProviderTests
     {
         [Fact]
         public void SummarisationType_Check()
@@ -25,7 +26,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
         [Fact]
         public void SummarisationType_CheckWithConstantValue()
         {
-            NewProvider().SummarisationType.Should().Be(nameof(Configuration.Enum.SummarisationType.Main1819_TBL));
+            NewProvider().SummarisationType.Should().Be(nameof(SummarisationType.Main1819_TBL));
         }
 
         [Fact]
@@ -37,7 +38,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
         [Fact]
         public void CollectionType_CheckWithConstantValue()
         {
-            NewProvider().CollectionType.Should().Be(nameof(Configuration.Enum.CollectionType.ILR1819));
+            NewProvider().CollectionType.Should().Be(nameof(CollectionType.ILR1819));
         }
 
         [Fact]
