@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
+using ESF.DC.Summarisation.Main1819.Data.Providers;
 using ESF.DC.Summarisation.Main1819.Data.Repository;
 using ESFA.DC.EAS1819.EF;
 using ESFA.DC.EAS1819.EF.Interface;
@@ -74,6 +75,7 @@ namespace ESFA.DC.Summarisation.Console
             {
                 new AlbProvider(ilrContext),
                 new EasProvider(easContext),
+                new Fm25Provider(ilrContext),
                 new Fm35Provider(ilrContext),
                 new TblProvider(ilrContext)
             });
