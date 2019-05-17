@@ -58,9 +58,9 @@
     <None Include="ESFA.DC.Summarisation.Main1819.Service.Tests.ruleset" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ESF.DC.Summarisation.Main1819.Data\ESF.DC.Summarisation.Main1819.Data.csproj">
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Main1819.Data\ESFA.DC.Summarisation.Main1819.Data.csproj">
       <Project>{98F8DF97-A434-4B24-B3D4-30C4A71EC42C}</Project>
-      <Name>ESF.DC.Summarisation.Main1819.Data</Name>
+      <Name>ESFA.DC.Summarisation.Main1819.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Configuration\ESFA.DC.Summarisation.Configuration.csproj">
       <Project>{6B10F154-0C66-49C8-BEFB-646A8C8909DA}</Project>
