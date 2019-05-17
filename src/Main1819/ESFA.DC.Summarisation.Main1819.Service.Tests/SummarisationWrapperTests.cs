@@ -196,10 +196,8 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         }
 
         [Fact]
-        public void FundingDataRemoved_Test()
+        public async void FundingDataRemoved_Test()
         {
-            var cancellationToken = CancellationToken.None;
-
             var repositoryMock = new Mock<IProviderRepository>();
 
             Func<IProviderRepository> providerRepositoryFunc = () =>
@@ -211,13 +209,15 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var summarisedActualsRepositoryMock = new Mock<ISummarisedActualsProcessRepository>();
 
+            summarisedActualsRepositoryMock.Setup(s =>
+                    s.GetSummarisedActualsForCollectionReturnAndOrganisationAsync(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                    .ReturnsAsync(GetSummarisedActuals());
+
             var dataStorePersistenceServiceMock = new Mock<IDataStorePersistenceService>();
 
             var fundingTypesProvider = new FundingTypesProvider(new JsonSerializationService());
 
             var collectionPeriodsProvider = new CollectionPeriodsProvider(new JsonSerializationService());
-
-            var summarisationContextMock = new Mock<ISummarisationContext>();
 
             ISummarisationService summarisationService = new SummarisationService();
 
@@ -227,11 +227,50 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, summarisedActualsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, summarisationService, dataStorePersistenceServiceMock.Object, providerRepositoryFunc, dataOptions, logger.Object);
 
-            var summarisedActuals = GetSummarisedActuals();
+            var summarisedActuals = new List<Summarisation.Data.Output.Model.SummarisedActual>();
 
-            var result = wrapper.GetFundingDataRemoved(summarisedActuals, summarisedActuals.Where(s => s.OrganisationId == "Org1"));
+            var result = await wrapper.GetFundingDataRemoved(1, "Org1", summarisedActuals, CancellationToken.None);
 
-            result.Count(r => r.OrganisationId == "Org2").Should().Be(1);
+            result.Count().Should().Be(2);
+        }
+
+        [Fact]
+        public async void FundingDataRemovedPartial_Test()
+        {
+            var repositoryMock = new Mock<IProviderRepository>();
+
+            Func<IProviderRepository> providerRepositoryFunc = () =>
+            {
+                return repositoryMock.Object;
+            };
+
+            var fcsRepositoryMock = new Mock<IFcsRepository>();
+
+            var summarisedActualsRepositoryMock = new Mock<ISummarisedActualsProcessRepository>();
+
+            summarisedActualsRepositoryMock.Setup(s =>
+                    s.GetSummarisedActualsForCollectionReturnAndOrganisationAsync(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(GetSummarisedActuals());
+
+            var dataStorePersistenceServiceMock = new Mock<IDataStorePersistenceService>();
+
+            var fundingTypesProvider = new FundingTypesProvider(new JsonSerializationService());
+
+            var collectionPeriodsProvider = new CollectionPeriodsProvider(new JsonSerializationService());
+
+            ISummarisationService summarisationService = new SummarisationService();
+
+            var logger = new Mock<ILogger>();
+
+            var dataOptions = new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" };
+
+            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, summarisedActualsRepositoryMock.Object, fundingTypesProvider, collectionPeriodsProvider, summarisationService, dataStorePersistenceServiceMock.Object, providerRepositoryFunc, dataOptions, logger.Object);
+
+            var summarisedActuals = GetSummarisedActuals().Where(x => x.FundingStreamPeriodCode == "APPS1819");
+
+            var result = await wrapper.GetFundingDataRemoved(1, "Org1", summarisedActuals, CancellationToken.None);
+
+            result.Count().Should().Be(1);
         }
 
         private IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> GetContractAllocations(HashSet<string> fspCodes)
@@ -294,7 +333,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                 },
                 new Summarisation.Data.Output.Model. SummarisedActual()
                 {
-                    OrganisationId = "Org2",
+                    OrganisationId = "Org1",
                     UoPCode = string.Empty,
                     FundingStreamPeriodCode = "AEBC1819",
                     Period = 201801,

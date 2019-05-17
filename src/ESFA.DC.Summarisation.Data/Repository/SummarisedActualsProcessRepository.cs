@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using SummarisedActual = ESFA.DC.Summarisation.Data.Output.Model.SummarisedActual;
 
 namespace ESFA.DC.Summarisation.Data.Repository
 {
@@ -28,9 +29,26 @@ namespace ESFA.DC.Summarisation.Data.Repository
                                 .FirstOrDefaultAsync(cancellationToken);
         }
 
+        public async Task<IEnumerable<Output.Model.SummarisedActual>> GetSummarisedActualsForCollectionReturnAndOrganisationAsync(int collectionReturnId, string organisationId, CancellationToken cancellationToken)
+        {
+            return await this._summarisationContext.SummarisedActuals
+                .Where(sa => sa.CollectionReturnId == collectionReturnId && sa.OrganisationId == organisationId)
+                .Select(o => new Output.Model.SummarisedActual
+                {
+                    Period = o.Period,
+                    FundingStreamPeriodCode = o.FundingStreamPeriodCode,
+                    UoPCode = o.UoPcode,
+                    DeliverableCode = o.DeliverableCode,
+                    OrganisationId = o.OrganisationId,
+                    ActualValue = o.ActualValue,
+                    ActualVolume = o.ActualVolume,
+                    ContractAllocationNumber = o.ContractAllocationNumber,
+                    PeriodTypeCode = o.PeriodTypeCode
+                }).ToListAsync(cancellationToken);
+        }
+
         public async Task<IEnumerable<Output.Model.SummarisedActual>> GetLatestSummarisedActualsAsync(int collectionReturnId, CancellationToken cancellationToken)
         {
-
             return await _summarisationContext.SummarisedActuals
                              .Where(sa => sa.CollectionReturnId == collectionReturnId)
                              .Select(o => new Output.Model.SummarisedActual
@@ -46,6 +64,5 @@ namespace ESFA.DC.Summarisation.Data.Repository
                                     ContractAllocationNumber = o.ContractAllocationNumber
                              }).ToListAsync(cancellationToken);
         }
-
     }
 }

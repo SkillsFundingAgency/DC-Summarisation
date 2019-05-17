@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
-using ESFA.DC.Summarisation.Data.Output.Model;
 using ESFA.DC.Summarisation.Data.Persist;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interface;
@@ -14,6 +13,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.Summarisation.Configuration.Interface;
 using ESFA.DC.Summarisation.Data.Input.Interface;
+using ESFA.DC.Summarisation.Model;
+using ESFA.DC.Summarisation.Service.EqualityComparer;
+using SummarisedActual = ESFA.DC.Summarisation.Data.Output.Model.SummarisedActual;
 
 namespace ESFA.DC.Summarisation.Service
 {
@@ -74,46 +76,36 @@ namespace ESFA.DC.Summarisation.Service
             if (!string.IsNullOrEmpty(summarisationContext.Ukprn))
             {
                 providerIdentifiers = new List<int> { Convert.ToInt32(summarisationContext.Ukprn) };
-
             }
             else
             {
                 providerIdentifiers = await _repositoryFactory.Invoke().GetAllProviderIdentifiersAsync(cancellationToken);
             }
 
+            var latestCollectionReturn = await _summarisedActualsProcessRepository.GetLastCollectionReturnForCollectionTypeAsync(summarisationContext.CollectionType, cancellationToken);
+
             var providersData = await RetrieveProvidersData(providerIdentifiers, cancellationToken);
 
             foreach (var ukprn in providerIdentifiers)
             {
+                var providerActuals = new List<SummarisedActual>();
+
                 foreach (var SummarisationType in summarisationContext.SummarisationTypes)
                 {
                     _logger.LogInfo($"Summarisation Wrapper: Summarising Fundmodel {SummarisationType} Start");
 
-                    summarisedActuals.AddRange(SummariseByFundModel(SummarisationType, collectionPeriods, fcsContractAllocations, providersData[ukprn]));
+                    providerActuals.AddRange(SummariseByFundModel(SummarisationType, collectionPeriods, fcsContractAllocations, providersData[ukprn]));
 
                     _logger.LogInfo($"Summarisation Wrapper: Summarising Fundmodel {SummarisationType} End");
                 }
-                
+
+                var organisationId = providerActuals.Select(x => x.OrganisationId).FirstOrDefault();
+
+                var actualsToCarry = await GetFundingDataRemoved(latestCollectionReturn.Id, organisationId, providerActuals, cancellationToken);
+
+                summarisedActuals.AddRange(actualsToCarry);
+                summarisedActuals.AddRange(providerActuals);
             }
-
-            _logger.LogInfo($"Summarisation Wrapper: Reteieve Latest Summarised Actuals Start");
-
-            var latestCollectionReturn = await _summarisedActualsProcessRepository.GetLastCollectionReturnForCollectionTypeAsync(summarisationContext.CollectionType, cancellationToken);
-
-            IEnumerable<SummarisedActual> summarisedActualsLast = new List<SummarisedActual>();
-
-            if (latestCollectionReturn != null)
-            {
-                summarisedActualsLast = await _summarisedActualsProcessRepository.GetLatestSummarisedActualsAsync(latestCollectionReturn.Id, cancellationToken);
-            }
-
-            _logger.LogInfo($"Summarisation Wrapper: Reteieve Latest Summarised Actuals End");
-
-            _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed Start");
-
-            summarisedActuals.AddRange(GetFundingDataRemoved(summarisedActualsLast, summarisedActuals));
-
-            _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed End");
 
             _logger.LogInfo($"Summarisation Wrapper: Storing data to Summarised Actuals Start");
 
@@ -188,24 +180,15 @@ namespace ESFA.DC.Summarisation.Service
             return providerData;
         }
 
-        public IEnumerable<SummarisedActual> GetFundingDataRemoved(
-            IEnumerable<SummarisedActual> summarisedActualsLast,
-            IEnumerable<SummarisedActual> summarisedActualsCurrent)
+        public async Task<IEnumerable<SummarisedActual>> GetFundingDataRemoved(int collectionReturnId, string organisationId, IEnumerable<SummarisedActual> providerActuals, CancellationToken cancellationToken)
         {
-            var fundingRemovedActuals = new List<SummarisedActual>();
+            _logger.LogInfo($"Summarisation Wrapper: Retrieve Latest Summarised Actuals Start");
 
-            fundingRemovedActuals = summarisedActualsLast.GroupJoin(
-                    summarisedActualsCurrent,
-                    last => new { last.OrganisationId, last.FundingStreamPeriodCode, last.DeliverableCode, last.Period, last.UoPCode},
-                    current => new { current.OrganisationId, current.FundingStreamPeriodCode, current.DeliverableCode, current.Period, current.UoPCode},
-                    (last, current) => new { last, current })
-                .SelectMany(
-                    x => x.current.DefaultIfEmpty(),
-                    (x, y) => new { x.last, current = y })
-                .Where(x => x.current == null)
-                .Select(x => x.last).ToList();
+            var previousActuals = await _summarisedActualsProcessRepository.GetSummarisedActualsForCollectionReturnAndOrganisationAsync(collectionReturnId, organisationId, cancellationToken);
+            var actualsToCarry = previousActuals.Except(providerActuals, new SummarisedActualsComparer());
 
-            return fundingRemovedActuals;
+            _logger.LogInfo($"Summarisation Wrapper: Retrieve Latest Summarised Actuals End");
+            return actualsToCarry;
         }
     }
 }
