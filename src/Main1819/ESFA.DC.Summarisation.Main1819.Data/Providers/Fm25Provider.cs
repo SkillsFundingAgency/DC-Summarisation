@@ -1,44 +1,51 @@
 ﻿using ESFA.DC.ILR1819.DataStore.EF.Interface;
-using ESFA.DC.Summarisation.Data.Input.Interface;
-using ESFA.DC.Summarisation.Interface;
+using ESFA.DC.Summarisation.Data.Input.Model;
+using ESFA.DC.Summarisation.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
-using System.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using ESFA.DC.Summarisation;
-using ESFA.DC.Summarisation.Data.Input.Model;
-using ESFA.DC.ILR1819.DataStore.EF;
-using ESFA.DC.Summarisation.Interfaces;
 
-namespace ESFA.DC.Summarisation.Main1819.Data.Repository
+namespace ESF.DC.Summarisation.Main1819.Data.Providers
 {
-    public class TblProvider : ILearningDeliveryProvider
+    public class Fm25Provider : ILearningDeliveryProvider
     {
-        private readonly IIlr1819RulebaseContext _ilrContext;
+        public string SummarisationType => nameof(ESFA.DC.Summarisation.Configuration.Enum.SummarisationType.Main1819_FM25);
 
-        public TblProvider(IIlr1819RulebaseContext ilrContext)
+        public string CollectionType => nameof(ESFA.DC.Summarisation.Configuration.Enum.CollectionType.ILR1819);
+
+        private readonly IIlr1819RulebaseContext _ilr1819RulebaseContext;
+
+        public Fm25Provider(IIlr1819RulebaseContext ilr1819RulebaseContext)
         {
-            _ilrContext = ilrContext;
+            _ilr1819RulebaseContext = ilr1819RulebaseContext;
         }
-
-        public string SummarisationType => nameof(Configuration.Enum.SummarisationType.Main1819_TBL);
-
-        public string CollectionType => nameof(Configuration.Enum.CollectionType.ILR1819);
 
         public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
         {
-            return await _ilrContext.TBL_LearningDeliveries
+            return await _ilr1819RulebaseContext.FM25_Learners
                 .Where(ld => ld.UKPRN == ukprn)
                 .Select(ld => new LearningDelivery
                 {
                     LearnRefNumber = ld.LearnRefNumber,
-                    AimSeqNumber = ld.AimSeqNumber,
                     Fundline = ld.FundLine,
-                    PeriodisedData = ld.TBL_LearningDelivery_PeriodisedValues
-                        .Where(x => (x.Period_1 + x.Period_2 + x.Period_3 + x.Period_4 + x.Period_5 + x.Period_6 + x.Period_7 + x.Period_8 + x.Period_9 + x.Period_10 + x.Period_11 + x.Period_12) > 0)
+                    PeriodisedData = ld.FM25_FM35_Learner_PeriodisedValues
+                        .Where(x => (
+                            x.Period_1 +
+                            x.Period_2 +
+                            x.Period_3 +
+                            x.Period_4 +
+                            x.Period_5 +
+                            x.Period_6 +
+                            x.Period_7 +
+                            x.Period_8 +
+                            x.Period_9 +
+                            x.Period_10 +
+                            x.Period_11 +
+                            x.Period_12) > 0)
                         .Select(pv => new PeriodisedData
                         {
                             AttributeName = pv.AttributeName,
@@ -111,7 +118,9 @@ namespace ESFA.DC.Summarisation.Main1819.Data.Repository
 
         public async Task<IList<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
         {
-            return await _ilrContext.TBL_Learners.Select(l => l.UKPRN).Distinct().ToListAsync(cancellationToken);
+            return await _ilr1819RulebaseContext.FM25_Learners
+                .Select(i => i.UKPRN).Distinct()
+                .ToListAsync();
         }
     }
 }

@@ -47,7 +47,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.Summarisation.Modul
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.Summarisation.Service", "ESFA.DC.Summarisation.Service\ESFA.DC.Summarisation.Service.csproj", "{79FBA70B-AB9E-4B43-B850-9CF41340B638}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESF.DC.Summarisation.Main1819.Data", "ESF.DC.Summarisation.Main1819.Data\ESF.DC.Summarisation.Main1819.Data.csproj", "{98F8DF97-A434-4B24-B3D4-30C4A71EC42C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.Summarisation.Main1819.Data", "Main1819\ESFA.DC.Summarisation.Main1819.Data\ESFA.DC.Summarisation.Main1819.Data.csproj", "{98F8DF97-A434-4B24-B3D4-30C4A71EC42C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ESF", "ESF", "{277432A9-583B-40C9-95D2-189BB7EB71E4}"
 EndProject
