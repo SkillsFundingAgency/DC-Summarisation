@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,7 +29,9 @@ namespace ESFA.DC.Summarisation.Data.Population.Service
                     FundingStreamPeriodCode = ca.FundingStreamPeriodCode,
                     UoPcode = ca.UoPcode,
                     DeliveryUkprn = ca.DeliveryUkprn,
-                    DeliveryOrganisation = ca.DeliveryOrganisation
+                    DeliveryOrganisation = ca.DeliveryOrganisation,
+                    ContractStartDate = ca.StartDate.HasValue ? Convert.ToInt32(ca.StartDate.Value.ToString("yyyyMM")) : 0,
+                    ContractEndDate = ca.EndDate.HasValue ? Convert.ToInt32(ca.EndDate.Value.ToString("yyyyMM")) : 0
                 })
                 .GroupBy(ca => ca.FundingStreamPeriodCode)
                 .ToDictionaryAsync(gca => gca.Key, gca => gca.ToList() as IReadOnlyCollection<IFcsContractAllocation>, cancellationToken);

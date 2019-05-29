@@ -13,5 +13,7 @@ namespace ESFA.DC.Summarisation.Configuration
         public string EAS1819ConnectionString { get; set; }
 
         public string DataRetrievalMaxConcurrentCalls { get; set; }
+
+        public string ESFNonEFConnectionString { get; set; }
     }
 }

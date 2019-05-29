@@ -8,16 +8,21 @@ using System.Linq;
 
 namespace ESFA.DC.Summarisation.Service
 {
-    public class SummarisationService : ISummarisationService
+    public class SummarisationDeliverableProcess : ISummarisationService
     {
-        public string ProcessType => nameof(Configuration.Enum.ProcessType.Fundline);
+        public string ProcessType => nameof(Configuration.Enum.ProcessType.Deliverable);
 
         public IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams, IProvider provider, IEnumerable<IFcsContractAllocation> allocations, IEnumerable<CollectionPeriod> collectionPeriods)
         {
-            return fundingStreams.SelectMany(fs => Summarise(fs, provider, allocations, collectionPeriods));
+            return allocations.Where(w => w.FundingStreamPeriodCode == "ESF1420").SelectMany(all => Summarise(fundingStreams, provider, all, collectionPeriods));
         }
 
-        public IEnumerable<SummarisedActual> Summarise(FundingStream fundingStream, IProvider provider, IEnumerable<IFcsContractAllocation> allocations, IEnumerable<CollectionPeriod> collectionPeriods)
+        public IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams, IProvider provider, IFcsContractAllocation allocation, IEnumerable<CollectionPeriod> collectionPeriods)
+        {
+            return fundingStreams.SelectMany(fs => Summarise(fs, provider, allocation, collectionPeriods));
+        }
+
+        public IEnumerable<SummarisedActual> Summarise(FundingStream fundingStream, IProvider provider, IFcsContractAllocation allocation, IEnumerable<CollectionPeriod> collectionPeriods)
         {
             var summarisedActuals = new List<SummarisedActual>();
 
@@ -25,12 +30,12 @@ namespace ESFA.DC.Summarisation.Service
             {
                 var periodisedData = provider
                     .LearningDeliveries
-                    .Where(ld => ld.Fundline == fundLine.Fundline)
-                    .SelectMany(x => x.PeriodisedData);
+                    .Where(ld => ld.ConRefNumber == allocation.ContractAllocationNumber)
+                    .SelectMany(x => x.PeriodisedData.Where(w => w.DeliverableCode == fundLine.DeliverableCode));
 
                 var periods = GetPeriodsForFundLine(periodisedData, fundLine);
 
-                summarisedActuals.AddRange(SummarisePeriods(periods));
+                summarisedActuals.AddRange(SummarisePeriods(periods, collectionPeriods));
             }
 
             return summarisedActuals
@@ -38,12 +43,13 @@ namespace ESFA.DC.Summarisation.Service
                 .Select(g =>
                     new SummarisedActual
                     {
-                        OrganisationId = allocations.First(a => a.FundingStreamPeriodCode == fundingStream.PeriodCode)?.DeliveryOrganisation,
+                        OrganisationId = allocation.DeliveryOrganisation,
                         DeliverableCode = fundingStream.DeliverableLineCode,
                         FundingStreamPeriodCode = fundingStream.PeriodCode,
                         Period = collectionPeriods.First(cp => cp.Period == g.Key).ActualsSchemaPeriod,
                         ActualValue = g.Sum(x => x.ActualValue),
-                        ContractAllocationNumber = allocations.First(a => a.FundingStreamPeriodCode == fundingStream.PeriodCode)?.ContractAllocationNumber,
+                        ActualVolume = g.Sum(x => x.ActualVolume),
+                        ContractAllocationNumber = allocation.ContractAllocationNumber,
                         PeriodTypeCode = "AY"
                     });
         }
@@ -58,14 +64,16 @@ namespace ESFA.DC.Summarisation.Service
             return periodisedData.SelectMany(fpd => fpd.Periods);
         }
 
-        public IEnumerable<SummarisedActual> SummarisePeriods(IEnumerable<IPeriod> periods)
+        public IEnumerable<SummarisedActual> SummarisePeriods(IEnumerable<IPeriod> periods, IEnumerable<CollectionPeriod> collectionPeriods)
         {
             return periods
-                .GroupBy(pg => pg.PeriodId)
+                .Join(collectionPeriods, p => new {p.CalendarMonth, p.CalendarYear }, cp => new { cp.CalendarMonth, cp.CalendarYear } , (p, cp) => new {cp.Period, p.Value, p.Volume } )
+                .GroupBy(pg => pg.Period)
                 .Select(g => new SummarisedActual
                 {
                     Period = g.Key,
-                    ActualValue = g.Where(p => p.Value.HasValue).Sum(p => p.Value.Value)
+                    ActualValue = g.Where(w => w.Value.HasValue).Sum(sw => sw.Value.Value),
+                    ActualVolume = g.Where(w => w.Volume.HasValue).Sum(sw => sw.Volume.Value),
                 });
         }
     }

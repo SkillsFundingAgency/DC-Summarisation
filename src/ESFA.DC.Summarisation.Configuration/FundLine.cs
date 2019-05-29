@@ -6,6 +6,8 @@ namespace ESFA.DC.Summarisation.Configuration
     {
         public string Fundline { get; set; }
 
+        public string DeliverableCode { get; set; }
+
         public string LineType { get; set; }
 
         public bool UseAttributes { get; set; }

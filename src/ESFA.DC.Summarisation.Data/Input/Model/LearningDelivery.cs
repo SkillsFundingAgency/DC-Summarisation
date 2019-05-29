@@ -13,6 +13,8 @@ namespace ESFA.DC.Summarisation.Data.Input.Model
 
         public string ConRefNumber { get; set; }
 
+        public string DeliverableCode { get; set; }
+
         public IList<PeriodisedData> PeriodisedData { get; set; }
     }
 }

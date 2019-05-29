@@ -6,6 +6,7 @@
         FM25,
         ALB,
         TBL,
-        EAS
+        EAS,
+        Supp
     }
 }

@@ -21,9 +21,9 @@ namespace ESF.DC.Summarisation.Main1819.Data.Repository
             _providers = providers;
         }
 
-        public async Task<IProvider> ProvideAsync(int ukprn, CancellationToken cancellationToken)
+        public async Task<IProvider> ProvideAsync(int ukprn, string collectionType, CancellationToken cancellationToken)
         {
-            var taskResults = await Task.WhenAll(_providers.Select(p => p.ProvideAsync(ukprn, cancellationToken)));
+            var taskResults = await Task.WhenAll(_providers.Where(w => w.CollectionType == collectionType).Select(p => p.ProvideAsync(ukprn, cancellationToken)));
 
             return new Provider
             {
@@ -32,9 +32,9 @@ namespace ESF.DC.Summarisation.Main1819.Data.Repository
             };
         }
 
-        public async Task<IList<int>> GetAllProviderIdentifiersAsync(CancellationToken cancellationToken)
+        public async Task<IList<int>> GetAllProviderIdentifiersAsync(string collectionType, CancellationToken cancellationToken)
         {
-            var taskResults = await Task.WhenAll(_providers.Select(p => p.ProvideUkprnsAsync(cancellationToken)));
+            var taskResults = await Task.WhenAll(_providers.Where(w => w.CollectionType == collectionType).Select(p => p.ProvideUkprnsAsync(cancellationToken)));
 
             return taskResults.SelectMany(p => p).Distinct().ToList();
         }
