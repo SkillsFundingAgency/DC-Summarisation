@@ -122,7 +122,7 @@ namespace ESFA.DC.Summarisation.Service
            IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations,
            IProvider provider)
         {
-            var fundingStreams = _fundingTypesProvider.Provide().Where(x => x.SummarisationType == summarisationType).SelectMany(fs => fs.FundingStreams).ToList();
+            var fundingStreams = _fundingTypesProvider.Provide().Where(x => x.SummarisationType.Equals(summarisationType, StringComparison.OrdinalIgnoreCase)).SelectMany(fs => fs.FundingStreams).ToList();
 
             var actuals = new List<SummarisedActual>();
 

@@ -3,6 +3,7 @@ using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Output.Model;
 using ESFA.DC.Summarisation.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,7 +24,7 @@ namespace ESFA.DC.Summarisation.Service
             {
                 var periodisedData = provider
                     .LearningDeliveries
-                    .Where(ld => ld.Fundline == fundLine.Fundline)
+                    .Where(ld => ld.Fundline.Equals(fundLine.Fundline, StringComparison.OrdinalIgnoreCase))
                     .SelectMany(x => x.PeriodisedData);
 
                 var periods = GetPeriodsForFundLine(periodisedData, fundLine);
@@ -36,12 +37,12 @@ namespace ESFA.DC.Summarisation.Service
                 .Select(g =>
                     new SummarisedActual
                     {
-                        OrganisationId = allocations.First(a => a.FundingStreamPeriodCode == fundingStream.PeriodCode)?.DeliveryOrganisation,
+                        OrganisationId = allocations.First(a => a.FundingStreamPeriodCode.Equals(fundingStream.PeriodCode, StringComparison.OrdinalIgnoreCase))?.DeliveryOrganisation,
                         DeliverableCode = fundingStream.DeliverableLineCode,
                         FundingStreamPeriodCode = fundingStream.PeriodCode,
                         Period = collectionPeriods.First(cp => cp.Period == g.Key).ActualsSchemaPeriod,
                         ActualValue = g.Sum(x => x.ActualValue),
-                        ContractAllocationNumber = allocations.First(a => a.FundingStreamPeriodCode == fundingStream.PeriodCode)?.ContractAllocationNumber,
+                        ContractAllocationNumber = allocations.First(a => a.FundingStreamPeriodCode.Equals(fundingStream.PeriodCode, StringComparison.OrdinalIgnoreCase))?.ContractAllocationNumber,
                         PeriodTypeCode = "AY"
                     });
         }
