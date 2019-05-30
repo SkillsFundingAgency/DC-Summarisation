@@ -3,7 +3,6 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 using ESF.DC.Summarisation.Main1819.Data.Providers;
-using ESF.DC.Summarisation.Main1819.Data.Repository;
 using ESFA.DC.EAS1819.EF;
 using ESFA.DC.EAS1819.EF.Interface;
 using ESFA.DC.ESF.Database.EF;
@@ -99,7 +98,7 @@ namespace ESFA.DC.Summarisation.Console
 
             List<ISummarisationService> summarisationServices = new List<ISummarisationService>()
             {
-                new SummarisationService(),
+                new SummarisationFundlineProcess(),
                 new SummarisationDeliverableProcess()
             };
 
@@ -113,11 +112,24 @@ namespace ESFA.DC.Summarisation.Console
 
             ILogger logger = new LoggerStub();
 
-            var summarisationMessage = new ESFSummarisationContextStub();
-
-            //var summarisationMessage = new SummarisationContextStub();
+            ISummarisationContext summarisationMessage = new SummarisationContextStub();
 
             SummarisationWrapper wrapper = new SummarisationWrapper(
+                fcsRepository,
+                saRepository,
+                fundingTypesProviders,
+                collectionPeriodsProviders,
+                summarisationServices,
+                dataStorePersistenceService,
+                () => repository,
+                new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
+                logger);
+
+            await wrapper.Summarise(summarisationMessage, CancellationToken.None);
+
+            summarisationMessage = new ESFSummarisationContextStub();
+
+            wrapper = new SummarisationWrapper(
                 fcsRepository,
                 saRepository,
                 fundingTypesProviders,

@@ -147,7 +147,7 @@ namespace ESFA.DC.Summarisation.Service
 
                     foreach (var allocation in fcsContractAllocations[fs.PeriodCode].Where(x => x.DeliveryUkprn == provider.UKPRN))
                     {
-                        if (allocations.Count(w => w.ContractAllocationNumber == allocation.ContractAllocationNumber) == 0)
+                        if (allocations.Count(w => w.ContractAllocationNumber == allocation.ContractAllocationNumber && w.FundingStreamPeriodCode == fs.PeriodCode) == 0)
                             allocations.Add(allocation);
                     }
                     

@@ -13,5 +13,7 @@ namespace ESFA.DC.Summarisation.Configuration
         public bool UseAttributes { get; set; }
 
         public List<string> Attributes { get; set; }
+
+        public bool CalculateVolume { get; set; }
     }
 }

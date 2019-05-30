@@ -76,7 +76,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             List<ISummarisationService> summarisationServices = new List<ISummarisationService>()
             {
-                new SummarisationService()
+                new SummarisationFundlineProcess()
             };
 
             var logger = new Mock<ILogger>();
@@ -171,7 +171,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             List<ISummarisationService> summarisationServices = new List<ISummarisationService>()
             {
-                new SummarisationService()
+                new SummarisationFundlineProcess()
             };
 
             var logger = new Mock<ILogger>();
@@ -241,7 +241,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             List<ISummarisationService> summarisationServices = new List<ISummarisationService>()
             {
-                new SummarisationService()
+                new SummarisationFundlineProcess()
             };
 
             var logger = new Mock<ILogger>();
@@ -287,7 +287,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             List<ISummarisationService> summarisationServices = new List<ISummarisationService>()
             {
-                new SummarisationService()
+                new SummarisationFundlineProcess()
             };
 
             var logger = new Mock<ILogger>();

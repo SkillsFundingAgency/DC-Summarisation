@@ -35,7 +35,7 @@ namespace ESFA.DC.Summarisation.Service
 
                 var periods = GetPeriodsForFundLine(periodisedData, fundLine);
 
-                summarisedActuals.AddRange(SummarisePeriods(periods, collectionPeriods));
+                summarisedActuals.AddRange(SummarisePeriods(periods, fundLine, collectionPeriods));
             }
 
             return summarisedActuals
@@ -64,7 +64,7 @@ namespace ESFA.DC.Summarisation.Service
             return periodisedData.SelectMany(fpd => fpd.Periods);
         }
 
-        public IEnumerable<SummarisedActual> SummarisePeriods(IEnumerable<IPeriod> periods, IEnumerable<CollectionPeriod> collectionPeriods)
+        public IEnumerable<SummarisedActual> SummarisePeriods(IEnumerable<IPeriod> periods, FundLine fundLine, IEnumerable<CollectionPeriod> collectionPeriods)
         {
             return periods
                 .Join(collectionPeriods, p => new {p.CalendarMonth, p.CalendarYear }, cp => new { cp.CalendarMonth, cp.CalendarYear } , (p, cp) => new {cp.Period, p.Value, p.Volume } )
@@ -73,7 +73,7 @@ namespace ESFA.DC.Summarisation.Service
                 {
                     Period = g.Key,
                     ActualValue = g.Where(w => w.Value.HasValue).Sum(sw => sw.Value.Value),
-                    ActualVolume = g.Where(w => w.Volume.HasValue).Sum(sw => sw.Volume.Value),
+                    ActualVolume = fundLine.CalculateVolume ? g.Where(w => w.Volume.HasValue).Sum(sw => sw.Volume.Value) :  0
                 });
         }
     }

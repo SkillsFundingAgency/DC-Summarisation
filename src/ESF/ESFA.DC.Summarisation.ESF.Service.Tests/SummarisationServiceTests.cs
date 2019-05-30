@@ -21,11 +21,13 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
         //private const int ukprn = 10000001;
 
         [Fact]
-        public void SummarisePeriodsTest()
+        public void SummarisePeriodsTest_withVolume()
         {
             var task = new SummarisationDeliverableProcess();
 
-            var result = task.SummarisePeriods(GetPeriodsData(5), GetCollectionPeriods());
+            FundLine fundLine = new FundLine() { CalculateVolume = true };
+
+            var result = task.SummarisePeriods(GetPeriodsData(5), fundLine, GetCollectionPeriods());
 
             result.Count().Should().Be(67);
 
@@ -34,6 +36,25 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                 item.ActualValue.Should().Be(5 * periodValue);
 
                 item.ActualVolume.Should().Be(5);
+            }
+        }
+
+        [Fact]
+        public void SummarisePeriodsTest_NoVolume()
+        {
+            var task = new SummarisationDeliverableProcess();
+
+            FundLine fundLine = new FundLine() { CalculateVolume = false };
+
+            var result = task.SummarisePeriods(GetPeriodsData(5), fundLine, GetCollectionPeriods());
+
+            result.Count().Should().Be(67);
+
+            foreach (var item in result)
+            {
+                item.ActualValue.Should().Be(5 * periodValue);
+
+                item.ActualVolume.Should().Be(0);
             }
         }
 
@@ -64,7 +85,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             {
                 item.ActualValue.Should().Be(2 * periodValue);
 
-                item.ActualVolume.Should().Be(2);
+                item.ActualVolume.Should().Be(0);
             }
         }
 
@@ -99,7 +120,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             {
                 item.ActualValue.Should().Be(2 * periodValue);
 
-                item.ActualVolume.Should().Be(2);
+                item.ActualVolume.Should().Be(0);
             }
         }
 
@@ -142,7 +163,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                 {
                     item.ActualValue.Should().Be(2 * periodValue);
 
-                    item.ActualVolume.Should().Be(2);
+                    item.ActualVolume.Should().Be(0);
                 }
             }
         }
@@ -186,7 +207,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                     {
                         item.ActualValue.Should().Be(2 * periodValue);
 
-                        item.ActualVolume.Should().Be(2);
+                        item.ActualVolume.Should().Be(0);
                     }
                 }
             }

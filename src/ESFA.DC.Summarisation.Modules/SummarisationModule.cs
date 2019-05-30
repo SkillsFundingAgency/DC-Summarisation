@@ -1,7 +1,6 @@
 ﻿using System.Data.SqlClient;
 using Autofac;
 using ESF.DC.Summarisation.Main1819.Data.Providers;
-using ESF.DC.Summarisation.Main1819.Data.Repository;
 using ESFA.DC.EAS1819.EF;
 using ESFA.DC.EAS1819.EF.Interface;
 using ESFA.DC.ESF.Database.EF;
@@ -50,7 +49,7 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterInstance(referenceDataOptions).As<ISummarisationDataOptions>().SingleInstance();
 
             containerBuilder.RegisterType<SummarisationWrapper>().As<ISummarisationWrapper>();
-            containerBuilder.RegisterType<SummarisationService>().As<ISummarisationService>();
+            containerBuilder.RegisterType<SummarisationFundlineProcess>().As<ISummarisationService>();
             containerBuilder.RegisterType<SummarisationDeliverableProcess>().As<ISummarisationService>();
 
             containerBuilder.RegisterType<Main1819FundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();

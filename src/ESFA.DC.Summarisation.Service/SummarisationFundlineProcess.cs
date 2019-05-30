@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace ESFA.DC.Summarisation.Service
 {
-    public class SummarisationService : ISummarisationService
+    public class SummarisationFundlineProcess : ISummarisationService
     {
         public string ProcessType => nameof(Configuration.Enum.ProcessType.Fundline);
 
