@@ -29,6 +29,12 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         [Theory]
         [InlineData(10000001, "ILR1819", "R01", "Main1819_FM35", "ILR_FM35", FundModel.FM35)]
         [InlineData(10000001, "ILR1819", "R01", "Main1819_ALB", "ILR_ALB", FundModel.ALB)]
+        [InlineData(10000001, "ILR1819", "R01", "MAIN1819_FM35", "ILR_FM35", FundModel.FM35)]
+        [InlineData(10000001, "ILR1819", "R01", "MAIN1819_ALB", "ILR_ALB", FundModel.ALB)]
+        [InlineData(10000001, "ILR1819", "R01", "Main1819_FM25", "ILR_FM25", FundModel.FM25)]
+        [InlineData(10000001, "ILR1819", "R01", "Main1819_TBL", "ILR_TBL", FundModel.TBL)]
+        [InlineData(10000001, "ILR1819", "R01", "main1819_fm25", "ILR_FM25", FundModel.FM25)]
+        [InlineData(10000001, "ILR1819", "R01", "main1819_tbl", "ILR_TBL", FundModel.TBL)]
         public async Task SummmariseProviders(int ukprn, string collectionType, string collectionReturnCode, string summarisationType, string lineType, FundModel fundModel)
         {
             var cancellationToken = CancellationToken.None;
