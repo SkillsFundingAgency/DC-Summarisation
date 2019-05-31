@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using ESFA.DC.Summarisation.Data.Input.Interface;
+using ESFA.DC.Summarisation.Data.Input.Model;
+using ESFA.DC.Summarisation.Interface;
+using ESFA.DC.Summarisation.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.Summarisation.Data.Input.Interface;
-using ESFA.DC.Summarisation.Data.Input.Model;
-using ESFA.DC.Summarisation.Interface;
-using ESFA.DC.Summarisation.Interfaces;
 
-namespace ESF.DC.Summarisation.Main1819.Data.Repository
+namespace ESFA.DC.Summarisation.Service
 {
     public class ProviderRepository : IProviderRepository
     {

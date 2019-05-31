@@ -7,6 +7,10 @@ namespace ESFA.DC.Summarisation.Interfaces
 {
     public interface ILearningDeliveryProvider
     {
+        string SummarisationType { get; }
+
+        string CollectionType { get; }
+
         Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken);
 
         Task<IList<int>> ProvideUkprnsAsync(CancellationToken cancellationToken);

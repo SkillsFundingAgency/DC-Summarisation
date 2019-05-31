@@ -13,7 +13,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
         {
             NewProvider().Provide().Should().HaveCount(4);
         }
-
+        
         [Theory]
         [InlineData("ESF_Supp_Value", "ESF1420", 5, "AC01")]
         [InlineData("ESF_Supp_Value", "ESF1420", 6, "CG01")]
@@ -63,12 +63,17 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             var fundingTypes = fundingTypesProvider.Provide();
 
             fundingTypes.Should().Contain(ft => ft.SummarisationType == summarisationType);
-           
+
             var fundingStreams = fundingTypes.First(ft => ft.SummarisationType == summarisationType).FundingStreams;
 
-            fundingStreams.Should().Contain(fs => fs.PeriodCode == fspCode && fs.DeliverableLineCode == dlc && fs.DeliverableCode == deliverableCode);
+            fundingStreams.Should().Contain(fs => fs.PeriodCode == fspCode && fs.DeliverableLineCode == dlc);
+
+            var fundLines = fundingStreams.First(fs => fs.PeriodCode == fspCode && fs.DeliverableLineCode == dlc).FundLines;
+
+            fundLines.Should().Contain(fl => fl.DeliverableCode == deliverableCode );
 
         }
+
 
         private FundingTypesProvider NewProvider()
         {

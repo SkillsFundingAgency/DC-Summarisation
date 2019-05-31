@@ -10,6 +10,8 @@
 
         string EAS1819ConnectionString { get; }
 
+        string ESFNonEFConnectionString { get; }
+
         string DataRetrievalMaxConcurrentCalls { get; }
     }
 }

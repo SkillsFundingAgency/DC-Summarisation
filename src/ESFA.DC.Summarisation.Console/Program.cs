@@ -3,9 +3,10 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 using ESF.DC.Summarisation.Main1819.Data.Providers;
-using ESF.DC.Summarisation.Main1819.Data.Repository;
 using ESFA.DC.EAS1819.EF;
 using ESFA.DC.EAS1819.EF.Interface;
+using ESFA.DC.ESF.Database.EF;
+using ESFA.DC.ESF.Database.EF.Interfaces;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interface;
 using ESFA.DC.Logging.Interfaces;
@@ -24,6 +25,7 @@ using ESFA.DC.Summarisation.Data.Persist.Persist.Interface;
 using ESFA.DC.Summarisation.Data.Population.Service;
 using ESFA.DC.Summarisation.Data.Repository;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
+using ESFA.DC.Summarisation.ESF.Data.Providers;
 using ESFA.DC.Summarisation.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Main1819.Data.Providers;
@@ -50,16 +52,20 @@ namespace ESFA.DC.Summarisation.Console
 
             string summarisedActualsConnectionString = @"Server=(local);Database=SummarisedActuals;Trusted_Connection=True;";
             string easConnectionString = @"Server=(local);Database=EAS1819;Trusted_Connection=True;";
+            string esfConnectionString = @"Server=(local);Database=ESF;Trusted_Connection=True;";
 
             DbContextOptions<FcsContext> fcsdbContextOptions = new DbContextOptionsBuilder<FcsContext>().UseSqlServer(fcsConnectionString).Options;
             DbContextOptions<ILR1819_DataStoreEntities> ilrdbContextOptions = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>().UseSqlServer(ilrConnectionString).Options;
             DbContextOptions<EasContext> easdbContextOptions = new DbContextOptionsBuilder<EasContext>().UseSqlServer(easConnectionString).Options;
             DbContextOptions<SummarisationContext> sadbContextOptions = new DbContextOptionsBuilder<SummarisationContext>().UseSqlServer(summarisedActualsConnectionString).Options;
 
+            DbContextOptions<ESF_DataStoreEntities> esfdbContextOptions = new DbContextOptionsBuilder<ESF_DataStoreEntities>().UseSqlServer(esfConnectionString).Options;
+
             IFcsContext fcsContext = new FcsContext(fcsdbContextOptions);
             IIlr1819RulebaseContext ilrContext = new ILR1819_DataStoreEntities(ilrdbContextOptions);
             IEasdbContext easContext = new EasContext(easdbContextOptions);
             SummarisationContext saContext = new SummarisationContext(sadbContextOptions);
+            IESF_DataStoreEntities esfContext = new ESF_DataStoreEntities(esfdbContextOptions);
 
             IFcsRepository fcsRepository = new FcsRepository(fcsContext);
 
@@ -67,9 +73,17 @@ namespace ESFA.DC.Summarisation.Console
 
             IJsonSerializationService jsonSerializationService = new JsonSerializationService();
 
-            ISummarisationConfigProvider<FundingType> fundingTypesProvider = new FundingTypesProvider(jsonSerializationService);
+            List<ISummarisationConfigProvider<FundingType>> fundingTypesProviders = new List<ISummarisationConfigProvider<FundingType>>()
+            {
+                new FundingTypesProvider(jsonSerializationService),
+                new ESFA.DC.Summarisation.ESF.Service.FundingTypesProvider(jsonSerializationService)
+            };
 
-            ISummarisationConfigProvider<CollectionPeriod> collectionPeriodsProvider = new CollectionPeriodsProvider(jsonSerializationService);
+            List<ISummarisationConfigProvider<CollectionPeriod>> collectionPeriodsProviders = new List<ISummarisationConfigProvider<CollectionPeriod>>()
+            {
+                new CollectionPeriodsProvider(jsonSerializationService),
+                new ESFA.DC.Summarisation.ESF.Service.CollectionPeriodsProvider(jsonSerializationService)
+            };
 
             IProviderRepository repository = new ProviderRepository(new List<ILearningDeliveryProvider>
             {
@@ -77,10 +91,16 @@ namespace ESFA.DC.Summarisation.Console
                 new EasProvider(easContext),
                 new Fm25Provider(ilrContext),
                 new Fm35Provider(ilrContext),
-                new TblProvider(ilrContext)
+                new TblProvider(ilrContext),
+
+                new ESFProvider_R1(esfContext)
             });
 
-            ISummarisationService summarisationService = new SummarisationService();
+            List<ISummarisationService> summarisationServices = new List<ISummarisationService>()
+            {
+                new SummarisationFundlineProcess(),
+                new SummarisationDeliverableProcess()
+            };
 
             IBulkInsert bulkInsert = new BulkInsert();
 
@@ -92,14 +112,14 @@ namespace ESFA.DC.Summarisation.Console
 
             ILogger logger = new LoggerStub();
 
-            var summarisationMessage = new SummarisationContextStub();
+            ISummarisationContext summarisationMessage = new SummarisationContextStub();
 
             SummarisationWrapper wrapper = new SummarisationWrapper(
                 fcsRepository,
                 saRepository,
-                fundingTypesProvider,
-                collectionPeriodsProvider,
-                summarisationService,
+                fundingTypesProviders,
+                collectionPeriodsProviders,
+                summarisationServices,
                 dataStorePersistenceService,
                 () => repository,
                 new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
@@ -107,6 +127,20 @@ namespace ESFA.DC.Summarisation.Console
 
             await wrapper.Summarise(summarisationMessage, CancellationToken.None);
 
+            summarisationMessage = new ESFSummarisationContextStub();
+
+            wrapper = new SummarisationWrapper(
+                fcsRepository,
+                saRepository,
+                fundingTypesProviders,
+                collectionPeriodsProviders,
+                summarisationServices,
+                dataStorePersistenceService,
+                () => repository,
+                new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
+                logger);
+
+            await wrapper.Summarise(summarisationMessage, CancellationToken.None);
         }
     }
 }

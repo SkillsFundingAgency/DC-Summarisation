@@ -5,6 +5,8 @@ namespace ESFA.DC.Summarisation.Console.Stubs
 {
     public class SummarisationContextStub : ISummarisationContext
     {
+        public string ProcessType => "Fundline";
+
         public string CollectionType => "ILR1819";
 
         public string CollectionReturnCode => "R01";
