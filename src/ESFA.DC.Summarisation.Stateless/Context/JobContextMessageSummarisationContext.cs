@@ -13,6 +13,8 @@ namespace ESFA.DC.Summarisation.Stateless.Context
 
         private const string _ukprn = "UkPrn";
 
+        private const string _processType = "ProcessType";
+
         private readonly JobContextMessage _jobContextMessage;
 
         public JobContextMessageSummarisationContext(JobContextMessage jobContextMessage)
@@ -41,6 +43,11 @@ namespace ESFA.DC.Summarisation.Stateless.Context
             {
                 return _jobContextMessage.Topics[_jobContextMessage.TopicPointer].Tasks.SelectMany(t => t.Tasks);
             }
+        }
+
+        public string ProcessType
+        {
+            get => _jobContextMessage.KeyValuePairs[_processType].ToString();
         }
     }
 }

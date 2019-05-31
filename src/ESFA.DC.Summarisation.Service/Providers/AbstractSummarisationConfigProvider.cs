@@ -14,6 +14,8 @@ namespace ESFA.DC.Summarisation.Service.Providers
             _jsonSerializationService = jsonSerializationService;
         }
 
+        public virtual string CollectionType { get; }
+
         protected internal abstract string ReferenceDataFileName { get; }
 
         protected internal abstract Assembly Assembly { get; }

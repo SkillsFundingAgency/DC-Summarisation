@@ -15,6 +15,8 @@ namespace ESFA.DC.Summarisation.ESF.Service
         protected override string ReferenceDataFileName { get; } = "ESFA.DC.Summarisation.ESF.Service.JsonFiles.FundingTypes.json";
 
         protected override Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
+
+        public override string CollectionType => nameof(Configuration.Enum.CollectionType.ESF);
     }
 }
 

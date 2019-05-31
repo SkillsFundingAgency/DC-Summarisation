@@ -23,7 +23,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         [Fact]
         public void SummariseByPeriods()
         {
-            var task = new SummarisationService();
+            var task = new SummarisationFundlineProcess();
 
             var result = task.SummarisePeriods(GetPeriodsData(5));
 
@@ -103,7 +103,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                                   .SelectMany(fs => fs.FundLines)
                                   .Where(fl => fl.Fundline == strFundLine).First();
 
-            var task = new SummarisationService();
+            var task = new SummarisationFundlineProcess();
 
             var result = task.GetPeriodsForFundLine(fundLine.UseAttributes ? GetPeriodisedData(5) : GetPeriodisedDataNoAttributes(5), fundLine);
 
@@ -171,7 +171,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                 attributescount = fundingStream.FundLines.Where(flW => flW.LineType != "EAS").Select(fl => fl.Attributes).First().Count();
             }
 
-            var task = new SummarisationService();
+            var task = new SummarisationFundlineProcess();
 
             var results = task.Summarise(fundingStream, GetTestProvider(), GetContractAllocation(), GetCollectionPeriods()).OrderBy(x => x.Period).ToList();
 

@@ -8,8 +8,10 @@ using System.Linq;
 
 namespace ESFA.DC.Summarisation.Service
 {
-    public class SummarisationService : ISummarisationService
+    public class SummarisationFundlineProcess : ISummarisationService
     {
+        public string ProcessType => nameof(Configuration.Enum.ProcessType.Fundline);
+
         public IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams, IProvider provider, IEnumerable<IFcsContractAllocation> allocations, IEnumerable<CollectionPeriod> collectionPeriods)
         {
             return fundingStreams.SelectMany(fs => Summarise(fs, provider, allocations, collectionPeriods));

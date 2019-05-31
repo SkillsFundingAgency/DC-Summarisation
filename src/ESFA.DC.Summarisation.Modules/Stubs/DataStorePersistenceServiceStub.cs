@@ -19,6 +19,5 @@ namespace ESFA.DC.Summarisation.Modules.Stubs
         {
             return Task.CompletedTask;
         }
-
     }
 }

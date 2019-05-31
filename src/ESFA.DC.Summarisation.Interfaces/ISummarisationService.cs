@@ -8,6 +8,8 @@ namespace ESFA.DC.Summarisation.Interfaces
 {
     public interface ISummarisationService
     {
+        string ProcessType { get; }
+
         IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams, IProvider provider, IEnumerable<IFcsContractAllocation> allocations, IEnumerable<CollectionPeriod> collectionPeriods);
     }
 }

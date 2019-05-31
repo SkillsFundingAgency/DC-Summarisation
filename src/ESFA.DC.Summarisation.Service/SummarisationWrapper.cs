@@ -23,30 +23,32 @@ namespace ESFA.DC.Summarisation.Service
     {
         private readonly IFcsRepository _fcsRepository;
         private readonly ISummarisedActualsProcessRepository _summarisedActualsProcessRepository;
-        private readonly ISummarisationService _summarisationService;
-        private readonly ISummarisationConfigProvider<FundingType> _fundingTypesProvider;
-        private readonly ISummarisationConfigProvider<CollectionPeriod> _collectionPeriodsProvider;
+        private readonly IEnumerable<ISummarisationService> _summarisationServices;
+        private readonly IEnumerable<ISummarisationConfigProvider<FundingType>> _fundingTypesProviders;
+        private readonly IEnumerable<ISummarisationConfigProvider<CollectionPeriod>> _collectionPeriodsProviders;
         private readonly IDataStorePersistenceService _dataStorePersistenceService;
         private readonly ILogger _logger;
         private readonly Func<IProviderRepository> _repositoryFactory;
         private readonly int _dataRetrievalMaxConcurrentCalls;
 
+        private ISummarisationContext _summarisationContext;
+
         public SummarisationWrapper(
             IFcsRepository fcsRepository,
             ISummarisedActualsProcessRepository summarisedActualsProcessRepository,
-            ISummarisationConfigProvider<FundingType> fundingTypesProvider,
-            ISummarisationConfigProvider<CollectionPeriod> collectionPeriodsProvider,
-            ISummarisationService summarisationService,
+            IEnumerable<ISummarisationConfigProvider<FundingType>> fundingTypesProviders,
+            IEnumerable<ISummarisationConfigProvider<CollectionPeriod>> collectionPeriodsProviders,
+            IEnumerable<ISummarisationService> summarisationServices,
             IDataStorePersistenceService dataStorePersistenceService,
             Func<IProviderRepository> repositoryFactory,
             ISummarisationDataOptions dataOptions,
             ILogger logger)
         {
-            _fundingTypesProvider = fundingTypesProvider;
+            _fundingTypesProviders = fundingTypesProviders;
             _fcsRepository = fcsRepository;
             _summarisedActualsProcessRepository = summarisedActualsProcessRepository;
-            _summarisationService = summarisationService;
-            _collectionPeriodsProvider = collectionPeriodsProvider;
+            _summarisationServices = summarisationServices;
+            _collectionPeriodsProviders = collectionPeriodsProviders;
             _dataStorePersistenceService = dataStorePersistenceService;
             _logger = logger;
             _repositoryFactory = repositoryFactory;
@@ -57,9 +59,11 @@ namespace ESFA.DC.Summarisation.Service
 
         public async Task<IEnumerable<SummarisedActual>> Summarise(ISummarisationContext summarisationContext, CancellationToken cancellationToken)
         {
+            _summarisationContext = summarisationContext;
+
             _logger.LogInfo($"Summarisation Wrapper: Retrieving Collection Periods Start");
 
-            var collectionPeriods = _collectionPeriodsProvider.Provide();
+            var collectionPeriods = _collectionPeriodsProviders.FirstOrDefault(w => w.CollectionType == _summarisationContext.CollectionType).Provide();
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving Collection Periods End");
 
@@ -79,7 +83,7 @@ namespace ESFA.DC.Summarisation.Service
             }
             else
             {
-                providerIdentifiers = await _repositoryFactory.Invoke().GetAllProviderIdentifiersAsync(cancellationToken);
+                providerIdentifiers = await _repositoryFactory.Invoke().GetAllProviderIdentifiersAsync(summarisationContext.CollectionType,cancellationToken);
             }
 
             var latestCollectionReturn = await _summarisedActualsProcessRepository.GetLastCollectionReturnForCollectionTypeAsync(summarisationContext.CollectionType, cancellationToken);
@@ -101,9 +105,13 @@ namespace ESFA.DC.Summarisation.Service
 
                 var organisationId = providerActuals.Select(x => x.OrganisationId).FirstOrDefault();
 
-                var actualsToCarry = await GetFundingDataRemoved(latestCollectionReturn.Id, organisationId, providerActuals, cancellationToken);
+                if (latestCollectionReturn != null)
+                {
+                    var actualsToCarry = await GetFundingDataRemoved(latestCollectionReturn.Id, organisationId, providerActuals, cancellationToken);
 
-                summarisedActuals.AddRange(actualsToCarry);
+                    summarisedActuals.AddRange(actualsToCarry);
+                }
+                
                 summarisedActuals.AddRange(providerActuals);
             }
 
@@ -122,7 +130,7 @@ namespace ESFA.DC.Summarisation.Service
            IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations,
            IProvider provider)
         {
-            var fundingStreams = _fundingTypesProvider.Provide().Where(x => x.SummarisationType == summarisationType).SelectMany(fs => fs.FundingStreams).ToList();
+            var fundingStreams = _fundingTypesProviders.FirstOrDefault(w=>w.CollectionType==_summarisationContext.CollectionType).Provide().Where(x => x.SummarisationType == summarisationType).SelectMany(fs => fs.FundingStreams).ToList();
 
             var actuals = new List<SummarisedActual>();
 
@@ -136,11 +144,17 @@ namespace ESFA.DC.Summarisation.Service
                 if (fcsContractAllocations.ContainsKey(fs.PeriodCode) && fcsContractAllocations[fs.PeriodCode].Any(x => x.DeliveryUkprn == provider.UKPRN))
                 {
                     contractFundingStreams.Add(fs);
-                    allocations.Add(fcsContractAllocations[fs.PeriodCode].First(x => x.DeliveryUkprn == provider.UKPRN));
+
+                    foreach (var allocation in fcsContractAllocations[fs.PeriodCode].Where(x => x.DeliveryUkprn == provider.UKPRN))
+                    {
+                        if (allocations.Count(w => w.ContractAllocationNumber == allocation.ContractAllocationNumber && w.FundingStreamPeriodCode == fs.PeriodCode) == 0)
+                            allocations.Add(allocation);
+                    }
+                    
                 }
             }
 
-            actuals.AddRange(_summarisationService.Summarise(contractFundingStreams, provider, allocations, collectionPeriods));
+            actuals.AddRange(_summarisationServices.FirstOrDefault(x => x.ProcessType == _summarisationContext.ProcessType).Summarise(contractFundingStreams, provider, allocations, collectionPeriods));
 
             _logger.LogInfo($"Summarisation Wrapper: Summarising UKPRN: {provider.UKPRN} End");
 
@@ -173,7 +187,7 @@ namespace ESFA.DC.Summarisation.Service
             var repo = _repositoryFactory.Invoke();
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving Data for UKPRN: {identifier} Start");
-            var providerData = await repo.ProvideAsync(identifier, cancellationToken);
+            var providerData = await repo.ProvideAsync(identifier, _summarisationContext.CollectionType, cancellationToken);
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving Data for UKPRN: {identifier} End");
 

@@ -7,8 +7,8 @@ namespace ESFA.DC.Summarisation.Interface
 {
     public interface IProviderRepository
     {
-        Task<IProvider> ProvideAsync(int ukprn, CancellationToken cancellationToken);
+        Task<IProvider> ProvideAsync(int ukprn, string collectionType, CancellationToken cancellationToken);
 
-        Task<IList<int>> GetAllProviderIdentifiersAsync(CancellationToken cancellationToken);
+        Task<IList<int>> GetAllProviderIdentifiersAsync(string collectionType, CancellationToken cancellationToken);
     }
 }

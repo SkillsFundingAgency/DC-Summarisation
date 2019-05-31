@@ -15,5 +15,9 @@ namespace ESFA.DC.Summarisation.Data.External.FCS.Model
         public int? DeliveryUkprn { get; set; }
 
         public string DeliveryOrganisation { get; set; }
+
+        public int ContractStartDate { get; set; }
+
+        public int ContractEndDate { get; set; }
     }
 }
