@@ -13,14 +13,24 @@ namespace ESFA.DC.Summarisation.Service
     {
         public string ProcessType => nameof(Configuration.Enum.ProcessType.Fundline);
 
-        public IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams, IProvider provider, IEnumerable<IFcsContractAllocation> allocations, IEnumerable<CollectionPeriod> collectionPeriods)
+        public IEnumerable<SummarisedActual> Summarise(
+            List<FundingStream> fundingStreams,
+            IProvider provider,
+            IEnumerable<IFcsContractAllocation> allocations,
+            IEnumerable<CollectionPeriod> collectionPeriods)
         {
             return fundingStreams.SelectMany(fs => Summarise(fs, provider, allocations, collectionPeriods));
         }
 
-        public IEnumerable<SummarisedActual> Summarise(FundingStream fundingStream, IProvider provider, IEnumerable<IFcsContractAllocation> allocations, IEnumerable<CollectionPeriod> collectionPeriods)
+        public IEnumerable<SummarisedActual> Summarise(
+            FundingStream fundingStream,
+            IProvider provider,
+            IEnumerable<IFcsContractAllocation> allocations,
+            IEnumerable<CollectionPeriod> collectionPeriods)
         {
             var summarisedActuals = new List<SummarisedActual>();
+
+
 
             foreach (var fundLine in fundingStream.FundLines)
             {
@@ -34,17 +44,19 @@ namespace ESFA.DC.Summarisation.Service
                 summarisedActuals.AddRange(SummarisePeriods(periods));
             }
 
+            var fcsAllocations = allocations.ToDictionary(a => a.FundingStreamPeriodCode, StringComparer.OrdinalIgnoreCase);
+
             return summarisedActuals
                 .GroupBy(grp => grp.Period)
                 .Select(g =>
                     new SummarisedActual
                     {
-                        OrganisationId = allocations.First(a => a.FundingStreamPeriodCode.Equals(fundingStream.PeriodCode, StringComparison.OrdinalIgnoreCase))?.DeliveryOrganisation,
+                        OrganisationId = fcsAllocations[fundingStream.PeriodCode].DeliveryOrganisation,
                         DeliverableCode = fundingStream.DeliverableLineCode,
                         FundingStreamPeriodCode = fundingStream.PeriodCode,
                         Period = collectionPeriods.First(cp => cp.Period == g.Key).ActualsSchemaPeriod,
                         ActualValue = g.Sum(x => x.ActualValue),
-                        ContractAllocationNumber = allocations.First(a => a.FundingStreamPeriodCode.Equals(fundingStream.PeriodCode, StringComparison.OrdinalIgnoreCase))?.ContractAllocationNumber,
+                        ContractAllocationNumber = fcsAllocations[fundingStream.PeriodCode].ContractAllocationNumber,
                         PeriodTypeCode = "AY"
                     });
         }

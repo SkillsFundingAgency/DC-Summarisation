@@ -196,7 +196,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         {
             var fungingTypes = GetFundingTypes();
 
-            FundingStream fundingStream = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == "16-18TRN1819" && fs.DeliverableLineCode == 2).First();
+            List<FundingStream> fundingStream = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == "16-18TRN1819" && fs.DeliverableLineCode == 2).ToList();
 
             var provider = new Provider()
             {
@@ -270,7 +270,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                 }
             };
 
-            var task = new SummarisationService();
+            var task = new SummarisationFundlineProcess();
 
             var results = task.Summarise(fundingStream, provider, fcsContractAllocations, GetCollectionPeriods()).OrderBy(x => x.Period).ToList();
 
@@ -388,13 +388,21 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         {
             IList<FcsContractAllocation> fcsContractAllocations = new List<FcsContractAllocation>();
             var fundingStreams = GetFundingTypes().SelectMany(ft => ft.FundingStreams);
+            int count = 1;
 
             foreach (var item in fundingStreams)
             {
+                string fundingStreamPeriodCode = item.PeriodCode;
+                if (fcsContractAllocations.Any(f => f.FundingStreamPeriodCode == item.PeriodCode))
+                {
+                    count += 1;
+                    fundingStreamPeriodCode = fundingStreamPeriodCode + count;
+                }
+
                 FcsContractAllocation allocation = new FcsContractAllocation()
                 {
                     ContractAllocationNumber = $"Alloc{item.PeriodCode}",
-                    FundingStreamPeriodCode = item.PeriodCode,
+                    FundingStreamPeriodCode = fundingStreamPeriodCode,
                     DeliveryUkprn = ukprn,
                     DeliveryOrganisation = $"Org{ukprn}"
                 };

@@ -19,6 +19,7 @@
     <Parameter Name="ILR1819ConnectionString" Value="__ILR1819DataStoreConnectionStringRO__" />
     <Parameter Name="SummarisedActualsConnectionString" Value="__SummarisedActuals_Connectionstring_RW__" />
     <Parameter Name="EAS1819ConnectionString" Value="__EAS1819ConnectionStringRO__" />
-    <Parameter Name="DataRetrievalMaxConcurrentCalls" Value="__DataRetrievalMaxConcurrentCalls__"/>
+    <Parameter Name="ESFNonEFConnectionString" Value="__ESFNonEFConnectionStringRO__" />
+    <Parameter Name="DataRetrievalMaxConcurrentCalls" Value="__DataRetrievalMaxConcurrentCalls__" />
   </Parameters>
 </Application>

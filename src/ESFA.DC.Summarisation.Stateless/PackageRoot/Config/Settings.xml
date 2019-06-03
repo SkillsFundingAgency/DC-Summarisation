@@ -17,6 +17,7 @@
     <Parameter Name="ILR1819ConnectionString" Value="" />
     <Parameter Name="SummarisedActualsConnectionString" Value=""/>
     <Parameter Name="EAS1819ConnectionString" Value=""/>
+    <Parameter Name="ESFNonEFConnectionString" Value=""/>
     <Parameter Name="DataRetrievalMaxConcurrentCalls" Value=""/>
   </Section>
 </Settings>
