@@ -34,7 +34,11 @@ namespace ESFA.DC.Summarisation.Data.Population.Service
                     ContractEndDate = ca.EndDate.HasValue ? Convert.ToInt32(ca.EndDate.Value.ToString("yyyyMM")) : 0
                 })
                 .GroupBy(ca => ca.FundingStreamPeriodCode)
-                .ToDictionaryAsync(gca => gca.Key, gca => gca.ToList() as IReadOnlyCollection<IFcsContractAllocation>, cancellationToken);
+                .ToDictionaryAsync(
+                    gca => gca.Key,
+                    gca => gca.ToList() as IReadOnlyCollection<IFcsContractAllocation>,
+                    StringComparer.OrdinalIgnoreCase,
+                    cancellationToken);
 
             return contractAllocation;
         }

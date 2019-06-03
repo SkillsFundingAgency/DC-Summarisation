@@ -187,6 +187,97 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             }
         }
 
+        [Theory]
+        [InlineData("16-18 Traineeships (Adult funded)", "16-18TRN1819")]
+        [InlineData("16-18 Traineeships (Adult Funded)", "16-18tRN1819")]
+        [InlineData("16-18 traineeships (adult funded)", "16-18trn1819")]
+        [InlineData("16-18 TRAINEESHIPS (ADULT FUNDED)", "16-18TRN1819")]
+        public void SummariseByFundingStream_CaseInsensitiveCheck(string fundLine, string fundingStreamPeriodCode)
+        {
+            var fungingTypes = GetFundingTypes();
+
+            List<FundingStream> fundingStream = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == "16-18TRN1819" && fs.DeliverableLineCode == 2).ToList();
+
+            var provider = new Provider()
+            {
+                UKPRN = ukprn,
+                LearningDeliveries = new List<LearningDelivery>()
+                {
+                    new LearningDelivery()
+                    {
+                        LearnRefNumber = "100090123",
+                        AimSeqNumber = 12345,
+                        Fundline = fundLine,
+                        PeriodisedData = new List<PeriodisedData>()
+                        {
+                            new PeriodisedData()
+                            {
+                                AttributeName = "LnrOnProgPay",
+                                DeliverableCode = "2",
+                                Periods = new List<Period>()
+                                {
+                                    new Period()
+                                    {
+                                        PeriodId = 6,
+                                        Value = 144
+                                    },
+                                    new Period()
+                                    {
+                                        PeriodId = 7,
+                                        Value = 45
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    new LearningDelivery()
+                    {
+                        LearnRefNumber = "100090123",
+                        AimSeqNumber = 12345,
+                        Fundline = fundLine,
+                        PeriodisedData = new List<PeriodisedData>()
+                        {
+                            new PeriodisedData()
+                            {
+                                DeliverableCode = "2",
+                                Periods = new List<Period>()
+                                {
+                                    new Period()
+                                    {
+                                        PeriodId = 1,
+                                        Value = 20
+                                    },
+                                    new Period()
+                                    {
+                                        PeriodId = 2,
+                                        Value = 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            var fcsContractAllocations = new List<FcsContractAllocation>()
+            {
+                new FcsContractAllocation()
+                {
+                    ContractAllocationNumber = "16-18TRN1819",
+                    FundingStreamPeriodCode = fundingStreamPeriodCode,
+                    DeliveryUkprn = ukprn,
+                    DeliveryOrganisation = "ORG0000031"
+                }
+            };
+
+            var task = new SummarisationFundlineProcess();
+
+            var results = task.Summarise(fundingStream, provider, fcsContractAllocations, GetCollectionPeriods()).OrderBy(x => x.Period).ToList();
+
+            results.Count().Should().Be(2);
+            results.Should().NotBeNullOrEmpty();
+        }
+
         private FundingTypesProvider NewFundingTypeProvider()
         {
             return new FundingTypesProvider(new JsonSerializationService());
@@ -297,13 +388,21 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         {
             IList<FcsContractAllocation> fcsContractAllocations = new List<FcsContractAllocation>();
             var fundingStreams = GetFundingTypes().SelectMany(ft => ft.FundingStreams);
+            int count = 1;
 
             foreach (var item in fundingStreams)
             {
+                string fundingStreamPeriodCode = item.PeriodCode;
+                if (fcsContractAllocations.Any(f => f.FundingStreamPeriodCode == item.PeriodCode))
+                {
+                    count += 1;
+                    fundingStreamPeriodCode = fundingStreamPeriodCode + count;
+                }
+
                 FcsContractAllocation allocation = new FcsContractAllocation()
                 {
                     ContractAllocationNumber = $"Alloc{item.PeriodCode}",
-                    FundingStreamPeriodCode = item.PeriodCode,
+                    FundingStreamPeriodCode = fundingStreamPeriodCode,
                     DeliveryUkprn = ukprn,
                     DeliveryOrganisation = $"Org{ukprn}"
                 };

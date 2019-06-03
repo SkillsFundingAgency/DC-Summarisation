@@ -130,7 +130,11 @@ namespace ESFA.DC.Summarisation.Service
            IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations,
            IProvider provider)
         {
-            var fundingStreams = _fundingTypesProviders.FirstOrDefault(w=>w.CollectionType==_summarisationContext.CollectionType).Provide().Where(x => x.SummarisationType == summarisationType).SelectMany(fs => fs.FundingStreams).ToList();
+            var fundingStreams = _fundingTypesProviders
+                .FirstOrDefault(w=>w.CollectionType.Equals(_summarisationContext.CollectionType, StringComparison.OrdinalIgnoreCase))
+                .Provide().Where(x => x.SummarisationType.Equals(summarisationType,StringComparison.OrdinalIgnoreCase))
+                .SelectMany(fs => fs.FundingStreams)
+                .ToList();
 
             var actuals = new List<SummarisedActual>();
 
@@ -141,20 +145,25 @@ namespace ESFA.DC.Summarisation.Service
 
             foreach (var fs in fundingStreams)
             {
-                if (fcsContractAllocations.ContainsKey(fs.PeriodCode) && fcsContractAllocations[fs.PeriodCode].Any(x => x.DeliveryUkprn == provider.UKPRN))
+                if (fcsContractAllocations.ContainsKey(fs.PeriodCode)
+                    && fcsContractAllocations[fs.PeriodCode].Any(x => x.DeliveryUkprn == provider.UKPRN))
                 {
                     contractFundingStreams.Add(fs);
 
                     foreach (var allocation in fcsContractAllocations[fs.PeriodCode].Where(x => x.DeliveryUkprn == provider.UKPRN))
                     {
-                        if (allocations.Count(w => w.ContractAllocationNumber == allocation.ContractAllocationNumber && w.FundingStreamPeriodCode == fs.PeriodCode) == 0)
+                        if (!allocations.Any(
+                            w => w.ContractAllocationNumber.Equals(allocation.ContractAllocationNumber, StringComparison.OrdinalIgnoreCase)
+                                && w.FundingStreamPeriodCode.Equals(fs.PeriodCode, StringComparison.OrdinalIgnoreCase)))
                             allocations.Add(allocation);
-                    }
-                    
+                    }    
                 }
             }
 
-            actuals.AddRange(_summarisationServices.FirstOrDefault(x => x.ProcessType == _summarisationContext.ProcessType).Summarise(contractFundingStreams, provider, allocations, collectionPeriods));
+            actuals.AddRange(
+                _summarisationServices
+                .FirstOrDefault(x => x.ProcessType.Equals(_summarisationContext.ProcessType, StringComparison.OrdinalIgnoreCase))
+                .Summarise(contractFundingStreams, provider, allocations, collectionPeriods));
 
             _logger.LogInfo($"Summarisation Wrapper: Summarising UKPRN: {provider.UKPRN} End");
 
