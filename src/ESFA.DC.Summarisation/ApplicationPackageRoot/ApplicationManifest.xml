@@ -19,6 +19,7 @@
     <Parameter Name="ILR1819ConnectionString" DefaultValue="" />
     <Parameter Name="SummarisedActualsConnectionString" DefaultValue="" />
     <Parameter Name="EAS1819ConnectionString" DefaultValue="" />
+    <Parameter Name="ESFNonEFConnectionString" DefaultValue="" />
     <Parameter Name="DataRetrievalMaxConcurrentCalls" DefaultValue="" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
@@ -46,6 +47,7 @@
             <Parameter Name="ILR1819ConnectionString" Value="[ILR1819ConnectionString]" />
             <Parameter Name="SummarisedActualsConnectionString" Value="[SummarisedActualsConnectionString]" />
             <Parameter Name="EAS1819ConnectionString" Value="[EAS1819ConnectionString]" />
+            <Parameter Name="ESFNonEFConnectionString" Value="[ESFNonEFConnectionString]" />
             <Parameter Name="DataRetrievalMaxConcurrentCalls" Value="[DataRetrievalMaxConcurrentCalls]" />
           </Section>
         </Settings>

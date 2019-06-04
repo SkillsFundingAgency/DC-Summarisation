@@ -20,5 +20,6 @@
     <Parameter Name="SummarisedActualsConnectionString" Value="__SummarisedActuals_Connectionstring_RW__" />
     <Parameter Name="EAS1819ConnectionString" Value="__EAS1819ConnectionStringRO__" />
     <Parameter Name="DataRetrievalMaxConcurrentCalls" Value="__DataRetrievalMaxConcurrentCalls__"/>
+    <Parameter Name="ESFNonEFConnectionString" Value="__ESFNonEFConnectionString__" />
   </Parameters>
 </Application>

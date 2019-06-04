@@ -3,6 +3,7 @@ using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Output.Model;
 using ESFA.DC.Summarisation.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,7 +31,7 @@ namespace ESFA.DC.Summarisation.Service
             {
                 var periodisedData = provider
                     .LearningDeliveries
-                    .Where(ld => ld.ConRefNumber == allocation.ContractAllocationNumber)
+                    .Where(ld => ld.ConRefNumber.Equals(allocation.ContractAllocationNumber, StringComparison.OrdinalIgnoreCase))
                     .SelectMany(x => x.PeriodisedData.Where(w => w.DeliverableCode == fundLine.DeliverableCode));
 
                 var periods = GetPeriodsForFundLine(periodisedData, fundLine);
