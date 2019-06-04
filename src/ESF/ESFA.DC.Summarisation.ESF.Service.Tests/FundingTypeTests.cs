@@ -11,24 +11,24 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
         [Fact]
         public void FundingTypesCount()
         {
-            NewProvider().Provide().Should().HaveCount(4);
+            NewProvider().Provide().Should().HaveCount(3);
         }
         
         [Theory]
-        [InlineData("ESF_Supp_Value", "ESF1420", 5, "AC01")]
-        [InlineData("ESF_Supp_Value", "ESF1420", 6, "CG01")]
-        [InlineData("ESF_Supp_Value", "ESF1420", 7, "CG02")]
+        [InlineData("ESF_SuppData", "ESF1420", 5, "AC01")]
+        [InlineData("ESF_SuppData", "ESF1420", 6, "CG01")]
+        [InlineData("ESF_SuppData", "ESF1420", 7, "CG02")]
 
-        [InlineData("ESF_Supp_Value_Volume", "ESF1420", 8, "SD01")]
-        [InlineData("ESF_Supp_Value_Volume", "ESF1420", 9, "SD02")]
-        [InlineData("ESF_Supp_Value_Volume", "ESF1420", 10, "SD03")]
-        [InlineData("ESF_Supp_Value_Volume", "ESF1420", 11, "SD04")]
-        [InlineData("ESF_Supp_Value_Volume", "ESF1420", 12, "SD05")]
-        [InlineData("ESF_Supp_Value_Volume", "ESF1420", 13, "SD06")]
-        [InlineData("ESF_Supp_Value_Volume", "ESF1420", 14, "SD07")]
-        [InlineData("ESF_Supp_Value_Volume", "ESF1420", 15, "SD08")]
-        [InlineData("ESF_Supp_Value_Volume", "ESF1420", 16, "SD09")]
-        [InlineData("ESF_Supp_Value_Volume", "ESF1420", 17, "SD10")]
+        [InlineData("ESF_SuppData", "ESF1420", 8, "SD01")]
+        [InlineData("ESF_SuppData", "ESF1420", 9, "SD02")]
+        [InlineData("ESF_SuppData", "ESF1420", 10, "SD03")]
+        [InlineData("ESF_SuppData", "ESF1420", 11, "SD04")]
+        [InlineData("ESF_SuppData", "ESF1420", 12, "SD05")]
+        [InlineData("ESF_SuppData", "ESF1420", 13, "SD06")]
+        [InlineData("ESF_SuppData", "ESF1420", 14, "SD07")]
+        [InlineData("ESF_SuppData", "ESF1420", 15, "SD08")]
+        [InlineData("ESF_SuppData", "ESF1420", 16, "SD09")]
+        [InlineData("ESF_SuppData", "ESF1420", 17, "SD10")]
 
         [InlineData("ESF_ILR_Value_Volume", "ESF1420", 1, "ST01")]
         [InlineData("ESF_ILR_Value_Volume", "ESF1420", 4, "FS01")]
