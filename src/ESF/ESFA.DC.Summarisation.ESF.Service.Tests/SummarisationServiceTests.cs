@@ -85,7 +85,13 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             {
                 item.ActualValue.Should().Be(2 * periodValue);
 
-                item.ActualVolume.Should().Be(0);
+                var fl = fundingStream.FundLines.FirstOrDefault();
+
+                if (fl.CalculateVolume == true)
+                    item.ActualVolume.Should().Be(2);
+                else
+
+                    item.ActualVolume.Should().Be(0);
             }
         }
 
@@ -93,7 +99,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
         public void Summarise_FundingStreams()
         {
             List<FundingStream> fundingStreams = GetFundingTypes()
-                                                .Where(w => w.SummarisationType == "ESF_Supp_Value")
+                                                .Where(w => w.SummarisationType == "ESF_SuppData")
                                                 .SelectMany(ft => ft.FundingStreams).ToList();
 
             int ukprn = GetProviders().First();
@@ -120,7 +126,12 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             {
                 item.ActualValue.Should().Be(2 * periodValue);
 
-                item.ActualVolume.Should().Be(0);
+                var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.FundLines).FirstOrDefault();
+
+                if (fl.FirstOrDefault().CalculateVolume == true)
+                    item.ActualVolume.Should().Be(2);
+                else
+                    item.ActualVolume.Should().Be(0);
             }
         }
 
@@ -128,7 +139,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
         public void Summarise_Allocations()
         {
             List<FundingStream> fundingStreams = GetFundingTypes()
-                                                .Where(w => w.SummarisationType == "ESF_Supp_Value")
+                                                .Where(w => w.SummarisationType == "ESF_SuppData")
                                                 .SelectMany(ft => ft.FundingStreams).ToList();
 
             int ukprn = GetProviders().First();
@@ -163,7 +174,12 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                 {
                     item.ActualValue.Should().Be(2 * periodValue);
 
-                    item.ActualVolume.Should().Be(0);
+                    var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.FundLines).FirstOrDefault();
+                    
+                    if(fl.FirstOrDefault().CalculateVolume == true)
+                        item.ActualVolume.Should().Be(2);
+                    else
+                        item.ActualVolume.Should().Be(0);
                 }
             }
         }
@@ -172,7 +188,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
         public void Summarise_Providers()
         {
             List<FundingStream> fundingStreams = GetFundingTypes()
-                                                .Where(w => w.SummarisationType == "ESF_Supp_Value")
+                                                .Where(w => w.SummarisationType == "ESF_SuppData")
                                                 .SelectMany(ft => ft.FundingStreams).ToList();
 
             foreach (var ukprn in GetProviders())
@@ -207,7 +223,12 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                     {
                         item.ActualValue.Should().Be(2 * periodValue);
 
-                        item.ActualVolume.Should().Be(0);
+                        var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.FundLines).FirstOrDefault();
+
+                        if (fl.FirstOrDefault().CalculateVolume == true)
+                            item.ActualVolume.Should().Be(2);
+                        else
+                            item.ActualVolume.Should().Be(0);
                     }
                 }
             }

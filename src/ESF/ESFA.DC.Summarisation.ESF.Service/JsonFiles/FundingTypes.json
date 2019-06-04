@@ -1,6 +1,6 @@
 [
   {
-    "SummarisationType": "ESF_Supp_Value",
+    "SummarisationType": "ESF_SuppData",
     "FundingStreams": [
       {
         "PeriodCode": "ESF1420",
@@ -37,14 +37,10 @@
             "CalculateVolume": false
           }
         ]
-      }
-    ]
-  },
-  {
-    "SummarisationType": "ESF_Supp_Value_Volume",
-    "FundingStreams": [
+      },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "Supp",
         "DeliverableLineCode": 8,
         "FundLines": [
           {
@@ -56,6 +52,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "Supp",
         "DeliverableLineCode": 9,
         "FundLines": [
           {
@@ -67,6 +64,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "Supp",
         "DeliverableLineCode": 10,
         "FundLines": [
           {
@@ -78,8 +76,8 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "Supp",
         "DeliverableLineCode": 11,
-
         "FundLines": [
           {
             "DeliverableCode": "SD04",
@@ -90,6 +88,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "Supp",
         "DeliverableLineCode": 12,
         "FundLines": [
           {
@@ -101,6 +100,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "Supp",
         "DeliverableLineCode": 13,
         "FundLines": [
           {
@@ -112,6 +112,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "Supp",
         "DeliverableLineCode": 14,
         "FundLines": [
           {
@@ -123,6 +124,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "Supp",
         "DeliverableLineCode": 15,
         "FundLines": [
           {
@@ -134,6 +136,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "Supp",
         "DeliverableLineCode": 16,
         "FundLines": [
           {
@@ -145,6 +148,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "Supp",
         "DeliverableLineCode": 17,
         "FundLines": [
           {
@@ -154,7 +158,6 @@
           }
         ]
       }
-
     ]
   },
   {
