@@ -26,35 +26,26 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
         public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
         {
             return await _esf.SupplementaryDatas
-                                        .Join(_esf.SourceFiles,
-                                                    sd => sd.SourceFileId,
-                                                    sf => sf.SourceFileId,
-                                                    (sd, sf) => new { sf.Ukprn, sd.ConRefNumber, sd.DeliverableCode, sd.CalendarYear, sd.CalendarMonth, sd.CostType, sd.ReferenceType, sd.Reference, sd.Value })
-                                        .GroupJoin(_esf.SupplementaryDataUnitCosts,
-                                               sd => new { sd.ConRefNumber, sd.DeliverableCode, sd.CalendarYear, sd.CalendarMonth, sd.CostType, sd.ReferenceType, sd.Reference },
-                                               sdu => new { sdu.ConRefNumber, sdu.DeliverableCode, sdu.CalendarYear, sdu.CalendarMonth, sdu.CostType, sdu.ReferenceType, sdu.Reference },
-                                               (sd, sdu) => new { sd.Ukprn, sd.ConRefNumber, sd.DeliverableCode, sd.CalendarYear, sd.CalendarMonth, sd.CostType, sd.ReferenceType, sd.Reference, sd.Value, sdu })
-                                        .SelectMany(z => z.sdu.DefaultIfEmpty(), (sd, sdu) => new { sd.Ukprn, sd.ConRefNumber, sd.DeliverableCode, sd.CalendarYear, sd.CalendarMonth, sd.CostType, sd.ReferenceType, sd.Reference, sd.Value, SDUnitCostValue = sdu != null ? sdu.Value : null})
-                                        .Where(w => w.Ukprn == ukprn.ToString())
-                                        .GroupBy(g => g.ConRefNumber)
-                                        .Select(ld => new LearningDelivery
-                                        {
-                                            LearnRefNumber = "",
-                                            AimSeqNumber = 0,
-                                            ConRefNumber = ld.Key,
-                                            PeriodisedData = ld.GroupBy(x => x.DeliverableCode).Select(pd => new PeriodisedData
-                                            {
-                                                DeliverableCode = pd.Key,
-                                                AttributeName = "",
-                                                Periods = pd.Select(p => new Period
-                                                {
-                                                    CalendarMonth = p.CalendarMonth,
-                                                    CalendarYear = p.CalendarYear,
-                                                    Value = p.SDUnitCostValue ?? p.Value,
-                                                    Volume = p.CostType == "Unit Cost" ? 1 : p.CostType == "Unit Cost Deduction" ? -1 : 0
-                                                }).ToList()
-                                            }).ToList()
-                                        }).ToListAsync(cancellationToken);
+                           .Where(sd => sd.SourceFile.Ukprn == ukprn.ToString())
+                           .GroupBy(sd => sd.ConRefNumber)
+                           .Select(ld => new LearningDelivery
+                           {
+                               LearnRefNumber = "",
+                               AimSeqNumber = 0,
+                               ConRefNumber = ld.Key,
+                               PeriodisedData = ld.GroupBy(x => x.DeliverableCode).Select(pd => new PeriodisedData
+                               {
+                                   DeliverableCode = pd.Key,
+                                   AttributeName = "",
+                                   Periods = pd.Select(p => new Period
+                                   {
+                                       CalendarMonth = p.CalendarMonth,
+                                       CalendarYear = p.CalendarYear,
+                                       Value = p.SupplementaryDataUnitCost.Value ?? p.Value,
+                                       Volume = p.CostType == "Unit Cost" ? 1 : p.CostType == "Unit Cost Deduction" ? -1 : 0
+                                   }).ToList()
+                               }).ToList()
+                           }).ToListAsync(cancellationToken);
 
         }
 

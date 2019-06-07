@@ -22,7 +22,7 @@
   <ItemGroup>
     <PackageReference Include="ESFA.DC.EAS1819.EF" Version="0.1.1" />
     <PackageReference Include="ESFA.DC.ESF.Database.EF" Version="0.0.358" />
-    <PackageReference Include="ESFA.DC.ESF.R2.Database.EF" Version="0.2.170" />
+    <PackageReference Include="ESFA.DC.ESF.R2.Database.EF" Version="0.2.174" />
     <PackageReference Include="ESFA.DC.ILR1819.Database.EF" Version="0.1.373" />
     <PackageReference Include="ESFA.DC.ReferenceData.FCS.Model" Version="0.1.218" />
     <PackageReference Include="FastMember" Version="1.4.1" />
