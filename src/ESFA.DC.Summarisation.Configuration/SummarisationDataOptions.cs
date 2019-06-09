@@ -15,5 +15,7 @@ namespace ESFA.DC.Summarisation.Configuration
         public string DataRetrievalMaxConcurrentCalls { get; set; }
 
         public string ESFNonEFConnectionString { get; set; }
+
+        public string DASPaymentsConnectionString { get; set; }
     }
 }

@@ -9,6 +9,12 @@ namespace ESFA.DC.Summarisation.Data.Input.Interface
 
         string DeliverableCode { get; }
 
+        int ApprenticeshipContractType { get; }
+
+        int FundingSource { get; }
+
+        int TransactionType { get; }
+
         IList<Period> Periods { get;  }
     }
 }

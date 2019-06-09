@@ -8,6 +8,12 @@ namespace ESFA.DC.Summarisation.Configuration
 
         public int DeliverableLineCode { get; set; }
 
+        public int ApprenticeshipContractType { get; set; }
+
+        public int FundingSource { get; set; }
+
+        public List<int> TransactionTypes { get; set; }
+
         public FundModel FundModel { get; set; }
 
         public List<FundLine> FundLines { get; set; }

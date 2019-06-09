@@ -7,6 +7,7 @@
         ALB,
         TBL,
         EAS,
-        Supp
+        Supp,
+        Levy
     }
 }

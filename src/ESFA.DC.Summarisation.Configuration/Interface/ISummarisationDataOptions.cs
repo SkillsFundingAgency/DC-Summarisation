@@ -12,6 +12,8 @@
 
         string ESFNonEFConnectionString { get; }
 
+        string DASPaymentsConnectionString { get; }
+
         string DataRetrievalMaxConcurrentCalls { get; }
     }
 }

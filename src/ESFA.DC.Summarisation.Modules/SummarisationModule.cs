@@ -1,6 +1,8 @@
 ﻿using System.Data.SqlClient;
 using Autofac;
 using ESF.DC.Summarisation.Main1819.Data.Providers;
+using ESFA.DC.DASPayments.EF;
+using ESFA.DC.DASPayments.EF.Interfaces;
 using ESFA.DC.EAS1819.EF;
 using ESFA.DC.EAS1819.EF.Interface;
 using ESFA.DC.ESF.Database.EF;
@@ -12,6 +14,7 @@ using ESFA.DC.ReferenceData.FCS.Model.Interface;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.ServiceFabric.Helpers;
+using ESFA.DC.Summarisation.Apps1819.Data;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Configuration.Interface;
 using ESFA.DC.Summarisation.Data.Persist;
@@ -54,9 +57,11 @@ namespace ESFA.DC.Summarisation.Modules
 
             containerBuilder.RegisterType<Main1819FundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();
             containerBuilder.RegisterType<ESFFundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();
+            containerBuilder.RegisterType<Apps1819.Service.FundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();
 
             containerBuilder.RegisterType<Main1819CollectionPeriodsProvider>().As<ISummarisationConfigProvider<CollectionPeriod>>();
             containerBuilder.RegisterType<ESFCollectionPeriodsProvider>().As<ISummarisationConfigProvider<CollectionPeriod>>();
+            containerBuilder.RegisterType<Apps1819.Service.CollectionPeriodsProvider>().As<ISummarisationConfigProvider<CollectionPeriod>>();
 
             containerBuilder.RegisterType<AlbProvider>().As<ILearningDeliveryProvider>();
             containerBuilder.RegisterType<TblProvider>().As<ILearningDeliveryProvider>();
@@ -65,6 +70,8 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<EasProvider>().As<ILearningDeliveryProvider>();
 
             containerBuilder.RegisterType<ESFProvider_R1>().As<ILearningDeliveryProvider>();
+
+            containerBuilder.RegisterType<LevyProvider>().As<ILearningDeliveryProvider>();
 
             containerBuilder.RegisterType<ProviderRepository>().As<IProviderRepository>();
 
@@ -109,6 +116,13 @@ namespace ESFA.DC.Summarisation.Modules
                 .UseSqlServer(c.Resolve<ISummarisationDataOptions>().ESFNonEFConnectionString).Options;
                 return new ESF_DataStoreEntities(options);
             }).As<IESF_DataStoreEntities>().InstancePerDependency();
+
+            containerBuilder.Register(c =>
+            {
+                DbContextOptions<DASPaymentsContext> options = new DbContextOptionsBuilder<DASPaymentsContext>()
+                .UseSqlServer(c.Resolve<ISummarisationDataOptions>().DASPaymentsConnectionString).Options;
+                return new DASPaymentsContext(options);
+            }).As<IDASPaymentsContext>().InstancePerDependency();
 
             containerBuilder.Register(c =>
             {

@@ -1,0 +1,33 @@
+[
+  {
+    "SummarisationType": "Apps1819_Levy",
+    "FundingStreams": [
+      {
+        "PeriodCode": "Levy1799",
+        "FundModel": "Levy",
+        "DeliverableLineCode": 2,
+        "ApprenticeshipContractType": 1,
+        "FundingSource": 1,
+        "TransactionTypes" : [1,2,3],
+        "FundLines": [
+          {
+            "Fundline": "16-18 Apprenticeship (From May 2017) Levy Contract"
+          }
+        ]
+      },
+      {
+        "PeriodCode": "Levy1799",
+        "FundModel": "Levy",
+        "DeliverableLineCode": 8,
+        "ApprenticeshipContractType": 1,
+        "FundingSource": 1,
+        "TransactionTypes": [ 1, 2, 3 ],
+        "FundLines": [
+          {
+            "Fundline": "19+ Apprenticeship (From May 2017) Levy Contract"
+          }
+        ]
+      }
+    ]
+  }
+]
