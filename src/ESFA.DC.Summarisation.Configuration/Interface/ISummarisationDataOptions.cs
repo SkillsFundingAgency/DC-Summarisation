@@ -12,6 +12,8 @@
 
         string ESFNonEFConnectionString { get; }
 
+        string ESFR2ConnectionString { get; }
+
         string DataRetrievalMaxConcurrentCalls { get; }
     }
 }

@@ -7,6 +7,8 @@ using ESFA.DC.EAS1819.EF;
 using ESFA.DC.EAS1819.EF.Interface;
 using ESFA.DC.ESF.Database.EF;
 using ESFA.DC.ESF.Database.EF.Interfaces;
+using ESFA.DC.ESF.R2.Database.EF;
+using ESFA.DC.ESF.R2.Database.EF.Interfaces;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interface;
 using ESFA.DC.Logging.Interfaces;
@@ -53,6 +55,7 @@ namespace ESFA.DC.Summarisation.Console
             string summarisedActualsConnectionString = @"Server=(local);Database=SummarisedActuals;Trusted_Connection=True;";
             string easConnectionString = @"Server=(local);Database=EAS1819;Trusted_Connection=True;";
             string esfConnectionString = @"Server=(local);Database=ESF;Trusted_Connection=True;";
+            string esfR2ConnectionString = @"Server=(local);Database=ESF-R2;Trusted_Connection=True;";
 
             DbContextOptions<FcsContext> fcsdbContextOptions = new DbContextOptionsBuilder<FcsContext>().UseSqlServer(fcsConnectionString).Options;
             DbContextOptions<ILR1819_DataStoreEntities> ilrdbContextOptions = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>().UseSqlServer(ilrConnectionString).Options;
@@ -60,12 +63,14 @@ namespace ESFA.DC.Summarisation.Console
             DbContextOptions<SummarisationContext> sadbContextOptions = new DbContextOptionsBuilder<SummarisationContext>().UseSqlServer(summarisedActualsConnectionString).Options;
 
             DbContextOptions<ESF_DataStoreEntities> esfdbContextOptions = new DbContextOptionsBuilder<ESF_DataStoreEntities>().UseSqlServer(esfConnectionString).Options;
+            DbContextOptions<ESFR2Context> esfR2dbContextOptions = new DbContextOptionsBuilder<ESFR2Context>().UseSqlServer(esfR2ConnectionString).Options;
 
             IFcsContext fcsContext = new FcsContext(fcsdbContextOptions);
             IIlr1819RulebaseContext ilrContext = new ILR1819_DataStoreEntities(ilrdbContextOptions);
             IEasdbContext easContext = new EasContext(easdbContextOptions);
             SummarisationContext saContext = new SummarisationContext(sadbContextOptions);
             IESF_DataStoreEntities esfContext = new ESF_DataStoreEntities(esfdbContextOptions);
+            IESFR2Context esfR2Context = new ESFR2Context(esfR2dbContextOptions);
 
             IFcsRepository fcsRepository = new FcsRepository(fcsContext);
 
@@ -93,7 +98,8 @@ namespace ESFA.DC.Summarisation.Console
                 new Fm35Provider(ilrContext),
                 new TblProvider(ilrContext),
 
-                new ESFProvider_R1(esfContext)
+                new ESFProvider_R1(esfContext),
+                new ESFProvider_R2(esfR2Context)
             });
 
             List<ISummarisationService> summarisationServices = new List<ISummarisationService>()
