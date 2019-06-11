@@ -34,7 +34,7 @@ namespace ESFA.DC.ReferenceData.EF.Console.DesignTime
 
             AddSingular("s$", "");
             AddSingular("(n)ews$", "$1ews");
-            AddSingular("([ti])a$", "$1um");
+            //AddSingular("([ti])a$", "$1um");
             AddSingular("((a)naly|(b)a|(d)iagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)ses$", "$1$2sis");
             AddSingular("(^analy)ses$", "$1sis");
             AddSingular("([^f])ves$", "$1fe");

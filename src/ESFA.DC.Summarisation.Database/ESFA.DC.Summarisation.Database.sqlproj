@@ -75,6 +75,7 @@
     <Build Include="Security\User_RO.sql" />
     <Build Include="Security\User_RW.sql" />
     <None Include="z.ExtendedProperties.sql" />
+    <Build Include="dbo\Tables\ESF_FundingData.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="BUILD_BRANCHNAME">
