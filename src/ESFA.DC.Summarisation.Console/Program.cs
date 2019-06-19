@@ -93,7 +93,8 @@ namespace ESFA.DC.Summarisation.Console
                 new Fm35Provider(ilrContext),
                 new TblProvider(ilrContext),
 
-                new ESFProvider_R1(esfContext)
+                new ESFProvider_R1(esfContext),
+                new ESFILRProvider(ilrContext)
             });
 
             List<ISummarisationService> summarisationServices = new List<ISummarisationService>()
@@ -112,9 +113,13 @@ namespace ESFA.DC.Summarisation.Console
 
             ILogger logger = new LoggerStub();
 
-            ISummarisationContext summarisationMessage = new SummarisationContextStub();
+            ISummarisationContext summarisationMessage;
 
-            SummarisationWrapper wrapper = new SummarisationWrapper(
+            SummarisationWrapper wrapper;
+
+            summarisationMessage = new SummarisationContextStub();
+
+            wrapper = new SummarisationWrapper(
                 fcsRepository,
                 saRepository,
                 fundingTypesProviders,

@@ -9,5 +9,9 @@
         public int CalendarYear { get; set; }
 
         public int ActualsSchemaPeriod { get; set; }
+
+        public int CollectionMonth { get; set; }
+
+        public int CollectionYear { get; set; }
     }
 }
