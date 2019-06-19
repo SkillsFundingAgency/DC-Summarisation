@@ -100,7 +100,7 @@ namespace ESFA.DC.Summarisation.Console
 
                 new ESFProvider_R1(esfContext),
                 new ESFProvider_R2(esfR2Context),
-                new ESFILRProvider(ilrContext)
+                new ESFILRProvider(saContext)
             });
 
             List<ISummarisationService> summarisationServices = new List<ISummarisationService>()

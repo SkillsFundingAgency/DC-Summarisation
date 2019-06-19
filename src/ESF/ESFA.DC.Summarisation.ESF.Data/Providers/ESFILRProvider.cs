@@ -1,5 +1,4 @@
-﻿using ESFA.DC.ILR1819.DataStore.EF.Interface;
-using ESFA.DC.Summarisation.Data.Input.Model;
+﻿using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,22 +12,22 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
 {
     public class ESFILRProvider : ILearningDeliveryProvider
     {
-        private readonly IIlr1819RulebaseContext _ilrRulebase;
+        private readonly Model.Interface.ISummarisationContext _summarisationContext;
 
         public string SummarisationType => nameof(Configuration.Enum.SummarisationType.ESF_ILRData);
 
         public string CollectionType => nameof(Configuration.Enum.CollectionType.ESF);
 
-        public ESFILRProvider(IIlr1819RulebaseContext ilrRulebase)
+        public ESFILRProvider(Model.Interface.ISummarisationContext summarisationContext)
         {
-            _ilrRulebase = ilrRulebase;
+            _summarisationContext = summarisationContext;
         }
 
         public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
         {
             List<int> CollectionYears = new List<int> { 1819 };
 
-            return await _ilrRulebase.ESF_FundingDatas
+            return await _summarisationContext.ESF_FundingDatas
                 .Where(x => x.UKPRN == ukprn 
                     && CollectionYears.Contains(x.CollectionYear)
                     && (x.Period_1 + x.Period_2 + x.Period_3 + x.Period_4 + x.Period_5 + x.Period_6 + x.Period_7 + x.Period_8 + x.Period_9 + x.Period_10 + x.Period_11 + x.Period_12) > 0)
@@ -137,7 +136,8 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
 
         public async Task<IList<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
         {
-            return await _ilrRulebase.ESF_FundingDatas.Select(l => l.UKPRN).Distinct().ToListAsync(cancellationToken);
+            return await _summarisationContext.ESF_FundingDatas.Select(l => l.UKPRN).Distinct().ToListAsync(cancellationToken);
         }
+
     }
 }
