@@ -7,5 +7,7 @@ namespace ESFA.DC.Summarisation.Model.Interface
         IQueryable<SummarisedActual> SummarisedActuals { get; }
 
         IQueryable<CollectionReturn> CollectionReturns { get; }
+
+        IQueryable<ESF_FundingData> ESF_FundingDatas { get; }
     }
 }

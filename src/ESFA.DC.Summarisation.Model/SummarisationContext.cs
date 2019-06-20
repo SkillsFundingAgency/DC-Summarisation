@@ -16,7 +16,7 @@ namespace ESFA.DC.Summarisation.Model
         }
 
         public virtual DbSet<CollectionReturn> CollectionReturns { get; set; }
-        public virtual DbSet<EsfFundingData> EsfFundingDatas { get; set; }
+        public virtual DbSet<ESF_FundingData> ESF_FundingDatas { get; set; }
         public virtual DbSet<SummarisedActual> SummarisedActuals { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -47,14 +47,12 @@ namespace ESFA.DC.Summarisation.Model
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<EsfFundingData>(entity =>
+            modelBuilder.Entity<ESF_FundingData>(entity =>
             {
-                entity.HasKey(e => new { e.Ukprn, e.ConRefNumber, e.DeliverableCode, e.AttributeName, e.CollectionYear, e.CollectionPeriod })
-                    .HasName("PK__ESF_Fund__F8AAD8A33FBF07EA");
+                entity.HasKey(e => new { e.UKPRN, e.ConRefNumber, e.DeliverableCode, e.AttributeName, e.CollectionYear, e.CollectionPeriod })
+                    .HasName("PK__ESF_Fund__F8AAD8A3CA4209F0");
 
                 entity.ToTable("ESF_FundingData");
-
-                entity.Property(e => e.Ukprn).HasColumnName("UKPRN");
 
                 entity.Property(e => e.ConRefNumber)
                     .HasMaxLength(20)
@@ -68,59 +66,33 @@ namespace ESFA.DC.Summarisation.Model
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Period1)
-                    .HasColumnName("Period_1")
-                    .HasColumnType("decimal(15, 5)");
+                entity.Property(e => e.Period_1).HasColumnType("decimal(15, 5)");
 
-                entity.Property(e => e.Period10)
-                    .HasColumnName("Period_10")
-                    .HasColumnType("decimal(15, 5)");
+                entity.Property(e => e.Period_10).HasColumnType("decimal(15, 5)");
 
-                entity.Property(e => e.Period11)
-                    .HasColumnName("Period_11")
-                    .HasColumnType("decimal(15, 5)");
+                entity.Property(e => e.Period_11).HasColumnType("decimal(15, 5)");
 
-                entity.Property(e => e.Period12)
-                    .HasColumnName("Period_12")
-                    .HasColumnType("decimal(15, 5)");
+                entity.Property(e => e.Period_12).HasColumnType("decimal(15, 5)");
 
-                entity.Property(e => e.Period2)
-                    .HasColumnName("Period_2")
-                    .HasColumnType("decimal(15, 5)");
+                entity.Property(e => e.Period_2).HasColumnType("decimal(15, 5)");
 
-                entity.Property(e => e.Period3)
-                    .HasColumnName("Period_3")
-                    .HasColumnType("decimal(15, 5)");
+                entity.Property(e => e.Period_3).HasColumnType("decimal(15, 5)");
 
-                entity.Property(e => e.Period4)
-                    .HasColumnName("Period_4")
-                    .HasColumnType("decimal(15, 5)");
+                entity.Property(e => e.Period_4).HasColumnType("decimal(15, 5)");
 
-                entity.Property(e => e.Period5)
-                    .HasColumnName("Period_5")
-                    .HasColumnType("decimal(15, 5)");
+                entity.Property(e => e.Period_5).HasColumnType("decimal(15, 5)");
 
-                entity.Property(e => e.Period6)
-                    .HasColumnName("Period_6")
-                    .HasColumnType("decimal(15, 5)");
+                entity.Property(e => e.Period_6).HasColumnType("decimal(15, 5)");
 
-                entity.Property(e => e.Period7)
-                    .HasColumnName("Period_7")
-                    .HasColumnType("decimal(15, 5)");
+                entity.Property(e => e.Period_7).HasColumnType("decimal(15, 5)");
 
-                entity.Property(e => e.Period8)
-                    .HasColumnName("Period_8")
-                    .HasColumnType("decimal(15, 5)");
+                entity.Property(e => e.Period_8).HasColumnType("decimal(15, 5)");
 
-                entity.Property(e => e.Period9)
-                    .HasColumnName("Period_9")
-                    .HasColumnType("decimal(15, 5)");
+                entity.Property(e => e.Period_9).HasColumnType("decimal(15, 5)");
             });
 
             modelBuilder.Entity<SummarisedActual>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
-
                 entity.Property(e => e.ActualValue).HasColumnType("decimal(13, 2)");
 
                 entity.Property(e => e.ContractAllocationNumber)
@@ -142,8 +114,7 @@ namespace ESFA.DC.Summarisation.Model
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
-                entity.Property(e => e.UoPcode)
-                    .HasColumnName("UoPCode")
+                entity.Property(e => e.UoPCode)
                     .HasMaxLength(20)
                     .IsUnicode(false);
 

@@ -37,7 +37,7 @@ namespace ESFA.DC.Summarisation.Data.Repository
                 {
                     Period = o.Period,
                     FundingStreamPeriodCode = o.FundingStreamPeriodCode,
-                    UoPCode = o.UoPcode,
+                    UoPCode = o.UoPCode,
                     DeliverableCode = o.DeliverableCode,
                     OrganisationId = o.OrganisationId,
                     ActualValue = o.ActualValue,
@@ -54,7 +54,7 @@ namespace ESFA.DC.Summarisation.Data.Repository
                              .Select(o => new Output.Model.SummarisedActual
                              {
                                     OrganisationId = o.OrganisationId,
-                                    UoPCode = o.UoPcode,
+                                    UoPCode = o.UoPCode,
                                     FundingStreamPeriodCode = o.FundingStreamPeriodCode,
                                     Period = o.Period,
                                     DeliverableCode = o.DeliverableCode,

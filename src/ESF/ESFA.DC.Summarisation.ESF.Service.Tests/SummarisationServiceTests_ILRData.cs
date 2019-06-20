@@ -7,10 +7,11 @@ using FluentAssertions;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
+using System;
 
 namespace ESFA.DC.Summarisation.ESF.Service.Tests
 {
-    public class SummarisationServiceTests
+    public class SummarisationServiceTests_ILRData
     {
         private const int learningDeliveryRecords = 2;
 
@@ -18,7 +19,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
         private const decimal periodValue = 10;
 
-        //private const int ukprn = 10000001;
+        private const int periodVolume = 10;
 
         [Fact]
         public void SummarisePeriodsTest_withVolume()
@@ -27,15 +28,15 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             FundLine fundLine = new FundLine() { CalculateVolume = true };
 
-            var result = task.SummarisePeriods(GetPeriodsData(5), fundLine, GetCollectionPeriods());
+            var result = task.SummarisePeriods_ILRData(GetPeriodsData(5), fundLine, GetCollectionPeriods());
 
-            result.Count().Should().Be(67);
+            result.Count().Should().Be(12);
 
             foreach (var item in result)
             {
                 item.ActualValue.Should().Be(5 * periodValue);
 
-                item.ActualVolume.Should().Be(5);
+                item.ActualValue.Should().Be(5 * periodVolume);
             }
         }
 
@@ -46,9 +47,9 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             FundLine fundLine = new FundLine() { CalculateVolume = false };
 
-            var result = task.SummarisePeriods(GetPeriodsData(5), fundLine, GetCollectionPeriods());
+            var result = task.SummarisePeriods_ILRData(GetPeriodsData(5), fundLine, GetCollectionPeriods());
 
-            result.Count().Should().Be(67);
+            result.Count().Should().Be(12);
 
             foreach (var item in result)
             {
@@ -63,7 +64,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
         {
             FundingStream fundingStream = GetFundingTypes()
                 .SelectMany(ft => ft.FundingStreams)
-                .Where(fs => fs.PeriodCode == "ESF1420" && fs.DeliverableLineCode == 5).FirstOrDefault();
+                .Where(fs => fs.PeriodCode == "ESF1420" && fs.DeliverableLineCode == 1).FirstOrDefault();
 
             int ukprn = GetProviders().First();
 
@@ -77,18 +78,18 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             var task = new SummarisationDeliverableProcess();
 
-            var result = task.Summarise(fundingStream,GetTestProvider(ukprn),allocation, GetCollectionPeriods());
+            var result = task.Summarise(fundingStream, GetTestProvider(ukprn), allocation, GetCollectionPeriods());
 
-            result.Count().Should().Be(67);
+            result.Count().Should().Be(12);
 
             foreach (var item in result)
             {
-                item.ActualValue.Should().Be(2 * periodValue);
+                item.ActualValue.Should().Be(100);
 
                 var fl = fundingStream.FundLines.FirstOrDefault();
 
                 if (fl.CalculateVolume == true)
-                    item.ActualVolume.Should().Be(2);
+                    item.ActualVolume.Should().Be(100);
                 else
 
                     item.ActualVolume.Should().Be(0);
@@ -99,7 +100,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
         public void Summarise_FundingStreams()
         {
             List<FundingStream> fundingStreams = GetFundingTypes()
-                                                .Where(w => w.SummarisationType == "ESF_SuppData")
+                                                .Where(w => w.SummarisationType == "ESF_ILRData")
                                                 .SelectMany(ft => ft.FundingStreams).ToList();
 
             int ukprn = GetProviders().First();
@@ -116,20 +117,20 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             var result = task.Summarise(fundingStreams, GetTestProvider(ukprn), allocation, GetCollectionPeriods());
 
-            result.Count(w => w.DeliverableCode == 5).Should().Be(67);
+            result.Count(w => w.DeliverableCode == 1).Should().Be(12);
 
-            result.Count(w => w.DeliverableCode == 6).Should().Be(67);
+            result.Count(w => w.DeliverableCode == 4).Should().Be(12);
 
-            result.Count(w => w.DeliverableCode == 7).Should().Be(67);
+            result.Count(w => w.DeliverableCode == 18).Should().Be(12);
 
             foreach (var item in result)
             {
-                item.ActualValue.Should().Be(2 * periodValue);
+                item.ActualValue.Should().Be(100);
 
                 var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.FundLines).FirstOrDefault();
 
                 if (fl.FirstOrDefault().CalculateVolume == true)
-                    item.ActualVolume.Should().Be(2);
+                    item.ActualVolume.Should().Be(100);
                 else
                     item.ActualVolume.Should().Be(0);
             }
@@ -139,7 +140,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
         public void Summarise_Allocations()
         {
             List<FundingStream> fundingStreams = GetFundingTypes()
-                                                .Where(w => w.SummarisationType == "ESF_SuppData")
+                                                .Where(w => w.SummarisationType == "ESF_ILRData")
                                                 .SelectMany(ft => ft.FundingStreams).ToList();
 
             int ukprn = GetProviders().First();
@@ -164,20 +165,20 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             foreach (var allocation in fcsContractAllocations)
             {
-                result.Count(w => w.ContractAllocationNumber==allocation.ContractAllocationNumber && w.DeliverableCode == 5).Should().Be(67);
+                result.Count(w => w.ContractAllocationNumber == allocation.ContractAllocationNumber && w.DeliverableCode == 1).Should().Be(12);
 
-                result.Count(w => w.ContractAllocationNumber == allocation.ContractAllocationNumber && w.DeliverableCode == 6).Should().Be(67);
+                result.Count(w => w.ContractAllocationNumber == allocation.ContractAllocationNumber && w.DeliverableCode == 4).Should().Be(12);
 
-                result.Count(w => w.ContractAllocationNumber == allocation.ContractAllocationNumber && w.DeliverableCode == 7).Should().Be(67);
+                result.Count(w => w.ContractAllocationNumber == allocation.ContractAllocationNumber && w.DeliverableCode == 18).Should().Be(12);
 
                 foreach (var item in result)
                 {
-                    item.ActualValue.Should().Be(2 * periodValue);
+                    item.ActualValue.Should().Be(100);
 
                     var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.FundLines).FirstOrDefault();
-                    
-                    if(fl.FirstOrDefault().CalculateVolume == true)
-                        item.ActualVolume.Should().Be(2);
+
+                    if (fl.FirstOrDefault().CalculateVolume == true)
+                        item.ActualVolume.Should().Be(100);
                     else
                         item.ActualVolume.Should().Be(0);
                 }
@@ -188,7 +189,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
         public void Summarise_Providers()
         {
             List<FundingStream> fundingStreams = GetFundingTypes()
-                                                .Where(w => w.SummarisationType == "ESF_SuppData")
+                                                .Where(w => w.SummarisationType == "ESF_ILRData")
                                                 .SelectMany(ft => ft.FundingStreams).ToList();
 
             foreach (var ukprn in GetProviders())
@@ -213,20 +214,20 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
                 foreach (var allocation in fcsContractAllocations)
                 {
-                    result.Count(w => w.ContractAllocationNumber == allocation.ContractAllocationNumber && w.DeliverableCode == 5).Should().Be(67);
+                    result.Count(w => w.ContractAllocationNumber == allocation.ContractAllocationNumber && w.DeliverableCode == 1).Should().Be(12);
 
-                    result.Count(w => w.ContractAllocationNumber == allocation.ContractAllocationNumber && w.DeliverableCode == 6).Should().Be(67);
+                    result.Count(w => w.ContractAllocationNumber == allocation.ContractAllocationNumber && w.DeliverableCode == 4).Should().Be(12);
 
-                    result.Count(w => w.ContractAllocationNumber == allocation.ContractAllocationNumber && w.DeliverableCode == 7).Should().Be(67);
+                    result.Count(w => w.ContractAllocationNumber == allocation.ContractAllocationNumber && w.DeliverableCode == 18).Should().Be(12);
 
                     foreach (var item in result)
                     {
-                        item.ActualValue.Should().Be(2 * periodValue);
+                        item.ActualValue.Should().Be(100);
 
                         var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.FundLines).FirstOrDefault();
 
                         if (fl.FirstOrDefault().CalculateVolume == true)
-                            item.ActualVolume.Should().Be(2);
+                            item.ActualVolume.Should().Be(100);
                         else
                             item.ActualVolume.Should().Be(0);
                     }
@@ -278,13 +279,17 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             foreach (var deliverableCode in deliverableCodes)
             {
-                PeriodisedData periodisedData = new PeriodisedData()
+                foreach (var attribute in attributes)
                 {
-                    DeliverableCode = deliverableCode,
-                    Periods = GetPeriodsData(2)
-                };
+                     PeriodisedData periodisedData = new PeriodisedData()
+                        {
+                            AttributeName = attribute,
+                            DeliverableCode = deliverableCode,
+                            Periods = GetPeriodsData(2)
+                        };
 
-                periodisedDatas.Add(periodisedData);
+                    periodisedDatas.Add(periodisedData);
+                }
             }
 
             return periodisedDatas;
@@ -299,15 +304,14 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                 {
                     Period period = new Period()
                     {
-                        //PeriodId = collectionPeriod.Period,
-                        CalendarMonth = collectionPeriod.CalendarMonth,
-                        CalendarYear = collectionPeriod.CalendarYear,
+                        PeriodId = collectionPeriod.CollectionMonth,
+                        CollectionYear = collectionPeriod.CollectionYear,
                         Value = periodValue,
-                        Volume = 1
+                        Volume = periodVolume
                     };
                     periods.Add(period);
                 }
-                
+
             }
 
             return periods;
@@ -324,7 +328,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
         {
             var collectionPeriodsProvider = new CollectionPeriodsProvider(new JsonSerializationService());
 
-            return collectionPeriodsProvider.Provide().ToList();
+            return collectionPeriodsProvider.Provide().Where(w => w.CollectionYear == 1819).ToList();
         }
 
         private HashSet<int> GetProviders()
@@ -334,43 +338,11 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
         private HashSet<string> GetAllDeliverableCodes()
         {
-            return new HashSet<string> { "AC01",
-                                        "CG01",
-                                        "CG02",
-                                        "FS01",
-                                        "NR01",
-                                        "PG01",
-                                        "PG02",
-                                        "PG03",
-                                        "PG04",
-                                        "PG05",
-                                        "PG06",
-                                        "RQ01",
-                                        "SD01",
-                                        "SD02",
-                                        "SD03",
-                                        "SD04",
-                                        "SD05",
-                                        "SD06",
-                                        "SD07",
-                                        "SD08",
-                                        "SD09",
-                                        "SD10",
+            return new HashSet<string> { 
                                         "ST01",
-                                        "SU01",
-                                        "SU02",
-                                        "SU03",
-                                        "SU04",
-                                        "SU05",
-                                        "SU11",
-                                        "SU12",
-                                        "SU13",
-                                        "SU14",
-                                        "SU15",
-                                        "SU21",
-                                        "SU22",
-                                        "SU23",
-                                        "SU24"
+                                        "FS01",
+                                        "PG01"
+                                        
             };
         }
 
@@ -379,10 +351,11 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             return new HashSet<string> { "StartEarnings",
                                     "AchievementEarnings",
                                     "AdditionalProgCostEarnings",
-                                    "ProgressionEarnings"
+                                    "ProgressionEarnings",
+                                    "DeliverableVolume"
             };
         }
 
-        
+
     }
 }

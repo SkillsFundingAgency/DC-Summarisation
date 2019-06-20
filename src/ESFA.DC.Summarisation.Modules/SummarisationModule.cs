@@ -68,6 +68,7 @@ namespace ESFA.DC.Summarisation.Modules
 
             containerBuilder.RegisterType<ESFProvider_R1>().As<ILearningDeliveryProvider>();
             containerBuilder.RegisterType<ESFProvider_R2>().As<ILearningDeliveryProvider>();
+            containerBuilder.RegisterType<ESFILRProvider>().As<ILearningDeliveryProvider>();
 
             containerBuilder.RegisterType<ProviderRepository>().As<IProviderRepository>();
 
