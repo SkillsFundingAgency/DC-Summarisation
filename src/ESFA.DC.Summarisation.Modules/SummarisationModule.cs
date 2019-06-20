@@ -121,13 +121,15 @@ namespace ESFA.DC.Summarisation.Modules
                 return new ESFR2Context(options);
             }).As<IESFR2Context>().InstancePerDependency();
 
+            containerBuilder.RegisterType<SummarisationContext>().As<ISummarisationContext>();
             containerBuilder.Register(c =>
             {
                 DbContextOptions<SummarisationContext> options = new DbContextOptionsBuilder<SummarisationContext>()
                 .UseSqlServer(c.Resolve<ISummarisationDataOptions>().SummarisedActualsConnectionString).Options;
                 return new SummarisationContext(options);
-            }).As<ISummarisationContext>().As<SummarisationContext>()
-            .InstancePerDependency();
+            })
+            .As<DbContextOptions<SummarisationContext>>()
+            .SingleInstance();
         }
     }
 }
