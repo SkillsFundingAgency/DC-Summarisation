@@ -68,6 +68,7 @@ namespace ESFA.DC.Summarisation.Modules
 
             containerBuilder.RegisterType<ESFProvider_R1>().As<ILearningDeliveryProvider>();
             containerBuilder.RegisterType<ESFProvider_R2>().As<ILearningDeliveryProvider>();
+            containerBuilder.RegisterType<ESFILRProvider>().As<ILearningDeliveryProvider>();
 
             containerBuilder.RegisterType<ProviderRepository>().As<IProviderRepository>();
 
@@ -120,13 +121,15 @@ namespace ESFA.DC.Summarisation.Modules
                 return new ESFR2Context(options);
             }).As<IESFR2Context>().InstancePerDependency();
 
+            containerBuilder.RegisterType<SummarisationContext>().As<ISummarisationContext>().ExternallyOwned();
             containerBuilder.Register(c =>
             {
                 DbContextOptions<SummarisationContext> options = new DbContextOptionsBuilder<SummarisationContext>()
                 .UseSqlServer(c.Resolve<ISummarisationDataOptions>().SummarisedActualsConnectionString).Options;
                 return new SummarisationContext(options);
-            }).As<ISummarisationContext>().As<SummarisationContext>()
-            .InstancePerDependency();
+            })
+            .As<DbContextOptions<SummarisationContext>>()
+            .SingleInstance();
         }
     }
 }

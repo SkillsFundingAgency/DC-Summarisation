@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
@@ -74,7 +75,7 @@ namespace ESFA.DC.Summarisation.Console
 
             IFcsRepository fcsRepository = new FcsRepository(fcsContext);
 
-            ISummarisedActualsProcessRepository saRepository = new SummarisedActualsProcessRepository(saContext);
+            ISummarisedActualsProcessRepository saRepository = new SummarisedActualsProcessRepository(() => saContext);
 
             IJsonSerializationService jsonSerializationService = new JsonSerializationService();
 
@@ -99,7 +100,8 @@ namespace ESFA.DC.Summarisation.Console
                 new TblProvider(ilrContext),
 
                 new ESFProvider_R1(esfContext),
-                new ESFProvider_R2(esfR2Context)
+                new ESFProvider_R2(esfR2Context),
+                new ESFILRProvider(() => saContext)
             });
 
             List<ISummarisationService> summarisationServices = new List<ISummarisationService>()
@@ -118,9 +120,13 @@ namespace ESFA.DC.Summarisation.Console
 
             ILogger logger = new LoggerStub();
 
-            ISummarisationContext summarisationMessage = new SummarisationContextStub();
+            ISummarisationContext summarisationMessage;
 
-            SummarisationWrapper wrapper = new SummarisationWrapper(
+            SummarisationWrapper wrapper;
+
+            summarisationMessage = new SummarisationContextStub();
+
+            wrapper = new SummarisationWrapper(
                 fcsRepository,
                 saRepository,
                 fundingTypesProviders,

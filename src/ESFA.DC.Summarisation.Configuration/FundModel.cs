@@ -7,6 +7,8 @@
         ALB,
         TBL,
         EAS,
-        Supp
+        Supp,
+        ILR,
+        ILRSupp
     }
 }

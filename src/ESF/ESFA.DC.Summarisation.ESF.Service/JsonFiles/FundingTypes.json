@@ -161,10 +161,11 @@
     ]
   },
   {
-    "SummarisationType": "ESF_ILR_Value_Volume",
+    "SummarisationType": "ESF_ILRData",
     "FundingStreams": [
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILR",
         "DeliverableLineCode": 1,
         "FundLines": [
           {
@@ -174,7 +175,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "DeliverableVolume"
             ],
             "CalculateVolume": true
           }
@@ -182,6 +184,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILR",
         "DeliverableLineCode": 4,
         "FundLines": [
           {
@@ -191,7 +194,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "DeliverableVolume"
             ],
             "CalculateVolume": true
           }
@@ -199,6 +203,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILR",
         "DeliverableLineCode": 18,
         "FundLines": [
           {
@@ -208,7 +213,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "DeliverableVolume"
             ],
             "CalculateVolume": true
           }
@@ -216,6 +222,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILR",
         "DeliverableLineCode": 19,
         "FundLines": [
           {
@@ -225,7 +232,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "DeliverableVolume"
             ],
             "CalculateVolume": true
           }
@@ -233,6 +241,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILR",
         "DeliverableLineCode": 20,
         "FundLines": [
           {
@@ -242,7 +251,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "DeliverableVolume"
             ],
             "CalculateVolume": true
           }
@@ -250,6 +260,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILR",
         "DeliverableLineCode": 21,
         "FundLines": [
           {
@@ -259,7 +270,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "DeliverableVolume"
             ],
             "CalculateVolume": true
           }
@@ -267,6 +279,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILR",
         "DeliverableLineCode": 22,
         "FundLines": [
           {
@@ -276,7 +289,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "DeliverableVolume"
             ],
             "CalculateVolume": true
           }
@@ -284,6 +298,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILR",
         "DeliverableLineCode": 23,
         "FundLines": [
           {
@@ -293,7 +308,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "DeliverableVolume"
             ],
             "CalculateVolume": true
           }
@@ -301,6 +317,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILR",
         "DeliverableLineCode": 24,
         "FundLines": [
           {
@@ -310,7 +327,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "DeliverableVolume"
             ],
             "CalculateVolume": true
           }
@@ -318,6 +336,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILR",
         "DeliverableLineCode": 25,
         "FundLines": [
           {
@@ -327,7 +346,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "DeliverableVolume"
             ],
             "CalculateVolume": true
           }
@@ -335,6 +355,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILR",
         "DeliverableLineCode": 26,
         "FundLines": [
           {
@@ -344,7 +365,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "DeliverableVolume"
             ],
             "CalculateVolume": true
           }
@@ -352,6 +374,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILR",
         "DeliverableLineCode": 27,
         "FundLines": [
           {
@@ -361,7 +384,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "DeliverableVolume"
             ],
             "CalculateVolume": true
           }
@@ -369,6 +393,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILR",
         "DeliverableLineCode": 28,
         "FundLines": [
           {
@@ -378,7 +403,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "DeliverableVolume"
             ],
             "CalculateVolume": true
           }
@@ -386,6 +412,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILR",
         "DeliverableLineCode": 29,
         "FundLines": [
           {
@@ -395,7 +422,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "DeliverableVolume"
             ],
             "CalculateVolume": true
           }
@@ -403,6 +431,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILR",
         "DeliverableLineCode": 30,
         "FundLines": [
           {
@@ -412,7 +441,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "DeliverableVolume"
             ],
             "CalculateVolume": true
           }
@@ -420,6 +450,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILR",
         "DeliverableLineCode": 31,
         "FundLines": [
           {
@@ -429,7 +460,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "DeliverableVolume"
             ],
             "CalculateVolume": true
           }
@@ -437,6 +469,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILR",
         "DeliverableLineCode": 32,
         "FundLines": [
           {
@@ -446,7 +479,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "DeliverableVolume"
             ],
             "CalculateVolume": true
           }
@@ -454,6 +488,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILR",
         "DeliverableLineCode": 33,
         "FundLines": [
           {
@@ -463,7 +498,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "DeliverableVolume"
             ],
             "CalculateVolume": true
           }
@@ -471,6 +507,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILR",
         "DeliverableLineCode": 34,
         "FundLines": [
           {
@@ -480,7 +517,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "DeliverableVolume"
             ],
             "CalculateVolume": true
           }
@@ -488,6 +526,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILR",
         "DeliverableLineCode": 35,
         "FundLines": [
           {
@@ -497,7 +536,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "DeliverableVolume"
             ],
             "CalculateVolume": true
           }
@@ -505,6 +545,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILR",
         "DeliverableLineCode": 36,
         "FundLines": [
           {
@@ -514,7 +555,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "DeliverableVolume"
             ],
             "CalculateVolume": true
           }
@@ -522,6 +564,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILR",
         "DeliverableLineCode": 37,
         "FundLines": [
           {
@@ -531,7 +574,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "DeliverableVolume"
             ],
             "CalculateVolume": true
           }
@@ -540,10 +584,11 @@
     ]
   },
   {
-    "SummarisationType": "ESF_ILR_Supp_Value",
+    "SummarisationType": "ESF_ILR_And_Supp",
     "FundingStreams": [
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILRSupp",
         "DeliverableLineCode": 2,
         "FundLines": [
           {
@@ -561,6 +606,7 @@
       },
       {
         "PeriodCode": "ESF1420",
+        "FundModel": "ILRSupp",
         "DeliverableLineCode": 3,
         "FundLines": [
           {
