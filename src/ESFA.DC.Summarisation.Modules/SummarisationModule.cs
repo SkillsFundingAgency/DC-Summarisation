@@ -121,7 +121,7 @@ namespace ESFA.DC.Summarisation.Modules
                 return new ESFR2Context(options);
             }).As<IESFR2Context>().InstancePerDependency();
 
-            containerBuilder.RegisterType<SummarisationContext>().As<ISummarisationContext>();
+            containerBuilder.RegisterType<SummarisationContext>().As<ISummarisationContext>().ExternallyOwned();
             containerBuilder.Register(c =>
             {
                 DbContextOptions<SummarisationContext> options = new DbContextOptionsBuilder<SummarisationContext>()
