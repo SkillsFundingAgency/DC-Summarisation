@@ -25,8 +25,12 @@ namespace ESFA.DC.Summarisation.Apps1819.Data
 
         public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
         {
+            //TODO : CollectionYears and Collection Period should be derived from Message
+            List<int> CollectionYears = new List<int> { 1819 };
+            int CollectionPeriod = 1;
+
             return await _dasContext.Payments
-                             .Where(p => p.Ukprn == ukprn)
+                             .Where(p => p.Ukprn == ukprn && p.ContractType == 1 && CollectionYears.Contains(p.AcademicYear) && p.CollectionPeriod == CollectionPeriod )
                              .GroupBy(x => x.LearningAimFundingLineType)
                              .Select(ld => new LearningDelivery
                              {
@@ -51,7 +55,7 @@ namespace ESFA.DC.Summarisation.Apps1819.Data
 
         public async Task<IList<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
         {
-            return await _dasContext.Payments.Select(l => Convert.ToInt32(l.Ukprn)).Distinct().ToListAsync(cancellationToken);
+            return await _dasContext.Payments.Where(w => w.ContractType == 1).Select(l => Convert.ToInt32(l.Ukprn)).Distinct().ToListAsync(cancellationToken);
         }
 
     }

@@ -57,7 +57,7 @@ namespace ESFA.DC.Summarisation.Console
             string easConnectionString = @"Server=(local);Database=EAS1819;Trusted_Connection=True;";
             string esfConnectionString = @"Server=(local);Database=ESF;Trusted_Connection=True;";
 
-            string dasConnectionString = @"Server=(local);Database=DASPayments-DevCI;Trusted_Connection=True;";
+            string dasConnectionString = @"Server=(local);Database=DASPayments;Trusted_Connection=True;";
 
             DbContextOptions<FcsContext> fcsdbContextOptions = new DbContextOptionsBuilder<FcsContext>().UseSqlServer(fcsConnectionString).Options;
             DbContextOptions<ILR1819_DataStoreEntities> ilrdbContextOptions = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>().UseSqlServer(ilrConnectionString).Options;

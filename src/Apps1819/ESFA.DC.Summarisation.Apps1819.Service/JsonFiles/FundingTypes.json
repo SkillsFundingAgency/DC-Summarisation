@@ -3,12 +3,12 @@
     "SummarisationType": "Apps1819_Levy",
     "FundingStreams": [
       {
-        "PeriodCode": "Levy1799",
+        "PeriodCode": "LEVY1799",
         "FundModel": "Levy",
         "DeliverableLineCode": 2,
         "ApprenticeshipContractType": 1,
         "FundingSource": 1,
-        "TransactionTypes" : [1,2,3],
+        "TransactionTypes": [ 1, 2, 3 ],
         "FundLines": [
           {
             "Fundline": "16-18 Apprenticeship (From May 2017) Levy Contract"
@@ -16,7 +16,7 @@
         ]
       },
       {
-        "PeriodCode": "Levy1799",
+        "PeriodCode": "LEVY1799",
         "FundModel": "Levy",
         "DeliverableLineCode": 8,
         "ApprenticeshipContractType": 1,
@@ -27,7 +27,252 @@
             "Fundline": "19+ Apprenticeship (From May 2017) Levy Contract"
           }
         ]
+      },
+
+
+
+      {
+        "PeriodCode": "LEVY1799",
+        "FundModel": "Levy",
+        "DeliverableLineCode": 3,
+        "ApprenticeshipContractType": 1,
+        "FundingSource": 2,
+        "TransactionTypes": [ 1, 2, 3 ],
+        "FundLines": [
+          {
+            "Fundline": "16-18 Apprenticeship (From May 2017) Levy Contract"
+          },
+          {
+            "Fundline": "Audit Adjustments: 16-18 Levy Apprenticeships - Training",
+            "LineType": "EAS",
+            "UseAttributes": false
+          },
+          {
+            "Fundline": "Authorised Claims: 16-18 Levy Apprenticeships - Training",
+            "LineType": "EAS",
+            "UseAttributes": false
+          }
+        ]
+      },
+      {
+        "PeriodCode": "LEVY1799",
+        "FundModel": "Levy",
+        "DeliverableLineCode": 9,
+        "ApprenticeshipContractType": 1,
+        "FundingSource": 2,
+        "TransactionTypes": [ 1, 2, 3 ],
+        "FundLines": [
+          {
+            "Fundline": "19+ Apprenticeship (From May 2017) Levy Contract"
+          },
+          {
+            "Fundline": "Audit Adjustments: Adult Levy Apprenticeships - Training",
+            "LineType": "EAS",
+            "UseAttributes": false
+          },
+          {
+            "Fundline": "Authorised Claims: Adult Levy Apprenticeships - Training",
+            "LineType": "EAS",
+            "UseAttributes": false
+          }
+        ]
+      },
+
+
+
+      {
+        "PeriodCode": "LEVY1799",
+        "FundModel": "Levy",
+        "DeliverableLineCode": 4,
+        "ApprenticeshipContractType": 1,
+        "FundingSource": 4,
+        "TransactionTypes": [ 15 ],
+        "FundLines": [
+          {
+            "Fundline": "16-18 Apprenticeship (From May 2017) Levy Contract"
+          },
+          {
+            "Fundline": "Excess Learning Support: 16-18 Levy Apprenticeships - Provider",
+            "LineType": "EAS",
+            "UseAttributes": false
+          }
+        ]
+      },
+      {
+        "PeriodCode": "LEVY1799",
+        "FundModel": "Levy",
+        "DeliverableLineCode": 10,
+        "ApprenticeshipContractType": 1,
+        "FundingSource": 4,
+        "TransactionTypes": [ 15 ],
+        "FundLines": [
+          {
+            "Fundline": "19+ Apprenticeship (From May 2017) Levy Contract"
+          },
+          {
+            "Fundline": "Excess Learning Support: Adult Levy Apprenticeships - Provider",
+            "LineType": "EAS",
+            "UseAttributes": false
+          }
+        ]
+      },
+
+
+
+
+
+      {
+        "PeriodCode": "LEVY1799",
+        "FundModel": "Levy",
+        "DeliverableLineCode": 5,
+        "ApprenticeshipContractType": 1,
+        "FundingSource": 4,
+        "TransactionTypes": [ 5, 7, 8, 9, 10, 11, 12, 13, 14 ],
+        "FundLines": [
+          {
+            "Fundline": "16-18 Apprenticeship (From May 2017) Levy Contract"
+          },
+          {
+            "Fundline": "Audit Adjustments: 16-18 Levy Apprenticeships - Provider",
+            "LineType": "EAS",
+            "UseAttributes": false
+          },
+          {
+            "Fundline": "Authorised Claims: 16-18 Levy Apprenticeships - Provider",
+            "LineType": "EAS",
+            "UseAttributes": false
+          }
+        ]
+      },
+      {
+        "PeriodCode": "LEVY1799",
+        "FundModel": "Levy",
+        "DeliverableLineCode": 11,
+        "ApprenticeshipContractType": 1,
+        "FundingSource": 4,
+        "TransactionTypes": [ 5, 7, 8, 9, 10, 11, 12, 13, 14 ],
+        "FundLines": [
+          {
+            "Fundline": "19+ Apprenticeship (From May 2017) Levy Contract"
+          },
+          {
+            "Fundline": "Audit Adjustments: Adult Levy Apprenticeships - Provider",
+            "LineType": "EAS",
+            "UseAttributes": false
+          },
+          {
+            "Fundline": "Authorised Claims: Adult Levy Apprenticeships - Provider",
+            "LineType": "EAS",
+            "UseAttributes": false
+          }
+        ]
+      },
+
+
+
+
+
+
+      {
+        "PeriodCode": "LEVY1799",
+        "FundModel": "Levy",
+        "DeliverableLineCode": 6,
+        "ApprenticeshipContractType": 1,
+        "FundingSource": 4,
+        "TransactionTypes": [ 4, 6 ],
+        "FundLines": [
+          {
+            "Fundline": "16-18 Apprenticeship (From May 2017) Levy Contract"
+          },
+          {
+            "Fundline": "Audit Adjustments: 16-18 Levy Apprenticeships - Employer",
+            "LineType": "EAS",
+            "UseAttributes": false
+          },
+          {
+            "Fundline": "Authorised Claims: 16-18 Levy Apprenticeships - Employer",
+            "LineType": "EAS",
+            "UseAttributes": false
+          }
+        ]
+      },
+      {
+        "PeriodCode": "LEVY1799",
+        "FundModel": "Levy",
+        "DeliverableLineCode": 12,
+        "ApprenticeshipContractType": 1,
+        "FundingSource": 4,
+        "TransactionTypes": [ 4, 6 ],
+        "FundLines": [
+          {
+            "Fundline": "19+ Apprenticeship (From May 2017) Levy Contract"
+          },
+          {
+            "Fundline": "Audit Adjustments: Adult Levy Apprenticeships - Employer",
+            "LineType": "EAS",
+            "UseAttributes": false
+          },
+          {
+            "Fundline": "Authorised Claims: Adult Levy Apprenticeships - Employer",
+            "LineType": "EAS",
+            "UseAttributes": false
+          }
+        ]
+      },
+
+
+
+
+
+      {
+        "PeriodCode": "LEVY1799",
+        "FundModel": "Levy",
+        "DeliverableLineCode": 13,
+        "ApprenticeshipContractType": 1,
+        "FundingSource": 4,
+        "TransactionTypes": [ 16 ],
+        "FundLines": [
+          {
+            "Fundline": "16-18 Apprenticeship (From May 2017) Levy Contract"
+          },
+          {
+            "Fundline": "Audit Adjustments: 16-18 Levy Apprenticeships - Apprentice",
+            "LineType": "EAS",
+            "UseAttributes": false
+          },
+          {
+            "Fundline": "Authorised Claims: 16-18 Levy Apprenticeships - Apprentice",
+            "LineType": "EAS",
+            "UseAttributes": false
+          }
+        ]
+      },
+      {
+        "PeriodCode": "LEVY1799",
+        "FundModel": "Levy",
+        "DeliverableLineCode": 14,
+        "ApprenticeshipContractType": 1,
+        "FundingSource": 4,
+        "TransactionTypes": [ 16 ],
+        "FundLines": [
+          {
+            "Fundline": "19+ Apprenticeship (From May 2017) Levy Contract"
+          },
+          {
+            "Fundline": "Audit Adjustments: Adult Levy Apprenticeships - Apprentice",
+            "LineType": "EAS",
+            "UseAttributes": false
+          },
+          {
+            "Fundline": "Authorised Claims: Adult Levy Apprenticeships - Apprentice",
+            "LineType": "EAS",
+            "UseAttributes": false
+          }
+        ]
       }
+
+
+
     ]
   }
 ]
