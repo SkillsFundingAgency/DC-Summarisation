@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace ESFA.DC.ReferenceData.EF.Console.DesignTime
+namespace ESFA.DC.EF.Console.DesignTime
 {
     /// <summary>
     /// https://stackoverflow.com/questions/39281647/entityframework-core-database-first-approach-pluralizing-table-names/47410837#47410837
@@ -19,6 +19,7 @@ namespace ESFA.DC.ReferenceData.EF.Console.DesignTime
             AddPlural("(ax|test)is$", "$1es");
             AddPlural("(octop|vir|alumn|fung)us$", "$1i");
             AddPlural("(alias|status)$", "$1es");
+
             AddPlural("(bu)s$", "$1ses");
             AddPlural("(buffal|tomat|volcan)o$", "$1oes");
             AddPlural("([ti])um$", "$1a");
@@ -34,7 +35,7 @@ namespace ESFA.DC.ReferenceData.EF.Console.DesignTime
 
             AddSingular("s$", "");
             AddSingular("(n)ews$", "$1ews");
-            AddSingular("([ti])a$", "$1um");
+            //AddSingular("([ti])a$", "$1um");
             AddSingular("((a)naly|(b)a|(d)iagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)ses$", "$1$2sis");
             AddSingular("(^analy)ses$", "$1sis");
             AddSingular("([^f])ves$", "$1fe");

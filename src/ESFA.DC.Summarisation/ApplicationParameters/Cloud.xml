@@ -21,6 +21,7 @@
     <Parameter Name="EAS1819ConnectionString" Value="__EAS1819ConnectionStringRO__" />
     <Parameter Name="DataRetrievalMaxConcurrentCalls" Value="__DataRetrievalMaxConcurrentCalls__" />
     <Parameter Name="ESFNonEFConnectionString" Value="__ESFNonEFConnectionString__" />
+    <Parameter Name="ESFR2ConnectionString" Value="__ESF-R2ConnectionString__" />
     <Parameter Name="DASPaymentsConnectionString" Value="__DASPaymentsConnectionStringRO__" />
   </Parameters>
 </Application>

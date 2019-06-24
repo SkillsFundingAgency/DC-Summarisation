@@ -20,6 +20,7 @@
     <Parameter Name="SummarisedActualsConnectionString" DefaultValue="" />
     <Parameter Name="EAS1819ConnectionString" DefaultValue="" />
     <Parameter Name="ESFNonEFConnectionString" DefaultValue="" />
+    <Parameter Name="ESFR2ConnectionString" DefaultValue="" />
     <Parameter Name="DASPaymentsConnectionString" DefaultValue="" />
     <Parameter Name="DataRetrievalMaxConcurrentCalls" DefaultValue="" />
   </Parameters>
@@ -49,6 +50,7 @@
             <Parameter Name="SummarisedActualsConnectionString" Value="[SummarisedActualsConnectionString]" />
             <Parameter Name="EAS1819ConnectionString" Value="[EAS1819ConnectionString]" />
             <Parameter Name="ESFNonEFConnectionString" Value="[ESFNonEFConnectionString]" />
+            <Parameter Name="ESFR2ConnectionString" Value="[ESFR2ConnectionString]" />
             <Parameter Name="DASPaymentsConnectionString" Value="[DASPaymentsConnectionString]" />
             <Parameter Name="DataRetrievalMaxConcurrentCalls" Value="[DataRetrievalMaxConcurrentCalls]" />
           </Section>

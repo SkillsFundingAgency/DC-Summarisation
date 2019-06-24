@@ -8,5 +8,7 @@ namespace ESFA.DC.Summarisation.Model
         IQueryable<SummarisedActual> ISummarisationContext.SummarisedActuals => SummarisedActuals;
 
         IQueryable<CollectionReturn> ISummarisationContext.CollectionReturns => CollectionReturns;
+
+        IQueryable<ESF_FundingData> ISummarisationContext.ESF_FundingDatas => ESF_FundingDatas;
     }
 }

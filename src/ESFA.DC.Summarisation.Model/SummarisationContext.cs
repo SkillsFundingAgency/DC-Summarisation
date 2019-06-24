@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace ESFA.DC.Summarisation.Model
 {
@@ -14,7 +16,7 @@ namespace ESFA.DC.Summarisation.Model
         }
 
         public virtual DbSet<CollectionReturn> CollectionReturns { get; set; }
-
+        public virtual DbSet<ESF_FundingData> ESF_FundingDatas { get; set; }
         public virtual DbSet<SummarisedActual> SummarisedActuals { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -28,7 +30,7 @@ namespace ESFA.DC.Summarisation.Model
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("ProductVersion", "2.2.2-servicing-10034");
+            modelBuilder.HasAnnotation("ProductVersion", "2.2.3-servicing-35854");
 
             modelBuilder.Entity<CollectionReturn>(entity =>
             {
@@ -45,10 +47,52 @@ namespace ESFA.DC.Summarisation.Model
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<ESF_FundingData>(entity =>
+            {
+                entity.HasKey(e => new { e.UKPRN, e.ConRefNumber, e.DeliverableCode, e.AttributeName, e.CollectionYear, e.CollectionPeriod })
+                    .HasName("PK__ESF_Fund__F8AAD8A3CA4209F0");
+
+                entity.ToTable("ESF_FundingData");
+
+                entity.Property(e => e.ConRefNumber)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DeliverableCode)
+                    .HasMaxLength(5)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.AttributeName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Period_1).HasColumnType("decimal(15, 5)");
+
+                entity.Property(e => e.Period_10).HasColumnType("decimal(15, 5)");
+
+                entity.Property(e => e.Period_11).HasColumnType("decimal(15, 5)");
+
+                entity.Property(e => e.Period_12).HasColumnType("decimal(15, 5)");
+
+                entity.Property(e => e.Period_2).HasColumnType("decimal(15, 5)");
+
+                entity.Property(e => e.Period_3).HasColumnType("decimal(15, 5)");
+
+                entity.Property(e => e.Period_4).HasColumnType("decimal(15, 5)");
+
+                entity.Property(e => e.Period_5).HasColumnType("decimal(15, 5)");
+
+                entity.Property(e => e.Period_6).HasColumnType("decimal(15, 5)");
+
+                entity.Property(e => e.Period_7).HasColumnType("decimal(15, 5)");
+
+                entity.Property(e => e.Period_8).HasColumnType("decimal(15, 5)");
+
+                entity.Property(e => e.Period_9).HasColumnType("decimal(15, 5)");
+            });
+
             modelBuilder.Entity<SummarisedActual>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
-
                 entity.Property(e => e.ActualValue).HasColumnType("decimal(13, 2)");
 
                 entity.Property(e => e.ContractAllocationNumber)
@@ -70,8 +114,7 @@ namespace ESFA.DC.Summarisation.Model
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
-                entity.Property(e => e.UoPcode)
-                    .HasColumnName("UoPCode")
+                entity.Property(e => e.UoPCode)
                     .HasMaxLength(20)
                     .IsUnicode(false);
 

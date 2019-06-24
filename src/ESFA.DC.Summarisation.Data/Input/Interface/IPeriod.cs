@@ -8,8 +8,13 @@
 
         int CalendarYear { get; }
 
+        int CollectionMonth { get; }
+
+        int CollectionYear { get; }
+
         decimal? Value { get; }
 
         int? Volume { get; }
+
     }
 }

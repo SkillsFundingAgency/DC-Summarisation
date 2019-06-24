@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,6 +10,8 @@ using ESFA.DC.EAS1819.EF;
 using ESFA.DC.EAS1819.EF.Interface;
 using ESFA.DC.ESF.Database.EF;
 using ESFA.DC.ESF.Database.EF.Interfaces;
+using ESFA.DC.ESF.R2.Database.EF;
+using ESFA.DC.ESF.R2.Database.EF.Interfaces;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interface;
 using ESFA.DC.Logging.Interfaces;
@@ -56,6 +59,7 @@ namespace ESFA.DC.Summarisation.Console
             string summarisedActualsConnectionString = @"Server=(local);Database=SummarisedActuals;Trusted_Connection=True;";
             string easConnectionString = @"Server=(local);Database=EAS1819;Trusted_Connection=True;";
             string esfConnectionString = @"Server=(local);Database=ESF;Trusted_Connection=True;";
+            string esfR2ConnectionString = @"Server=(local);Database=ESF-R2;Trusted_Connection=True;";
 
             string dasConnectionString = @"Server=(local);Database=DASPayments;Trusted_Connection=True;";
 
@@ -65,6 +69,7 @@ namespace ESFA.DC.Summarisation.Console
             DbContextOptions<SummarisationContext> sadbContextOptions = new DbContextOptionsBuilder<SummarisationContext>().UseSqlServer(summarisedActualsConnectionString).Options;
 
             DbContextOptions<ESF_DataStoreEntities> esfdbContextOptions = new DbContextOptionsBuilder<ESF_DataStoreEntities>().UseSqlServer(esfConnectionString).Options;
+            DbContextOptions<ESFR2Context> esfR2dbContextOptions = new DbContextOptionsBuilder<ESFR2Context>().UseSqlServer(esfR2ConnectionString).Options;
 
             DbContextOptions<DASPaymentsContext> dasdbContextOptions = new DbContextOptionsBuilder<DASPaymentsContext>().UseSqlServer(dasConnectionString).Options;
 
@@ -73,12 +78,13 @@ namespace ESFA.DC.Summarisation.Console
             IEasdbContext easContext = new EasContext(easdbContextOptions);
             SummarisationContext saContext = new SummarisationContext(sadbContextOptions);
             IESF_DataStoreEntities esfContext = new ESF_DataStoreEntities(esfdbContextOptions);
+            IESFR2Context esfR2Context = new ESFR2Context(esfR2dbContextOptions);
 
             IDASPaymentsContext dasContext = new DASPaymentsContext(dasdbContextOptions);
 
             IFcsRepository fcsRepository = new FcsRepository(fcsContext);
 
-            ISummarisedActualsProcessRepository saRepository = new SummarisedActualsProcessRepository(saContext);
+            ISummarisedActualsProcessRepository saRepository = new SummarisedActualsProcessRepository(() => saContext);
 
             IJsonSerializationService jsonSerializationService = new JsonSerializationService();
 
@@ -105,8 +111,10 @@ namespace ESFA.DC.Summarisation.Console
                 new TblProvider(ilrContext),
 
                 new ESFProvider_R1(esfContext),
+                new ESFProvider_R2(esfR2Context),
+                new ESFILRProvider(() => saContext),
 
-                new LevyProvider(dasContext)
+                 new LevyProvider(dasContext)
             });
 
             List<ISummarisationService> summarisationServices = new List<ISummarisationService>()
@@ -129,35 +137,20 @@ namespace ESFA.DC.Summarisation.Console
 
             SummarisationWrapper wrapper;
 
-            //summarisationMessage = new SummarisationContextStub();
+            summarisationMessage = new SummarisationContextStub();
 
-            //wrapper = new SummarisationWrapper(
-            //    fcsRepository,
-            //    saRepository,
-            //    fundingTypesProviders,
-            //    collectionPeriodsProviders,
-            //    summarisationServices,
-            //    dataStorePersistenceService,
-            //    () => repository,
-            //    new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
-            //    logger);
+            wrapper = new SummarisationWrapper(
+                fcsRepository,
+                saRepository,
+                fundingTypesProviders,
+                collectionPeriodsProviders,
+                summarisationServices,
+                dataStorePersistenceService,
+                () => repository,
+                new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
+                logger);
 
-            //await wrapper.Summarise(summarisationMessage, CancellationToken.None);
-
-            //summarisationMessage = new ESFSummarisationContextStub();
-
-            //wrapper = new SummarisationWrapper(
-            //    fcsRepository,
-            //    saRepository,
-            //    fundingTypesProviders,
-            //    collectionPeriodsProviders,
-            //    summarisationServices,
-            //    dataStorePersistenceService,
-            //    () => repository,
-            //    new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
-            //    logger);
-
-            //await wrapper.Summarise(summarisationMessage, CancellationToken.None);
+            await wrapper.Summarise(summarisationMessage, CancellationToken.None);
 
             summarisationMessage = new AppsSummarisationContextStub();
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ESFA.DC.Summarisation.Model
 {
@@ -10,9 +11,7 @@ namespace ESFA.DC.Summarisation.Model
         }
 
         public int Id { get; set; }
-
         public string CollectionType { get; set; }
-
         public string CollectionReturnCode { get; set; }
 
         public virtual ICollection<SummarisedActual> SummarisedActuals { get; set; }

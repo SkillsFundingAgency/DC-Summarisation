@@ -11,7 +11,7 @@ namespace ESFA.DC.Summarisation.Console.Stubs
 
         public string CollectionReturnCode => "ESF01";
 
-        public IEnumerable<string> SummarisationTypes => new List<string> { "ESF_SuppData" };
+        public IEnumerable<string> SummarisationTypes => new List<string> { "ESF_SuppData", "ESF_ILRData" };
 
         public string Ukprn => string.Empty;
     }

@@ -7,6 +7,8 @@ using ESFA.DC.EAS1819.EF;
 using ESFA.DC.EAS1819.EF.Interface;
 using ESFA.DC.ESF.Database.EF;
 using ESFA.DC.ESF.Database.EF.Interfaces;
+using ESFA.DC.ESF.R2.Database.EF;
+using ESFA.DC.ESF.R2.Database.EF.Interfaces;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interface;
 using ESFA.DC.ReferenceData.FCS.Model;
@@ -70,6 +72,8 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<EasProvider>().As<ILearningDeliveryProvider>();
 
             containerBuilder.RegisterType<ESFProvider_R1>().As<ILearningDeliveryProvider>();
+            containerBuilder.RegisterType<ESFProvider_R2>().As<ILearningDeliveryProvider>();
+            containerBuilder.RegisterType<ESFILRProvider>().As<ILearningDeliveryProvider>();
 
             containerBuilder.RegisterType<LevyProvider>().As<ILearningDeliveryProvider>();
 
@@ -119,6 +123,14 @@ namespace ESFA.DC.Summarisation.Modules
 
             containerBuilder.Register(c =>
             {
+                DbContextOptions<ESFR2Context> options = new DbContextOptionsBuilder<ESFR2Context>()
+                .UseSqlServer(c.Resolve<ISummarisationDataOptions>().ESFR2ConnectionString).Options;
+                return new ESFR2Context(options);
+            }).As<IESFR2Context>().InstancePerDependency();
+
+            containerBuilder.RegisterType<SummarisationContext>().As<ISummarisationContext>().ExternallyOwned();
+            containerBuilder.Register(c =>
+            {
                 DbContextOptions<DASPaymentsContext> options = new DbContextOptionsBuilder<DASPaymentsContext>()
                 .UseSqlServer(c.Resolve<ISummarisationDataOptions>().DASPaymentsConnectionString).Options;
                 return new DASPaymentsContext(options);
@@ -129,8 +141,9 @@ namespace ESFA.DC.Summarisation.Modules
                 DbContextOptions<SummarisationContext> options = new DbContextOptionsBuilder<SummarisationContext>()
                 .UseSqlServer(c.Resolve<ISummarisationDataOptions>().SummarisedActualsConnectionString).Options;
                 return new SummarisationContext(options);
-            }).As<ISummarisationContext>().As<SummarisationContext>()
-            .InstancePerDependency();
+            })
+            .As<DbContextOptions<SummarisationContext>>()
+            .SingleInstance();
         }
     }
 }

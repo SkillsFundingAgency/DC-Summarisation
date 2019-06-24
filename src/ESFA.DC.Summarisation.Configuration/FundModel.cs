@@ -8,6 +8,8 @@
         TBL,
         EAS,
         Supp,
+        ILR,
+        ILRSupp,
         Levy
     }
 }
