@@ -67,7 +67,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var collectionPeriods = collectionPeriodsProvider[0].Provide().ToList();
 
-            var summarisationContextMock = new Mock<ISummarisationContext>();
+            var summarisationContextMock = new Mock<ISummarisationMessage>();
 
             summarisationContextMock.SetupGet(s => s.CollectionType).Returns(collectionType);
             summarisationContextMock.SetupGet(s => s.CollectionReturnCode).Returns(collectionReturnCode);
@@ -162,7 +162,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var collectionPeriods = collectionPeriodsProvider[0].Provide().ToList();
 
-            var summarisationContextMock = new Mock<ISummarisationContext>();
+            var summarisationContextMock = new Mock<ISummarisationMessage>();
 
             summarisationContextMock.SetupGet(s => s.CollectionType).Returns(collectionType);
             summarisationContextMock.SetupGet(s => s.CollectionReturnCode).Returns(collectionReturnCode);

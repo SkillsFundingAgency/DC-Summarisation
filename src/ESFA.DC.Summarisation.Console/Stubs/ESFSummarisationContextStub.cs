@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ESFA.DC.Summarisation.Console.Stubs
 {
-    public class ESFSummarisationContextStub : ISummarisationContext
+    public class ESFSummarisationContextStub : ISummarisationMessage
     {
         public string ProcessType => "Deliverable";
 
@@ -14,5 +14,9 @@ namespace ESFA.DC.Summarisation.Console.Stubs
         public IEnumerable<string> SummarisationTypes => new List<string> { "ESF_SuppData", "ESF_ILRData" };
 
         public string Ukprn => string.Empty;
+
+        public int CollectionYear => 1819;
+
+        public int CollectionMonth => 1;
     }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ESFA.DC.Summarisation.Stateless.Context
 {
-    public class JobContextMessageSummarisationContext : ISummarisationContext
+    public class JobContextMessageSummarisationContext : ISummarisationMessage
     {
         private const string _collectionType = "CollectionType";
 
@@ -14,6 +14,10 @@ namespace ESFA.DC.Summarisation.Stateless.Context
         private const string _ukprn = "UkPrn";
 
         private const string _processType = "ProcessType";
+
+        private const string _collectionYear = "CollectionYear";
+
+        private const string _collectionMonth = "CollectionMonth";
 
         private readonly JobContextMessage _jobContextMessage;
 
@@ -48,6 +52,16 @@ namespace ESFA.DC.Summarisation.Stateless.Context
         public string ProcessType
         {
             get => _jobContextMessage.KeyValuePairs[_processType].ToString();
+        }
+
+        public int CollectionYear
+        {
+            get => int.Parse(_jobContextMessage.KeyValuePairs[_collectionYear].ToString());
+        }
+
+        public int CollectionMonth
+        {
+            get => int.Parse(_jobContextMessage.KeyValuePairs[_collectionMonth].ToString());
         }
     }
 }

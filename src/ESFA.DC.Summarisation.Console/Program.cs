@@ -133,11 +133,26 @@ namespace ESFA.DC.Summarisation.Console
 
             ILogger logger = new LoggerStub();
 
-            ISummarisationContext summarisationMessage;
+            ISummarisationMessage summarisationMessage;
 
             SummarisationWrapper wrapper;
 
             summarisationMessage = new SummarisationContextStub();
+
+            wrapper = new SummarisationWrapper(
+                fcsRepository,
+                saRepository,
+                fundingTypesProviders,
+                collectionPeriodsProviders,
+                summarisationServices,
+                dataStorePersistenceService,
+                () => repository,
+                new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
+                logger);
+
+            await wrapper.Summarise(summarisationMessage, CancellationToken.None);
+
+            summarisationMessage = new ESFSummarisationContextStub();
 
             wrapper = new SummarisationWrapper(
                 fcsRepository,
