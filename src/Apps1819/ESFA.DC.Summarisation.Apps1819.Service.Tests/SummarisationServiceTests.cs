@@ -35,47 +35,33 @@ namespace ESFA.DC.Summarisation.Apps1819.Service.Tests
             }
         }
 
-        //[Theory]
-        //[InlineData("16-18 Apprenticeship (From May 2017) Levy Contract", 2, 1 )]
-        //public void GetPeriodsForFundLine(string strFundLine, int deliverableLineCode,  int apprenticeshipContractType )
-        //{
-        //    var fundLine = GetFundingTypes()
-        //                          .SelectMany(ft => ft.FundingStreams)
-        //                          .Where(w => w.DeliverableLineCode == deliverableLineCode && w.ApprenticeshipContractType == apprenticeshipContractType)
-        //                          .SelectMany(fs => fs.FundLines)
-        //                          .Where(fl => fl.Fundline == strFundLine).First();
+        [Theory]
+        [InlineData("LEVY1799", 2)]
+        [InlineData("LEVY1799", 8)]
 
-        //    var task = new SummarisationFundlineProcess();
+        public void SummariseByFundingStream(string fspCode, int dlc)
+        {
+            var fungingTypes = GetFundingTypes();
 
-        //    var result = task.GetPeriodsForFundLine(GetPeriodisedData(5) , fundLine);
+            FundingStream fundingStream = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == fspCode && fs.DeliverableLineCode == dlc).First();
 
-        //    result.Count().Should().Be(300);
-        //}
+            int transactionTypeCount = 3;
 
+            var task = new SummarisationFundlineProcess();
 
-        //[Theory]
-        //[InlineData("LEVY1799", 2)]
-        
-        //public void SummariseByFundingStream(string fspCode, int dlc)
-        //{
-        //    var fungingTypes = GetFundingTypes();
+            var results = task.Summarise(fundingStream, GetTestProvider(1, 1, new List<int> { 1, 2, 3 }), GetContractAllocation(), GetCollectionPeriods()).OrderBy(x => x.Period).ToList();
 
-        //    FundingStream fundingStream = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == fspCode && fs.DeliverableLineCode == dlc).First();
+            results.Count().Should().Be(12);
 
-        //    int transactionTypeCount = 3;
+            int i = 1;
 
-        //    var task = new SummarisationFundlineProcess();
+            foreach (var item in results)
+            {
+                item.ActualValue.Should().Be(learningDeliveryRecords * transactionTypeCount * periodsToGenerate * amount * i);
 
-        //    var results = task.Summarise(fundingStream, GetTestProvider(1, 2, new List<int> { 1, 2, 3 }), GetContractAllocation(), GetCollectionPeriods()).OrderBy(x => x.Period).ToList();
-
-        //    results.Count().Should().Be(1);
-
-        //    foreach (var item in results)
-        //    {
-        //        item.ActualValue.Should().Be((learningDeliveryRecords * transactionTypeCount * periodsToGenerate * amount));
-
-        //    }
-        //}
+                i++;
+            }
+        }
 
         private Provider GetTestProvider(int apprenticeshipContratType, int fundingSource, IEnumerable<int> transactionTypes)
         {
@@ -171,16 +157,18 @@ namespace ESFA.DC.Summarisation.Apps1819.Service.Tests
 
         private List<FundLine> GetFundLines()
         {
+            //All Possible fundlines from the spec
+
             List<FundLine> fundLines = new List<FundLine>
             {
                 new FundLine { Fundline = "16-18 Apprenticeship (From May 2017) Levy Contract" , LineType = "ILR"  },
-            new FundLine { Fundline = "16-18 Apprenticeship (From May 2017) Non-Levy Contract (non-procured)", LineType = "ILR" },
-                new FundLine { Fundline = "16-18 Apprenticeship (From May 2017) Non-Levy Contract" , LineType = "ILR"  },
-                new FundLine { Fundline = "16-18 Apprenticeship Non-Levy Contract (procured)" , LineType = "ILR"  },
-                new FundLine { Fundline = "19+ Apprenticeship (From May 2017) Levy Contract" , LineType = "ILR"  },
-                new FundLine { Fundline = "19+ Apprenticeship (From May 2017) Non-Levy Contract (non-procured)" , LineType = "ILR"  },
-                new FundLine { Fundline = "19+ Apprenticeship (From May 2017) Non-Levy Contract" , LineType = "ILR"  },
-                new FundLine { Fundline = "19+ Apprenticeship Non-Levy Contract (procured)" , LineType = "ILR"  }
+                new FundLine { Fundline = "19+ Apprenticeship (From May 2017) Levy Contract" , LineType = "ILR"  }
+                //new FundLine { Fundline = "16-18 Apprenticeship (From May 2017) Non-Levy Contract (non-procured)", LineType = "ILR" }
+                //new FundLine { Fundline = "16-18 Apprenticeship (From May 2017) Non-Levy Contract" , LineType = "ILR"  },
+                //new FundLine { Fundline = "16-18 Apprenticeship Non-Levy Contract (procured)" , LineType = "ILR"  },
+                //new FundLine { Fundline = "19+ Apprenticeship (From May 2017) Non-Levy Contract (non-procured)" , LineType = "ILR"  },
+                //new FundLine { Fundline = "19+ Apprenticeship (From May 2017) Non-Levy Contract" , LineType = "ILR"  },
+                //new FundLine { Fundline = "19+ Apprenticeship Non-Levy Contract (procured)" , LineType = "ILR"  }
                 //new FundLine { Fundline = "Audit Adjustments: 16-18 Levy Apprenticeships - Apprentice" , LineType = "EAS"  },
                 //new FundLine { Fundline = "Audit Adjustments: 16-18 Levy Apprenticeships - Employer" , LineType = "EAS"  },
                 //new FundLine { Fundline = "Audit Adjustments: 16-18 Levy Apprenticeships - Provider" , LineType = "EAS"  },
