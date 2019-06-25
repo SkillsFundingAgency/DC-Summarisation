@@ -122,5 +122,7 @@ namespace ESFA.DC.Summarisation.Main1819.Data.Repository
                 .Select(l => l.UKPRN).Distinct()
                 .ToListAsync(cancellationToken);
         }
+
+        public Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken) => ProvideAsync(ukprn, cancellationToken);
     }
 }

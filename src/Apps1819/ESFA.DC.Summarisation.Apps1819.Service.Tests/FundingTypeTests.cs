@@ -9,7 +9,7 @@ namespace ESFA.DC.Summarisation.Apps1819.Service.Tests
         [Fact]
     public void FundingTypesCount()
     {
-        NewProvider().Provide().Should().HaveCount(1);
+        NewProvider().Provide().Should().HaveCount(2);
     }
 
     private FundingTypesProvider NewProvider()

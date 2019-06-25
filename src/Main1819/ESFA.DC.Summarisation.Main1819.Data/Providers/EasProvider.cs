@@ -53,6 +53,8 @@ namespace ESFA.DC.Summarisation.Main1819.Data.Providers
         {
             return await _easContext.EasSubmissions.Select(l => Convert.ToInt32(l.Ukprn)).Distinct().ToListAsync(cancellationToken);
         }
-       
+
+        public Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken) => ProvideAsync(ukprn, cancellationToken);
+
     }
 }

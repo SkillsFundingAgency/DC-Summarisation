@@ -10,6 +10,7 @@
         Supp,
         ILR,
         ILRSupp,
-        Levy
+        Levy,
+        NonLevy
     }
 }

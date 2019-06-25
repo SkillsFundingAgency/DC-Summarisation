@@ -114,7 +114,8 @@ namespace ESFA.DC.Summarisation.Console
                 new ESFProvider_R2(esfR2Context),
                 new ESFILRProvider(() => saContext),
 
-                 new LevyProvider(dasContext)
+                new LevyProvider(dasContext),
+                new NonLevyProvider(dasContext)
             });
 
             List<ISummarisationService> summarisationServices = new List<ISummarisationService>()

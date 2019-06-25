@@ -196,7 +196,7 @@ namespace ESFA.DC.Summarisation.Service
             var repo = _repositoryFactory.Invoke();
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving Data for UKPRN: {identifier} Start");
-            var providerData = await repo.ProvideAsync(identifier, _summarisationMessage.CollectionType, cancellationToken);
+            var providerData = await repo.ProvideAsync(identifier, _summarisationMessage, cancellationToken);
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving Data for UKPRN: {identifier} End");
 

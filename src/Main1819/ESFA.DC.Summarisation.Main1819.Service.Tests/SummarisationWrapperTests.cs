@@ -35,7 +35,14 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var repositoryMock = new Mock<IProviderRepository>();
 
-            repositoryMock.Setup(r => r.ProvideAsync(ukprn, collectionType, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProviderData(ukprn, lineType)));
+            var summarisationContextMock = new Mock<ISummarisationMessage>();
+
+            summarisationContextMock.SetupGet(s => s.CollectionType).Returns(collectionType);
+            summarisationContextMock.SetupGet(s => s.CollectionReturnCode).Returns(collectionReturnCode);
+            summarisationContextMock.SetupGet(s => s.SummarisationTypes).Returns(new List<string>() { summarisationType });
+            summarisationContextMock.SetupGet(s => s.ProcessType).Returns(processType);
+
+            repositoryMock.Setup(r => r.ProvideAsync(ukprn, summarisationContextMock.Object, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProviderData(ukprn, lineType)));
 
             repositoryMock.Setup(r => r.GetAllProviderIdentifiersAsync(collectionType, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetProviderList(ukprn)));
 
@@ -66,13 +73,6 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             var dataOptions = new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" };
 
             var collectionPeriods = collectionPeriodsProvider[0].Provide().ToList();
-
-            var summarisationContextMock = new Mock<ISummarisationMessage>();
-
-            summarisationContextMock.SetupGet(s => s.CollectionType).Returns(collectionType);
-            summarisationContextMock.SetupGet(s => s.CollectionReturnCode).Returns(collectionReturnCode);
-            summarisationContextMock.SetupGet(s => s.SummarisationTypes).Returns(new List<string>() { summarisationType });
-            summarisationContextMock.SetupGet(s => s.ProcessType).Returns(processType);
 
             List<ISummarisationService> summarisationServices = new List<ISummarisationService>()
             {
@@ -126,7 +126,14 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var repositoryMock = new Mock<IProviderRepository>();
 
-            repositoryMock.Setup(r => r.ProvideAsync(ukprn, collectionType, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProviderData(ukprn, lineType)));
+            var summarisationContextMock = new Mock<ISummarisationMessage>();
+
+            summarisationContextMock.SetupGet(s => s.CollectionType).Returns(collectionType);
+            summarisationContextMock.SetupGet(s => s.CollectionReturnCode).Returns(collectionReturnCode);
+            summarisationContextMock.SetupGet(s => s.SummarisationTypes).Returns(new List<string>() { summarisationType });
+            summarisationContextMock.SetupGet(s => s.ProcessType).Returns(processType);
+
+            repositoryMock.Setup(r => r.ProvideAsync(ukprn, summarisationContextMock.Object, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProviderData(ukprn, lineType)));
 
             repositoryMock.Setup(r => r.GetAllProviderIdentifiersAsync(collectionType, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetProviderList(ukprn)));
 
@@ -161,13 +168,6 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             var dataOptions = new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" };
 
             var collectionPeriods = collectionPeriodsProvider[0].Provide().ToList();
-
-            var summarisationContextMock = new Mock<ISummarisationMessage>();
-
-            summarisationContextMock.SetupGet(s => s.CollectionType).Returns(collectionType);
-            summarisationContextMock.SetupGet(s => s.CollectionReturnCode).Returns(collectionReturnCode);
-            summarisationContextMock.SetupGet(s => s.SummarisationTypes).Returns(new List<string>() { summarisationType });
-            summarisationContextMock.SetupGet(s => s.ProcessType).Returns(processType);
 
             List<ISummarisationService> summarisationServices = new List<ISummarisationService>()
             {

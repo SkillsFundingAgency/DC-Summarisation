@@ -274,5 +274,62 @@
 
 
     ]
+  },
+
+
+
+
+
+
+  {
+    "SummarisationType": "Apps1819_NonLevy",
+    "FundingStreams": [
+      {
+        "PeriodCode": "16-18NLAP2018",
+        "FundModel": "NonLevy",
+        "DeliverableLineCode": 5,
+        "ApprenticeshipContractType": 2,
+        "FundingSource": 4,
+        "TransactionTypes": [ 16 ],
+        "FundLines": [
+          {
+            "Fundline": "16-18 Apprenticeship Non-Levy Contract (procured)"
+          },
+          {
+            "Fundline": "Audit Adjustments: 16-18 Non-Levy Apprenticeships (procured) - Apprentice",
+            "LineType": "EAS"
+          },
+          {
+            "Fundline": "Authorised Claims: 16-18 Non-Levy Apprenticeships (procured) - Apprentice",
+            "LineType": "EAS"
+          }
+        ]
+      },
+      {
+        "PeriodCode": "ANLAP2018",
+        "FundModel": "NonLevy",
+        "DeliverableLineCode": 5,
+        "ApprenticeshipContractType": 2,
+        "FundingSource": 4,
+        "TransactionTypes": [ 16 ],
+        "FundLines": [
+          {
+            "Fundline": "19+ Apprenticeship Non-Levy Contract (procured)"
+          },
+          {
+            "Fundline": "Audit Adjustments: Adult Non-Levy Apprenticeships (procured) - Apprentice",
+            "LineType": "EAS"
+          },
+          {
+            "Fundline": "Authorised Claims: Adult Non-Levy Apprenticeships (procured) - Apprentice",
+            "LineType": "EAS"
+          }
+        ]
+      }
+
+
+
+
+    ]
   }
 ]

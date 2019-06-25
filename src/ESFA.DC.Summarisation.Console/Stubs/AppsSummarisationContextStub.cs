@@ -15,7 +15,7 @@ namespace ESFA.DC.Summarisation.Console.Stubs
 
         public string CollectionReturnCode => "R01";
 
-        public IEnumerable<string> SummarisationTypes => new List<string> { "Apps1819_Levy" };
+        public IEnumerable<string> SummarisationTypes => new List<string> { "Apps1819_Levy", "Apps1819_NonLevy" };
 
         public string Ukprn => string.Empty;
 
