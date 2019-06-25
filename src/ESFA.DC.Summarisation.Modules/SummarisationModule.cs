@@ -1,4 +1,6 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using Autofac;
 using ESF.DC.Summarisation.Main1819.Data.Providers;
 using ESFA.DC.DASPayments.EF;
@@ -136,11 +138,16 @@ namespace ESFA.DC.Summarisation.Modules
                 return new DASPaymentsContext(options);
             }).As<IDASPaymentsContext>().InstancePerDependency();
 
-            containerBuilder.Register(c =>
+            containerBuilder.RegisterType<SummarisationContext>().As<ISummarisationContext>().ExternallyOwned();
+            containerBuilder.Register(context =>
             {
-                DbContextOptions<SummarisationContext> options = new DbContextOptionsBuilder<SummarisationContext>()
-                .UseSqlServer(c.Resolve<ISummarisationDataOptions>().SummarisedActualsConnectionString).Options;
-                return new SummarisationContext(options);
+                var summarisationSettings = context.Resolve<ISummarisationDataOptions>();
+                var optionsBuilder = new DbContextOptionsBuilder<SummarisationContext>();
+                optionsBuilder.UseSqlServer(
+                    summarisationSettings.SummarisedActualsConnectionString,
+                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+
+                return optionsBuilder.Options;
             })
             .As<DbContextOptions<SummarisationContext>>()
             .SingleInstance();
