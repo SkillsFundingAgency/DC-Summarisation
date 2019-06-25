@@ -1,4 +1,6 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using Autofac;
 using ESF.DC.Summarisation.Main1819.Data.Providers;
 using ESFA.DC.EAS1819.EF;
@@ -122,11 +124,15 @@ namespace ESFA.DC.Summarisation.Modules
             }).As<IESFR2Context>().InstancePerDependency();
 
             containerBuilder.RegisterType<SummarisationContext>().As<ISummarisationContext>().ExternallyOwned();
-            containerBuilder.Register(c =>
+            containerBuilder.Register(context =>
             {
-                DbContextOptions<SummarisationContext> options = new DbContextOptionsBuilder<SummarisationContext>()
-                .UseSqlServer(c.Resolve<ISummarisationDataOptions>().SummarisedActualsConnectionString).Options;
-                return new SummarisationContext(options);
+                var summarisationSettings = context.Resolve<ISummarisationDataOptions>();
+                var optionsBuilder = new DbContextOptionsBuilder<SummarisationContext>();
+                optionsBuilder.UseSqlServer(
+                    summarisationSettings.SummarisedActualsConnectionString,
+                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+
+                return optionsBuilder.Options;
             })
             .As<DbContextOptions<SummarisationContext>>()
             .SingleInstance();
