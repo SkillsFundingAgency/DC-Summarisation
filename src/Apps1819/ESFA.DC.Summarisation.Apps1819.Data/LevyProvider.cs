@@ -12,20 +12,23 @@ namespace ESFA.DC.Summarisation.Apps1819.Data
 {
     public class LevyProvider : ILearningDeliveryProvider
     {
-        private readonly IDASPaymentsContext _dasContext;
+        private readonly Func<IDASPaymentsContext> _dasContext;
 
         public string SummarisationType => nameof(Configuration.Enum.SummarisationType.Apps1819_Levy);
 
         public string CollectionType => nameof(Configuration.Enum.CollectionType.Apps1819);
 
-        public LevyProvider(IDASPaymentsContext dasContext)
+        public LevyProvider(Func<IDASPaymentsContext> dasContext)
         {
             _dasContext = dasContext;
         }
 
         public async Task<IList<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
         {
-            return await _dasContext.Payments.Where(w => w.ContractType == 1).Select(l => Convert.ToInt32(l.Ukprn)).Distinct().ToListAsync(cancellationToken);
+            using (var contextFactory = _dasContext())
+            {
+                return await contextFactory.Payments.Where(w => w.ContractType == 1).Select(l => Convert.ToInt32(l.Ukprn)).Distinct().ToListAsync(cancellationToken);
+            }
         }
 
         public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
@@ -36,7 +39,10 @@ namespace ESFA.DC.Summarisation.Apps1819.Data
 
             int CollectionPeriod = summarisationMessage.CollectionMonth;
 
-            return await _dasContext.Payments
+            using (var contextFactory = _dasContext())
+            {
+
+                return await contextFactory.Payments
                              .Where(p => p.Ukprn == ukprn && p.ContractType == 1 && CollectionYears.Contains(p.AcademicYear) && p.CollectionPeriod == CollectionPeriod)
                              .GroupBy(x => x.LearningAimFundingLineType)
                              .Select(ld => new LearningDelivery
@@ -57,6 +63,7 @@ namespace ESFA.DC.Summarisation.Apps1819.Data
                                      }
                                  }).ToList()
                              }).ToListAsync(cancellationToken);
+            }
         }
 
         public Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)

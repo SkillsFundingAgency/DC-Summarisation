@@ -130,13 +130,19 @@ namespace ESFA.DC.Summarisation.Modules
                 return new ESFR2Context(options);
             }).As<IESFR2Context>().InstancePerDependency();
 
-            containerBuilder.RegisterType<SummarisationContext>().As<ISummarisationContext>().ExternallyOwned();
+            containerBuilder.RegisterType<DASPaymentsContext>().As<IDASPaymentsContext>().ExternallyOwned();
             containerBuilder.Register(c =>
             {
-                DbContextOptions<DASPaymentsContext> options = new DbContextOptionsBuilder<DASPaymentsContext>()
-                .UseSqlServer(c.Resolve<ISummarisationDataOptions>().DASPaymentsConnectionString).Options;
-                return new DASPaymentsContext(options);
-            }).As<IDASPaymentsContext>().InstancePerDependency();
+                var summarisationSettings = c.Resolve<ISummarisationDataOptions>();
+                var optionsBuilder = new DbContextOptionsBuilder<DASPaymentsContext>();
+                optionsBuilder.UseSqlServer(
+                    summarisationSettings.DASPaymentsConnectionString,
+                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+
+                return optionsBuilder.Options;
+
+            }).As<DbContextOptions<DASPaymentsContext>>()
+            .SingleInstance();
 
             containerBuilder.RegisterType<SummarisationContext>().As<ISummarisationContext>().ExternallyOwned();
             containerBuilder.Register(context =>
