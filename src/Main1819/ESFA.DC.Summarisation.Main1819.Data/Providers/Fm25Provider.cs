@@ -122,5 +122,7 @@ namespace ESF.DC.Summarisation.Main1819.Data.Providers
                 .Select(i => i.UKPRN).Distinct()
                 .ToListAsync();
         }
+
+        public Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken) => ProvideAsync(ukprn, cancellationToken);
     }
 }

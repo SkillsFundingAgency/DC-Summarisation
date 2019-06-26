@@ -26,7 +26,7 @@ namespace ESFA.DC.Summarisation.Data.Persist
             _collectionReturnMapper = collectionReturnMapper;
         }
 
-        public async Task StoreSummarisedActualsDataAsync(IList<Output.Model.SummarisedActual> summarisedActuals, ISummarisationContext summarisationMessage, CancellationToken cancellationToken)
+        public async Task StoreSummarisedActualsDataAsync(IList<Output.Model.SummarisedActual> summarisedActuals, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             using (var sqlConnection = _sqlConnectionFactory.Invoke())
             {

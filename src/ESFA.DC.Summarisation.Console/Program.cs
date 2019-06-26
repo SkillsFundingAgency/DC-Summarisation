@@ -4,6 +4,8 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 using ESF.DC.Summarisation.Main1819.Data.Providers;
+using ESFA.DC.DASPayments.EF;
+using ESFA.DC.DASPayments.EF.Interfaces;
 using ESFA.DC.EAS1819.EF;
 using ESFA.DC.EAS1819.EF.Interface;
 using ESFA.DC.ESF.Database.EF;
@@ -17,6 +19,7 @@ using ESFA.DC.ReferenceData.FCS.Model;
 using ESFA.DC.ReferenceData.FCS.Model.Interface;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
+using ESFA.DC.Summarisation.Apps1819.Data;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Console.Stubs;
 using ESFA.DC.Summarisation.Data.Persist;
@@ -58,6 +61,8 @@ namespace ESFA.DC.Summarisation.Console
             string esfConnectionString = @"Server=(local);Database=ESF;Trusted_Connection=True;";
             string esfR2ConnectionString = @"Server=(local);Database=ESF-R2;Trusted_Connection=True;";
 
+            string dasConnectionString = @"Server=(local);Database=DASPayments;Trusted_Connection=True;";
+
             DbContextOptions<FcsContext> fcsdbContextOptions = new DbContextOptionsBuilder<FcsContext>().UseSqlServer(fcsConnectionString).Options;
             DbContextOptions<ILR1819_DataStoreEntities> ilrdbContextOptions = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>().UseSqlServer(ilrConnectionString).Options;
             DbContextOptions<EasContext> easdbContextOptions = new DbContextOptionsBuilder<EasContext>().UseSqlServer(easConnectionString).Options;
@@ -66,12 +71,16 @@ namespace ESFA.DC.Summarisation.Console
             DbContextOptions<ESF_DataStoreEntities> esfdbContextOptions = new DbContextOptionsBuilder<ESF_DataStoreEntities>().UseSqlServer(esfConnectionString).Options;
             DbContextOptions<ESFR2Context> esfR2dbContextOptions = new DbContextOptionsBuilder<ESFR2Context>().UseSqlServer(esfR2ConnectionString).Options;
 
+            DbContextOptions<DASPaymentsContext> dasdbContextOptions = new DbContextOptionsBuilder<DASPaymentsContext>().UseSqlServer(dasConnectionString).Options;
+
             IFcsContext fcsContext = new FcsContext(fcsdbContextOptions);
             IIlr1819RulebaseContext ilrContext = new ILR1819_DataStoreEntities(ilrdbContextOptions);
             IEasdbContext easContext = new EasContext(easdbContextOptions);
             SummarisationContext saContext = new SummarisationContext(sadbContextOptions);
             IESF_DataStoreEntities esfContext = new ESF_DataStoreEntities(esfdbContextOptions);
             IESFR2Context esfR2Context = new ESFR2Context(esfR2dbContextOptions);
+
+            IDASPaymentsContext dasContext = new DASPaymentsContext(dasdbContextOptions);
 
             IFcsRepository fcsRepository = new FcsRepository(fcsContext);
 
@@ -82,13 +91,15 @@ namespace ESFA.DC.Summarisation.Console
             List<ISummarisationConfigProvider<FundingType>> fundingTypesProviders = new List<ISummarisationConfigProvider<FundingType>>()
             {
                 new FundingTypesProvider(jsonSerializationService),
-                new ESFA.DC.Summarisation.ESF.Service.FundingTypesProvider(jsonSerializationService)
+                new ESF.Service.FundingTypesProvider(jsonSerializationService),
+                new Apps1819.Service.FundingTypesProvider(jsonSerializationService)
             };
 
             List<ISummarisationConfigProvider<CollectionPeriod>> collectionPeriodsProviders = new List<ISummarisationConfigProvider<CollectionPeriod>>()
             {
                 new CollectionPeriodsProvider(jsonSerializationService),
-                new ESFA.DC.Summarisation.ESF.Service.CollectionPeriodsProvider(jsonSerializationService)
+                new ESF.Service.CollectionPeriodsProvider(jsonSerializationService),
+                new Apps1819.Service.CollectionPeriodsProvider(jsonSerializationService)
             };
 
             IProviderRepository repository = new ProviderRepository(new List<ILearningDeliveryProvider>
@@ -101,7 +112,10 @@ namespace ESFA.DC.Summarisation.Console
 
                 new ESFProvider_R1(esfContext),
                 new ESFProvider_R2(esfR2Context),
-                new ESFILRProvider(() => saContext)
+                new ESFILRProvider(() => saContext),
+
+                new LevyProvider(() => dasContext),
+                new NonLevyProvider(() => dasContext)
             });
 
             List<ISummarisationService> summarisationServices = new List<ISummarisationService>()
@@ -120,7 +134,7 @@ namespace ESFA.DC.Summarisation.Console
 
             ILogger logger = new LoggerStub();
 
-            ISummarisationContext summarisationMessage;
+            ISummarisationMessage summarisationMessage;
 
             SummarisationWrapper wrapper;
 
@@ -140,6 +154,21 @@ namespace ESFA.DC.Summarisation.Console
             await wrapper.Summarise(summarisationMessage, CancellationToken.None);
 
             summarisationMessage = new ESFSummarisationContextStub();
+
+            wrapper = new SummarisationWrapper(
+                fcsRepository,
+                saRepository,
+                fundingTypesProviders,
+                collectionPeriodsProviders,
+                summarisationServices,
+                dataStorePersistenceService,
+                () => repository,
+                new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
+                logger);
+
+            await wrapper.Summarise(summarisationMessage, CancellationToken.None);
+
+            summarisationMessage = new AppsSummarisationContextStub();
 
             wrapper = new SummarisationWrapper(
                 fcsRepository,

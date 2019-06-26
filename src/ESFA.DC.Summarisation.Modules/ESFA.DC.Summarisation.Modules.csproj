@@ -23,6 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Apps1819\ESFA.DC.Summarisation.Apps1819.Data\ESFA.DC.Summarisation.Apps1819.Data.csproj" />
+    <ProjectReference Include="..\Apps1819\ESFA.DC.Summarisation.Apps1819.Service\ESFA.DC.Summarisation.Apps1819.Service.csproj" />
     <ProjectReference Include="..\ESF\ESFA.DC.Summarisation.ESF.Data\ESFA.DC.Summarisation.ESF.Data.csproj" />
     <ProjectReference Include="..\ESF\ESFA.DC.Summarisation.ESF.Service\ESFA.DC.Summarisation.ESF.Service.csproj" />
     <ProjectReference Include="..\Main1819\ESFA.DC.Summarisation.Main1819.Data\ESFA.DC.Summarisation.Main1819.Data.csproj" />

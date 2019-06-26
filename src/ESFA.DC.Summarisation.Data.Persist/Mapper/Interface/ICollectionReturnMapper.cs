@@ -5,6 +5,6 @@ namespace ESFA.DC.Summarisation.Data.Persist.Mapper.Interface
 {
     public interface ICollectionReturnMapper
     {
-        CollectionReturn MapCollectionReturn(ISummarisationContext summarisationContext );
+        CollectionReturn MapCollectionReturn(ISummarisationMessage summarisationContext );
     }
 }

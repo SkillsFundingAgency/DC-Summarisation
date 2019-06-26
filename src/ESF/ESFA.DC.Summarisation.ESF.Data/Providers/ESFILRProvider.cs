@@ -23,9 +23,11 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
             _summarisationContext = summarisationContext;
         }
 
-        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
+        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
-            List<int> CollectionYears = new List<int> { 1819 };
+            List<int> CollectionYears = new List<int> ();
+
+            CollectionYears.Add(summarisationMessage.CollectionYear);
 
             using (var contextFactory = _summarisationContext())
             {
@@ -144,5 +146,9 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
             }
         }
 
+        public Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

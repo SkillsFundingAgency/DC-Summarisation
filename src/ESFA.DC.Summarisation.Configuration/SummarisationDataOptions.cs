@@ -17,5 +17,7 @@ namespace ESFA.DC.Summarisation.Configuration
         public string ESFNonEFConnectionString { get; set; }
 
         public string ESFR2ConnectionString { get; set; }
+
+        public string DASPaymentsConnectionString { get; set; }
     }
 }

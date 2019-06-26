@@ -9,6 +9,8 @@
         EAS,
         Supp,
         ILR,
-        ILRSupp
+        ILRSupp,
+        Levy,
+        NonLevy
     }
 }

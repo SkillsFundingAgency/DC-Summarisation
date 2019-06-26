@@ -6,7 +6,7 @@ namespace ESFA.DC.Summarisation.Data.Persist.Mapper
 {
     public class CollectionReturnMapper : ICollectionReturnMapper
     {
-        public CollectionReturn MapCollectionReturn(ISummarisationContext summarisationMessage)
+        public CollectionReturn MapCollectionReturn(ISummarisationMessage summarisationMessage)
         {
             return new CollectionReturn
             {
