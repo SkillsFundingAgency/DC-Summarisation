@@ -2,6 +2,7 @@
 using ESFA.DC.Summarisation.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace ESFA.DC.Summarisation.Stateless.Context
 {
@@ -18,6 +19,8 @@ namespace ESFA.DC.Summarisation.Stateless.Context
         private const string _collectionYear = "CollectionYear";
 
         private const string _collectionMonth = "CollectionMonth";
+
+        private const string _reRunSummarisation = "Re-Run";
 
         private readonly JobContextMessage _jobContextMessage;
 
@@ -62,6 +65,23 @@ namespace ESFA.DC.Summarisation.Stateless.Context
         public int CollectionMonth
         {
             get => int.Parse(_jobContextMessage.KeyValuePairs[_collectionMonth].ToString());
+        }
+
+        public bool RerunSummarisation
+        {
+            get
+            {
+                bool result = false;
+                foreach (var item in SummarisationTypes)
+                {
+                    if (item.Equals(_reRunSummarisation, StringComparison.OrdinalIgnoreCase))
+                    {
+                        result = true;
+                    }
+                }
+
+                return result;
+            }
         }
     }
 }
