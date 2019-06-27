@@ -11,7 +11,7 @@ namespace ESFA.DC.Summarisation.Data.Persist.Tests.MapperTests
         [Fact]
         public void CollectionReturnMapper()
         {
-            var summarisationContextMock = new Mock<ISummarisationContext>();
+            var summarisationContextMock = new Mock<ISummarisationMessage>();
 
             summarisationContextMock.SetupGet(s => s.CollectionType).Returns("ILR");
             summarisationContextMock.SetupGet(s => s.CollectionReturnCode).Returns("R01");

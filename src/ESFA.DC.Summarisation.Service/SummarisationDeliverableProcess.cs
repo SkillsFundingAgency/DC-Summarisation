@@ -15,7 +15,7 @@ namespace ESFA.DC.Summarisation.Service
 
         public IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams, IProvider provider, IEnumerable<IFcsContractAllocation> allocations, IEnumerable<CollectionPeriod> collectionPeriods)
         {
-            return allocations.Where(w => w.FundingStreamPeriodCode == "ESF1420").SelectMany(all => Summarise(fundingStreams, provider, all, collectionPeriods));
+            return allocations.Where(w => w.FundingStreamPeriodCode.Equals("ESF1420", StringComparison.OrdinalIgnoreCase)).SelectMany(all => Summarise(fundingStreams, provider, all, collectionPeriods));
         }
 
         public IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams, IProvider provider, IFcsContractAllocation allocation, IEnumerable<CollectionPeriod> collectionPeriods)

@@ -13,6 +13,8 @@ namespace ESFA.DC.Summarisation.Interfaces
 
         Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken);
 
+        Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken);
+
         Task<IList<int>> ProvideUkprnsAsync(CancellationToken cancellationToken);
     }
 }

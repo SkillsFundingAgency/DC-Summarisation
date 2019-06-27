@@ -1,6 +1,7 @@
 ﻿using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.Input.Interface;
+using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Data.Output.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using System;
@@ -30,14 +31,27 @@ namespace ESFA.DC.Summarisation.Service
         {
             var summarisedActuals = new List<SummarisedActual>();
 
-
-
             foreach (var fundLine in fundingStream.FundLines)
             {
-                var periodisedData = provider
+                IEnumerable<IPeriodisedData> periodisedData;
+
+                if (fundingStream.ApprenticeshipContractType == 1 || fundingStream.ApprenticeshipContractType == 2)
+                {
+                    periodisedData = provider
+                   .LearningDeliveries
+                   .Where(ld => ld.Fundline.Equals(fundLine.Fundline, StringComparison.OrdinalIgnoreCase) )
+                   .SelectMany(x => x.PeriodisedData
+                                        .Where(pd => pd.ApprenticeshipContractType == fundingStream.ApprenticeshipContractType 
+                                                                && pd.FundingSource == fundingStream.FundingSource 
+                                                                && fundingStream.TransactionTypes.Contains(pd.TransactionType)));
+                }
+                else
+                {
+                     periodisedData = provider
                     .LearningDeliveries
                     .Where(ld => ld.Fundline.Equals(fundLine.Fundline, StringComparison.OrdinalIgnoreCase))
                     .SelectMany(x => x.PeriodisedData);
+                }
 
                 var periods = GetPeriodsForFundLine(periodisedData, fundLine);
 
