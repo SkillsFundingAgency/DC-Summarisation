@@ -109,19 +109,25 @@ namespace ESFA.DC.Summarisation.Modules
             .As<DbContextOptions<FcsContext>>()
             .SingleInstance();
 
-            //containerBuilder.Register(c =>
-            //{
-            //    DbContextOptions<FcsContext> options = new DbContextOptionsBuilder<FcsContext>()
-            //    .UseSqlServer(c.Resolve<ISummarisationDataOptions>().FCSConnectionString).Options;
-            //    return new FcsContext(options);
-            //}).As<IFcsContext>().InstancePerDependency();
-
+            containerBuilder.RegisterType<ILR1819_DataStoreEntities>().As<IILR1819_DataStoreEntities>().ExternallyOwned();
             containerBuilder.Register(c =>
             {
-                DbContextOptions<ILR1819_DataStoreEntities> options = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>()
-                .UseSqlServer(c.Resolve<ISummarisationDataOptions>().ILR1819ConnectionString).Options;
-                return new ILR1819_DataStoreEntities(options);
-            }).As<IIlr1819RulebaseContext>().InstancePerDependency();
+                var summarisationSettings = c.Resolve<ISummarisationDataOptions>();
+                var optionsBuilder = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>();
+                optionsBuilder.UseSqlServer(
+                    summarisationSettings.ILR1819ConnectionString,
+                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+
+                return optionsBuilder.Options;
+            }).As<DbContextOptions<ILR1819_DataStoreEntities>>()
+            .SingleInstance();
+
+            //containerBuilder.Register(c =>
+            //{
+            //    DbContextOptions<ILR1819_DataStoreEntities> options = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>()
+            //    .UseSqlServer(c.Resolve<ISummarisationDataOptions>().ILR1819ConnectionString).Options;
+            //    return new ILR1819_DataStoreEntities(options);
+            //}).As<IIlr1819RulebaseContext>().InstancePerDependency();
 
             containerBuilder.Register(c =>
             {

@@ -73,7 +73,6 @@ namespace ESFA.DC.Summarisation.Console
 
             DbContextOptions<DASPaymentsContext> dasdbContextOptions = new DbContextOptionsBuilder<DASPaymentsContext>().UseSqlServer(dasConnectionString).Options;
 
-            IIlr1819RulebaseContext ilrContext = new ILR1819_DataStoreEntities(ilrdbContextOptions);
             IEasdbContext easContext = new EasContext(easdbContextOptions);
             IESF_DataStoreEntities esfContext = new ESF_DataStoreEntities(esfdbContextOptions);
             IESFR2Context esfR2Context = new ESFR2Context(esfR2dbContextOptions);
@@ -100,11 +99,11 @@ namespace ESFA.DC.Summarisation.Console
 
             IProviderRepository repository = new ProviderRepository(new List<ILearningDeliveryProvider>
             {
-                new AlbProvider(ilrContext),
+                new AlbProvider(() => new ILR1819_DataStoreEntities(ilrdbContextOptions)),
                 new EasProvider(easContext),
-                new Fm25Provider(ilrContext),
-                new Fm35Provider(ilrContext),
-                new TblProvider(ilrContext),
+                new Fm25Provider(() => new ILR1819_DataStoreEntities(ilrdbContextOptions)),
+                new Fm35Provider(() => new ILR1819_DataStoreEntities(ilrdbContextOptions)),
+                new TblProvider(() => new ILR1819_DataStoreEntities(ilrdbContextOptions)),
 
                 new ESFProvider_R1(esfContext),
                 new ESFProvider_R2(esfR2Context),
