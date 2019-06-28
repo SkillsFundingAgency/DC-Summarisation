@@ -71,16 +71,7 @@ namespace ESFA.DC.Summarisation.Stateless.Context
         {
             get
             {
-                bool result = false;
-                foreach (var item in SummarisationTypes)
-                {
-                    if (item.Equals(_reRunSummarisation, StringComparison.OrdinalIgnoreCase))
-                    {
-                        result = true;
-                    }
-                }
-
-                return result;
+                return SummarisationTypes.Any(x => x.Equals(_reRunSummarisation, StringComparison.OrdinalIgnoreCase));
             }
         }
     }
