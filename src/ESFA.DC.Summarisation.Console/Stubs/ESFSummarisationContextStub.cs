@@ -18,5 +18,7 @@ namespace ESFA.DC.Summarisation.Console.Stubs
         public int CollectionYear => 1819;
 
         public int CollectionMonth => 1;
+
+        public bool RerunSummarisation => true;
     }
 }
