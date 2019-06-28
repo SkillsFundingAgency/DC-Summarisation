@@ -10,7 +10,7 @@ namespace ESFA.DC.Summarisation.Configuration
 
         public int ApprenticeshipContractType { get; set; }
 
-        public int FundingSource { get; set; }
+        public List<int> FundingSources { get; set; }
 
         public List<int> TransactionTypes { get; set; }
 

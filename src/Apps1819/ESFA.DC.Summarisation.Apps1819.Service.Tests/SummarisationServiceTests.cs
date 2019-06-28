@@ -36,20 +36,23 @@ namespace ESFA.DC.Summarisation.Apps1819.Service.Tests
         }
 
         [Theory]
-        [InlineData("LEVY1799", 2)]
-        [InlineData("LEVY1799", 8)]
-
-        public void SummariseByFundingStream(string fspCode, int dlc)
+        [InlineData("LEVY1799", 2, "1,5", "1,2,3")]
+        [InlineData("LEVY1799", 8, "1,5", "1,2,3")]
+        [InlineData("LEVY1799", 3 , "2", "1,2,3")]
+        [InlineData("LEVY1799", 9, "2", "1,2,3")]
+        public void SummariseByFundingStream(string fspCode, int dlc, string fundingStreamsCSV, string transactionTypesCSV)
         {
             var fungingTypes = GetFundingTypes();
 
             FundingStream fundingStream = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == fspCode && fs.DeliverableLineCode == dlc).First();
 
-            int transactionTypeCount = 3;
+            List<int> fundingStreams = fundingStreamsCSV.Split(',').Select(int.Parse).ToList();
+
+            List<int> transactionTypes = transactionTypesCSV.Split(',').Select(int.Parse).ToList();
 
             var task = new SummarisationFundlineProcess();
 
-            var results = task.Summarise(fundingStream, GetTestProvider(1, 1, new List<int> { 1, 2, 3 }), GetContractAllocation(), GetCollectionPeriods()).OrderBy(x => x.Period).ToList();
+            var results = task.Summarise(fundingStream, GetTestProvider(1, fundingStreams, transactionTypes), GetContractAllocation(), GetCollectionPeriods()).OrderBy(x => x.Period).ToList();
 
             results.Count().Should().Be(12);
 
@@ -57,22 +60,22 @@ namespace ESFA.DC.Summarisation.Apps1819.Service.Tests
 
             foreach (var item in results)
             {
-                item.ActualValue.Should().Be(learningDeliveryRecords * transactionTypeCount * periodsToGenerate * amount * i);
+                item.ActualValue.Should().Be(learningDeliveryRecords * fundingStreams.Count() * transactionTypes.Count() * periodsToGenerate * amount * i);
 
                 i++;
             }
         }
 
-        private Provider GetTestProvider(int apprenticeshipContratType, int fundingSource, IEnumerable<int> transactionTypes)
+        private Provider GetTestProvider(int apprenticeshipContratType, List<int> fundingSources, List<int> transactionTypes)
         {
             return new Provider()
             {
                 UKPRN = ukprn,
-                LearningDeliveries = GetLearningDeliveries(apprenticeshipContratType, fundingSource, transactionTypes)
+                LearningDeliveries = GetLearningDeliveries(apprenticeshipContratType, fundingSources, transactionTypes)
             };
         }
 
-        private List<LearningDelivery> GetLearningDeliveries(int apprenticeshipContratType, int fundingSource, IEnumerable<int> transactionTypes)
+        private List<LearningDelivery> GetLearningDeliveries(int apprenticeshipContratType, List<int> fundingSources, List<int> transactionTypes)
         {
             List<LearningDelivery> learningDeliveries = new List<LearningDelivery>();
 
@@ -83,7 +86,7 @@ namespace ESFA.DC.Summarisation.Apps1819.Service.Tests
                     LearningDelivery learningDelivery = new LearningDelivery()
                     {
                         Fundline = item.Fundline,
-                        PeriodisedData =  GetPeriodisedData(apprenticeshipContratType, fundingSource, transactionTypes)
+                        PeriodisedData = GetPeriodisedData(apprenticeshipContratType, fundingSources, transactionTypes)
                     };
 
                     learningDeliveries.Add(learningDelivery);
@@ -93,21 +96,24 @@ namespace ESFA.DC.Summarisation.Apps1819.Service.Tests
             return learningDeliveries;
         }
 
-        private List<PeriodisedData> GetPeriodisedData(int apprenticeshipContratType, int fundingSource, IEnumerable<int> transactionTypes)
+        private List<PeriodisedData> GetPeriodisedData(int apprenticeshipContratType, List<int> fundingSources, List<int> transactionTypes)
         {
             List<PeriodisedData> periodisedDatas = new List<PeriodisedData>();
 
-            foreach (var transactionType in transactionTypes)
+            foreach (var fundingSource in fundingSources)
             {
-                PeriodisedData periodisedData = new PeriodisedData()
+                foreach (var transactionType in transactionTypes)
                 {
-                    ApprenticeshipContractType = apprenticeshipContratType,
-                    FundingSource = fundingSource,
-                    TransactionType = transactionType,
-                    Periods = GetPeriodsData()
-                };
+                    PeriodisedData periodisedData = new PeriodisedData()
+                    {
+                        ApprenticeshipContractType = apprenticeshipContratType,
+                        FundingSource = fundingSource,
+                        TransactionType = transactionType,
+                        Periods = GetPeriodsData()
+                    };
 
-                periodisedDatas.Add(periodisedData);
+                    periodisedDatas.Add(periodisedData);
+                }
             }
 
             return periodisedDatas;
@@ -136,7 +142,7 @@ namespace ESFA.DC.Summarisation.Apps1819.Service.Tests
             return fundingTypesProvider.Provide().ToList();
         }
 
-       
+
 
         private IEnumerable<int> GetApprenticeshipContratTypes()
         {
@@ -145,7 +151,7 @@ namespace ESFA.DC.Summarisation.Apps1819.Service.Tests
 
         private IEnumerable<int> GetFundingSources()
         {
-            List<int> fundingSources = new List<int> { 1, 2 , 4 , 5 };
+            List<int> fundingSources = new List<int> { 1, 2, 4, 5 };
 
             return fundingSources;
         }
