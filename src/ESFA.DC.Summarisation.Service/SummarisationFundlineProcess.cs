@@ -41,8 +41,8 @@ namespace ESFA.DC.Summarisation.Service
                    .LearningDeliveries
                    .Where(ld => ld.Fundline.Equals(fundLine.Fundline, StringComparison.OrdinalIgnoreCase) )
                    .SelectMany(x => x.PeriodisedData
-                                        .Where(pd => pd.ApprenticeshipContractType == fundingStream.ApprenticeshipContractType 
-                                                                && pd.FundingSource == fundingStream.FundingSource 
+                                        .Where(pd => pd.ApprenticeshipContractType == fundingStream.ApprenticeshipContractType
+                                                                && fundingStream.FundingSources.Contains(pd.FundingSource)
                                                                 && fundingStream.TransactionTypes.Contains(pd.TransactionType)));
                 }
                 else
