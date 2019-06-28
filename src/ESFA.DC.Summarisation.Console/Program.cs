@@ -73,12 +73,11 @@ namespace ESFA.DC.Summarisation.Console
 
             DbContextOptions<DASPaymentsContext> dasdbContextOptions = new DbContextOptionsBuilder<DASPaymentsContext>().UseSqlServer(dasConnectionString).Options;
 
-            IFcsContext fcsContext = new FcsContext(fcsdbContextOptions);
             IIlr1819RulebaseContext ilrContext = new ILR1819_DataStoreEntities(ilrdbContextOptions);
             IEasdbContext easContext = new EasContext(easdbContextOptions);
             IESF_DataStoreEntities esfContext = new ESF_DataStoreEntities(esfdbContextOptions);
             IESFR2Context esfR2Context = new ESFR2Context(esfR2dbContextOptions);
-            IFcsRepository fcsRepository = new FcsRepository(fcsContext);
+            IFcsRepository fcsRepository = new FcsRepository(() => new FcsContext(fcsdbContextOptions));
             ISummarisedActualsProcessRepository saRepository
                 = new SummarisedActualsProcessRepository(() => new SummarisationContext(sadbContextOptions));
 

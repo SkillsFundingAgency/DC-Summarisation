@@ -95,12 +95,26 @@ namespace ESFA.DC.Summarisation.Modules
 
             containerBuilder.Register(c => new SqlConnection(c.Resolve<ISummarisationDataOptions>().SummarisedActualsConnectionString)).As<SqlConnection>();
 
-            containerBuilder.Register(c =>
+            containerBuilder.RegisterType<FcsContext>().As<IFcsContext>().ExternallyOwned();
+            containerBuilder.Register(context =>
             {
-                DbContextOptions<FcsContext> options = new DbContextOptionsBuilder<FcsContext>()
-                .UseSqlServer(c.Resolve<ISummarisationDataOptions>().FCSConnectionString).Options;
-                return new FcsContext(options);
-            }).As<IFcsContext>().InstancePerDependency();
+                var summarisationSettings = context.Resolve<ISummarisationDataOptions>();
+                var optionsBuilder = new DbContextOptionsBuilder<SummarisationContext>();
+                optionsBuilder.UseSqlServer(
+                    summarisationSettings.FCSConnectionString,
+                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+
+                return optionsBuilder.Options;
+            })
+            .As<DbContextOptions<FcsContext>>()
+            .SingleInstance();
+
+            //containerBuilder.Register(c =>
+            //{
+            //    DbContextOptions<FcsContext> options = new DbContextOptionsBuilder<FcsContext>()
+            //    .UseSqlServer(c.Resolve<ISummarisationDataOptions>().FCSConnectionString).Options;
+            //    return new FcsContext(options);
+            //}).As<IFcsContext>().InstancePerDependency();
 
             containerBuilder.Register(c =>
             {
