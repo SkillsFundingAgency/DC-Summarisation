@@ -2,7 +2,7 @@
 
 namespace ESFA.DC.Summarisation.Interfaces
 {
-    public interface ISummarisationContext
+    public interface ISummarisationMessage
     {
         string ProcessType { get; }
 
@@ -13,5 +13,11 @@ namespace ESFA.DC.Summarisation.Interfaces
         string Ukprn { get; }
 
         IEnumerable<string> SummarisationTypes { get; }
+
+        int CollectionYear { get; }
+
+        int CollectionMonth { get; }
+
+        bool RerunSummarisation { get; }
     }
 }

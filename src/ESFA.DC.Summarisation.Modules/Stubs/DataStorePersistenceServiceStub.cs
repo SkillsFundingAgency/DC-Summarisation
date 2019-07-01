@@ -10,12 +10,12 @@ namespace ESFA.DC.Summarisation.Modules.Stubs
 {
     public class DataStorePersistenceServiceStub : IDataStorePersistenceService
     {
-        public Task<CollectionReturn> StoreCollectionReturnAsync(ISummarisationContext summarisationContext, CancellationToken cancellationToken)
+        public Task<CollectionReturn> StoreCollectionReturnAsync(ISummarisationMessage summarisationContext, CancellationToken cancellationToken)
         {
             return Task.FromResult(new CollectionReturn());
         }
 
-        public Task StoreSummarisedActualsDataAsync(IList<SummarisedActual> summarisedActuals, ISummarisationContext summarisationContext, CancellationToken cancellationToken)
+        public Task StoreSummarisedActualsDataAsync(IList<SummarisedActual> summarisedActuals, ISummarisationMessage summarisationContext, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }

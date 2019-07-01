@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Stubs\AppsSummarisationContextStub.cs" />
     <Compile Include="Stubs\ESFSummarisationContextStub.cs" />
     <Compile Include="Stubs\LoggerStub.cs" />
     <Compile Include="Stubs\SummarisationContextStub.cs" />
@@ -60,6 +61,14 @@
     <None Include="ESFA.DC.Summarisation.Console.ruleset" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Apps1819\ESFA.DC.Summarisation.Apps1819.Data\ESFA.DC.Summarisation.Apps1819.Data.csproj">
+      <Project>{E5BE8AF1-F1E3-484D-9D11-0518D2B4F29D}</Project>
+      <Name>ESFA.DC.Summarisation.Apps1819.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Apps1819\ESFA.DC.Summarisation.Apps1819.Service\ESFA.DC.Summarisation.Apps1819.Service.csproj">
+      <Project>{449c1c30-e22a-4446-8d5e-63ca2521d629}</Project>
+      <Name>ESFA.DC.Summarisation.Apps1819.Service</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ESF\ESFA.DC.Summarisation.ESF.Data\ESFA.DC.Summarisation.ESF.Data.csproj">
       <Project>{81ABBB7C-CEB5-47F9-8E07-3197D1135CCB}</Project>
       <Name>ESFA.DC.Summarisation.ESF.Data</Name>
@@ -133,7 +142,7 @@
       <Version>3.0.0-preview.19074.2</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.1</Version>
+      <Version>12.0.2</Version>
     </PackageReference>
     <PackageReference Include="StyleCop.Analyzers">
       <Version>1.0.2</Version>

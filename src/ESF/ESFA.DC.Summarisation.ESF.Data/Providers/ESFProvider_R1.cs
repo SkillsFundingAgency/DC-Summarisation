@@ -57,5 +57,6 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
             
         }
 
+        public Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken) => ProvideAsync(ukprn, cancellationToken);
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ESFA.DC.Summarisation.Console.Stubs
 {
-    public class SummarisationContextStub : ISummarisationContext
+    public class SummarisationContextStub : ISummarisationMessage
     {
         public string ProcessType => "Fundline";
 
@@ -14,5 +14,11 @@ namespace ESFA.DC.Summarisation.Console.Stubs
         public IEnumerable<string> SummarisationTypes => new List<string> { "Main1819_FM35" };
 
         public string Ukprn => string.Empty;
+
+        public int CollectionYear => 1819;
+
+        public int CollectionMonth => 1;
+
+        public bool RerunSummarisation => true;
     }
 }

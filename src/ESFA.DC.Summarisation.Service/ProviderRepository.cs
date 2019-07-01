@@ -20,9 +20,9 @@ namespace ESFA.DC.Summarisation.Service
             _providers = providers;
         }
 
-        public async Task<IProvider> ProvideAsync(int ukprn, string collectionType, CancellationToken cancellationToken)
+        public async Task<IProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
-            var taskResults = await Task.WhenAll(_providers.Where(w => w.CollectionType == collectionType).Select(p => p.ProvideAsync(ukprn, cancellationToken)));
+            var taskResults = await Task.WhenAll(_providers.Where(w => w.CollectionType == summarisationMessage.CollectionType).Select(p => p.ProvideAsync(ukprn, summarisationMessage, cancellationToken)));
 
             return new Provider
             {
