@@ -122,13 +122,6 @@ namespace ESFA.DC.Summarisation.Modules
             }).As<DbContextOptions<ILR1819_DataStoreEntities>>()
             .SingleInstance();
 
-            //containerBuilder.Register(c =>
-            //{
-            //    DbContextOptions<ILR1819_DataStoreEntities> options = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>()
-            //    .UseSqlServer(c.Resolve<ISummarisationDataOptions>().ILR1819ConnectionString).Options;
-            //    return new ILR1819_DataStoreEntities(options);
-            //}).As<IIlr1819RulebaseContext>().InstancePerDependency();
-
             containerBuilder.Register(c =>
             {
                 DbContextOptions<EasContext> options = new DbContextOptionsBuilder<EasContext>()
@@ -136,12 +129,18 @@ namespace ESFA.DC.Summarisation.Modules
                 return new EasContext(options);
             }).As<IEasdbContext>().InstancePerDependency();
 
+            containerBuilder.RegisterType<ESF_DataStoreEntities>().As<IESF_DataStoreEntities>().ExternallyOwned();
             containerBuilder.Register(c =>
             {
-                DbContextOptions<ESF_DataStoreEntities> options = new DbContextOptionsBuilder<ESF_DataStoreEntities>()
-                .UseSqlServer(c.Resolve<ISummarisationDataOptions>().ESFNonEFConnectionString).Options;
-                return new ESF_DataStoreEntities(options);
-            }).As<IESF_DataStoreEntities>().InstancePerDependency();
+                var summarisationSettings = c.Resolve<ISummarisationDataOptions>();
+                var optionsBuilder = new DbContextOptionsBuilder<ESF_DataStoreEntities>();
+                optionsBuilder.UseSqlServer(
+                    summarisationSettings.ESFNonEFConnectionString,
+                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+
+                return optionsBuilder.Options;
+            }).As<DbContextOptions<ESF_DataStoreEntities>>()
+            .SingleInstance();
 
             containerBuilder.Register(c =>
             {
