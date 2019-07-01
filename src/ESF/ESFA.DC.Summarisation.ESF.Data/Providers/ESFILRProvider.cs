@@ -12,30 +12,34 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
 {
     public class ESFILRProvider : ILearningDeliveryProvider
     {
-        private readonly Model.Interface.ISummarisationContext _summarisationContext;
+        private readonly Func<Model.Interface.ISummarisationContext> _summarisationContext;
 
         public string SummarisationType => nameof(Configuration.Enum.SummarisationType.ESF_ILRData);
 
         public string CollectionType => nameof(Configuration.Enum.CollectionType.ESF);
 
-        public ESFILRProvider(Model.Interface.ISummarisationContext summarisationContext)
+        public ESFILRProvider(Func<Model.Interface.ISummarisationContext> summarisationContext)
         {
             _summarisationContext = summarisationContext;
         }
 
-        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
+        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
-            List<int> CollectionYears = new List<int> { 1819 };
+            List<int> CollectionYears = new List<int> ();
 
-            return await _summarisationContext.ESF_FundingDatas
-                .Where(x => x.UKPRN == ukprn 
-                    && CollectionYears.Contains(x.CollectionYear)
-                    && (x.Period_1 + x.Period_2 + x.Period_3 + x.Period_4 + x.Period_5 + x.Period_6 + x.Period_7 + x.Period_8 + x.Period_9 + x.Period_10 + x.Period_11 + x.Period_12) > 0)
-                .Select(ld => new LearningDelivery
-                {
-                    ConRefNumber = ld.ConRefNumber,
-                    PeriodisedData = new List<PeriodisedData>
-                        { 
+            CollectionYears.Add(summarisationMessage.CollectionYear);
+
+            using (var contextFactory = _summarisationContext())
+            {
+                return await contextFactory.ESF_FundingDatas
+                    .Where(x => x.UKPRN == ukprn
+                        && CollectionYears.Contains(x.CollectionYear)
+                        && (x.Period_1 + x.Period_2 + x.Period_3 + x.Period_4 + x.Period_5 + x.Period_6 + x.Period_7 + x.Period_8 + x.Period_9 + x.Period_10 + x.Period_11 + x.Period_12) > 0)
+                    .Select(ld => new LearningDelivery
+                    {
+                        ConRefNumber = ld.ConRefNumber,
+                        PeriodisedData = new List<PeriodisedData>
+                            {
                              new PeriodisedData
                               {
                                 AttributeName = ld.AttributeName,
@@ -128,16 +132,23 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                     }
                                 }
                              }
-                        }
-                }).ToListAsync(cancellationToken);
-
+                            }
+                    }).ToListAsync(cancellationToken);
+            }
             
         }
 
         public async Task<IList<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
         {
-            return await _summarisationContext.ESF_FundingDatas.Select(l => l.UKPRN).Distinct().ToListAsync(cancellationToken);
+            using (var contextFactory = _summarisationContext())
+            {
+                return await contextFactory.ESF_FundingDatas.Select(l => l.UKPRN).Distinct().ToListAsync(cancellationToken);
+            }
         }
 
+        public Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

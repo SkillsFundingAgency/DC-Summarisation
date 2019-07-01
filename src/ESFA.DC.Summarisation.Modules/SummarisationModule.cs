@@ -1,6 +1,10 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using Autofac;
 using ESF.DC.Summarisation.Main1819.Data.Providers;
+using ESFA.DC.DASPayments.EF;
+using ESFA.DC.DASPayments.EF.Interfaces;
 using ESFA.DC.EAS1819.EF;
 using ESFA.DC.EAS1819.EF.Interface;
 using ESFA.DC.ESF.Database.EF;
@@ -14,6 +18,7 @@ using ESFA.DC.ReferenceData.FCS.Model.Interface;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.ServiceFabric.Helpers;
+using ESFA.DC.Summarisation.Apps1819.Data;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Configuration.Interface;
 using ESFA.DC.Summarisation.Data.Persist;
@@ -56,9 +61,11 @@ namespace ESFA.DC.Summarisation.Modules
 
             containerBuilder.RegisterType<Main1819FundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();
             containerBuilder.RegisterType<ESFFundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();
+            containerBuilder.RegisterType<Apps1819.Service.FundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();
 
             containerBuilder.RegisterType<Main1819CollectionPeriodsProvider>().As<ISummarisationConfigProvider<CollectionPeriod>>();
             containerBuilder.RegisterType<ESFCollectionPeriodsProvider>().As<ISummarisationConfigProvider<CollectionPeriod>>();
+            containerBuilder.RegisterType<Apps1819.Service.CollectionPeriodsProvider>().As<ISummarisationConfigProvider<CollectionPeriod>>();
 
             containerBuilder.RegisterType<AlbProvider>().As<ILearningDeliveryProvider>();
             containerBuilder.RegisterType<TblProvider>().As<ILearningDeliveryProvider>();
@@ -69,6 +76,8 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<ESFProvider_R1>().As<ILearningDeliveryProvider>();
             containerBuilder.RegisterType<ESFProvider_R2>().As<ILearningDeliveryProvider>();
             containerBuilder.RegisterType<ESFILRProvider>().As<ILearningDeliveryProvider>();
+
+            containerBuilder.RegisterType<LevyProvider>().As<ILearningDeliveryProvider>();
 
             containerBuilder.RegisterType<ProviderRepository>().As<IProviderRepository>();
 
@@ -121,13 +130,33 @@ namespace ESFA.DC.Summarisation.Modules
                 return new ESFR2Context(options);
             }).As<IESFR2Context>().InstancePerDependency();
 
+            containerBuilder.RegisterType<DASPaymentsContext>().As<IDASPaymentsContext>().ExternallyOwned();
             containerBuilder.Register(c =>
             {
-                DbContextOptions<SummarisationContext> options = new DbContextOptionsBuilder<SummarisationContext>()
-                .UseSqlServer(c.Resolve<ISummarisationDataOptions>().SummarisedActualsConnectionString).Options;
-                return new SummarisationContext(options);
-            }).As<ISummarisationContext>().As<SummarisationContext>()
-            .InstancePerDependency();
+                var summarisationSettings = c.Resolve<ISummarisationDataOptions>();
+                var optionsBuilder = new DbContextOptionsBuilder<DASPaymentsContext>();
+                optionsBuilder.UseSqlServer(
+                    summarisationSettings.DASPaymentsConnectionString,
+                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+
+                return optionsBuilder.Options;
+
+            }).As<DbContextOptions<DASPaymentsContext>>()
+            .SingleInstance();
+
+            containerBuilder.RegisterType<SummarisationContext>().As<ISummarisationContext>().ExternallyOwned();
+            containerBuilder.Register(context =>
+            {
+                var summarisationSettings = context.Resolve<ISummarisationDataOptions>();
+                var optionsBuilder = new DbContextOptionsBuilder<SummarisationContext>();
+                optionsBuilder.UseSqlServer(
+                    summarisationSettings.SummarisedActualsConnectionString,
+                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+
+                return optionsBuilder.Options;
+            })
+            .As<DbContextOptions<SummarisationContext>>()
+            .SingleInstance();
         }
     }
 }

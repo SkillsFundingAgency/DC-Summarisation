@@ -15,6 +15,10 @@ namespace ESFA.DC.Summarisation.Data.Persist
     public class DataStorePersistenceService : IDataStorePersistenceService
     {
         private const string InsertCollectionReturnSql = @"INSERT INTO CollectionReturn (CollectionType, CollectionReturnCode) VALUES (@CollectionType, @CollectionReturnCode); SELECT CAST(SCOPE_IDENTITY() as int)";
+        private const string GetCollectionReturnSql = @"SELECT TOP 1  Id FROM CollectionReturn WHERE CollectionType = @CollectionType AND CollectionReturnCode = @CollectionReturnCode";
+        private const string DeleteCollectionReturnSql = @"DELETE FROM CollectionReturn WHERE Id = @Id";
+        private const string DeleteSummarisedActualsSql = @"DELETE FROM SummarisedActuals WHERE CollectionReturnId = @Id";
+
         private readonly ICollectionReturnMapper _collectionReturnMapper;
         private readonly ISummarisedActualsPersist _summarisedActualsPersist;
         private readonly Func<SqlConnection> _sqlConnectionFactory;
@@ -26,7 +30,7 @@ namespace ESFA.DC.Summarisation.Data.Persist
             _collectionReturnMapper = collectionReturnMapper;
         }
 
-        public async Task StoreSummarisedActualsDataAsync(IList<Output.Model.SummarisedActual> summarisedActuals, ISummarisationContext summarisationMessage, CancellationToken cancellationToken)
+        public async Task StoreSummarisedActualsDataAsync(IList<Output.Model.SummarisedActual> summarisedActuals, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             using (var sqlConnection = _sqlConnectionFactory.Invoke())
             {
@@ -35,6 +39,16 @@ namespace ESFA.DC.Summarisation.Data.Persist
                 using (var transaction = sqlConnection.BeginTransaction())
                 {
                     var collectionReturn = _collectionReturnMapper.MapCollectionReturn(summarisationMessage);
+
+                    if (summarisationMessage.RerunSummarisation)
+                    {
+                        collectionReturn.Id = sqlConnection.ExecuteScalar<int>(GetCollectionReturnSql, collectionReturn, transaction);
+
+                        sqlConnection.Execute(DeleteSummarisedActualsSql, collectionReturn, transaction);
+
+                        sqlConnection.Execute(DeleteCollectionReturnSql, collectionReturn, transaction);
+                    }
+
                     var collectionReturnId = await this.InsertCollectionReturnAsync(collectionReturn, sqlConnection, transaction);
 
                     await _summarisedActualsPersist.Save(summarisedActuals, collectionReturnId, sqlConnection, transaction, cancellationToken);

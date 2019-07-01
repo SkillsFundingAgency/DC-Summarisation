@@ -1,8 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace ESFA.DC.Summarisation.Model.Interface
 {
-    public interface ISummarisationContext
+    public interface ISummarisationContext : IDisposable
     {
         IQueryable<SummarisedActual> SummarisedActuals { get; }
 
