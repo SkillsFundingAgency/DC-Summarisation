@@ -83,8 +83,9 @@ namespace ESFA.DC.Summarisation.Service
 
         public IEnumerable<SummarisedActual> SummarisePeriods_ILRData(IEnumerable<IPeriod> periods, FundLine fundLine, IEnumerable<CollectionPeriod> collectionPeriods)
         {
+
             return periods
-                       .Join(collectionPeriods.Where(c => c.CollectionYear == 1819),
+                       .Join(collectionPeriods,
                                 p => new { CollectionMonth = p.PeriodId, p.CollectionYear },
                                 cp => new { cp.CollectionMonth, cp.CollectionYear },
                                 (p, cp) => new { cp.Period, p.Value, p.Volume }
