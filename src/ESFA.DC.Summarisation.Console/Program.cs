@@ -73,7 +73,6 @@ namespace ESFA.DC.Summarisation.Console
 
             DbContextOptions<DASPaymentsContext> dasdbContextOptions = new DbContextOptionsBuilder<DASPaymentsContext>().UseSqlServer(dasConnectionString).Options;
 
-            IEasdbContext easContext = new EasContext(easdbContextOptions);
             IFcsRepository fcsRepository = new FcsRepository(() => new FcsContext(fcsdbContextOptions));
             ISummarisedActualsProcessRepository saRepository
                 = new SummarisedActualsProcessRepository(() => new SummarisationContext(sadbContextOptions));
@@ -98,7 +97,7 @@ namespace ESFA.DC.Summarisation.Console
             IProviderRepository repository = new ProviderRepository(new List<ILearningDeliveryProvider>
             {
                 new AlbProvider(() => new ILR1819_DataStoreEntities(ilrdbContextOptions)),
-                new EasProvider(easContext),
+                new EasProvider(() => new EasContext(easdbContextOptions)),
                 new Fm25Provider(() => new ILR1819_DataStoreEntities(ilrdbContextOptions)),
                 new Fm35Provider(() => new ILR1819_DataStoreEntities(ilrdbContextOptions)),
                 new TblProvider(() => new ILR1819_DataStoreEntities(ilrdbContextOptions)),

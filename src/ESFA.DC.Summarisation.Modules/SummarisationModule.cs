@@ -122,12 +122,18 @@ namespace ESFA.DC.Summarisation.Modules
             }).As<DbContextOptions<ILR1819_DataStoreEntities>>()
             .SingleInstance();
 
+            containerBuilder.RegisterType<EasContext>().As<IEasdbContext>().ExternallyOwned();
             containerBuilder.Register(c =>
             {
-                DbContextOptions<EasContext> options = new DbContextOptionsBuilder<EasContext>()
-                .UseSqlServer(c.Resolve<ISummarisationDataOptions>().EAS1819ConnectionString).Options;
-                return new EasContext(options);
-            }).As<IEasdbContext>().InstancePerDependency();
+                var summarisationSettings = c.Resolve<ISummarisationDataOptions>();
+                var optionsBuilder = new DbContextOptionsBuilder<EasContext>();
+                optionsBuilder.UseSqlServer(
+                    summarisationSettings.EAS1819ConnectionString,
+                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+
+                return optionsBuilder.Options;
+            }).As<DbContextOptions<EasContext>>()
+            .SingleInstance();
 
             containerBuilder.RegisterType<ESF_DataStoreEntities>().As<IESF_DataStoreEntities>().ExternallyOwned();
             containerBuilder.Register(c =>
