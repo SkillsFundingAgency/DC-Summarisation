@@ -36,15 +36,48 @@ namespace ESFA.DC.Summarisation.Apps1819.Service.Tests
         }
 
         [Theory]
-        [InlineData("LEVY1799", 2, "1,5", "1,2,3")]
-        [InlineData("LEVY1799", 8, "1,5", "1,2,3")]
-        [InlineData("LEVY1799", 3 , "2", "1,2,3")]
-        [InlineData("LEVY1799", 9, "2", "1,2,3")]
-        public void SummariseByFundingStream(string fspCode, int dlc, string fundingStreamsCSV, string transactionTypesCSV)
+        [InlineData(1, "LEVY1799", 2, "1,5", "1,2,3")]
+        [InlineData(1, "LEVY1799", 8, "1,5", "1,2,3")]
+
+        [InlineData(1, "LEVY1799", 3, "2", "1,2,3")]
+        [InlineData(1, "LEVY1799", 9, "2", "1,2,3")]
+
+        [InlineData(1, "LEVY1799", 4, "4", "15")]
+        [InlineData(1, "LEVY1799", 10, "4", "15")]
+
+        [InlineData(1, "LEVY1799", 5, "4", "5,7,8,9,10,11,12,13,14")]
+        [InlineData(1, "LEVY1799", 11, "4", "5,7,8,9,10,11,12,13,14")]
+
+        [InlineData(1, "LEVY1799", 6, "4", "4,6")]
+        [InlineData(1, "LEVY1799", 12, "4", "4,6")]
+
+        [InlineData(1, "LEVY1799", 13, "4", "16")]
+        [InlineData(1, "LEVY1799", 14, "4", "16")]
+
+        [InlineData(2, "APPS1819", 8, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
+        [InlineData(2, "16-18NLAP2018", 2, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
+        [InlineData(2, "APPS1819", 22, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
+        [InlineData(2, "ANLAP2018", 2, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
+
+        [InlineData(2, "16-18NLAP2018", 3 , "4", "15")]
+        [InlineData(2, "ANLAP2018", 3, "4", "15")]
+        [InlineData(2, "APPS1819", 9 , "4", "15")]
+        [InlineData(2, "APPS1819", 23 , "4", "15")]
+
+        [InlineData(2, "16-18NLAP2018", 4, "4", "4,6")]
+        [InlineData(2, "ANLAP2018", 4 , "4", "4,6")]
+        [InlineData(2, "APPS1819", 10, "4", "4,6")]
+        [InlineData(2, "APPS1819", 24, "4", "4,6")]
+
+        [InlineData(2, "16-18NLAP2018", 5, "4", "16")]
+        [InlineData(2, "ANLAP2018",5 , "4", "16")]
+        public void SummariseByFundingStream(int apprenticeshipContractType, string fspCode, int dlc, string fundingStreamsCSV, string transactionTypesCSV)
         {
             var fungingTypes = GetFundingTypes();
 
-            FundingStream fundingStream = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == fspCode && fs.DeliverableLineCode == dlc).First();
+            FundingStream fundingStream = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode.Equals(fspCode, StringComparison.OrdinalIgnoreCase) && fs.DeliverableLineCode == dlc).First();
+
+            int ilrFundlineCount = fundingStream.FundLines.Where(fl => fl.LineType.Equals("ILR", StringComparison.OrdinalIgnoreCase)).Count();
 
             List<int> fundingStreams = fundingStreamsCSV.Split(',').Select(int.Parse).ToList();
 
@@ -52,7 +85,7 @@ namespace ESFA.DC.Summarisation.Apps1819.Service.Tests
 
             var task = new SummarisationFundlineProcess();
 
-            var results = task.Summarise(fundingStream, GetTestProvider(1, fundingStreams, transactionTypes), GetContractAllocation(), GetCollectionPeriods()).OrderBy(x => x.Period).ToList();
+            var results = task.Summarise(fundingStream, GetTestProvider(apprenticeshipContractType, fundingStreams, transactionTypes), GetContractAllocation(), GetCollectionPeriods()).OrderBy(x => x.Period).ToList();
 
             results.Count().Should().Be(12);
 
@@ -60,7 +93,7 @@ namespace ESFA.DC.Summarisation.Apps1819.Service.Tests
 
             foreach (var item in results)
             {
-                item.ActualValue.Should().Be(learningDeliveryRecords * fundingStreams.Count() * transactionTypes.Count() * periodsToGenerate * amount * i);
+                item.ActualValue.Should().Be(learningDeliveryRecords * fundingStreams.Count() * ilrFundlineCount * transactionTypes.Count() * periodsToGenerate * amount * i);
 
                 i++;
             }
@@ -168,13 +201,13 @@ namespace ESFA.DC.Summarisation.Apps1819.Service.Tests
             List<FundLine> fundLines = new List<FundLine>
             {
                 new FundLine { Fundline = "16-18 Apprenticeship (From May 2017) Levy Contract" , LineType = "ILR"  },
-                new FundLine { Fundline = "19+ Apprenticeship (From May 2017) Levy Contract" , LineType = "ILR"  }
-                //new FundLine { Fundline = "16-18 Apprenticeship (From May 2017) Non-Levy Contract (non-procured)", LineType = "ILR" }
-                //new FundLine { Fundline = "16-18 Apprenticeship (From May 2017) Non-Levy Contract" , LineType = "ILR"  },
-                //new FundLine { Fundline = "16-18 Apprenticeship Non-Levy Contract (procured)" , LineType = "ILR"  },
-                //new FundLine { Fundline = "19+ Apprenticeship (From May 2017) Non-Levy Contract (non-procured)" , LineType = "ILR"  },
-                //new FundLine { Fundline = "19+ Apprenticeship (From May 2017) Non-Levy Contract" , LineType = "ILR"  },
-                //new FundLine { Fundline = "19+ Apprenticeship Non-Levy Contract (procured)" , LineType = "ILR"  }
+                new FundLine { Fundline = "19+ Apprenticeship (From May 2017) Levy Contract" , LineType = "ILR"  },
+                new FundLine { Fundline = "16-18 Apprenticeship (From May 2017) Non-Levy Contract (non-procured)", LineType = "ILR" },
+                new FundLine { Fundline = "16-18 Apprenticeship (From May 2017) Non-Levy Contract" , LineType = "ILR"  },
+                new FundLine { Fundline = "16-18 Apprenticeship Non-Levy Contract (procured)" , LineType = "ILR"  },
+                new FundLine { Fundline = "19+ Apprenticeship (From May 2017) Non-Levy Contract (non-procured)" , LineType = "ILR"  },
+                new FundLine { Fundline = "19+ Apprenticeship (From May 2017) Non-Levy Contract" , LineType = "ILR"  },
+                new FundLine { Fundline = "19+ Apprenticeship Non-Levy Contract (procured)" , LineType = "ILR"  }
                 //new FundLine { Fundline = "Audit Adjustments: 16-18 Levy Apprenticeships - Apprentice" , LineType = "EAS"  },
                 //new FundLine { Fundline = "Audit Adjustments: 16-18 Levy Apprenticeships - Employer" , LineType = "EAS"  },
                 //new FundLine { Fundline = "Audit Adjustments: 16-18 Levy Apprenticeships - Provider" , LineType = "EAS"  },
