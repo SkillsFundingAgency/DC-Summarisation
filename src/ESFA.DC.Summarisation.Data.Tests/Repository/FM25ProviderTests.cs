@@ -58,7 +58,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
                 .Setup(x => x.FM25_Learners)
                 .Returns(FM25Learners.Object);
 
-            var result = await NewProvider(ilr1819ContextMock.Object)
+            var result = await NewProvider(() => ilr1819ContextMock.Object)
                 .ProvideUkprnsAsync(CancellationToken.None);
             result.Count().Should().Be(3);
             result.Should().BeEquivalentTo(expectedLearners);
@@ -76,7 +76,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
                 .Setup(x => x.FM25_Learners)
                 .Returns(FM25Learners.Object);
 
-            var result = await NewProvider(ilr1819ContextMock.Object)
+            var result = await NewProvider(() => ilr1819ContextMock.Object)
                 .ProvideUkprnsAsync(CancellationToken.None);
             result.Count().Should().Be(0);
             result.Should().BeNullOrEmpty();
@@ -143,7 +143,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
                 .Setup(x => x.FM25_Learners)
                 .Returns(FM25Learners.Object);
 
-            var result = await NewProvider(ilr1819ContextMock.Object)
+            var result = await NewProvider(() => ilr1819ContextMock.Object)
                 .ProvideAsync(ukprn, CancellationToken.None);
             result.Count().Should().Be(1);
             result.Should().NotBeNullOrEmpty();
@@ -190,7 +190,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
                 .Setup(x => x.FM25_Learners)
                 .Returns(FM25Learners.Object);
 
-            var result = await NewProvider(ilr1819ContextMock.Object)
+            var result = await NewProvider(() => ilr1819ContextMock.Object)
                 .ProvideAsync(ukprn, CancellationToken.None);
             result.Count().Should().Be(0);
             result.Should().BeNullOrEmpty();
@@ -209,14 +209,14 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
                 .Setup(x => x.FM25_Learners)
                 .Returns(FM25Learners.Object);
 
-            var result = await NewProvider(ilr1819ContextMock.Object)
+            var result = await NewProvider(() => ilr1819ContextMock.Object)
                 .ProvideAsync(ukprn, CancellationToken.None);
 
             result.Count().Should().Be(0);
             result.Should().BeNullOrEmpty();
         }
 
-        private Fm25Provider NewProvider(IIlr1819RulebaseContext ilr1819RulebaseContext = null)
+        private Fm25Provider NewProvider(Func<IIlr1819RulebaseContext> ilr1819RulebaseContext = null)
         {
             return new Fm25Provider(ilr1819RulebaseContext);
         }

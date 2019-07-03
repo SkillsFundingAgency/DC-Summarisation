@@ -58,7 +58,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
                 .Setup(x => x.TBL_Learners)
                 .Returns(learners.Object);
 
-            var result = await NewProvider(mockILRContext.Object).ProvideUkprnsAsync(CancellationToken.None);
+            var result = await NewProvider(() => mockILRContext.Object).ProvideUkprnsAsync(CancellationToken.None);
             result.Count().Should().Be(2);
             result.Should().BeEquivalentTo(expectedLearners);
         }
@@ -75,7 +75,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
                 .Setup(x => x.TBL_Learners)
                 .Returns(learners.Object);
 
-            var result = await NewProvider(mockILRContext.Object).ProvideUkprnsAsync(CancellationToken.None);
+            var result = await NewProvider(() => mockILRContext.Object).ProvideUkprnsAsync(CancellationToken.None);
             result.Count().Should().Be(0);
             result.Should().BeNullOrEmpty();
         }
@@ -153,7 +153,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
                 .Setup(x => x.TBL_LearningDeliveries)
                 .Returns(learningDeliveries.Object);
 
-            var result = await NewProvider(mockILRContext.Object).ProvideAsync(ukprn, CancellationToken.None);
+            var result = await NewProvider(() => mockILRContext.Object).ProvideAsync(ukprn, CancellationToken.None);
             result.Count().Should().Be(1);
             result.Should().NotBeNullOrEmpty();
         }
@@ -200,7 +200,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
                 .Setup(x => x.TBL_LearningDeliveries)
                 .Returns(learningDeliveries.Object);
 
-            var result = await this.NewProvider(mockILRContext.Object).ProvideAsync(ukprn, CancellationToken.None);
+            var result = await this.NewProvider(() => mockILRContext.Object).ProvideAsync(ukprn, CancellationToken.None);
             result.Count().Should().Be(0);
             result.Should().BeNullOrEmpty();
         }
@@ -218,12 +218,12 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
                 .Setup(x => x.TBL_LearningDeliveries)
                 .Returns(learningDeliveries.Object);
 
-            var result = await this.NewProvider(mockILRContext.Object).ProvideAsync(ukprn, CancellationToken.None);
+            var result = await this.NewProvider(() => mockILRContext.Object).ProvideAsync(ukprn, CancellationToken.None);
             result.Count().Should().Be(0);
             result.Should().BeNullOrEmpty();
         }
 
-        private TblProvider NewProvider(IIlr1819RulebaseContext ilrContext = null)
+        private TblProvider NewProvider(Func<IIlr1819RulebaseContext> ilrContext = null)
         {
             return new TblProvider(ilrContext);
         }

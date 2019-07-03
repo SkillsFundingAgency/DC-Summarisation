@@ -12,9 +12,9 @@ namespace ESFA.DC.Summarisation.Main1819.Data.Repository
 {
     public class TblProvider : ILearningDeliveryProvider
     {
-        private readonly IIlr1819RulebaseContext _ilrContext;
+        private readonly Func<IIlr1819RulebaseContext> _ilrContext;
 
-        public TblProvider(IIlr1819RulebaseContext ilrContext)
+        public TblProvider(Func<IIlr1819RulebaseContext> ilrContext)
         {
             _ilrContext = ilrContext;
         }
@@ -25,32 +25,34 @@ namespace ESFA.DC.Summarisation.Main1819.Data.Repository
 
         public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
         {
-            return await _ilrContext.TBL_LearningDeliveries
-                .Where(ld => ld.UKPRN == ukprn)
-                .Select(ld => new LearningDelivery
-                {
-                    LearnRefNumber = ld.LearnRefNumber,
-                    AimSeqNumber = ld.AimSeqNumber,
-                    Fundline = ld.FundLine,
-                    PeriodisedData = ld.TBL_LearningDelivery_PeriodisedValues
-                        .Where(x => (
-                            x.Period_1 + 
-                            x.Period_2 + 
-                            x.Period_3 + 
-                            x.Period_4 + 
-                            x.Period_5 + 
-                            x.Period_6 + 
-                            x.Period_7 + 
-                            x.Period_8 + 
-                            x.Period_9 + 
-                            x.Period_10 + 
-                            x.Period_11 + 
-                            x.Period_12) > 0)
-                        .Select(pv => new PeriodisedData
-                        {
-                            AttributeName = pv.AttributeName,
-                            Periods = new List<Period>
+            using (var ilrContext = _ilrContext())
+            {
+                return await ilrContext.TBL_LearningDeliveries
+                    .Where(ld => ld.UKPRN == ukprn)
+                    .Select(ld => new LearningDelivery
+                    {
+                        LearnRefNumber = ld.LearnRefNumber,
+                        AimSeqNumber = ld.AimSeqNumber,
+                        Fundline = ld.FundLine,
+                        PeriodisedData = ld.TBL_LearningDelivery_PeriodisedValues
+                            .Where(x => (
+                                x.Period_1 +
+                                x.Period_2 +
+                                x.Period_3 +
+                                x.Period_4 +
+                                x.Period_5 +
+                                x.Period_6 +
+                                x.Period_7 +
+                                x.Period_8 +
+                                x.Period_9 +
+                                x.Period_10 +
+                                x.Period_11 +
+                                x.Period_12) > 0)
+                            .Select(pv => new PeriodisedData
                             {
+                                AttributeName = pv.AttributeName,
+                                Periods = new List<Period>
+                                {
                                 new Period
                                 {
                                     PeriodId = 1,
@@ -111,16 +113,20 @@ namespace ESFA.DC.Summarisation.Main1819.Data.Repository
                                     PeriodId = 12,
                                     Value = pv.Period_12
                                 }
-                            }
-                        }).ToList()
-                }).ToListAsync(cancellationToken);
+                                }
+                            }).ToList()
+                    }).ToListAsync(cancellationToken);
+            }
         }
 
         public async Task<IList<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
         {
-            return await _ilrContext.TBL_Learners
-                .Select(l => l.UKPRN).Distinct()
-                .ToListAsync(cancellationToken);
+            using (var ilrContext = _ilrContext())
+            {
+                return await ilrContext.TBL_Learners
+                    .Select(l => l.UKPRN).Distinct()
+                    .ToListAsync(cancellationToken);
+            }
         }
 
         public Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken) => ProvideAsync(ukprn, cancellationToken);

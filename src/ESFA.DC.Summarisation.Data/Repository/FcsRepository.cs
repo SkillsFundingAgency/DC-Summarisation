@@ -13,34 +13,35 @@ namespace ESFA.DC.Summarisation.Data.Population.Service
 {
     public class FcsRepository : IFcsRepository
     {
-        private readonly IFcsContext _fcs;
+        private readonly Func<IFcsContext> _fcs;
 
-        public FcsRepository(IFcsContext fcs)
+        public FcsRepository(Func<IFcsContext> fcs)
         {
             _fcs = fcs;
         }
 
         public async Task<IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>>> RetrieveAsync(CancellationToken cancellationToken)
         {
-            var contractAllocation = await _fcs.ContractAllocations
-                .Select(ca => new FcsContractAllocation
-                {
-                    ContractAllocationNumber = ca.ContractAllocationNumber,
-                    FundingStreamPeriodCode = ca.FundingStreamPeriodCode,
-                    UoPcode = ca.UoPcode,
-                    DeliveryUkprn = ca.DeliveryUkprn,
-                    DeliveryOrganisation = ca.DeliveryOrganisation,
-                    ContractStartDate = ca.StartDate.HasValue ? Convert.ToInt32(ca.StartDate.Value.ToString("yyyyMM")) : 0,
-                    ContractEndDate = ca.EndDate.HasValue ? Convert.ToInt32(ca.EndDate.Value.ToString("yyyyMM")) : 0
-                })
-                .GroupBy(ca => ca.FundingStreamPeriodCode)
-                .ToDictionaryAsync(
-                    gca => gca.Key,
-                    gca => gca.ToList() as IReadOnlyCollection<IFcsContractAllocation>,
-                    StringComparer.OrdinalIgnoreCase,
-                    cancellationToken);
-
-            return contractAllocation;
+            using (var fcsContext = _fcs())
+            {
+                return await fcsContext.ContractAllocations
+                    .Select(ca => new FcsContractAllocation
+                    {
+                        ContractAllocationNumber = ca.ContractAllocationNumber,
+                        FundingStreamPeriodCode = ca.FundingStreamPeriodCode,
+                        UoPcode = ca.UoPcode,
+                        DeliveryUkprn = ca.DeliveryUkprn,
+                        DeliveryOrganisation = ca.DeliveryOrganisation,
+                        ContractStartDate = ca.StartDate.HasValue ? Convert.ToInt32(ca.StartDate.Value.ToString("yyyyMM")) : 0,
+                        ContractEndDate = ca.EndDate.HasValue ? Convert.ToInt32(ca.EndDate.Value.ToString("yyyyMM")) : 0
+                    })
+                    .GroupBy(ca => ca.FundingStreamPeriodCode)
+                    .ToDictionaryAsync(
+                        gca => gca.Key,
+                        gca => gca.ToList() as IReadOnlyCollection<IFcsContractAllocation>,
+                        StringComparer.OrdinalIgnoreCase,
+                        cancellationToken);
+            }
         }
     }
 }

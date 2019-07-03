@@ -74,7 +74,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
                 .Setup(f => f.ContractAllocations)
                 .Returns(allocations.Object);
 
-            var service = new FcsRepository(fcsMock.Object);
+            var service = new FcsRepository(() => fcsMock.Object);
 
             var fcsa = await service.RetrieveAsync(CancellationToken.None);
 

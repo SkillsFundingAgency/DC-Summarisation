@@ -95,40 +95,71 @@ namespace ESFA.DC.Summarisation.Modules
 
             containerBuilder.Register(c => new SqlConnection(c.Resolve<ISummarisationDataOptions>().SummarisedActualsConnectionString)).As<SqlConnection>();
 
-            containerBuilder.Register(c =>
+            containerBuilder.RegisterType<FcsContext>().As<IFcsContext>().ExternallyOwned();
+            containerBuilder.Register(context =>
             {
-                DbContextOptions<FcsContext> options = new DbContextOptionsBuilder<FcsContext>()
-                .UseSqlServer(c.Resolve<ISummarisationDataOptions>().FCSConnectionString).Options;
-                return new FcsContext(options);
-            }).As<IFcsContext>().InstancePerDependency();
+                var summarisationSettings = context.Resolve<ISummarisationDataOptions>();
+                var optionsBuilder = new DbContextOptionsBuilder<SummarisationContext>();
+                optionsBuilder.UseSqlServer(
+                    summarisationSettings.FCSConnectionString,
+                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
 
-            containerBuilder.Register(c =>
-            {
-                DbContextOptions<ILR1819_DataStoreEntities> options = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>()
-                .UseSqlServer(c.Resolve<ISummarisationDataOptions>().ILR1819ConnectionString).Options;
-                return new ILR1819_DataStoreEntities(options);
-            }).As<IIlr1819RulebaseContext>().InstancePerDependency();
+                return optionsBuilder.Options;
+            })
+            .As<DbContextOptions<FcsContext>>()
+            .SingleInstance();
 
+            containerBuilder.RegisterType<ILR1819_DataStoreEntities>().As<IILR1819_DataStoreEntities>().ExternallyOwned();
             containerBuilder.Register(c =>
             {
-                DbContextOptions<EasContext> options = new DbContextOptionsBuilder<EasContext>()
-                .UseSqlServer(c.Resolve<ISummarisationDataOptions>().EAS1819ConnectionString).Options;
-                return new EasContext(options);
-            }).As<IEasdbContext>().InstancePerDependency();
+                var summarisationSettings = c.Resolve<ISummarisationDataOptions>();
+                var optionsBuilder = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>();
+                optionsBuilder.UseSqlServer(
+                    summarisationSettings.ILR1819ConnectionString,
+                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
 
-            containerBuilder.Register(c =>
-            {
-                DbContextOptions<ESF_DataStoreEntities> options = new DbContextOptionsBuilder<ESF_DataStoreEntities>()
-                .UseSqlServer(c.Resolve<ISummarisationDataOptions>().ESFNonEFConnectionString).Options;
-                return new ESF_DataStoreEntities(options);
-            }).As<IESF_DataStoreEntities>().InstancePerDependency();
+                return optionsBuilder.Options;
+            }).As<DbContextOptions<ILR1819_DataStoreEntities>>()
+            .SingleInstance();
 
+            containerBuilder.RegisterType<EasContext>().As<IEasdbContext>().ExternallyOwned();
             containerBuilder.Register(c =>
             {
-                DbContextOptions<ESFR2Context> options = new DbContextOptionsBuilder<ESFR2Context>()
-                .UseSqlServer(c.Resolve<ISummarisationDataOptions>().ESFR2ConnectionString).Options;
-                return new ESFR2Context(options);
-            }).As<IESFR2Context>().InstancePerDependency();
+                var summarisationSettings = c.Resolve<ISummarisationDataOptions>();
+                var optionsBuilder = new DbContextOptionsBuilder<EasContext>();
+                optionsBuilder.UseSqlServer(
+                    summarisationSettings.EAS1819ConnectionString,
+                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+
+                return optionsBuilder.Options;
+            }).As<DbContextOptions<EasContext>>()
+            .SingleInstance();
+
+            containerBuilder.RegisterType<ESF_DataStoreEntities>().As<IESF_DataStoreEntities>().ExternallyOwned();
+            containerBuilder.Register(c =>
+            {
+                var summarisationSettings = c.Resolve<ISummarisationDataOptions>();
+                var optionsBuilder = new DbContextOptionsBuilder<ESF_DataStoreEntities>();
+                optionsBuilder.UseSqlServer(
+                    summarisationSettings.ESFNonEFConnectionString,
+                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+
+                return optionsBuilder.Options;
+            }).As<DbContextOptions<ESF_DataStoreEntities>>()
+            .SingleInstance();
+
+            containerBuilder.RegisterType<ESFR2Context>().As<IESFR2Context>().ExternallyOwned();
+            containerBuilder.Register(c =>
+            {
+                var summarisationSettings = c.Resolve<ISummarisationDataOptions>();
+                var optionsBuilder = new DbContextOptionsBuilder<ESFR2Context>();
+                optionsBuilder.UseSqlServer(
+                    summarisationSettings.ESFR2ConnectionString,
+                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+
+                return optionsBuilder.Options;
+            }).As<DbContextOptions<ESFR2Context>>()
+            .SingleInstance();
 
             containerBuilder.RegisterType<DASPaymentsContext>().As<IDASPaymentsContext>().ExternallyOwned();
             containerBuilder.Register(c =>

@@ -73,12 +73,7 @@ namespace ESFA.DC.Summarisation.Console
 
             DbContextOptions<DASPaymentsContext> dasdbContextOptions = new DbContextOptionsBuilder<DASPaymentsContext>().UseSqlServer(dasConnectionString).Options;
 
-            IFcsContext fcsContext = new FcsContext(fcsdbContextOptions);
-            IIlr1819RulebaseContext ilrContext = new ILR1819_DataStoreEntities(ilrdbContextOptions);
-            IEasdbContext easContext = new EasContext(easdbContextOptions);
-            IESF_DataStoreEntities esfContext = new ESF_DataStoreEntities(esfdbContextOptions);
-            IESFR2Context esfR2Context = new ESFR2Context(esfR2dbContextOptions);
-            IFcsRepository fcsRepository = new FcsRepository(fcsContext);
+            IFcsRepository fcsRepository = new FcsRepository(() => new FcsContext(fcsdbContextOptions));
             ISummarisedActualsProcessRepository saRepository
                 = new SummarisedActualsProcessRepository(() => new SummarisationContext(sadbContextOptions));
 
@@ -101,14 +96,14 @@ namespace ESFA.DC.Summarisation.Console
 
             IProviderRepository repository = new ProviderRepository(new List<ILearningDeliveryProvider>
             {
-                new AlbProvider(ilrContext),
-                new EasProvider(easContext),
-                new Fm25Provider(ilrContext),
-                new Fm35Provider(ilrContext),
-                new TblProvider(ilrContext),
+                new AlbProvider(() => new ILR1819_DataStoreEntities(ilrdbContextOptions)),
+                new EasProvider(() => new EasContext(easdbContextOptions)),
+                new Fm25Provider(() => new ILR1819_DataStoreEntities(ilrdbContextOptions)),
+                new Fm35Provider(() => new ILR1819_DataStoreEntities(ilrdbContextOptions)),
+                new TblProvider(() => new ILR1819_DataStoreEntities(ilrdbContextOptions)),
 
-                new ESFProvider_R1(esfContext),
-                new ESFProvider_R2(esfR2Context),
+                new ESFProvider_R1(() => new ESF_DataStoreEntities(esfdbContextOptions)),
+                new ESFProvider_R2(() => new ESFR2Context(esfR2dbContextOptions)),
                 new ESFILRProvider(() => new SummarisationContext(sadbContextOptions)),
 
                 new LevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
