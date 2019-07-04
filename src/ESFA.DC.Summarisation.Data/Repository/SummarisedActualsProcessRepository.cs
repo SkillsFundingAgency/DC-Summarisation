@@ -26,7 +26,7 @@ namespace ESFA.DC.Summarisation.Data.Repository
             using (var contextFactory = _summarisationContext())
             {
                 return await contextFactory.CollectionReturns
-                                    .Where(cr => cr.CollectionType == collectionType)
+                                    .Where(cr => cr.CollectionType.Equals(collectionType,StringComparison.OrdinalIgnoreCase))
                                     .OrderByDescending(o => o.Id)
                                     .Select(s => new CollectionReturn { Id = s.Id, CollectionReturnCode = s.CollectionReturnCode, CollectionType = s.CollectionType })
                                     .FirstOrDefaultAsync(cancellationToken);
@@ -38,7 +38,7 @@ namespace ESFA.DC.Summarisation.Data.Repository
             using (var contextFactory = _summarisationContext())
             {
                 return await contextFactory.SummarisedActuals
-                .Where(sa => sa.CollectionReturnId == collectionReturnId && sa.OrganisationId == organisationId)
+                .Where(sa => sa.CollectionReturnId == collectionReturnId && sa.OrganisationId.Equals(organisationId,StringComparison.OrdinalIgnoreCase))
                 .Select(o => new Output.Model.SummarisedActual
                 {
                     Period = o.Period,

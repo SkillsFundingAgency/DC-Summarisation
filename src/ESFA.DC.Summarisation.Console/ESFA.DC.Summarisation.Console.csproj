@@ -112,7 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ESFA.DC.EAS1819.EF">
-      <Version>0.1.1</Version>
+      <Version>0.1.7</Version>
     </PackageReference>
     <PackageReference Include="ESFA.DC.ILR1819.Database.EF">
       <Version>0.1.381</Version>
