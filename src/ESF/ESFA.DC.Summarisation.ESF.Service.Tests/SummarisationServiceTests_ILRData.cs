@@ -28,7 +28,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             FundLine fundLine = new FundLine() { CalculateVolume = true };
 
-            var result = task.SummarisePeriods_ILRData(GetPeriodsData(5), fundLine, GetCollectionPeriods());
+            var result = task.SummarisePeriods(GetPeriodsData(5), fundLine, GetCollectionPeriods());
 
             result.Count().Should().Be(12);
 
@@ -47,7 +47,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             FundLine fundLine = new FundLine() { CalculateVolume = false };
 
-            var result = task.SummarisePeriods_ILRData(GetPeriodsData(5), fundLine, GetCollectionPeriods());
+            var result = task.SummarisePeriods(GetPeriodsData(5), fundLine, GetCollectionPeriods());
 
             result.Count().Should().Be(12);
 
@@ -306,6 +306,8 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                     {
                         PeriodId = collectionPeriod.CollectionMonth,
                         CollectionYear = collectionPeriod.CollectionYear,
+                        CalendarYear = collectionPeriod.CalendarYear,
+                        CalendarMonth = collectionPeriod.CalendarMonth,
                         Value = periodValue,
                         Volume = periodVolume
                     };

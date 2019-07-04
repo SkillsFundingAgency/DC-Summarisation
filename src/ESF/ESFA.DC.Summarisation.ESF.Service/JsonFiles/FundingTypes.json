@@ -598,7 +598,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "FakeAttribute"
             ],
             "CalculateVolume": false
           }
@@ -616,7 +617,8 @@
               "StartEarnings",
               "AchievementEarnings",
               "AdditionalProgCostEarnings",
-              "ProgressionEarnings"
+              "ProgressionEarnings",
+              "FakeAttribute"
             ],
             "CalculateVolume": false
           }

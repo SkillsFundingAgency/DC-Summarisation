@@ -38,13 +38,13 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                             PeriodisedData = ld.GroupBy(x => x.DeliverableCode).Select(pd => new PeriodisedData
                             {
                                 DeliverableCode = pd.Key,
-                                AttributeName = "",
+                                AttributeName = "FakeAttribute",
                                 Periods = pd.Select(p => new Period
                                 {
                                     CalendarMonth = p.CalendarMonth,
                                     CalendarYear = p.CalendarYear,
                                     Value = p.SupplementaryDataUnitCost.Value ?? p.Value,
-                                    Volume = p.CostType == "Unit Cost" ? 1 : p.CostType == "Unit Cost Deduction" ? -1 : 0
+                                    Volume = p.CostType.Equals("Unit Cost", StringComparison.OrdinalIgnoreCase) ? 1 : p.CostType.Equals("Unit Cost Deduction", StringComparison.OrdinalIgnoreCase) ? -1 : 0
                                 }).ToList()
                             }).ToList()
                         }).ToListAsync(cancellationToken);
