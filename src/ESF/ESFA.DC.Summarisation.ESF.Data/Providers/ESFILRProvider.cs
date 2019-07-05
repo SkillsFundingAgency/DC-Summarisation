@@ -82,6 +82,8 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                     {
                                         PeriodId = 1,
                                         CollectionYear = ld.CollectionYear,
+                                        CalendarYear = 2000 + (ld.CollectionYear / 100),
+                                        CalendarMonth = 8,
                                         Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_1 : 0,
                                         Volume = ld.AttributeName.Equals("DeliverableVolume") ? Convert.ToInt16(ld.Period_1) : 0
                                     },
@@ -89,6 +91,8 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                     {
                                         PeriodId = 2,
                                         CollectionYear = ld.CollectionYear,
+                                        CalendarYear = 2000 + (ld.CollectionYear / 100),
+                                        CalendarMonth = 9,
                                        Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_2 : 0,
                                         Volume = ld.AttributeName == "DeliverableVolume" ? Convert.ToInt16(ld.Period_2) : 0
                                     },
@@ -96,6 +100,8 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                     {
                                         PeriodId = 3,
                                         CollectionYear = ld.CollectionYear,
+                                        CalendarYear = 2000 + (ld.CollectionYear / 100),
+                                        CalendarMonth = 10,
                                         Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_3 : 0,
                                         Volume = ld.AttributeName == "DeliverableVolume" ? Convert.ToInt16(ld.Period_3) : 0
                                     },
@@ -103,6 +109,8 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                     {
                                         PeriodId = 4,
                                         CollectionYear = ld.CollectionYear,
+                                        CalendarYear = 2000 + (ld.CollectionYear / 100),
+                                        CalendarMonth = 11,
                                         Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_4 : 0,
                                         Volume = ld.AttributeName == "DeliverableVolume" ? Convert.ToInt16(ld.Period_4) : 0
                                     },
@@ -110,6 +118,8 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                     {
                                         PeriodId = 5,
                                         CollectionYear = ld.CollectionYear,
+                                        CalendarYear = 2000 + (ld.CollectionYear / 100),
+                                        CalendarMonth = 12,
                                         Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_5 : 0,
                                         Volume = ld.AttributeName == "DeliverableVolume" ? Convert.ToInt16(ld.Period_5) : 0
                                     },
@@ -117,6 +127,8 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                     {
                                         PeriodId = 6,
                                         CollectionYear = ld.CollectionYear,
+                                        CalendarYear = 2000 + (ld.CollectionYear % 100),
+                                        CalendarMonth = 1,
                                         Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_6 : 0,
                                         Volume = ld.AttributeName == "DeliverableVolume" ? Convert.ToInt16(ld.Period_6) : 0
                                     },
@@ -124,6 +136,8 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                     {
                                         PeriodId = 7,
                                         CollectionYear = ld.CollectionYear,
+                                        CalendarYear = 2000 + (ld.CollectionYear % 100),
+                                        CalendarMonth = 2,
                                         Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_7 : 0,
                                         Volume = ld.AttributeName == "DeliverableVolume" ? Convert.ToInt16(ld.Period_7) : 0
                                     },
@@ -131,6 +145,8 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                     {
                                         PeriodId = 8,
                                         CollectionYear = ld.CollectionYear,
+                                        CalendarYear = 2000 + (ld.CollectionYear % 100),
+                                        CalendarMonth = 3,
                                         Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_8 : 0,
                                         Volume = ld.AttributeName == "DeliverableVolume" ? Convert.ToInt16(ld.Period_8) : 0
                                     },
@@ -138,6 +154,8 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                     {
                                         PeriodId = 9,
                                         CollectionYear = ld.CollectionYear,
+                                        CalendarYear = 2000 + (ld.CollectionYear % 100),
+                                        CalendarMonth = 4,
                                         Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_9 : 0,
                                         Volume = ld.AttributeName == "DeliverableVolume" ? Convert.ToInt16(ld.Period_9) : 0
                                     },
@@ -145,6 +163,8 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                     {
                                         PeriodId = 10,
                                         CollectionYear = ld.CollectionYear,
+                                        CalendarYear = 2000 + (ld.CollectionYear % 100),
+                                        CalendarMonth = 5,
                                         Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_10 : 0,
                                         Volume = ld.AttributeName == "DeliverableVolume" ? Convert.ToInt16(ld.Period_10) : 0
                                     },
@@ -152,6 +172,8 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                     {
                                         PeriodId = 11,
                                         CollectionYear = ld.CollectionYear,
+                                        CalendarYear = 2000 + (ld.CollectionYear % 100),
+                                        CalendarMonth = 6,
                                         Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_11 : 0,
                                         Volume = ld.AttributeName == "DeliverableVolume" ? Convert.ToInt16(ld.Period_11) : 0
                                     },
@@ -159,6 +181,8 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                     {
                                         PeriodId = 12,
                                         CollectionYear = ld.CollectionYear,
+                                        CalendarYear = 2000 + (ld.CollectionYear % 100),
+                                        CalendarMonth = 7,
                                         Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_12 : 0,
                                         Volume = ld.AttributeName == "DeliverableVolume" ? Convert.ToInt16(ld.Period_12) : 0
                                     }

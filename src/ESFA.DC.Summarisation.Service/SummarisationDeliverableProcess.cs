@@ -36,10 +36,7 @@ namespace ESFA.DC.Summarisation.Service
 
                 var periods = GetPeriodsForFundLine(periodisedData, fundLine);
 
-                if (fundingStream.FundModel == FundModel.Supp)
-                    summarisedActuals.AddRange(SummarisePeriods_SuppData(periods, fundLine, collectionPeriods));
-                else if (fundingStream.FundModel == FundModel.ILR)
-                    summarisedActuals.AddRange(SummarisePeriods_ILRData(periods, fundLine, collectionPeriods));
+                summarisedActuals.AddRange(SummarisePeriods(periods, fundLine, collectionPeriods));
             }
 
             return summarisedActuals
@@ -68,7 +65,7 @@ namespace ESFA.DC.Summarisation.Service
             return periodisedData.SelectMany(fpd => fpd.Periods);
         }
 
-        public IEnumerable<SummarisedActual> SummarisePeriods_SuppData(IEnumerable<IPeriod> periods, FundLine fundLine, IEnumerable<CollectionPeriod> collectionPeriods)
+        public IEnumerable<SummarisedActual> SummarisePeriods(IEnumerable<IPeriod> periods, FundLine fundLine, IEnumerable<CollectionPeriod> collectionPeriods)
         {
             return periods
                 .Join(collectionPeriods, p => new { p.CalendarMonth, p.CalendarYear }, cp => new { cp.CalendarMonth, cp.CalendarYear }, (p, cp) => new { cp.Period, p.Value, p.Volume })
@@ -81,22 +78,5 @@ namespace ESFA.DC.Summarisation.Service
                 });
         }
 
-        public IEnumerable<SummarisedActual> SummarisePeriods_ILRData(IEnumerable<IPeriod> periods, FundLine fundLine, IEnumerable<CollectionPeriod> collectionPeriods)
-        {
-
-            return periods
-                       .Join(collectionPeriods,
-                                p => new { CollectionMonth = p.PeriodId, p.CollectionYear },
-                                cp => new { cp.CollectionMonth, cp.CollectionYear },
-                                (p, cp) => new { cp.Period, p.Value, p.Volume }
-                            )
-                        .GroupBy(pg => pg.Period)
-                         .Select(g => new SummarisedActual
-                         {
-                             Period = g.Key,
-                             ActualValue = g.Where(w => w.Value.HasValue).Sum(sw => sw.Value.Value),
-                             ActualVolume = fundLine.CalculateVolume ? g.Where(w => w.Volume.HasValue).Sum(sw => sw.Volume.Value) : 0
-                         });
-        }
     }
 }
