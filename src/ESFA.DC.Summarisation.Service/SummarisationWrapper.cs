@@ -210,6 +210,8 @@ namespace ESFA.DC.Summarisation.Service
             var previousActuals = await _summarisedActualsProcessRepository.GetSummarisedActualsForCollectionReturnAndOrganisationAsync(collectionReturnId, organisationId, cancellationToken);
             var actualsToCarry = previousActuals.Except(providerActuals, new SummarisedActualsComparer());
 
+            actualsToCarry.ToList().ForEach(a => { a.ActualVolume = 0; a.ActualValue = 0; });
+
             _logger.LogInfo($"Summarisation Wrapper: Retrieve Latest Summarised Actuals End");
             return actualsToCarry;
         }
