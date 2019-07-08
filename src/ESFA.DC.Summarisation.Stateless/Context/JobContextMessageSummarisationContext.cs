@@ -31,12 +31,12 @@ namespace ESFA.DC.Summarisation.Stateless.Context
 
         public string CollectionType
         {
-            get =>_jobContextMessage.KeyValuePairs.Where(kv => kv.Key.StartsWith(_collectionType, StringComparison.OrdinalIgnoreCase)).Select(pv => pv.Value).FirstOrDefault().ToString();
+            get =>_jobContextMessage.KeyValuePairs.FirstOrDefault(kv => kv.Key.StartsWith(_collectionType, StringComparison.OrdinalIgnoreCase)).Value.ToString();
         }
 
         public string CollectionReturnCode
         {
-            get => _jobContextMessage.KeyValuePairs.Where(kv => kv.Key.StartsWith(_collectionReturnCode, StringComparison.OrdinalIgnoreCase)).Select(pv => pv.Value).FirstOrDefault().ToString();
+            get => _jobContextMessage.KeyValuePairs.FirstOrDefault(kv => kv.Key.StartsWith(_collectionReturnCode, StringComparison.OrdinalIgnoreCase)).Value.ToString();
         }
 
         public string Ukprn
@@ -54,7 +54,7 @@ namespace ESFA.DC.Summarisation.Stateless.Context
 
         public string ProcessType
         {
-            get => _jobContextMessage.KeyValuePairs.Where(kv => kv.Key.StartsWith(_processType, StringComparison.OrdinalIgnoreCase)).Select(pv => pv.Value).FirstOrDefault().ToString();
+            get => _jobContextMessage.KeyValuePairs.FirstOrDefault(kv => kv.Key.StartsWith(_processType, StringComparison.OrdinalIgnoreCase)).Value.ToString();
         }
 
         public int CollectionYear
