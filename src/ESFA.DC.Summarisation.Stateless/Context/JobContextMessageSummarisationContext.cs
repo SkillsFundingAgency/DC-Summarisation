@@ -18,7 +18,7 @@ namespace ESFA.DC.Summarisation.Stateless.Context
 
         private const string _collectionYear = "CollectionYear";
 
-        private const string _collectionMonth = "CollectionMonth";
+        private const string _collectionMonth = "ReturnPeriod";
 
         private const string _reRunSummarisation = "Re-Run";
 
@@ -31,12 +31,12 @@ namespace ESFA.DC.Summarisation.Stateless.Context
 
         public string CollectionType
         {
-            get => _jobContextMessage.KeyValuePairs[_collectionType].ToString();
+            get =>_jobContextMessage.KeyValuePairs.Where(kv => kv.Key.StartsWith(_collectionType, StringComparison.OrdinalIgnoreCase)).Select(pv => pv.Value).FirstOrDefault().ToString();
         }
 
         public string CollectionReturnCode
         {
-            get => _jobContextMessage.KeyValuePairs[_collectionReturnCode].ToString();
+            get => _jobContextMessage.KeyValuePairs.Where(kv => kv.Key.StartsWith(_collectionReturnCode, StringComparison.OrdinalIgnoreCase)).Select(pv => pv.Value).FirstOrDefault().ToString();
         }
 
         public string Ukprn
@@ -54,7 +54,7 @@ namespace ESFA.DC.Summarisation.Stateless.Context
 
         public string ProcessType
         {
-            get => _jobContextMessage.KeyValuePairs[_processType].ToString();
+            get => _jobContextMessage.KeyValuePairs.Where(kv => kv.Key.StartsWith(_processType, StringComparison.OrdinalIgnoreCase)).Select(pv => pv.Value).FirstOrDefault().ToString();
         }
 
         public int CollectionYear
