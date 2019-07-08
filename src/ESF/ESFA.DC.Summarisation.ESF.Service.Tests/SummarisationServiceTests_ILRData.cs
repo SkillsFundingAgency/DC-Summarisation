@@ -59,6 +59,84 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             }
         }
 
+        [Theory]
+        [InlineData(12.51032, 6.11421, 18.62)]
+        [InlineData(19.94123, 1.05854, 21.00)]
+        [InlineData(10.23101, 0.01143, 10.24)]
+        [InlineData(5, 3, 8.00)]
+        public void Summarise_CheckRounding(decimal value1, decimal value2, decimal result)
+        {
+            FundingStream fundingStream = GetFundingTypes()
+                .SelectMany(ft => ft.FundingStreams)
+                .Where(fs => fs.PeriodCode == "ESF1420" && fs.DeliverableLineCode == 1).FirstOrDefault();
+
+            int ukprn = GetProviders().First();
+
+            FcsContractAllocation allocation = new FcsContractAllocation()
+            {
+                ContractAllocationNumber = $"All{ukprn}-1",
+                FundingStreamPeriodCode = "ESF1420",
+                DeliveryUkprn = ukprn,
+                DeliveryOrganisation = $"Org{ukprn}"
+            };
+
+            var fungingTypes = GetFundingTypes();
+
+            List<Period> periods = new List<Period>()
+            {
+                new Period()
+                {
+                    PeriodId = 1,
+                    CalendarMonth = 8,
+                    CalendarYear = 2018,
+                    Value = value1
+                },
+                new Period()
+                {
+                    PeriodId = 1,
+                    CalendarMonth = 8,
+                    CalendarYear = 2018,
+                    Value = value2
+                }
+            };
+
+            List<PeriodisedData> periodisedDatas = new List<PeriodisedData>()
+            {
+                new PeriodisedData()
+                {
+                    AttributeName = "StartEarnings",
+                    DeliverableCode = "ST01",
+                    Periods = periods
+                }
+            };
+
+            List<LearningDelivery> learningDeliveries = new List<LearningDelivery>()
+            {
+                new LearningDelivery()
+                {
+                        LearnRefNumber = "100000425",
+                        ConRefNumber = "All10000001-1",
+                        AimSeqNumber = 10001,
+                        Fundline = "16-18 Apprenticeship",
+                        DeliverableCode = "ST01",
+                        PeriodisedData = periodisedDatas
+                },
+            };
+
+            Provider testProvider = new Provider()
+            {
+                UKPRN = ukprn,
+                LearningDeliveries = learningDeliveries
+            };
+
+            var task = new SummarisationDeliverableProcess();
+
+            var results = task.Summarise(fundingStream, testProvider, allocation, GetCollectionPeriods());
+
+            results.Count().Should().Be(1);
+            results.FirstOrDefault().ActualValue.Should().Be(result);
+        }
+
         [Fact]
         public void Summarise_FundingStream()
         {
