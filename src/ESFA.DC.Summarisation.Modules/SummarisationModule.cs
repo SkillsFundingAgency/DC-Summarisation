@@ -99,7 +99,7 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.Register(context =>
             {
                 var summarisationSettings = context.Resolve<ISummarisationDataOptions>();
-                var optionsBuilder = new DbContextOptionsBuilder<SummarisationContext>();
+                var optionsBuilder = new DbContextOptionsBuilder<FcsContext>();
                 optionsBuilder.UseSqlServer(
                     summarisationSettings.FCSConnectionString,
                     options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
@@ -109,7 +109,7 @@ namespace ESFA.DC.Summarisation.Modules
             .As<DbContextOptions<FcsContext>>()
             .SingleInstance();
 
-            containerBuilder.RegisterType<ILR1819_DataStoreEntities>().As<IILR1819_DataStoreEntities>().ExternallyOwned();
+            containerBuilder.RegisterType<ILR1819_DataStoreEntities>().As<IIlr1819RulebaseContext>().ExternallyOwned();
             containerBuilder.Register(c =>
             {
                 var summarisationSettings = c.Resolve<ISummarisationDataOptions>();

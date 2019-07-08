@@ -16,7 +16,7 @@ namespace ESFA.DC.Summarisation.Main1819.Data.Repository
     {
         private readonly Func<IIlr1819RulebaseContext> _ilr;
 
-        public string SummarisationType => nameof(Configuration.Enum.SummarisationType.Main1819_ALB);
+        public string SummarisationType => nameof(Configuration.Enum.SummarisationType.Main1819_FM35);
 
         public string CollectionType => nameof(Configuration.Enum.CollectionType.ILR1819);
 
