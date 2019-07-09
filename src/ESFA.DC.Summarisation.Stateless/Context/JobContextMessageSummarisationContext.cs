@@ -31,12 +31,12 @@ namespace ESFA.DC.Summarisation.Stateless.Context
 
         public string CollectionType
         {
-            get =>_jobContextMessage.KeyValuePairs.FirstOrDefault(kv => kv.Key.StartsWith(_collectionType, StringComparison.OrdinalIgnoreCase)).Value.ToString();
+            get => GetKeyValue(_collectionType);
         }
 
         public string CollectionReturnCode
         {
-            get => _jobContextMessage.KeyValuePairs.FirstOrDefault(kv => kv.Key.StartsWith(_collectionReturnCode, StringComparison.OrdinalIgnoreCase)).Value.ToString();
+            get => GetKeyValue(_collectionReturnCode);
         }
 
         public string Ukprn
@@ -54,7 +54,7 @@ namespace ESFA.DC.Summarisation.Stateless.Context
 
         public string ProcessType
         {
-            get => _jobContextMessage.KeyValuePairs.FirstOrDefault(kv => kv.Key.StartsWith(_processType, StringComparison.OrdinalIgnoreCase)).Value.ToString();
+            get => GetKeyValue(_processType);
         }
 
         public int CollectionYear
@@ -73,6 +73,32 @@ namespace ESFA.DC.Summarisation.Stateless.Context
             {
                 return SummarisationTypes.Any(x => x.Equals(_reRunSummarisation, StringComparison.OrdinalIgnoreCase));
             }
+        }
+
+        public string GetKeyValue(string key)
+        {
+            string returnValue = string.Empty;
+
+            if (SummarisationTypes.Any(item => item.Equals(Configuration.Enum.SummarisationType.Main1819_FM35.ToString(), StringComparison.OrdinalIgnoreCase)
+                        || item.Equals(Configuration.Enum.SummarisationType.Main1819_FM25.ToString(), StringComparison.OrdinalIgnoreCase)
+                        || item.Equals(Configuration.Enum.SummarisationType.Main1819_ALB.ToString(), StringComparison.OrdinalIgnoreCase)
+                        || item.Equals(Configuration.Enum.SummarisationType.Main1819_TBL.ToString(), StringComparison.OrdinalIgnoreCase)
+                        || item.Equals(Configuration.Enum.SummarisationType.Main1819_EAS.ToString(), StringComparison.OrdinalIgnoreCase)))
+            {
+                returnValue = _jobContextMessage.KeyValuePairs[$"{key}DC"].ToString();
+            }
+            else if (SummarisationTypes.Any(item => item.Equals(Configuration.Enum.SummarisationType.ESF_ILRData.ToString(), StringComparison.OrdinalIgnoreCase)
+                   || item.Equals(Configuration.Enum.SummarisationType.ESF_SuppData.ToString(), StringComparison.OrdinalIgnoreCase)))
+            {
+                returnValue = _jobContextMessage.KeyValuePairs[$"{key}ESF"].ToString();
+            }
+            else if (SummarisationTypes.Any(item => item.Equals(Configuration.Enum.SummarisationType.Apps1819_Levy.ToString(), StringComparison.OrdinalIgnoreCase)
+                   || item.Equals(Configuration.Enum.SummarisationType.Apps1819_NonLevy.ToString(), StringComparison.OrdinalIgnoreCase)))
+            {
+                returnValue = _jobContextMessage.KeyValuePairs[$"{key}App"].ToString();
+            }
+
+            return returnValue;
         }
     }
 }
