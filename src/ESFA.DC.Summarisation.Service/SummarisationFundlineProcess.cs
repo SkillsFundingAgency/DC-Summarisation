@@ -69,7 +69,7 @@ namespace ESFA.DC.Summarisation.Service
                         DeliverableCode = fundingStream.DeliverableLineCode,
                         FundingStreamPeriodCode = fundingStream.PeriodCode,
                         Period = collectionPeriods.First(cp => cp.Period == g.Key).ActualsSchemaPeriod,
-                        ActualValue = g.Sum(x => x.ActualValue),
+                        ActualValue = Math.Round(g.Sum(x => x.ActualValue),2),
                         ContractAllocationNumber = fcsAllocations[fundingStream.PeriodCode].ContractAllocationNumber,
                         PeriodTypeCode = "AY"
                     });

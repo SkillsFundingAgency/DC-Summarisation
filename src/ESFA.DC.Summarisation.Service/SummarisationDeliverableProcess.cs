@@ -31,7 +31,7 @@ namespace ESFA.DC.Summarisation.Service
             {
                 var periodisedData = provider
                     .LearningDeliveries
-                    .Where(ld => ld.ConRefNumber.Equals(allocation.ContractAllocationNumber, StringComparison.OrdinalIgnoreCase))
+                    .Where(ld => ld.ConRefNumber != null && ld.ConRefNumber.Equals(allocation.ContractAllocationNumber, StringComparison.OrdinalIgnoreCase))
                     .SelectMany(x => x.PeriodisedData.Where(w => w.DeliverableCode == fundLine.DeliverableCode));
 
                 var periods = GetPeriodsForFundLine(periodisedData, fundLine);
@@ -48,7 +48,7 @@ namespace ESFA.DC.Summarisation.Service
                         DeliverableCode = fundingStream.DeliverableLineCode,
                         FundingStreamPeriodCode = fundingStream.PeriodCode,
                         Period = collectionPeriods.First(cp => cp.Period == g.Key).ActualsSchemaPeriod,
-                        ActualValue = g.Sum(x => x.ActualValue),
+                        ActualValue = Math.Round(g.Sum(x => x.ActualValue),2),
                         ActualVolume = g.Sum(x => x.ActualVolume),
                         ContractAllocationNumber = allocation.ContractAllocationNumber,
                         PeriodTypeCode = "AY"

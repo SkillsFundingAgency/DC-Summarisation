@@ -188,6 +188,66 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         }
 
         [Theory]
+        [InlineData(12.51032, 6.11421, 18.62)]
+        [InlineData(19.94123, 1.05854, 21.00)]
+        [InlineData(10.23101, 0.01143, 10.24)]
+        [InlineData(5, 3, 8.00)]
+        public void SummariseCheckRounding(decimal value1, decimal value2, decimal result)
+        {
+            var fungingTypes = GetFundingTypes();
+
+            FundingStream fundingStream = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == "APPS1819" && fs.DeliverableLineCode == 2).First();
+
+            List<Period> periods = new List<Period>()
+            {
+                new Period()
+                {
+                    PeriodId = 1,
+                    Value = value1
+                },
+                new Period()
+                {
+                    PeriodId = 1,
+                    Value = value2
+                }
+            };
+
+            List<PeriodisedData> periodisedDatas = new List<PeriodisedData>()
+            {
+                new PeriodisedData()
+                {
+                    AttributeName = "OnProgPayment",
+                    Periods = periods
+                }
+            };
+
+            List<LearningDelivery> learningDeliveries = new List<LearningDelivery>()
+            {
+                new LearningDelivery()
+                {
+                        LearnRefNumber = "100000425",
+                        AimSeqNumber = 10001,
+                        Fundline = "16-18 Apprenticeship",
+                        DeliverableCode = "2",
+                        PeriodisedData = periodisedDatas
+                },
+            };
+
+            Provider testProvider = new Provider()
+            {
+                UKPRN = ukprn,
+                LearningDeliveries = learningDeliveries
+            };
+
+            var task = new SummarisationFundlineProcess();
+
+            var results = task.Summarise(fundingStream, testProvider, GetContractAllocation(), GetCollectionPeriods()).OrderBy(x => x.Period).ToList();
+
+            results.Count().Should().Be(1);
+            results.FirstOrDefault().ActualValue.Should().Be(result);
+        }
+
+        [Theory]
         [InlineData("16-18 Traineeships (Adult funded)", "16-18TRN1819")]
         [InlineData("16-18 Traineeships (Adult Funded)", "16-18tRN1819")]
         [InlineData("16-18 traineeships (adult funded)", "16-18trn1819")]
