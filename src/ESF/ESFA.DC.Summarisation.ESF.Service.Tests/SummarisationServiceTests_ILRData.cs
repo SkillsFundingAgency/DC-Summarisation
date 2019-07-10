@@ -68,7 +68,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
         {
             FundingStream fundingStream = GetFundingTypes()
                 .SelectMany(ft => ft.FundingStreams)
-                .Where(fs => fs.PeriodCode == "ESF1420" && fs.DeliverableLineCode == 1).Single();
+                .Single(fs => fs.PeriodCode == "ESF1420" && fs.DeliverableLineCode == 1);
 
             int ukprn = GetProviders().First();
 
@@ -140,7 +140,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
         {
             FundingStream fundingStream = GetFundingTypes()
                 .SelectMany(ft => ft.FundingStreams)
-                .Where(fs => fs.PeriodCode == "ESF1420" && fs.DeliverableLineCode == 1).FirstOrDefault();
+                .Single(fs => fs.PeriodCode == "ESF1420" && fs.DeliverableLineCode == 1);
 
             int ukprn = GetProviders().First();
 
