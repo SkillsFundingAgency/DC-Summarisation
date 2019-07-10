@@ -68,7 +68,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
         {
             FundingStream fundingStream = GetFundingTypes()
                 .SelectMany(ft => ft.FundingStreams)
-                .Where(fs => fs.PeriodCode == "ESF1420" && fs.DeliverableLineCode == 1).FirstOrDefault();
+                .Where(fs => fs.PeriodCode == "ESF1420" && fs.DeliverableLineCode == 1).Single();
 
             int ukprn = GetProviders().First();
 
@@ -79,9 +79,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                 DeliveryUkprn = ukprn,
                 DeliveryOrganisation = $"Org{ukprn}"
             };
-
-            var fungingTypes = GetFundingTypes();
-
+            
             List<Period> periods = new List<Period>()
             {
                 new Period()
