@@ -114,10 +114,15 @@ namespace ESFA.DC.Summarisation.Service
                 
                 summarisedActuals.AddRange(providerActuals);
             }
-
+            
             _logger.LogInfo($"Summarisation Wrapper: Storing data to Summarised Actuals Start");
-
-            await _dataStorePersistenceService.StoreSummarisedActualsDataAsync(summarisedActuals.ToList(), summarisationMessage, cancellationToken);
+            
+            await _dataStorePersistenceService.StoreSummarisedActualsDataAsync(
+                summarisedActuals.ToList(),
+                latestCollectionReturn,
+                summarisationMessage,
+                collectionPeriods,
+                cancellationToken);
 
             _logger.LogInfo($"Summarisation Wrapper: Storing data to Summarised Actuals End");
 
