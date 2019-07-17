@@ -10,6 +10,6 @@ namespace ESFA.DC.Summarisation.Data.Persist
 {
     public interface IDataStorePersistenceService
     {
-        Task StoreSummarisedActualsDataAsync(IList<SummarisedActual> summarisedActuals, ICollectionReturn latestCollectionReturn, ISummarisationMessage summarisationMessage, IEnumerable<CollectionPeriod> collectionPeriods, CancellationToken cancellationToken);
+        Task StoreSummarisedActualsDataAsync(IList<SummarisedActual> summarisedActuals, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken);
     }
 }

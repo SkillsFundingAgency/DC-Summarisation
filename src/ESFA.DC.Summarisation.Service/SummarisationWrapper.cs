@@ -16,6 +16,8 @@ using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Model;
 using ESFA.DC.Summarisation.Service.EqualityComparer;
 using SummarisedActual = ESFA.DC.Summarisation.Data.Output.Model.SummarisedActual;
+using ESFA.DC.Summarisation.Configuration.Enum;
+using ESFA.DC.Summarisation.Data.Output.Model;
 
 namespace ESFA.DC.Summarisation.Service
 {
@@ -93,7 +95,7 @@ namespace ESFA.DC.Summarisation.Service
             foreach (var ukprn in providerIdentifiers)
             {
                 var providerActuals = new List<SummarisedActual>();
-
+                
                 foreach (var SummarisationType in summarisationMessage.SummarisationTypes)
                 {
                     _logger.LogInfo($"Summarisation Wrapper: Summarising Fundmodel {SummarisationType} Start");
@@ -107,11 +109,26 @@ namespace ESFA.DC.Summarisation.Service
 
                 if (latestCollectionReturn != null)
                 {
+                    _logger.LogInfo($"Summarisation Wrapper: Adding funding data removed Start");
                     var actualsToCarry = await GetFundingDataRemoved(latestCollectionReturn.Id, organisationId, providerActuals, cancellationToken);
 
-                    summarisedActuals.AddRange(actualsToCarry);
+                    providerActuals.AddRange(actualsToCarry);
+                    _logger.LogInfo($"Summarisation Wrapper: Adding funding data removed End");
                 }
-                
+
+                if (summarisationMessage.CollectionType.Equals(
+                    CollectionType.ESF.ToString(), StringComparison.OrdinalIgnoreCase)
+                    && providerActuals.Count > 0)
+                {
+                    _logger.LogInfo($"Summarisation Wrapper: Adding missing esf zero value summarised records Start");
+                    providerActuals.AddRange(
+                        GetESFMissingSummarisedActuals(
+                            providerActuals,
+                            summarisationMessage,
+                            collectionPeriods,
+                            fcsContractAllocations.SelectMany(f => f.Value.Where(c => c.DeliveryUkprn == ukprn)).ToList()));
+                    _logger.LogInfo($"Summarisation Wrapper: Adding missing esf zero value summarised records End");
+                }
                 summarisedActuals.AddRange(providerActuals);
             }
             
@@ -119,14 +136,95 @@ namespace ESFA.DC.Summarisation.Service
             
             await _dataStorePersistenceService.StoreSummarisedActualsDataAsync(
                 summarisedActuals.ToList(),
-                latestCollectionReturn,
                 summarisationMessage,
-                collectionPeriods,
                 cancellationToken);
 
             _logger.LogInfo($"Summarisation Wrapper: Storing data to Summarised Actuals End");
 
             return summarisedActuals;
+        }
+
+        public IEnumerable<SummarisedActual> GetESFMissingSummarisedActuals(
+            List<SummarisedActual> providerActuals,
+            ISummarisationMessage summarisationMessage,
+            IEnumerable<CollectionPeriod> collectionPeriods,
+            List<IFcsContractAllocation> fcsContractAllocations)
+        {
+            List<SummarisedActual> missingSummarisedActuals = new List<SummarisedActual>();
+
+            var fundingTypes = _fundingTypesProviders
+                .FirstOrDefault(w => w.CollectionType.Equals(_summarisationMessage.CollectionType, StringComparison.OrdinalIgnoreCase))
+                .Provide().Where(x => x.SummarisationType.Equals(SummarisationType.ESF_SuppData.ToString(), StringComparison.OrdinalIgnoreCase))
+                .SelectMany(fs => fs.FundingStreams)
+                .ToList();
+
+            foreach (var fcs in fcsContractAllocations)
+            {
+                foreach (var collectionPeriod in
+                        GetCollectionPeriodsForDateRange(
+                            fcs.ContractStartDate,
+                            fcs.ContractEndDate,
+                            summarisationMessage.CollectionYear,
+                            summarisationMessage.CollectionMonth,
+                            collectionPeriods))
+                {
+                    foreach (var fundType in fundingTypes)
+                    {
+                        SummarisedActual missingSummarisedActual = new SummarisedActual()
+                        {
+                            ContractAllocationNumber = fcs.ContractAllocationNumber,
+                            DeliverableCode = fundType.DeliverableLineCode,
+                            FundingStreamPeriodCode = fcs.FundingStreamPeriodCode,
+                            OrganisationId = fcs.DeliveryOrganisation,
+                            Period = collectionPeriod.ActualsSchemaPeriod,
+                            PeriodTypeCode = PeriodTypeCode.AY.ToString(),
+                            ActualVolume = 0,
+                            ActualValue = 0.00M
+                        };
+                        if (!SummarisedActualAlreadyExist(missingSummarisedActual, providerActuals))
+                        {
+                            missingSummarisedActuals.Add(missingSummarisedActual);
+                        }
+                    }
+                }
+            }
+
+            return missingSummarisedActuals;
+        }
+        
+        public bool SummarisedActualAlreadyExist(
+            SummarisedActual missingSummarisedActual,
+            List<SummarisedActual> providerActuals)
+        {
+            return providerActuals.Any(p =>
+                p.ContractAllocationNumber.Equals(missingSummarisedActual.ContractAllocationNumber, StringComparison.OrdinalIgnoreCase)
+                && p.Period == missingSummarisedActual.Period
+                && p.DeliverableCode == missingSummarisedActual.DeliverableCode);
+        }
+
+        public IList<CollectionPeriod> GetCollectionPeriodsForDateRange(
+            int contractStartDate,
+            int contractEndDate,
+            int msgCollectionYear,
+            int msgCollectionMonth,
+            IEnumerable<CollectionPeriod> collectionPeriods)
+        {
+            IList<CollectionPeriod> collectionPeriodsRange = new List<CollectionPeriod>();
+            int msgCollectionPeriod = int.Parse($"{msgCollectionYear.ToString()}{msgCollectionMonth.ToString("D2")}");
+            
+            if (contractStartDate == 0 
+                || contractStartDate >= msgCollectionPeriod)
+            {
+                return collectionPeriodsRange;
+            }
+
+            if (contractEndDate == 0
+                || contractEndDate > msgCollectionPeriod)
+            {
+                contractEndDate = msgCollectionPeriod;
+            }
+
+            return collectionPeriods.Where(c => c.ActualsSchemaPeriod >= contractStartDate && c.ActualsSchemaPeriod <= contractEndDate).ToList();
         }
 
         private IEnumerable<SummarisedActual> SummariseByFundModel(
@@ -208,11 +306,16 @@ namespace ESFA.DC.Summarisation.Service
             return providerData;
         }
 
-        public async Task<IEnumerable<SummarisedActual>> GetFundingDataRemoved(int collectionReturnId, string organisationId, IEnumerable<SummarisedActual> providerActuals, CancellationToken cancellationToken)
+        public async Task<IEnumerable<SummarisedActual>> GetFundingDataRemoved(
+            int collectionReturnId,
+            string organisationId,
+            IEnumerable<SummarisedActual> providerActuals,
+            CancellationToken cancellationToken)
         {
             _logger.LogInfo($"Summarisation Wrapper: Retrieve Latest Summarised Actuals Start");
 
-            var previousActuals = await _summarisedActualsProcessRepository.GetSummarisedActualsForCollectionReturnAndOrganisationAsync(collectionReturnId, organisationId, cancellationToken);
+            var previousActuals = await _summarisedActualsProcessRepository
+                .GetSummarisedActualsForCollectionReturnAndOrganisationAsync(collectionReturnId, organisationId, cancellationToken);
             var actualsToCarry = previousActuals.Except(providerActuals, new SummarisedActualsComparer());
 
             actualsToCarry.ToList().ForEach(a => { a.ActualVolume = 0; a.ActualValue = 0; });

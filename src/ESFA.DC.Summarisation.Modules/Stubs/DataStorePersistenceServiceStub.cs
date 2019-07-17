@@ -18,7 +18,7 @@ namespace ESFA.DC.Summarisation.Modules.Stubs
             return Task.FromResult(new CollectionReturn());
         }
 
-        public Task StoreSummarisedActualsDataAsync(IList<SummarisedActual> summarisedActuals, ICollectionReturn latestCollectionReturn, ISummarisationMessage summarisationMessage, IEnumerable<CollectionPeriod> collectionPeriods, CancellationToken cancellationToken)
+        public Task StoreSummarisedActualsDataAsync(IList<SummarisedActual> summarisedActuals, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }

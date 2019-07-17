@@ -40,9 +40,7 @@ namespace ESFA.DC.Summarisation.Data.Persist
 
         public async Task StoreSummarisedActualsDataAsync(
             IList<Output.Model.SummarisedActual> summarisedActuals,
-            ICollectionReturn lastCollectionReturn,
             ISummarisationMessage summarisationMessage,
-            IEnumerable<CollectionPeriod> collectionPeriods,
             CancellationToken cancellationToken)
         {
             using (var sqlConnection = this._sqlConnectionFactory.Invoke())
@@ -62,18 +60,6 @@ namespace ESFA.DC.Summarisation.Data.Persist
                         sqlConnection.Execute(DeleteCollectionReturnSql, collectionReturn, transaction);
                     }
 
-                    if (this.CheckESFPeriodCollectionMissing(collectionReturn, lastCollectionReturn, summarisationMessage))
-                    {
-                        await this.StoreESFSummarisedActualsDataForMissingPeriodsAsync(
-                           this.GetZeroValueSummarisedActuals(summarisedActuals.ToList()),
-                           summarisationMessage,
-                           lastCollectionReturn.CollectionReturnCode,
-                           collectionPeriods,
-                           sqlConnection,
-                           transaction,
-                           cancellationToken);
-                    }
-
                     var collectionReturnId = await this.InsertCollectionReturnAsync(collectionReturn, sqlConnection, transaction);
 
                     await this._summarisedActualsPersist.Save(summarisedActuals, collectionReturnId, sqlConnection, transaction, cancellationToken);
@@ -90,112 +76,10 @@ namespace ESFA.DC.Summarisation.Data.Persist
             }
         }
 
-        public IList<Output.Model.SummarisedActual> GetZeroValueSummarisedActuals(List<Output.Model.SummarisedActual> summarisedActuals)
-        {
-            IList<Output.Model.SummarisedActual> zeroValueSummarisedActuals = new List<Output.Model.SummarisedActual>();
-
-            foreach (var summarised in summarisedActuals)
-            {
-                zeroValueSummarisedActuals.Add(
-                    new Output.Model.SummarisedActual()
-                    {
-                        ActualValue = 0,
-                        ActualVolume = 0,
-                        CollectionReturnId = 0,
-                        ContractAllocationNumber = summarised.ContractAllocationNumber,
-                        DeliverableCode = summarised.DeliverableCode,
-                        FundingStreamPeriodCode = summarised.FundingStreamPeriodCode,
-                        OrganisationId = summarised.OrganisationId,
-                        Period = summarised.Period,
-                        PeriodTypeCode = summarised.PeriodTypeCode,
-                        UoPCode = summarised.UoPCode
-                    });
-            }
-
-            return zeroValueSummarisedActuals;
-        }
-
         private async Task<int> InsertCollectionReturnAsync(CollectionReturn collectionReturn, SqlConnection sqlConnection, SqlTransaction sqlTransaction)
         {
             var result = await sqlConnection.QueryAsync<int>(InsertCollectionReturnSql, collectionReturn, sqlTransaction);
             return result.Single();
-        }
-
-        public async Task StoreESFSummarisedActualsDataForMissingPeriodsAsync(
-            IList<Output.Model.SummarisedActual> summarisedActuals,
-            ISummarisationMessage summarisationMessage,
-            string lastCollectionReturnCode,
-            IEnumerable<CollectionPeriod> collectionPeriods,
-            SqlConnection sqlConnection,
-            SqlTransaction sqlTransaction,
-            CancellationToken cancellationToken)
-        {
-            List<string> newCollectionPeriodsToAdd =
-                this.GetMissingCollectionReturnCodes(
-                    collectionPeriods,
-                    lastCollectionReturnCode,
-                    summarisationMessage.CollectionReturnCode);
-
-            foreach (var periodCode in newCollectionPeriodsToAdd)
-            {
-                var collectionReturnId = await this.InsertCollectionReturnAsync(
-                    new CollectionReturn() { CollectionType = CollectionType.ESF.ToString(), CollectionReturnCode = periodCode },
-                    sqlConnection,
-                    sqlTransaction);
-
-                await this._summarisedActualsPersist.Save(summarisedActuals, collectionReturnId, sqlConnection, sqlTransaction, cancellationToken);
-            }
-        }
-
-        public bool CheckESFPeriodCollectionMissing(
-            ICollectionReturn newCollectionReturn,
-            ICollectionReturn lastCollectionReturn,
-            ISummarisationMessage summarisationMessage)
-        {
-            return summarisationMessage.CollectionType == CollectionType.ESF.ToString()
-                         && lastCollectionReturn != null
-                         && (!lastCollectionReturn.CollectionReturnCode.Equals(
-                             newCollectionReturn.CollectionReturnCode, StringComparison.OrdinalIgnoreCase)
-                             || this.GetRemainingMissingPeriods(lastCollectionReturn.CollectionReturnCode, newCollectionReturn.CollectionReturnCode) > 1);
-        }
-
-        public int GetRemainingMissingPeriods(string lastCollectionReturnCode, string newCollectionReturnCode)
-        {
-            return this.GetPeriodFromCode(newCollectionReturnCode) - (this.GetPeriodFromCode(lastCollectionReturnCode) + 1);
-        }
-
-        public List<string> GetMissingCollectionReturnCodes(
-            IEnumerable<CollectionPeriod> collectionPeriods,
-            string lastCollectionReturnCode,
-            string newCollectionReturnCode)
-        {
-            List<string> missingCollectionReturnCodes = new List<string>();
-
-            var lastCollectionPeriod = this.GetCollectionPeriodDetails(collectionPeriods, this.GetPeriodFromCode(lastCollectionReturnCode));
-            var newCollectionPeriod = this.GetCollectionPeriodDetails(collectionPeriods, this.GetPeriodFromCode(newCollectionReturnCode));
-
-            int newCollectionMonth = lastCollectionPeriod.CollectionYear == newCollectionPeriod.CollectionYear ? lastCollectionPeriod.CollectionMonth + 1 : 1;
-            int newCollectionYear = newCollectionPeriod.CollectionYear;
-
-            for (int month = newCollectionMonth; month < newCollectionPeriod.CollectionMonth; month++)
-            {
-                missingCollectionReturnCodes.Add($"{CollectionType.ESF.ToString()}{month.ToString("D2")}");
-            }
-
-            return missingCollectionReturnCodes;
-        }
-
-        public CollectionPeriod GetCollectionPeriodDetails(IEnumerable<CollectionPeriod> collectionPeriods, int period)
-        {
-            return collectionPeriods.Where(c => c.Period == period).FirstOrDefault();
-        }
-
-        public int GetPeriodFromCode(string collectionReturnCode)
-        {
-            Regex re = new Regex(@"\d+");
-            Match m = re.Match(collectionReturnCode);
-
-            return m.Success ? int.Parse(m.Value) : 0;
         }
     }
 }

@@ -29,5 +29,15 @@
         /// Gets the delivery organisation.
         /// </summary>
         string DeliveryOrganisation { get; }
+
+        /// <summary>
+        /// Gets the contract start date year month.
+        /// </summary>
+        int ContractStartDate { get; }
+
+        /// <summary>
+        /// Gets the contract end date year month.
+        /// </summary>
+        int ContractEndDate { get; }
     }
 }
