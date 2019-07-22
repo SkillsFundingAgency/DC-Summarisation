@@ -23,5 +23,6 @@
     <Parameter Name="ESFNonEFConnectionString" Value="__ESFNonEFConnectionString__" />
     <Parameter Name="ESFR2ConnectionString" Value="__ESFR2ConnectionString__" />
     <Parameter Name="DASPaymentsConnectionString" Value="__DASPaymentsConnectionStringRO__" />
+    <Parameter Name="ILR1920ConnectionString" Value="__ILR1920DataStoreConnectionStringRO__" />
   </Parameters>
 </Application>

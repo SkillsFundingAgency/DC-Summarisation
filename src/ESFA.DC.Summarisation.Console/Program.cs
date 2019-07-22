@@ -14,6 +14,7 @@ using ESFA.DC.ESF.R2.Database.EF;
 using ESFA.DC.ESF.R2.Database.EF.Interfaces;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interface;
+using ESFA.DC.ILR1920.DataStore.EF;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.ReferenceData.FCS.Model;
 using ESFA.DC.ReferenceData.FCS.Model.Interface;
@@ -41,6 +42,9 @@ using ESFA.DC.Summarisation.Main1819.Service.Tests.Stubs;
 using ESFA.DC.Summarisation.Model;
 using ESFA.DC.Summarisation.Service;
 using Microsoft.EntityFrameworkCore;
+using Main1920Providers = ESFA.DC.Summarisation.Main1920.Data.Providers;
+using Main1920FundingTypesProvider = ESFA.DC.Summarisation.Main1920.Service.Providers;
+using Main1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Main1920.Service.Providers;
 
 namespace ESFA.DC.Summarisation.Console
 {
@@ -54,19 +58,21 @@ namespace ESFA.DC.Summarisation.Console
         private static async Task RunSummarisation()
         {
             string fcsConnectionString = @"Server=(local);Database=FCS;Trusted_Connection=True;";
-            string ilrConnectionString = @"Server=(local);Database=ILR1819DataStore;Trusted_Connection=True;";
+            string ilr1819ConnectionString = @"Server=(local);Database=ILR1819DataStore;Trusted_Connection=True;";
+            string ilr1920ConnectionString = @"Server=(local);Database=ILR1920DataStore;Trusted_Connection=True;";
 
             string summarisedActualsConnectionString = @"Server=(local);Database=SummarisedActuals;Trusted_Connection=True;";
-            string easConnectionString = @"Server=(local);Database=EAS1819;Trusted_Connection=True;";
+            string eas1819ConnectionString = @"Server=(local);Database=EAS1819;Trusted_Connection=True;";
             string esfConnectionString = @"Server=(local);Database=ESF;Trusted_Connection=True;";
             string esfR2ConnectionString = @"Server=(local);Database=ESF-R2;Trusted_Connection=True;";
 
             string dasConnectionString = @"Server=(local);Database=DASPayments;Trusted_Connection=True;";
 
             DbContextOptions<FcsContext> fcsdbContextOptions = new DbContextOptionsBuilder<FcsContext>().UseSqlServer(fcsConnectionString).Options;
-            DbContextOptions<ILR1819_DataStoreEntities> ilrdbContextOptions = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>().UseSqlServer(ilrConnectionString).Options;
+            DbContextOptions<ILR1819_DataStoreEntities> ilr1819dbContextOptions = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>().UseSqlServer(ilr1819ConnectionString).Options;
+            DbContextOptions<ILR1920_DataStoreEntities> ilr1920dbContextOptions = new DbContextOptionsBuilder<ILR1920_DataStoreEntities>().UseSqlServer(ilr1920ConnectionString).Options;
 
-            DbContextOptions<EasContext> easdbContextOptions = new DbContextOptionsBuilder<EasContext>().UseSqlServer(easConnectionString).Options;
+            DbContextOptions<EasContext> eas1819dbContextOptions = new DbContextOptionsBuilder<EasContext>().UseSqlServer(eas1819ConnectionString).Options;
             DbContextOptions<SummarisationContext> sadbContextOptions = new DbContextOptionsBuilder<SummarisationContext>().UseSqlServer(summarisedActualsConnectionString).Options;
             DbContextOptions<ESF_DataStoreEntities> esfdbContextOptions = new DbContextOptionsBuilder<ESF_DataStoreEntities>().UseSqlServer(esfConnectionString).Options;
             DbContextOptions<ESFR2Context> esfR2dbContextOptions = new DbContextOptionsBuilder<ESFR2Context>().UseSqlServer(esfR2ConnectionString).Options;
@@ -83,7 +89,8 @@ namespace ESFA.DC.Summarisation.Console
             {
                 new FundingTypesProvider(jsonSerializationService),
                 new ESF.Service.FundingTypesProvider(jsonSerializationService),
-                new Apps1819.Service.FundingTypesProvider(jsonSerializationService)
+                new Apps1819.Service.FundingTypesProvider(jsonSerializationService),
+                new Main1920FundingTypesProvider.FundingTypesProvider(jsonSerializationService),
             };
 
             List<ISummarisationConfigProvider<CollectionPeriod>> collectionPeriodsProviders
@@ -91,23 +98,26 @@ namespace ESFA.DC.Summarisation.Console
             {
                 new CollectionPeriodsProvider(jsonSerializationService),
                 new ESF.Service.CollectionPeriodsProvider(jsonSerializationService),
-                new Apps1819.Service.CollectionPeriodsProvider(jsonSerializationService)
+                new Apps1819.Service.CollectionPeriodsProvider(jsonSerializationService),
+                new Main1920CollectionPeriodsProvider.CollectionPeriodsProvider(jsonSerializationService),
             };
 
             IProviderRepository repository = new ProviderRepository(new List<ILearningDeliveryProvider>
             {
-                new AlbProvider(() => new ILR1819_DataStoreEntities(ilrdbContextOptions)),
-                new EasProvider(() => new EasContext(easdbContextOptions)),
-                new Fm25Provider(() => new ILR1819_DataStoreEntities(ilrdbContextOptions)),
-                new Fm35Provider(() => new ILR1819_DataStoreEntities(ilrdbContextOptions)),
-                new TblProvider(() => new ILR1819_DataStoreEntities(ilrdbContextOptions)),
+                new AlbProvider(() => new ILR1819_DataStoreEntities(ilr1819dbContextOptions)),
+                new EasProvider(() => new EasContext(eas1819dbContextOptions)),
+                new Fm25Provider(() => new ILR1819_DataStoreEntities(ilr1819dbContextOptions)),
+                new Fm35Provider(() => new ILR1819_DataStoreEntities(ilr1819dbContextOptions)),
+                new TblProvider(() => new ILR1819_DataStoreEntities(ilr1819dbContextOptions)),
 
                 new ESFProvider_R1(() => new ESF_DataStoreEntities(esfdbContextOptions)),
                 new ESFProvider_R2(() => new ESFR2Context(esfR2dbContextOptions)),
                 new ESFILRProvider(() => new SummarisationContext(sadbContextOptions)),
 
                 new LevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
-                new NonLevyProvider(() => new DASPaymentsContext(dasdbContextOptions))
+                new NonLevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
+
+                new Main1920Providers.Fm35Provider(() => new ILR1920_DataStoreEntities(ilr1920dbContextOptions)),
             });
 
             List<ISummarisationService> summarisationServices = new List<ISummarisationService>()
@@ -131,6 +141,21 @@ namespace ESFA.DC.Summarisation.Console
             SummarisationWrapper wrapper;
 
             summarisationMessage = new SummarisationContextStub();
+
+            wrapper = new SummarisationWrapper(
+                fcsRepository,
+                saRepository,
+                fundingTypesProviders,
+                collectionPeriodsProviders,
+                summarisationServices,
+                dataStorePersistenceService,
+                () => repository,
+                new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
+                logger);
+
+            await wrapper.Summarise(summarisationMessage, CancellationToken.None);
+
+            summarisationMessage = new ILR1920SummarisationContextStub();
 
             wrapper = new SummarisationWrapper(
                 fcsRepository,

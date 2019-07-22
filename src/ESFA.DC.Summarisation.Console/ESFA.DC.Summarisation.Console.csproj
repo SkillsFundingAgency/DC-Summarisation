@@ -53,6 +53,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stubs\AppsSummarisationContextStub.cs" />
     <Compile Include="Stubs\ESFSummarisationContextStub.cs" />
+    <Compile Include="Stubs\ILR1920SummarisationContextStub.cs" />
     <Compile Include="Stubs\LoggerStub.cs" />
     <Compile Include="Stubs\SummarisationContextStub.cs" />
   </ItemGroup>
@@ -109,6 +110,14 @@
       <Project>{a8ba4aa3-e515-4d80-8712-dd3b8899e7e2}</Project>
       <Name>ESFA.DC.Summarisation.Main1819.Service</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Main1920\ESFA.DC.Summarisation.Main1920.Data\ESFA.DC.Summarisation.Main1920.Data.csproj">
+      <Project>{c1a2b011-7380-4b42-b475-9a3c4e8bd38b}</Project>
+      <Name>ESFA.DC.Summarisation.Main1920.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Main1920\ESFA.DC.Summarisation.Main1920.Service\ESFA.DC.Summarisation.Main1920.Service.csproj">
+      <Project>{beb1d086-0e2c-4bb9-b723-179674108523}</Project>
+      <Name>ESFA.DC.Summarisation.Main1920.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ESFA.DC.EAS1819.EF">
@@ -116,6 +125,9 @@
     </PackageReference>
     <PackageReference Include="ESFA.DC.ILR1819.Database.EF">
       <Version>0.1.381</Version>
+    </PackageReference>
+    <PackageReference Include="ESFA.DC.ILR1920.Database.EF">
+      <Version>0.0.237</Version>
     </PackageReference>
     <PackageReference Include="ESFA.DC.ReferenceData.FCS.Model">
       <Version>0.1.218</Version>
@@ -133,7 +145,7 @@
       <Version>3.0.0-preview.19074.3</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer">
-      <Version>2.2.3</Version>
+      <Version>2.2.6</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Caching.Memory">
       <Version>3.0.0-preview.19074.2</Version>
@@ -145,7 +157,7 @@
       <Version>12.0.2</Version>
     </PackageReference>
     <PackageReference Include="StyleCop.Analyzers">
-      <Version>1.0.2</Version>
+      <Version>1.1.118</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -156,7 +168,7 @@
       <Version>1.6.0-preview.19073.11</Version>
     </PackageReference>
     <PackageReference Include="System.Data.SqlClient">
-      <Version>4.6.0</Version>
+      <Version>4.6.1</Version>
     </PackageReference>
     <PackageReference Include="System.Diagnostics.DiagnosticSource">
       <Version>4.6.0-preview.19073.11</Version>
