@@ -202,18 +202,18 @@ namespace ESFA.DC.Summarisation.Modules
 
             containerBuilder.RegisterType<Main1920Providers.Fm35Provider>().As<ILearningDeliveryProvider>();
 
-            //containerBuilder.RegisterType<ILR1920_DataStoreEntities>().As<IIlr1920RulebaseContext>().ExternallyOwned();
-            //containerBuilder.Register(c =>
-            //{
-            //    var summarisationSettings = c.Resolve<ISummarisationDataOptions>();
-            //    var optionsBuilder = new DbContextOptionsBuilder<ILR1920_DataStoreEntities>();
-            //    optionsBuilder.UseSqlServer(
-            //        summarisationSettings.ILR1819ConnectionString,
-            //        options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+            containerBuilder.RegisterType<ILR1920_DataStoreEntities>().As<IIlr1920RulebaseContext>().ExternallyOwned();
+            containerBuilder.Register(c =>
+            {
+                var summarisationSettings = c.Resolve<ISummarisationDataOptions>();
+                var optionsBuilder = new DbContextOptionsBuilder<ILR1920_DataStoreEntities>();
+                optionsBuilder.UseSqlServer(
+                    summarisationSettings.ILR1819ConnectionString,
+                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
 
-            //    return optionsBuilder.Options;
-            //}).As<DbContextOptions<ILR1920_DataStoreEntities>>()
-            //.SingleInstance();
+                return optionsBuilder.Options;
+            }).As<DbContextOptions<ILR1920_DataStoreEntities>>()
+            .SingleInstance();
 
         }
     }

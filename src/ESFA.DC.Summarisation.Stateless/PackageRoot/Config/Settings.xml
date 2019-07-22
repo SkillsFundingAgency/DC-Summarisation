@@ -21,5 +21,6 @@
     <Parameter Name="ESFR2ConnectionString" Value="" />
     <Parameter Name="DASPaymentsConnectionString"  Value=""/>
     <Parameter Name="DataRetrievalMaxConcurrentCalls" Value=""/>
+    <Parameter Name="ILR1920ConnectionString" Value="" />
   </Section>
 </Settings>

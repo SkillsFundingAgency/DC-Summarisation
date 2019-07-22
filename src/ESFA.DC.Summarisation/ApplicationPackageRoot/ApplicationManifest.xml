@@ -23,6 +23,7 @@
     <Parameter Name="ESFR2ConnectionString" DefaultValue="" />
     <Parameter Name="DASPaymentsConnectionString" DefaultValue="" />
     <Parameter Name="DataRetrievalMaxConcurrentCalls" DefaultValue="" />
+    <Parameter Name="ILR1920ConnectionString" DefaultValue="" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
@@ -53,6 +54,7 @@
             <Parameter Name="ESFR2ConnectionString" Value="[ESFR2ConnectionString]" />
             <Parameter Name="DASPaymentsConnectionString" Value="[DASPaymentsConnectionString]" />
             <Parameter Name="DataRetrievalMaxConcurrentCalls" Value="[DataRetrievalMaxConcurrentCalls]" />
+            <Parameter Name="ILR120ConnectionString" Value="[ILR1920ConnectionString]" />
           </Section>
         </Settings>
       </ConfigOverride>
