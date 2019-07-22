@@ -358,7 +358,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                     DeliverableCode = 1,
                     ActualVolume = 0,
                     ActualValue = 100,
-                    PeriodTypeCode = "CM",
+                    PeriodTypeCode = SummarisationConstants.PeriodTypeCode,
                     ContractAllocationNumber = "CA-1111"
                 },
                 new Summarisation.Data.Output.Model.SummarisedActual()
@@ -370,7 +370,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                     DeliverableCode = 1,
                     ActualVolume = 0,
                     ActualValue = 200,
-                    PeriodTypeCode = "CM",
+                    PeriodTypeCode = SummarisationConstants.PeriodTypeCode,
                     ContractAllocationNumber = "CA-2222"
                 }
             };
