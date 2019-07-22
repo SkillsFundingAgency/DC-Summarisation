@@ -141,9 +141,10 @@ namespace ESFA.DC.Summarisation.Console
                 dataStorePersistenceService,
                 () => repository,
                 new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
-                logger);
+                logger,
+                summarisationMessage);
 
-            await wrapper.Summarise(summarisationMessage, CancellationToken.None);
+            await wrapper.Summarise(CancellationToken.None);
 
             summarisationMessage = new ESFSummarisationContextStub();
 
@@ -156,9 +157,10 @@ namespace ESFA.DC.Summarisation.Console
                 dataStorePersistenceService,
                 () => repository,
                 new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
-                logger);
+                logger,
+                summarisationMessage);
 
-            await wrapper.Summarise(summarisationMessage, CancellationToken.None);
+            await wrapper.Summarise(CancellationToken.None);
 
             summarisationMessage = new AppsSummarisationContextStub();
 
@@ -171,9 +173,10 @@ namespace ESFA.DC.Summarisation.Console
                 dataStorePersistenceService,
                 () => repository,
                 new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
-                logger);
+                logger,
+                summarisationMessage);
 
-            await wrapper.Summarise(summarisationMessage, CancellationToken.None);
+            await wrapper.Summarise(CancellationToken.None);
         }
     }
 }
