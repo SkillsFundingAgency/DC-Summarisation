@@ -51,7 +51,7 @@ namespace ESFA.DC.Summarisation.Service
                         ActualValue = Math.Round(g.Sum(x => x.ActualValue),2),
                         ActualVolume = g.Sum(x => x.ActualVolume),
                         ContractAllocationNumber = allocation.ContractAllocationNumber,
-                        PeriodTypeCode = "AY"
+                        PeriodTypeCode = SummarisationConstants.PeriodTypeCode
                     });
         }
 
