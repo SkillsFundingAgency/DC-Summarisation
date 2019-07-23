@@ -193,6 +193,8 @@ namespace ESFA.DC.Summarisation.Modules
             })
             .As<DbContextOptions<SummarisationContext>>()
             .SingleInstance();
+
+            LoadILR1920Modules(containerBuilder);
         }
 
         private void LoadILR1920Modules(ContainerBuilder containerBuilder)
@@ -208,7 +210,7 @@ namespace ESFA.DC.Summarisation.Modules
                 var summarisationSettings = c.Resolve<ISummarisationDataOptions>();
                 var optionsBuilder = new DbContextOptionsBuilder<ILR1920_DataStoreEntities>();
                 optionsBuilder.UseSqlServer(
-                    summarisationSettings.ILR1819ConnectionString,
+                    summarisationSettings.ILR1920ConnectionString,
                     options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
 
                 return optionsBuilder.Options;
