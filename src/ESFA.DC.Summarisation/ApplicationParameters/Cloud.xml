@@ -17,6 +17,7 @@
     <Parameter Name="AzureStorageContainerName" Value="__ilr_1819_Storage_Container_Name__" />
     <Parameter Name="FCSConnectionString" Value="__FcsDbConnectionString_RO__" />
     <Parameter Name="ILR1819ConnectionString" Value="__ILR1819DataStoreConnectionStringRO__" />
+    <Parameter Name="ILR1920ConnectionString" Value="__ILR1920DataStoreConnectionStringRO__" />
     <Parameter Name="SummarisedActualsConnectionString" Value="__SummarisedActuals_Connectionstring_RW__" />
     <Parameter Name="EAS1819ConnectionString" Value="__EAS1819ConnectionStringRO__" />
     <Parameter Name="DataRetrievalMaxConcurrentCalls" Value="__DataRetrievalMaxConcurrentCalls__" />
