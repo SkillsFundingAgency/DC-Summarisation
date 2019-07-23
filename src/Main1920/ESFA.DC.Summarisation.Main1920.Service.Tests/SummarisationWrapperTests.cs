@@ -87,6 +87,12 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
             if (fundModel == FundModel.FM35)
             {
                 result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1920" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(12);
+                result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1920" && s.DeliverableCode == 11 && s.ActualValue != 0).Should().Be(12);
+                result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1920" && s.DeliverableCode == 14 && s.ActualValue != 0).Should().Be(12);
+                result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC-19TRN1920" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(12);
+                result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC-ASCL1920" && s.DeliverableCode == 3 && s.ActualValue != 0).Should().Be(12);
+                result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-19TRN1920" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(12);
+                result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-AS1920" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(12);
             }
         }
 
@@ -154,6 +160,12 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
             if (fundModel == FundModel.FM35)
             {
                 result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1920" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(0);
+                result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1920" && s.DeliverableCode == 11 && s.ActualValue != 0).Should().Be(0);
+                result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "APPS1920" && s.DeliverableCode == 14 && s.ActualValue != 0).Should().Be(0);
+                result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC-19TRN1920" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(0);
+                result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEBC-ASCL1920" && s.DeliverableCode == 3 && s.ActualValue != 0).Should().Be(0);
+                result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-19TRN1920" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(0);
+                result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "AEB-AS1920" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(0);
             }
         }
 
