@@ -20,6 +20,7 @@
     <Parameter Name="ILR1920ConnectionString" DefaultValue="" />
     <Parameter Name="SummarisedActualsConnectionString" DefaultValue="" />
     <Parameter Name="EAS1819ConnectionString" DefaultValue="" />
+    <Parameter Name="EAS1920ConnectionString" DefaultValue="" />
     <Parameter Name="ESFNonEFConnectionString" DefaultValue="" />
     <Parameter Name="ESFR2ConnectionString" DefaultValue="" />
     <Parameter Name="DASPaymentsConnectionString" DefaultValue="" />
@@ -51,6 +52,7 @@
             <Parameter Name="ILR1920ConnectionString" Value="[ILR1920ConnectionString]" />
             <Parameter Name="SummarisedActualsConnectionString" Value="[SummarisedActualsConnectionString]" />
             <Parameter Name="EAS1819ConnectionString" Value="[EAS1819ConnectionString]" />
+            <Parameter Name="EAS1920ConnectionString" Value="[EAS1920ConnectionString]" />
             <Parameter Name="ESFNonEFConnectionString" Value="[ESFNonEFConnectionString]" />
             <Parameter Name="ESFR2ConnectionString" Value="[ESFR2ConnectionString]" />
             <Parameter Name="DASPaymentsConnectionString" Value="[DASPaymentsConnectionString]" />
