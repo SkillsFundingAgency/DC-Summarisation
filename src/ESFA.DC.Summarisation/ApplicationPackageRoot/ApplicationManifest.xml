@@ -17,6 +17,7 @@
     <Parameter Name="ProcessingServicePlacementConstraints" DefaultValue="" />
     <Parameter Name="FCSConnectionString" DefaultValue="" />
     <Parameter Name="ILR1819ConnectionString" DefaultValue="" />
+    <Parameter Name="ILR1920ConnectionString" DefaultValue="" />
     <Parameter Name="SummarisedActualsConnectionString" DefaultValue="" />
     <Parameter Name="EAS1819ConnectionString" DefaultValue="" />
     <Parameter Name="ESFNonEFConnectionString" DefaultValue="" />
@@ -47,6 +48,7 @@
           <Section Name="ReferenceDataSection">
             <Parameter Name="FCSConnectionString" Value="[FCSConnectionString]" />
             <Parameter Name="ILR1819ConnectionString" Value="[ILR1819ConnectionString]" />
+            <Parameter Name="ILR1920ConnectionString" Value="[ILR1920ConnectionString]" />
             <Parameter Name="SummarisedActualsConnectionString" Value="[SummarisedActualsConnectionString]" />
             <Parameter Name="EAS1819ConnectionString" Value="[EAS1819ConnectionString]" />
             <Parameter Name="ESFNonEFConnectionString" Value="[ESFNonEFConnectionString]" />

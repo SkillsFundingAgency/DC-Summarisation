@@ -83,7 +83,8 @@ namespace ESFA.DC.Summarisation.Stateless.Context
                         || item.Equals(Configuration.Enum.SummarisationType.Main1819_FM25.ToString(), StringComparison.OrdinalIgnoreCase)
                         || item.Equals(Configuration.Enum.SummarisationType.Main1819_ALB.ToString(), StringComparison.OrdinalIgnoreCase)
                         || item.Equals(Configuration.Enum.SummarisationType.Main1819_TBL.ToString(), StringComparison.OrdinalIgnoreCase)
-                        || item.Equals(Configuration.Enum.SummarisationType.Main1819_EAS.ToString(), StringComparison.OrdinalIgnoreCase)))
+                        || item.Equals(Configuration.Enum.SummarisationType.Main1819_EAS.ToString(), StringComparison.OrdinalIgnoreCase)
+                        || item.Equals(Configuration.Enum.SummarisationType.Main1920_FM35.ToString(), StringComparison.OrdinalIgnoreCase)))
             {
                 returnValue = _jobContextMessage.KeyValuePairs[$"{key}DC"].ToString();
             }

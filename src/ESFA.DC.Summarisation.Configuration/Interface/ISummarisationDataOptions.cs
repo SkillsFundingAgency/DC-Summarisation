@@ -6,6 +6,8 @@
 
         string ILR1819ConnectionString { get; }
 
+        string ILR1920ConnectionString { get; }
+
         string SummarisedActualsConnectionString { get; }
 
         string EAS1819ConnectionString { get; }

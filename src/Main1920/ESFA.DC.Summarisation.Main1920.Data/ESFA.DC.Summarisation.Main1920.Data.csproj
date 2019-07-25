@@ -5,21 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Repository\ProviderRepository.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Dapper" Version="1.60.6" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Data\ESFA.DC.Summarisation.Data.csproj" />
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Interfaces\ESFA.DC.Summarisation.Interfaces.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Repository\" />
   </ItemGroup>
 
 </Project>

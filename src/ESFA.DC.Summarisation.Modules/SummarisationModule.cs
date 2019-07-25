@@ -13,6 +13,8 @@ using ESFA.DC.ESF.R2.Database.EF;
 using ESFA.DC.ESF.R2.Database.EF.Interfaces;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interface;
+using ESFA.DC.ILR1920.DataStore.EF;
+using ESFA.DC.ILR1920.DataStore.EF.Interface;
 using ESFA.DC.ReferenceData.FCS.Model;
 using ESFA.DC.ReferenceData.FCS.Model.Interface;
 using ESFA.DC.Serialization.Interfaces;
@@ -43,6 +45,9 @@ using ESFFundingTypesProvider = ESFA.DC.Summarisation.ESF.Service.FundingTypesPr
 using ISummarisationContext = ESFA.DC.Summarisation.Model.Interface.ISummarisationContext;
 using Main1819CollectionPeriodsProvider = ESFA.DC.Summarisation.Main1819.Service.Providers.CollectionPeriodsProvider;
 using Main1819FundingTypesProvider = ESFA.DC.Summarisation.Main1819.Service.Providers.FundingTypesProvider;
+using Main1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Main1920.Service.Providers.CollectionPeriodsProvider;
+using Main1920FundingTypesProvider = ESFA.DC.Summarisation.Main1920.Service.Providers.FundingTypesProvider;
+using Main1920Providers = ESFA.DC.Summarisation.Main1920.Data.Providers;
 
 namespace ESFA.DC.Summarisation.Modules
 {
@@ -188,6 +193,30 @@ namespace ESFA.DC.Summarisation.Modules
             })
             .As<DbContextOptions<SummarisationContext>>()
             .SingleInstance();
+
+            LoadILR1920Modules(containerBuilder);
+        }
+
+        private void LoadILR1920Modules(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterType<Main1920FundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();
+            containerBuilder.RegisterType<Main1920CollectionPeriodsProvider>().As<ISummarisationConfigProvider<CollectionPeriod>>();
+
+            containerBuilder.RegisterType<Main1920Providers.Fm35Provider>().As<ILearningDeliveryProvider>();
+
+            containerBuilder.RegisterType<ILR1920_DataStoreEntities>().As<IIlr1920RulebaseContext>().ExternallyOwned();
+            containerBuilder.Register(c =>
+            {
+                var summarisationSettings = c.Resolve<ISummarisationDataOptions>();
+                var optionsBuilder = new DbContextOptionsBuilder<ILR1920_DataStoreEntities>();
+                optionsBuilder.UseSqlServer(
+                    summarisationSettings.ILR1920ConnectionString,
+                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+
+                return optionsBuilder.Options;
+            }).As<DbContextOptions<ILR1920_DataStoreEntities>>()
+            .SingleInstance();
+
         }
     }
 }
