@@ -33,9 +33,9 @@ namespace ESFA.DC.Summarisation.Data.Persist
             ICollectionReturnMapper collectionReturnMapper,
             Func<SqlConnection> sqlConnectionFactory)
         {
-            this._summarisedActualsPersist = summarisedActualsPersist;
-            this._sqlConnectionFactory = sqlConnectionFactory;
-            this._collectionReturnMapper = collectionReturnMapper;
+            _summarisedActualsPersist = summarisedActualsPersist;
+            _sqlConnectionFactory = sqlConnectionFactory;
+            _collectionReturnMapper = collectionReturnMapper;
         }
 
         public async Task StoreSummarisedActualsDataAsync(

@@ -64,7 +64,7 @@ namespace ESFA.DC.Summarisation.Service
         {
             _logger.LogInfo($"Summarisation Wrapper: Retrieving Collection Periods Start");
 
-            var collectionPeriods = _collectionPeriodsProviders.FirstOrDefault(w => w.CollectionType == _summarisationMessage.CollectionType).Provide();
+            var collectionPeriods = _collectionPeriodsProviders.FirstOrDefault(w => w.CollectionType == _summarisationMessage.CollectionType)?.Provide();
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving Collection Periods End");
 
@@ -218,7 +218,7 @@ namespace ESFA.DC.Summarisation.Service
 
             var summarisationCollectionPeriod = collectionPeriods
                 .Where(c => c.CollectionYear == msgCollectionYear 
-                    && c.CollectionMonth == msgCollectionMonth).FirstOrDefault();
+                    && c.CollectionMonth == msgCollectionMonth).SingleOrDefault();
             if (summarisationCollectionPeriod == null)
             {
                 return collectionPeriodsRange;
@@ -255,6 +255,12 @@ namespace ESFA.DC.Summarisation.Service
             var contractFundingStreams = new List<FundingStream>();
             var allocations = new List<IFcsContractAllocation>();
 
+            if (fundingStreams == null)
+            {
+                _logger.LogInfo($"Summarisation Wrapper: Summarising UKPRN: {provider.UKPRN} End; Funding streams found null for Summarisation Type: {summarisationType} ");
+                return actuals;
+            }
+
             foreach (var fs in fundingStreams)
             {
                 if (fcsContractAllocations.ContainsKey(fs.PeriodCode)
@@ -272,9 +278,17 @@ namespace ESFA.DC.Summarisation.Service
                 }
             }
 
+            var summarisationService = _summarisationServices
+                .FirstOrDefault(x => x.ProcessType.Equals(_summarisationMessage.ProcessType, StringComparison.OrdinalIgnoreCase));
+
+            if (summarisationService == null)
+            {
+                _logger.LogInfo($"Summarisation Wrapper: Summarising UKPRN: {provider.UKPRN} End; Summarisation service found null for Process Type: {_summarisationMessage.ProcessType} ");
+                return actuals;
+            }
+
             actuals.AddRange(
-                _summarisationServices
-                .FirstOrDefault(x => x.ProcessType.Equals(_summarisationMessage.ProcessType, StringComparison.OrdinalIgnoreCase))
+                summarisationService
                 .Summarise(contractFundingStreams, provider, allocations, collectionPeriods));
 
             _logger.LogInfo($"Summarisation Wrapper: Summarising UKPRN: {provider.UKPRN} End");
@@ -318,7 +332,7 @@ namespace ESFA.DC.Summarisation.Service
         public IList<FundingStream> GetFundingTypesData(string summarisationType)
         {
             return _fundingTypesProviders
-                .FirstOrDefault(w => w.CollectionType.Equals(_summarisationMessage.CollectionType, StringComparison.OrdinalIgnoreCase))
+                .FirstOrDefault(w => w.CollectionType.Equals(_summarisationMessage.CollectionType, StringComparison.OrdinalIgnoreCase))?
                 .Provide().Where(x => x.SummarisationType.Equals(summarisationType, StringComparison.OrdinalIgnoreCase))
                 .SelectMany(fs => fs.FundingStreams)
                 .ToList();
