@@ -71,7 +71,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.Summarisation.Main1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.Summarisation.Main1920.Service.Tests", "Main1920\ESFA.DC.Summarisation.Main1920.Service.Tests\ESFA.DC.Summarisation.Main1920.Service.Tests.csproj", "{BF1CCA26-05D9-48AA-9720-469964C3CB4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.Summarisation.Main1920.Data", "Main1920\ESFA.DC.Summarisation.Main1920.Data\ESFA.DC.Summarisation.Main1920.Data.csproj", "{C1A2B011-7380-4B42-B475-9A3C4E8BD38B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.Summarisation.Main1920.Data", "Main1920\ESFA.DC.Summarisation.Main1920.Data\ESFA.DC.Summarisation.Main1920.Data.csproj", "{C1A2B011-7380-4B42-B475-9A3C4E8BD38B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
