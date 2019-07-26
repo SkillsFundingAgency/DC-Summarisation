@@ -64,7 +64,7 @@ namespace ESFA.DC.Summarisation.Service
         {
             _logger.LogInfo($"Summarisation Wrapper: Retrieving Collection Periods Start");
 
-            var collectionPeriods = _collectionPeriodsProviders.FirstOrDefault(w => w.CollectionType == _summarisationMessage.CollectionType)?.Provide();
+            var collectionPeriods = _collectionPeriodsProviders.SingleOrDefault(w => w.CollectionType == _summarisationMessage.CollectionType)?.Provide();
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving Collection Periods End");
 
