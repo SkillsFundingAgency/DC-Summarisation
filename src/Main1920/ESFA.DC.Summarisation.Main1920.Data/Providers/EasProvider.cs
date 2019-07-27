@@ -36,19 +36,30 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
                             LearnRefNumber = "",
                             AimSeqNumber = 0,
                             Fundline = ld.Key,
-                            PeriodisedData = ld.Select(pd => new PeriodisedData
+                            PeriodisedData = ld.GroupBy(x => x.PaymentName).Select(pd => new PeriodisedData
                             {
                                 AttributeName = "",
-                                Periods = new List<Period>
-                                {
-                                new Period
-                                {
-                                    PeriodId = pd.CollectionPeriod,
-                                    Value = pd.PaymentValue
-                                }
-                                }
+                                Periods = Enumerable.Range(1, 12)
+                                                    .GroupJoin(ld,
+                                                                range => range,
+                                                                ldr => ldr.CollectionPeriod,
+                                                                (irange, ldRows) => new
+                                                                {
+                                                                    CollectionPeriod = irange,
+                                                                    LearningDeliveryRows = ldRows
+                                                                })
+                                                                .SelectMany(result => result.LearningDeliveryRows.DefaultIfEmpty(),
+                                                                (x, y) => new Period
+                                                                {
+                                                                    PeriodId = x.CollectionPeriod,
+                                                                    Value = y.PaymentValue
+                                                                }
+                                                                ).ToList()
+
                             }).ToList()
-                        }).ToListAsync(cancellationToken);
+
+                        }
+                        ).ToListAsync(cancellationToken);
             }
         }
 
