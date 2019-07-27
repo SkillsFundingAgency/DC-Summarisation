@@ -30,6 +30,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
         [InlineData(10000001, "ILR1920", "R01", "Main1920_FM35", "ILR_FM35", FundModel.FM35, "Fundline")]
         [InlineData(10000001, "ILR1920", "R01", "Main1920_EAS", "EAS", FundModel.EAS, "Fundline")]
         [InlineData(10000001, "ILR1920", "R01", "Main1920_FM25", "ILR_FM25", FundModel.FM25, "Fundline")]
+        [InlineData(10000001, "ILR1920", "R01", "Main1920_ALB", "ILR_ALB", FundModel.ALB, "Fundline")]
         public async Task SummmariseProviders(int ukprn, string collectionType, string collectionReturnCode, string summarisationType, string lineType, FundModel fundModel, string processType)
         {
             var cancellationToken = CancellationToken.None;
@@ -108,11 +109,21 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
             {
                 result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "16-18TRN1920" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(12);
             }
+            else if (fundModel == FundModel.ALB)
+            {
+                result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLB1920" && s.DeliverableCode == 3 && s.ActualValue != 0).Should().Be(12);
+                result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLBC1920" && s.DeliverableCode == 3 && s.ActualValue != 0).Should().Be(12);
+
+                result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLB1920" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(12);
+                result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLBC1920" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(12);
+            }
         }
 
         [Theory]
         [InlineData(10000001, "ILR1920", "R01", "Main1920_FM35", "ILR_FM35", FundModel.FM35, "Fundline")]
         [InlineData(10000001, "ILR1920", "R01", "Main1920_EAS", "EAS", FundModel.EAS, "Fundline")]
+        [InlineData(10000001, "ILR1920", "R01", "Main1920_FM25", "ILR_FM25", FundModel.FM25, "Fundline")]
+        [InlineData(10000001, "ILR1920", "R01", "Main1920_ALB", "ILR_ALB", FundModel.ALB, "Fundline")]
         public async Task SummmariseProviders_Nocontract(int ukprn, string collectionType, string collectionReturnCode, string summarisationType, string lineType, FundModel fundModel, string processType)
         {
             var cancellationToken = CancellationToken.None;
@@ -194,7 +205,15 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
             {
                 result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "16-18TRN1920" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(0);
             }
-        }   
+            else if (fundModel == FundModel.ALB)
+            {
+                result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLB1920" && s.DeliverableCode == 3 && s.ActualValue != 0).Should().Be(0);
+                result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLBC1920" && s.DeliverableCode == 3 && s.ActualValue != 0).Should().Be(0);
+
+                result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLB1920" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(0);
+                result.Count(s => s.OrganisationId == $"Org{ukprn}" && s.FundingStreamPeriodCode == "ALLBC1920" && s.DeliverableCode == 2 && s.ActualValue != 0).Should().Be(0);
+            }
+        }
 
         [Fact]
         public async void FundingDataRemoved_Test()
@@ -505,7 +524,9 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
                 new FundLine { Fundline = "19+ Traineeships (Adult funded)", LineType = "ILR_FM25" },
                 new FundLine { Fundline = "Authorised Claims: 16-18 Traineeships", LineType = "EAS" },
                 new FundLine { Fundline = "Excess Learning Support: 16-18 Traineeships", LineType = "EAS" },
-                //new FundLine { Fundline = "", LineType = "EAS" },
+
+                new FundLine { Fundline = "Advanced Learner Loans Bursary", LineType = "ILR_ALB" },
+                new FundLine { Fundline = "Authorised Claims: Advanced Learner Loans Bursary", LineType = "EAS" },
                 //new FundLine { Fundline = "", LineType = "EAS" },
                 //new FundLine { Fundline = "", LineType = "EAS" },
                 //new FundLine { Fundline = "", LineType = "EAS" },

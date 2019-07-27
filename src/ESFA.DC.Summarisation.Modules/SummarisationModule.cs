@@ -204,6 +204,8 @@ namespace ESFA.DC.Summarisation.Modules
 
             containerBuilder.RegisterType<Main1920Providers.Fm35Provider>().As<ILearningDeliveryProvider>();
             containerBuilder.RegisterType<Main1920Providers.EasProvider>().As<ILearningDeliveryProvider>();
+            containerBuilder.RegisterType<Main1920Providers.Fm25Provider>().As<ILearningDeliveryProvider>();
+            containerBuilder.RegisterType<Main1920Providers.AlbProvider>().As<ILearningDeliveryProvider>();
 
             containerBuilder.RegisterType<ILR1920_DataStoreEntities>().As<IIlr1920RulebaseContext>().ExternallyOwned();
             containerBuilder.Register(c =>

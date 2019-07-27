@@ -14,6 +14,7 @@
 
         Main1920_FM35,
         Main1920_EAS,
-        Main1920_FM25
+        Main1920_FM25,
+        Main1920_ALB,
     }
 }
