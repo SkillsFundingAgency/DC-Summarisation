@@ -20,6 +20,7 @@
     <Parameter Name="ILR1920ConnectionString" Value="__ILR1920DataStoreConnectionStringRO__" />
     <Parameter Name="SummarisedActualsConnectionString" Value="__SummarisedActuals_Connectionstring_RW__" />
     <Parameter Name="EAS1819ConnectionString" Value="__EAS1819ConnectionStringRO__" />
+    <Parameter Name="EAS1920ConnectionString" Value="__EAS1920ConnectionStringRO__" />
     <Parameter Name="DataRetrievalMaxConcurrentCalls" Value="__DataRetrievalMaxConcurrentCalls__" />
     <Parameter Name="ESFNonEFConnectionString" Value="__ESFNonEFConnectionString__" />
     <Parameter Name="ESFR2ConnectionString" Value="__ESFR2ConnectionString__" />

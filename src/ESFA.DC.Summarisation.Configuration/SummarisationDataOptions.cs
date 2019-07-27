@@ -21,5 +21,7 @@ namespace ESFA.DC.Summarisation.Configuration
         public string DASPaymentsConnectionString { get; set; }
 
         public string ILR1920ConnectionString { get; set; }
+
+        public string EAS1920ConnectionString { get; set; }
     }
 }
