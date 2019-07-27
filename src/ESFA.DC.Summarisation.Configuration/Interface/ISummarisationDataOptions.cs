@@ -12,6 +12,8 @@
 
         string EAS1819ConnectionString { get; }
 
+        string EAS1920ConnectionString { get; }
+
         string ESFNonEFConnectionString { get; }
 
         string ESFR2ConnectionString { get; }
