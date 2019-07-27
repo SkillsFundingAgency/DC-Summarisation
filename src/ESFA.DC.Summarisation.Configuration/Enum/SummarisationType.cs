@@ -13,6 +13,7 @@
         Apps1819_NonLevy,
 
         Main1920_FM35,
-        Main1920_EAS
+        Main1920_EAS,
+        Main1920_FM25
     }
 }
