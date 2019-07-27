@@ -18,6 +18,7 @@
     <Parameter Name="ILR1920ConnectionString" Value="" />
     <Parameter Name="SummarisedActualsConnectionString" Value=""/>
     <Parameter Name="EAS1819ConnectionString" Value=""/>
+    <Parameter Name="EAS1920ConnectionString" Value=""/>
     <Parameter Name="ESFNonEFConnectionString"  Value=""/>
     <Parameter Name="ESFR2ConnectionString" Value="" />
     <Parameter Name="DASPaymentsConnectionString"  Value=""/>
