@@ -108,20 +108,20 @@ namespace ESFA.DC.Summarisation.Console
 
             IProviderRepository repository = new ProviderRepository(new List<ILearningDeliveryProvider>
             {
-                //new AlbProvider(() => new ILR1819_DataStoreEntities(ilr1819dbContextOptions)),
-                //new EasProvider(() => new EAS1819.EF.EasContext(eas1819dbContextOptions)),
-                //new Fm25Provider(() => new ILR1819_DataStoreEntities(ilr1819dbContextOptions)),
-                //new Fm35Provider(() => new ILR1819_DataStoreEntities(ilr1819dbContextOptions)),
-                //new TblProvider(() => new ILR1819_DataStoreEntities(ilr1819dbContextOptions)),
+                new AlbProvider(() => new ILR1819_DataStoreEntities(ilr1819dbContextOptions)),
+                new EasProvider(() => new EAS1819.EF.EasContext(eas1819dbContextOptions)),
+                new Fm25Provider(() => new ILR1819_DataStoreEntities(ilr1819dbContextOptions)),
+                new Fm35Provider(() => new ILR1819_DataStoreEntities(ilr1819dbContextOptions)),
+                new TblProvider(() => new ILR1819_DataStoreEntities(ilr1819dbContextOptions)),
 
-                //new ESFProvider_R1(() => new ESF_DataStoreEntities(esfdbContextOptions)),
-                //new ESFProvider_R2(() => new ESFR2Context(esfR2dbContextOptions)),
-                //new ESFILRProvider(() => new SummarisationContext(sadbContextOptions)),
+                new ESFProvider_R1(() => new ESF_DataStoreEntities(esfdbContextOptions)),
+                new ESFProvider_R2(() => new ESFR2Context(esfR2dbContextOptions)),
+                new ESFILRProvider(() => new SummarisationContext(sadbContextOptions)),
 
-                //new LevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
-                //new NonLevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
+                new LevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
+                new NonLevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
 
-                //new Main1920Providers.Fm35Provider(() => new ILR1920_DataStoreEntities(ilr1920dbContextOptions)),
+                new Main1920Providers.Fm35Provider(() => new ILR1920_DataStoreEntities(ilr1920dbContextOptions)),
                 new Main1920Providers.EasProvider(() => new EAS1920.EF.EasContext(eas1920dbContextOptions)),
             });
 
@@ -145,20 +145,20 @@ namespace ESFA.DC.Summarisation.Console
 
             SummarisationWrapper wrapper;
 
-            //summarisationMessage = new SummarisationContextStub();
+            summarisationMessage = new SummarisationContextStub();
 
-            //wrapper = new SummarisationWrapper(
-            //    fcsRepository,
-            //    saRepository,
-            //    fundingTypesProviders,
-            //    collectionPeriodsProviders,
-            //    summarisationServices,
-            //    dataStorePersistenceService,
-            //    () => repository,
-            //    new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
-            //    logger);
+            wrapper = new SummarisationWrapper(
+                fcsRepository,
+                saRepository,
+                fundingTypesProviders,
+                collectionPeriodsProviders,
+                summarisationServices,
+                dataStorePersistenceService,
+                () => repository,
+                new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
+                logger);
 
-            //await wrapper.Summarise(summarisationMessage, CancellationToken.None);
+            await wrapper.Summarise(summarisationMessage, CancellationToken.None);
 
             summarisationMessage = new ILR1920SummarisationContextStub();
 
@@ -175,35 +175,35 @@ namespace ESFA.DC.Summarisation.Console
 
             await wrapper.Summarise(summarisationMessage, CancellationToken.None);
 
-            //summarisationMessage = new ESFSummarisationContextStub();
+            summarisationMessage = new ESFSummarisationContextStub();
 
-            //wrapper = new SummarisationWrapper(
-            //    fcsRepository,
-            //    saRepository,
-            //    fundingTypesProviders,
-            //    collectionPeriodsProviders,
-            //    summarisationServices,
-            //    dataStorePersistenceService,
-            //    () => repository,
-            //    new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
-            //    logger);
+            wrapper = new SummarisationWrapper(
+                fcsRepository,
+                saRepository,
+                fundingTypesProviders,
+                collectionPeriodsProviders,
+                summarisationServices,
+                dataStorePersistenceService,
+                () => repository,
+                new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
+                logger);
 
-            //await wrapper.Summarise(summarisationMessage, CancellationToken.None);
+            await wrapper.Summarise(summarisationMessage, CancellationToken.None);
 
-            //summarisationMessage = new AppsSummarisationContextStub();
+            summarisationMessage = new AppsSummarisationContextStub();
 
-            //wrapper = new SummarisationWrapper(
-            //    fcsRepository,
-            //    saRepository,
-            //    fundingTypesProviders,
-            //    collectionPeriodsProviders,
-            //    summarisationServices,
-            //    dataStorePersistenceService,
-            //    () => repository,
-            //    new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
-            //    logger);
+            wrapper = new SummarisationWrapper(
+                fcsRepository,
+                saRepository,
+                fundingTypesProviders,
+                collectionPeriodsProviders,
+                summarisationServices,
+                dataStorePersistenceService,
+                () => repository,
+                new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
+                logger);
 
-            //await wrapper.Summarise(summarisationMessage, CancellationToken.None);
+            await wrapper.Summarise(summarisationMessage, CancellationToken.None);
         }
     }
 }
