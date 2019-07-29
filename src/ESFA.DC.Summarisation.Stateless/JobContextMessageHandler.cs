@@ -46,6 +46,12 @@ namespace ESFA.DC.Summarisation.Stateless
                     return true;
                 }
             }
+            catch (OutOfMemoryException oom)
+            {
+                Environment.FailFast("Summarisation Service Out Of Memory", oom);
+                _logger.LogError("Summarisation Service Out Of Memory", oom);
+                throw;
+            }
             catch (Exception exception)
             {
                 _logger.LogError("Summarisation Message Handler Failed", exception);

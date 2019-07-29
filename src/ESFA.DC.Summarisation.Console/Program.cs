@@ -63,6 +63,8 @@ namespace ESFA.DC.Summarisation.Console
 
             string summarisedActualsConnectionString = @"Server=(local);Database=SummarisedActuals;Trusted_Connection=True;";
             string eas1819ConnectionString = @"Server=(local);Database=EAS1819;Trusted_Connection=True;";
+            string eas1920ConnectionString = @"Server=(local);Database=EAS1920;Trusted_Connection=True;";
+
             string esfConnectionString = @"Server=(local);Database=ESF;Trusted_Connection=True;";
             string esfR2ConnectionString = @"Server=(local);Database=ESF-R2;Trusted_Connection=True;";
 
@@ -72,7 +74,9 @@ namespace ESFA.DC.Summarisation.Console
             DbContextOptions<ILR1819_DataStoreEntities> ilr1819dbContextOptions = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>().UseSqlServer(ilr1819ConnectionString).Options;
             DbContextOptions<ILR1920_DataStoreEntities> ilr1920dbContextOptions = new DbContextOptionsBuilder<ILR1920_DataStoreEntities>().UseSqlServer(ilr1920ConnectionString).Options;
 
-            DbContextOptions<EasContext> eas1819dbContextOptions = new DbContextOptionsBuilder<EasContext>().UseSqlServer(eas1819ConnectionString).Options;
+            DbContextOptions<EAS1819.EF.EasContext> eas1819dbContextOptions = new DbContextOptionsBuilder<EAS1819.EF.EasContext>().UseSqlServer(eas1819ConnectionString).Options;
+            DbContextOptions<EAS1920.EF.EasContext> eas1920dbContextOptions = new DbContextOptionsBuilder<EAS1920.EF.EasContext>().UseSqlServer(eas1920ConnectionString).Options;
+
             DbContextOptions<SummarisationContext> sadbContextOptions = new DbContextOptionsBuilder<SummarisationContext>().UseSqlServer(summarisedActualsConnectionString).Options;
             DbContextOptions<ESF_DataStoreEntities> esfdbContextOptions = new DbContextOptionsBuilder<ESF_DataStoreEntities>().UseSqlServer(esfConnectionString).Options;
             DbContextOptions<ESFR2Context> esfR2dbContextOptions = new DbContextOptionsBuilder<ESFR2Context>().UseSqlServer(esfR2ConnectionString).Options;
@@ -105,7 +109,7 @@ namespace ESFA.DC.Summarisation.Console
             IProviderRepository repository = new ProviderRepository(new List<ILearningDeliveryProvider>
             {
                 new AlbProvider(() => new ILR1819_DataStoreEntities(ilr1819dbContextOptions)),
-                new EasProvider(() => new EasContext(eas1819dbContextOptions)),
+                new EasProvider(() => new EAS1819.EF.EasContext(eas1819dbContextOptions)),
                 new Fm25Provider(() => new ILR1819_DataStoreEntities(ilr1819dbContextOptions)),
                 new Fm35Provider(() => new ILR1819_DataStoreEntities(ilr1819dbContextOptions)),
                 new TblProvider(() => new ILR1819_DataStoreEntities(ilr1819dbContextOptions)),
@@ -118,6 +122,7 @@ namespace ESFA.DC.Summarisation.Console
                 new NonLevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
 
                 new Main1920Providers.Fm35Provider(() => new ILR1920_DataStoreEntities(ilr1920dbContextOptions)),
+                new Main1920Providers.EasProvider(() => new EAS1920.EF.EasContext(eas1920dbContextOptions)),
             });
 
             List<ISummarisationService> summarisationServices = new List<ISummarisationService>()

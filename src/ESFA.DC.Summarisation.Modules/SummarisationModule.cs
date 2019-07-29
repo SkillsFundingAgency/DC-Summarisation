@@ -203,6 +203,10 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<Main1920CollectionPeriodsProvider>().As<ISummarisationConfigProvider<CollectionPeriod>>();
 
             containerBuilder.RegisterType<Main1920Providers.Fm35Provider>().As<ILearningDeliveryProvider>();
+            containerBuilder.RegisterType<Main1920Providers.EasProvider>().As<ILearningDeliveryProvider>();
+            containerBuilder.RegisterType<Main1920Providers.Fm25Provider>().As<ILearningDeliveryProvider>();
+            containerBuilder.RegisterType<Main1920Providers.AlbProvider>().As<ILearningDeliveryProvider>();
+            containerBuilder.RegisterType<Main1920Providers.TblProvider>().As<ILearningDeliveryProvider>();
 
             containerBuilder.RegisterType<ILR1920_DataStoreEntities>().As<IIlr1920RulebaseContext>().ExternallyOwned();
             containerBuilder.Register(c =>
@@ -215,6 +219,19 @@ namespace ESFA.DC.Summarisation.Modules
 
                 return optionsBuilder.Options;
             }).As<DbContextOptions<ILR1920_DataStoreEntities>>()
+            .SingleInstance();
+
+            containerBuilder.RegisterType<EAS1920.EF.EasContext>().As<EAS1920.EF.Interface.IEasdbContext>().ExternallyOwned();
+            containerBuilder.Register(c =>
+            {
+                var summarisationSettings = c.Resolve<ISummarisationDataOptions>();
+                var optionsBuilder = new DbContextOptionsBuilder<EAS1920.EF.EasContext>();
+                optionsBuilder.UseSqlServer(
+                    summarisationSettings.EAS1920ConnectionString,
+                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+
+                return optionsBuilder.Options;
+            }).As<DbContextOptions<EAS1920.EF.EasContext>>()
             .SingleInstance();
 
         }
