@@ -7,14 +7,14 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
     public class FundingTypeTests
     {
         [Fact]
-    public void FundingTypesCount()
-    {
-        NewProvider().Provide().Should().HaveCount(2);
-    }
+        public void FundingTypesCount()
+        {
+            NewProvider().Provide().Should().HaveCount(2);
+        }
 
-    private FundingTypesProvider NewProvider()
-    {
-        return new FundingTypesProvider(new JsonSerializationService());
+        private FundingTypesProvider NewProvider()
+        {
+            return new FundingTypesProvider(new JsonSerializationService());
+        }
     }
-}
 }

@@ -173,7 +173,6 @@
           }
         ]
       },
-
       {
         "PeriodCode": "LEVY1799",
         "FundModel": "Levy",
@@ -235,10 +234,6 @@
           }
         ]
       },
-
-
-
-
       {
         "PeriodCode": "NONLEVY2019",
         "FundModel": "NonLevy",
@@ -491,8 +486,6 @@
       }
     ]
   },
-
-
   {
     "SummarisationType": "Apps1920_NonLevy",
     "FundingStreams": [
@@ -626,8 +619,6 @@
           }
         ]
       },
-
-
       {
         "PeriodCode": "16-18NLAP2018",
         "FundModel": "NonLevy",
