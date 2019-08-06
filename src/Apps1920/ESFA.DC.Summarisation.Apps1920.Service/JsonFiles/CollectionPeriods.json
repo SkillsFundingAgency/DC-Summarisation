@@ -1,0 +1,74 @@
+[
+  {
+    "Period": 1,
+    "CalendarMonth": 8,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201908
+  },
+  {
+    "Period": 2,
+    "CalendarMonth": 9,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201909
+  },
+  {
+    "Period": 3,
+    "CalendarMonth": 10,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201910
+  },
+  {
+    "Period": 4,
+    "CalendarMonth": 11,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201911
+  },
+  {
+    "Period": 5,
+    "CalendarMonth": 12,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201912
+  },
+  {
+    "Period": 6,
+    "CalendarMonth": 1,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202001
+  },
+  {
+    "Period": 7,
+    "CalendarMonth": 2,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202002
+  },
+  {
+    "Period": 8,
+    "CalendarMonth": 3,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202003
+  },
+  {
+    "Period": 9,
+    "CalendarMonth": 4,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202004
+  },
+  {
+    "Period": 10,
+    "CalendarMonth": 5,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202005
+  },
+  {
+    "Period": 11,
+    "CalendarMonth": 6,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202006
+  },
+  {
+    "Period": 12,
+    "CalendarMonth": 7,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202007
+  }
+]
