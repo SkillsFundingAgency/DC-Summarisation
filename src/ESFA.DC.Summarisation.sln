@@ -75,9 +75,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.Summarisation.Main1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps1920", "Apps1920", "{86A8836E-D031-4EE2-A11F-0CC18C1C3197}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.Summarisation.Apps1920.Service", "Apps1920\ESFA.DC.Summarisation.Apps1920.Service\ESFA.DC.Summarisation.Apps1920.Service.csproj", "{F0AD1B8D-5771-452C-A1F8-CDAECB529282}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.Summarisation.Apps1920.Service", "Apps1920\ESFA.DC.Summarisation.Apps1920.Service\ESFA.DC.Summarisation.Apps1920.Service.csproj", "{F0AD1B8D-5771-452C-A1F8-CDAECB529282}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.Summarisation.Apps1920.Service.Tests", "Apps1920\ESFA.DC.Summarisation.Apps1920.Service.Tests\ESFA.DC.Summarisation.Apps1920.Service.Tests.csproj", "{7325DFAA-0951-4939-B28B-35F9CF52D705}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.Summarisation.Apps1920.Data", "Apps1920\ESFA.DC.Summarisation.Apps1920.Data\ESFA.DC.Summarisation.Apps1920.Data.csproj", "{292E9DCE-55C1-492A-A42D-AE450F30B2FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -326,6 +328,14 @@ Global
 		{7325DFAA-0951-4939-B28B-35F9CF52D705}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7325DFAA-0951-4939-B28B-35F9CF52D705}.Release|x64.ActiveCfg = Release|Any CPU
 		{7325DFAA-0951-4939-B28B-35F9CF52D705}.Release|x64.Build.0 = Release|Any CPU
+		{292E9DCE-55C1-492A-A42D-AE450F30B2FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{292E9DCE-55C1-492A-A42D-AE450F30B2FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{292E9DCE-55C1-492A-A42D-AE450F30B2FA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{292E9DCE-55C1-492A-A42D-AE450F30B2FA}.Debug|x64.Build.0 = Debug|Any CPU
+		{292E9DCE-55C1-492A-A42D-AE450F30B2FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{292E9DCE-55C1-492A-A42D-AE450F30B2FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{292E9DCE-55C1-492A-A42D-AE450F30B2FA}.Release|x64.ActiveCfg = Release|Any CPU
+		{292E9DCE-55C1-492A-A42D-AE450F30B2FA}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -345,6 +355,7 @@ Global
 		{C1A2B011-7380-4B42-B475-9A3C4E8BD38B} = {44BDC936-F4C0-4AB9-A6C5-C28A5EE478CF}
 		{F0AD1B8D-5771-452C-A1F8-CDAECB529282} = {86A8836E-D031-4EE2-A11F-0CC18C1C3197}
 		{7325DFAA-0951-4939-B28B-35F9CF52D705} = {86A8836E-D031-4EE2-A11F-0CC18C1C3197}
+		{292E9DCE-55C1-492A-A42D-AE450F30B2FA} = {86A8836E-D031-4EE2-A11F-0CC18C1C3197}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4F5E31ED-5016-4DAA-B574-94F5A1171313}

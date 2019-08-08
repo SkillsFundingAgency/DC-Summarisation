@@ -78,6 +78,7 @@
     <Compile Include="CollectionPeriodTests.cs" />
     <Compile Include="FundingTypeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SummarisationServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ESFA.DC.Summarisation.Apps1920.Service.Tests.ruleset" />
@@ -92,6 +93,10 @@
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Configuration\ESFA.DC.Summarisation.Configuration.csproj">
       <Project>{6b10f154-0c66-49c8-befb-646a8c8909da}</Project>
       <Name>ESFA.DC.Summarisation.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ESFA.DC.Summarisation.Data\ESFA.DC.Summarisation.Data.csproj">
+      <Project>{6ac3b17b-49a6-4ece-8962-c45f67384054}</Project>
+      <Name>ESFA.DC.Summarisation.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Service\ESFA.DC.Summarisation.Service.csproj">
       <Project>{79fba70b-ab9e-4b43-b850-9cf41340b638}</Project>
