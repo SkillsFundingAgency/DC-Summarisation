@@ -176,7 +176,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
         public void Summarise_FundingStreams()
         {
             List<FundingStream> fundingStreams = GetFundingTypes()
-                                                .Where(w => w.SummarisationType == "ESF_ILRData")
+                                                .Where(w => w.SummarisationType == "ESF_ILR_And_Supp")
                                                 .SelectMany(ft => ft.FundingStreams).ToList();
 
             int ukprn = GetProviders().First();
@@ -216,7 +216,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
         public void Summarise_Allocations()
         {
             List<FundingStream> fundingStreams = GetFundingTypes()
-                                                .Where(w => w.SummarisationType == "ESF_ILRData")
+                                                .Where(w => w.SummarisationType == "ESF_ILR_And_Supp")
                                                 .SelectMany(ft => ft.FundingStreams).ToList();
 
             int ukprn = GetProviders().First();
@@ -265,7 +265,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
         public void Summarise_Providers()
         {
             List<FundingStream> fundingStreams = GetFundingTypes()
-                                                .Where(w => w.SummarisationType == "ESF_ILRData")
+                                                .Where(w => w.SummarisationType == "ESF_ILR_And_Supp")
                                                 .SelectMany(ft => ft.FundingStreams).ToList();
 
             foreach (var ukprn in GetProviders())
