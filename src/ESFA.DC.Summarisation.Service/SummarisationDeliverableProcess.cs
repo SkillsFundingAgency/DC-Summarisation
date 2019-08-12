@@ -1,4 +1,5 @@
 ﻿using ESFA.DC.Summarisation.Configuration;
+using ESFA.DC.Summarisation.Configuration.Enum;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Output.Model;
@@ -51,7 +52,7 @@ namespace ESFA.DC.Summarisation.Service
                         ActualValue = Math.Round(g.Sum(x => x.ActualValue),2),
                         ActualVolume = g.Sum(x => x.ActualVolume),
                         ContractAllocationNumber = allocation.ContractAllocationNumber,
-                        PeriodTypeCode = SummarisationConstants.PeriodTypeCode
+                        PeriodTypeCode = PeriodTypeCode.CM.ToString()
                     });
         }
 

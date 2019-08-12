@@ -129,7 +129,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                     PeriodTypeCode = "AY"
                 };
 
-            NewSummarisationWrapper().SummarisedActualAlreadyExist(missingSummarisedActual, null).Should().BeTrue();
+            NewSummarisationWrapper().SummarisedActualAlreadyExist(missingSummarisedActual, null).Should().BeFalse();
         }
 
         [Fact]

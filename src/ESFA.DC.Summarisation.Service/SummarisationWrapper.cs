@@ -148,37 +148,43 @@ namespace ESFA.DC.Summarisation.Service
 
             var fundingTypes = GetFundingTypesData(SummarisationType.ESF_SuppData.ToString());
 
-            if (fcsContractAllocations == null)
+            if (fcsContractAllocations == null
+                || fundingTypes == null)
             {
                 return missingSummarisedActuals;
             }
 
-            foreach (var fcs in fcsContractAllocations)
+            foreach (var fundType in fundingTypes)
             {
-                var fcsCollectionPeriods = GetCollectionPeriodsForDateRange(
-                            fcs.ContractStartDate,
-                            fcs.ContractEndDate,
-                            _summarisationMessage.CollectionYear,
-                            _summarisationMessage.CollectionMonth,
-                            collectionPeriods);
-
-                if (fcsContractAllocations == null)
+                var contractAllocation = fcsContractAllocations.Where(f => f.FundingStreamPeriodCode.Equals(fundType.PeriodCode));
+                if (contractAllocation == null)
                 {
                     continue;
                 }
-
-                foreach (var collectionPeriod in fcsCollectionPeriods)
+                foreach (var fcs in contractAllocation)
                 {
-                    foreach (var fundType in fundingTypes)
+                    var fcsCollectionPeriods = GetCollectionPeriodsForDateRange(
+                                fcs.ContractStartDate,
+                                fcs.ContractEndDate,
+                                _summarisationMessage.CollectionYear,
+                                _summarisationMessage.CollectionMonth,
+                                collectionPeriods);
+
+                    if (fcsCollectionPeriods == null)
+                    {
+                        continue;
+                    }
+
+                    foreach (var collectionPeriod in fcsCollectionPeriods)
                     {
                         SummarisedActual missingSummarisedActual = new SummarisedActual()
                         {
                             ContractAllocationNumber = fcs.ContractAllocationNumber,
                             DeliverableCode = fundType.DeliverableLineCode,
-                            FundingStreamPeriodCode = fcs.FundingStreamPeriodCode,
+                            FundingStreamPeriodCode = fundType.PeriodCode,
                             OrganisationId = fcs.DeliveryOrganisation,
                             Period = collectionPeriod.ActualsSchemaPeriod,
-                            PeriodTypeCode = PeriodTypeCode.AY.ToString(),
+                            PeriodTypeCode = PeriodTypeCode.CM.ToString(),
                             ActualVolume = 0,
                             ActualValue = 0.00M
                         };
@@ -189,7 +195,7 @@ namespace ESFA.DC.Summarisation.Service
                     }
                 }
             }
-
+            
             return missingSummarisedActuals;
         }
         
@@ -200,7 +206,7 @@ namespace ESFA.DC.Summarisation.Service
             return providerActuals?.Any(p =>
                 p.ContractAllocationNumber.Equals(missingSummarisedActual.ContractAllocationNumber, StringComparison.OrdinalIgnoreCase)
                 && p.Period == missingSummarisedActual.Period
-                && p.DeliverableCode == missingSummarisedActual.DeliverableCode) ?? true;
+                && p.DeliverableCode == missingSummarisedActual.DeliverableCode) ?? false;
         }
 
         public IList<CollectionPeriod> GetCollectionPeriodsForDateRange(

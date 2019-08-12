@@ -8,6 +8,7 @@ namespace ESFA.DC.Summarisation.Configuration.Enum
     {
         FY,
         AY,
+        CM,
         LEVY,
         NONLEVY,
         ESF,
