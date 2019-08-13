@@ -1,4 +1,5 @@
 ﻿using ESFA.DC.ESF.R2.Database.EF.Interfaces;
+using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -43,8 +44,8 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                 {
                                     CalendarMonth = p.CalendarMonth,
                                     CalendarYear = p.CalendarYear,
-                                    Value = p.CostType.Equals("Unit Cost", StringComparison.OrdinalIgnoreCase) ? (p.SupplementaryDataUnitCost.Value ?? p.Value) : p.CostType.Equals("Unit Cost Deduction", StringComparison.OrdinalIgnoreCase) ? (p.SupplementaryDataUnitCost.Value ?? p.Value) * -1 : 0,
-                                    Volume = p.CostType.Equals("Unit Cost", StringComparison.OrdinalIgnoreCase) ? 1 : p.CostType.Equals("Unit Cost Deduction", StringComparison.OrdinalIgnoreCase) ? -1 : 0
+                                    Value = p.CostType.Equals(SummarisationConstants.UnitCost, StringComparison.OrdinalIgnoreCase) ? (p.SupplementaryDataUnitCost.Value ?? p.Value) : p.CostType.Equals(SummarisationConstants.UnitCostDeduction, StringComparison.OrdinalIgnoreCase) ? (p.SupplementaryDataUnitCost.Value ?? p.Value) * -1 : 0,
+                                    Volume = p.CostType.Equals(SummarisationConstants.UnitCost, StringComparison.OrdinalIgnoreCase) ? 1 : p.CostType.Equals(SummarisationConstants.UnitCostDeduction, StringComparison.OrdinalIgnoreCase) ? -1 : 0
                                 }).ToList()
                             }).ToList()
                         }).ToListAsync(cancellationToken);
