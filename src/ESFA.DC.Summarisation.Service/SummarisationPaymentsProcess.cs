@@ -33,7 +33,7 @@ namespace ESFA.DC.Summarisation.Service
         {
             var summarisedActuals = new List<SummarisedActual>();
 
-            if (fundingStream.PeriodCode.Equals(ConstantKeys.NonLevy_APPS1920,StringComparison.OrdinalIgnoreCase))
+            if (fundingStream.PeriodCode.Equals(ConstantKeys.NonLevy_APPS1920, StringComparison.OrdinalIgnoreCase))
             {
                 collectionPeriods = collectionPeriods.Where(w => w.CollectionYear == summarisationMessage.CollectionYear);
             }
@@ -99,18 +99,85 @@ namespace ESFA.DC.Summarisation.Service
 
         public IEnumerable<SummarisedActual> SummarisePeriods(IEnumerable<IPeriod> periods, IEnumerable<CollectionPeriod> collectionPeriods)
         {
-            return periods
-               .Join(collectionPeriods,
-                        p => new { p.CollectionYear, p.CollectionMonth },
-                        cp => new { cp.CollectionYear, cp.CollectionMonth },
-                        (p, cp) => new { p.CollectionYear, p.CollectionMonth, cp.ActualsSchemaPeriod, p.Value }
-                    )
-               .GroupBy(pg => pg.ActualsSchemaPeriod)
-               .Select(g => new SummarisedActual
-               {
-                   Period = g.Key,
-                   ActualValue = g.Where(w => w.Value.HasValue).Sum(sw => sw.Value.Value),
-               });
+            //return periods
+            //   .Join(collectionPeriods,
+            //            p => new { p.CollectionYear, p.CollectionMonth },
+            //            cp => new { cp.CollectionYear, cp.CollectionMonth },
+            //            (p, cp) => new { p.CollectionYear, p.CollectionMonth, cp.ActualsSchemaPeriod, p.Value }
+            //        )
+            //   .GroupBy(pg => pg.ActualsSchemaPeriod)
+            //   .Select(g => new SummarisedActual
+            //   {
+            //       Period = g.Key,
+            //       ActualValue = g.Where(w => w.Value.HasValue).Sum(sw => sw.Value.Value),
+            //   });
+
+            //return (collectionPeriods
+            //  .GroupJoin(periods,
+            //           cp => new { cp.CollectionYear, cp.CollectionMonth },
+            //           p => new { p.CollectionYear, p.CollectionMonth },
+            //           (cp, p) => new { Period = p, CollectionPeriod = cp }
+            //       )).SelectMany(grp => grp.Period.DefaultIfEmpty(), (outGrp, outPeriod) => new
+            //       {
+            //           CollectionYear = outGrp.CollectionPeriod.CollectionYear,
+            //           CollectionMonth = outGrp.CollectionPeriod.CollectionMonth,
+            //           ActualsSchemaPeriod = outGrp.CollectionPeriod.ActualsSchemaPeriod,
+            //           Value = outPeriod == null ? decimal.Zero : outPeriod.Value,
+            //       })
+            //  .GroupBy(pg => pg.ActualsSchemaPeriod)
+            //  .Select(g => new SummarisedActual
+            //  {
+            //      Period = g.Key,
+            //      ActualValue = g.Where(w => w.Value.HasValue).Sum(sw => sw.Value.Value),
+            //  });
+
+
+            var summarisedPeriods =  periods
+                       .GroupBy(g => new { g.CollectionYear, g.CollectionMonth })
+                       .Select(pg => new 
+                       {
+                           CollectionYear = pg.Key.CollectionYear,
+                           CollectionMonth = pg.Key.CollectionMonth,
+                           Value = pg.Where(w => w.Value.HasValue).Sum(sw => sw.Value.Value),
+                       });
+
+            if(summarisedPeriods.Count(w => w.Value > 0) > 0)
+            {
+                return (collectionPeriods
+                  .GroupJoin(summarisedPeriods,
+                           cp => new { cp.CollectionYear, cp.CollectionMonth },
+                           p => new { p.CollectionYear, p.CollectionMonth },
+                           (cp, p) => new { Period = p, CollectionPeriod = cp }
+                       )).SelectMany(grp => grp.Period.DefaultIfEmpty(), (outGrp, outPeriod) => new
+                       {
+                           CollectionYear = outGrp.CollectionPeriod.CollectionYear,
+                           CollectionMonth = outGrp.CollectionPeriod.CollectionMonth,
+                           ActualsSchemaPeriod = outGrp.CollectionPeriod.ActualsSchemaPeriod,
+                           Value = outPeriod == null ? decimal.Zero : outPeriod.Value,
+                       })
+                  .GroupBy(pg => pg.ActualsSchemaPeriod)
+                  .Select(g => new SummarisedActual
+                  {
+                      Period = g.Key,
+                      ActualValue = g.Sum(sw => sw.Value),
+                  });
+            }
+            else
+            {
+                return periods
+                   .Join(collectionPeriods,
+                            p => new { p.CollectionYear, p.CollectionMonth },
+                            cp => new { cp.CollectionYear, cp.CollectionMonth },
+                            (p, cp) => new { p.CollectionYear, p.CollectionMonth, cp.ActualsSchemaPeriod, p.Value }
+                        )
+                   .GroupBy(pg => pg.ActualsSchemaPeriod)
+                   .Select(g => new SummarisedActual
+                   {
+                       Period = g.Key,
+                       ActualValue = g.Where(w => w.Value.HasValue).Sum(sw => sw.Value.Value),
+                   });
+            }
+
         }
     }
 }
