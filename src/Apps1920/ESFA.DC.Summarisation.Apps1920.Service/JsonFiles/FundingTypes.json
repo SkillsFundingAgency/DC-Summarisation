@@ -588,7 +588,7 @@
         "TransactionTypes": [ 15 ],
         "FundLines": [
           {
-            "Fundline": "16-18 Apprenticeship (From May 2017) Non-Levy Contract (non-procured)",
+            "Fundline": "19+ Apprenticeship (From May 2017) Non-Levy Contract (non-procured)",
             "LineType": "ILR",
             "UseAttributes": false
           },
