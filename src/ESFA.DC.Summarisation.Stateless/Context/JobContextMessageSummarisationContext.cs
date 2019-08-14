@@ -94,7 +94,9 @@ namespace ESFA.DC.Summarisation.Stateless.Context
                 returnValue = _jobContextMessage.KeyValuePairs[$"{key}ESF"].ToString();
             }
             else if (SummarisationTypes.Any(item => item.Equals(Configuration.Enum.SummarisationType.Apps1819_Levy.ToString(), StringComparison.OrdinalIgnoreCase)
-                   || item.Equals(Configuration.Enum.SummarisationType.Apps1819_NonLevy.ToString(), StringComparison.OrdinalIgnoreCase)))
+                   || item.Equals(Configuration.Enum.SummarisationType.Apps1819_NonLevy.ToString(), StringComparison.OrdinalIgnoreCase)
+                   || item.Equals(Configuration.Enum.SummarisationType.Apps1920_Levy.ToString(), StringComparison.OrdinalIgnoreCase)
+                   || item.Equals(Configuration.Enum.SummarisationType.Apps1920_NonLevy.ToString(), StringComparison.OrdinalIgnoreCase)))
             {
                 returnValue = _jobContextMessage.KeyValuePairs[$"{key}App"].ToString();
             }
