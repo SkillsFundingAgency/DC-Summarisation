@@ -63,6 +63,7 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<SummarisationWrapper>().As<ISummarisationWrapper>();
             containerBuilder.RegisterType<SummarisationFundlineProcess>().As<ISummarisationService>();
             containerBuilder.RegisterType<SummarisationDeliverableProcess>().As<ISummarisationService>();
+            containerBuilder.RegisterType<SummarisationPaymentsProcess>().As<ISummarisationService>();
 
             containerBuilder.RegisterType<Main1819FundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();
             containerBuilder.RegisterType<ESFFundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();

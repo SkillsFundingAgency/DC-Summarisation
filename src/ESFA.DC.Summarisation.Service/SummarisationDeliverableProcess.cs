@@ -13,7 +13,7 @@ namespace ESFA.DC.Summarisation.Service
     {
         public string ProcessType => nameof(Configuration.Enum.ProcessType.Deliverable);
 
-        public IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams, IProvider provider, IEnumerable<IFcsContractAllocation> allocations, IEnumerable<CollectionPeriod> collectionPeriods)
+        public IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams, IProvider provider, IEnumerable<IFcsContractAllocation> allocations, IEnumerable<CollectionPeriod> collectionPeriods, ISummarisationMessage summarisationMessage)
         {
             return allocations.Where(w => w.FundingStreamPeriodCode.Equals("ESF1420", StringComparison.OrdinalIgnoreCase)).SelectMany(all => Summarise(fundingStreams, provider, all, collectionPeriods));
         }

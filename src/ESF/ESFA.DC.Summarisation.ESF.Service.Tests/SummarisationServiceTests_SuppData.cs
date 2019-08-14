@@ -2,8 +2,10 @@
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Model;
 using ESFA.DC.Summarisation.Data.Input.Model;
+using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Service;
 using FluentAssertions;
+using Moq;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -157,10 +159,10 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                 };
                 fcsContractAllocations.Add(allocation);
             }
-
+            var summarisationMessageMock = new Mock<ISummarisationMessage>();
             var task = new SummarisationDeliverableProcess();
 
-            var result = task.Summarise(fundingStreams, GetTestProvider(ukprn), fcsContractAllocations, GetCollectionPeriods());
+            var result = task.Summarise(fundingStreams, GetTestProvider(ukprn), fcsContractAllocations, GetCollectionPeriods(),summarisationMessageMock.Object);
 
             foreach (var allocation in fcsContractAllocations)
             {
@@ -207,9 +209,11 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                     fcsContractAllocations.Add(allocation);
                 }
 
+                var summarisationMessageMock = new Mock<ISummarisationMessage>();
+
                 var task = new SummarisationDeliverableProcess();
 
-                var result = task.Summarise(fundingStreams, GetTestProvider(ukprn), fcsContractAllocations, GetCollectionPeriods());
+                var result = task.Summarise(fundingStreams, GetTestProvider(ukprn), fcsContractAllocations, GetCollectionPeriods(), summarisationMessageMock.Object);
 
                 foreach (var allocation in fcsContractAllocations)
                 {
