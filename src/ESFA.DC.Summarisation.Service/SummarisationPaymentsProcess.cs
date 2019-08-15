@@ -33,7 +33,8 @@ namespace ESFA.DC.Summarisation.Service
         {
             var summarisedActuals = new List<SummarisedActual>();
 
-            if (fundingStream.PeriodCode.Equals(ConstantKeys.NonLevy_APPS1920, StringComparison.OrdinalIgnoreCase))
+            if (fundingStream.PeriodCode.Equals(ConstantKeys.NonLevy_APPS1920, StringComparison.OrdinalIgnoreCase)
+                || fundingStream.PeriodCode.Equals(ConstantKeys.NonLevy_APPS1819, StringComparison.OrdinalIgnoreCase))
             {
                 collectionPeriods = collectionPeriods.Where(w => w.CollectionYear == summarisationMessage.CollectionYear);
             }
