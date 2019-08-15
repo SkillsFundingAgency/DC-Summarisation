@@ -157,7 +157,7 @@ namespace ESFA.DC.Summarisation.Service
             foreach (var fundType in fundingTypes)
             {
                 foreach (var fcs in fcsContractAllocations
-                    .Where(f => f.FundingStreamPeriodCode.Equals(fundType.PeriodCode)))
+                    .Where(f => f.FundingStreamPeriodCode.Equals(fundType.PeriodCode, StringComparison.OrdinalIgnoreCase)))
                 {
                     var fcsCollectionPeriods = GetCollectionPeriodsForDateRange(
                                 fcs.ContractStartDate,
