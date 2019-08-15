@@ -158,9 +158,9 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         [InlineData("APPS1819", 20)]
         public void SummariseByFundingStream(string fspCode, int dlc)
         {
-            var fungingTypes = GetFundingTypes();
+            var fundingTypes = GetFundingTypes();
 
-            FundingStream fundingStream = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == fspCode && fs.DeliverableLineCode == dlc).First();
+            FundingStream fundingStream = fundingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == fspCode && fs.DeliverableLineCode == dlc).First();
 
             var easfundlinesCount = fundingStream.FundLines.Count(fl => fl.LineType == "EAS");
 
@@ -196,9 +196,9 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         [InlineData(5, 3, 8.00)]
         public void SummariseCheckRounding(decimal value1, decimal value2, decimal result)
         {
-            var fungingTypes = GetFundingTypes();
+            var fundingTypes = GetFundingTypes();
 
-            FundingStream fundingStream = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == "APPS1819" && fs.DeliverableLineCode == 2).First();
+            FundingStream fundingStream = fundingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == "APPS1819" && fs.DeliverableLineCode == 2).First();
 
             List<Period> periods = new List<Period>()
             {
@@ -256,9 +256,9 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         [InlineData("16-18 TRAINEESHIPS (ADULT FUNDED)", "16-18TRN1819")]
         public void SummariseByFundingStream_CaseInsensitiveCheck(string fundLine, string fundingStreamPeriodCode)
         {
-            var fungingTypes = GetFundingTypes();
+            var fundingTypes = GetFundingTypes();
 
-            List<FundingStream> fundingStreams = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == "16-18TRN1819" && fs.DeliverableLineCode == 2).ToList();
+            List<FundingStream> fundingStreams = fundingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == "16-18TRN1819" && fs.DeliverableLineCode == 2).ToList();
 
             var provider = new Provider()
             {

@@ -34,7 +34,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
         {
             using (var contextFactory = _dasContext())
             {
-                return await contextFactory.Payments.Where(w => w.ContractType == 2).Select(l => Convert.ToInt32(l.Ukprn)).Distinct().ToListAsync(cancellationToken);
+                return await contextFactory.Payments.Where(w => w.ContractType == ConstantKeys.ContractType_NonLevy).Select(l => Convert.ToInt32(l.Ukprn)).Distinct().ToListAsync(cancellationToken);
             }
         }
 
@@ -48,8 +48,8 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
             {
                 return await contextFactory.Payments
                              .Where(p => p.Ukprn == ukprn 
-                                        && p.ContractType == 2 
-                                        &&(
+                                        && p.ContractType == ConstantKeys.ContractType_NonLevy
+                                        && (
                                                  (
                                                     CollectionYears.Contains(p.AcademicYear)
                                                     && !p.LearningAimFundingLineType.Equals(ConstantKeys.Apps1618NonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
@@ -58,8 +58,8 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
                                                 ||
                                                 (
                                                     p.AcademicYear >= 1718
-                                                    || p.LearningAimFundingLineType.Equals(ConstantKeys.Apps1618NonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
-                                                    || p.LearningAimFundingLineType.Equals(ConstantKeys.Apps19plusNonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
+                                                    && (p.LearningAimFundingLineType.Equals(ConstantKeys.Apps1618NonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
+                                                    || p.LearningAimFundingLineType.Equals(ConstantKeys.Apps19plusNonLevyContractProcured, StringComparison.OrdinalIgnoreCase))
                                                 )
                                           )
                                    )
