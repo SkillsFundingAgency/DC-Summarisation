@@ -7,6 +7,7 @@ namespace ESFA.DC.Summarisation.Configuration.Enum
     public enum ProcessType
     {
         Fundline,
-        Deliverable
+        Deliverable,
+        Payments
     }
 }

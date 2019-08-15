@@ -45,6 +45,9 @@ using Microsoft.EntityFrameworkCore;
 using Main1920Providers = ESFA.DC.Summarisation.Main1920.Data.Providers;
 using Main1920FundingTypesProvider = ESFA.DC.Summarisation.Main1920.Service.Providers;
 using Main1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Main1920.Service.Providers;
+using Apps1920Providers = ESFA.DC.Summarisation.Apps1920.Data;
+using Apps1920FundingTypesProvider = ESFA.DC.Summarisation.Apps1920.Service;
+using Apps1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Apps1920.Service;
 
 namespace ESFA.DC.Summarisation.Console
 {
@@ -95,6 +98,7 @@ namespace ESFA.DC.Summarisation.Console
                 new ESF.Service.FundingTypesProvider(jsonSerializationService),
                 new Apps1819.Service.FundingTypesProvider(jsonSerializationService),
                 new Main1920FundingTypesProvider.FundingTypesProvider(jsonSerializationService),
+                new Apps1920FundingTypesProvider.FundingTypesProvider(jsonSerializationService),
             };
 
             List<ISummarisationConfigProvider<CollectionPeriod>> collectionPeriodsProviders
@@ -104,6 +108,7 @@ namespace ESFA.DC.Summarisation.Console
                 new ESF.Service.CollectionPeriodsProvider(jsonSerializationService),
                 new Apps1819.Service.CollectionPeriodsProvider(jsonSerializationService),
                 new Main1920CollectionPeriodsProvider.CollectionPeriodsProvider(jsonSerializationService),
+                new Apps1920CollectionPeriodsProvider.CollectionPeriodsProvider(jsonSerializationService),
             };
 
             IProviderRepository repository = new ProviderRepository(new List<ILearningDeliveryProvider>
@@ -123,12 +128,16 @@ namespace ESFA.DC.Summarisation.Console
 
                 new Main1920Providers.Fm35Provider(() => new ILR1920_DataStoreEntities(ilr1920dbContextOptions)),
                 new Main1920Providers.EasProvider(() => new EAS1920.EF.EasContext(eas1920dbContextOptions)),
+
+                new Apps1920Providers.LevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
+                new Apps1920Providers.NonLevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
             });
 
             List<ISummarisationService> summarisationServices = new List<ISummarisationService>()
             {
                 new SummarisationFundlineProcess(),
-                new SummarisationDeliverableProcess()
+                new SummarisationDeliverableProcess(),
+                new SummarisationPaymentsProcess(),
             };
 
             IBulkInsert bulkInsert = new BulkInsert();
@@ -145,7 +154,7 @@ namespace ESFA.DC.Summarisation.Console
 
             SummarisationWrapper wrapper;
 
-            summarisationMessage = new SummarisationContextStub();
+           /* summarisationMessage = new SummarisationContextStub();
 
             wrapper = new SummarisationWrapper(
                 fcsRepository,
@@ -191,9 +200,9 @@ namespace ESFA.DC.Summarisation.Console
                 logger,
                 summarisationMessage);
 
-            await wrapper.Summarise(CancellationToken.None);
+            await wrapper.Summarise(CancellationToken.None);*/
 
-            summarisationMessage = new AppsSummarisationContextStub();
+            summarisationMessage = new Apps1920SummarisationContextStub();
 
             wrapper = new SummarisationWrapper(
                 fcsRepository,

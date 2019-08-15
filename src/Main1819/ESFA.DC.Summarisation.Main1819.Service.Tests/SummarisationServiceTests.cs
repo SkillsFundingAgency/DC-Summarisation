@@ -5,9 +5,11 @@ using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Model;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
+using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using ESFA.DC.Summarisation.Service;
 using FluentAssertions;
+using Moq;
 using Xunit;
 
 namespace ESFA.DC.Summarisation.Main1819.Service.Tests
@@ -156,9 +158,9 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         [InlineData("APPS1819", 20)]
         public void SummariseByFundingStream(string fspCode, int dlc)
         {
-            var fungingTypes = GetFundingTypes();
+            var fundingTypes = GetFundingTypes();
 
-            FundingStream fundingStream = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == fspCode && fs.DeliverableLineCode == dlc).First();
+            FundingStream fundingStream = fundingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == fspCode && fs.DeliverableLineCode == dlc).First();
 
             var easfundlinesCount = fundingStream.FundLines.Count(fl => fl.LineType == "EAS");
 
@@ -194,9 +196,9 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         [InlineData(5, 3, 8.00)]
         public void SummariseCheckRounding(decimal value1, decimal value2, decimal result)
         {
-            var fungingTypes = GetFundingTypes();
+            var fundingTypes = GetFundingTypes();
 
-            FundingStream fundingStream = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == "APPS1819" && fs.DeliverableLineCode == 2).First();
+            FundingStream fundingStream = fundingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == "APPS1819" && fs.DeliverableLineCode == 2).First();
 
             List<Period> periods = new List<Period>()
             {
@@ -254,9 +256,9 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         [InlineData("16-18 TRAINEESHIPS (ADULT FUNDED)", "16-18TRN1819")]
         public void SummariseByFundingStream_CaseInsensitiveCheck(string fundLine, string fundingStreamPeriodCode)
         {
-            var fungingTypes = GetFundingTypes();
+            var fundingTypes = GetFundingTypes();
 
-            List<FundingStream> fundingStream = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == "16-18TRN1819" && fs.DeliverableLineCode == 2).ToList();
+            List<FundingStream> fundingStreams = fundingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == "16-18TRN1819" && fs.DeliverableLineCode == 2).ToList();
 
             var provider = new Provider()
             {
@@ -330,9 +332,10 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                 }
             };
 
+            var summarisationMessageMock = new Mock<ISummarisationMessage>();
             var task = new SummarisationFundlineProcess();
 
-            var results = task.Summarise(fundingStream, provider, fcsContractAllocations, GetCollectionPeriods()).OrderBy(x => x.Period).ToList();
+            var results = task.Summarise(fundingStreams, provider, fcsContractAllocations, GetCollectionPeriods(), summarisationMessageMock.Object).OrderBy(x => x.Period).ToList();
 
             results.Count().Should().Be(2);
             results.Should().NotBeNullOrEmpty();

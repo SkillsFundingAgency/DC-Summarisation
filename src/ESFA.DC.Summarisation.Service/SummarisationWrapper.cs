@@ -291,7 +291,7 @@ namespace ESFA.DC.Summarisation.Service
 
             actuals.AddRange(
                 summarisationService
-                .Summarise(contractFundingStreams, provider, allocations, collectionPeriods));
+                .Summarise(contractFundingStreams, provider, allocations, collectionPeriods, _summarisationMessage));
 
             _logger.LogInfo($"Summarisation Wrapper: Summarising UKPRN: {provider.UKPRN} End");
 

@@ -7,27 +7,34 @@ using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using ESFA.DC.DASPayments.EF.Interfaces;
+using ESFA.DC.Summarisation.Configuration;
+using ESFA.DC.Summarisation.Constants;
 
 namespace ESFA.DC.Summarisation.Apps1920.Data
 {
-    public class LevyProvider : ILearningDeliveryProvider
+    public class NonLevyProvider : ILearningDeliveryProvider
     {
         private readonly Func<IDASPaymentsContext> _dasContext;
 
-        public string SummarisationType => nameof(Configuration.Enum.SummarisationType.Apps1920_Levy);
+        public string SummarisationType => nameof(Configuration.Enum.SummarisationType.Apps1920_NonLevy);
 
         public string CollectionType => nameof(Configuration.Enum.CollectionType.Apps1920);
 
-        public LevyProvider(Func<IDASPaymentsContext> dasContext)
+        public NonLevyProvider(Func<IDASPaymentsContext> dasContext)
         {
             _dasContext = dasContext;
+        }
+
+        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<IList<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
         {
             using (var contextFactory = _dasContext())
             {
-                return await contextFactory.Payments.Where(w => w.ContractType == 1).Select(l => Convert.ToInt32(l.Ukprn)).Distinct().ToListAsync(cancellationToken);
+                return await contextFactory.Payments.Where(w => w.ContractType == ConstantKeys.ContractType_NonLevy).Select(l => Convert.ToInt32(l.Ukprn)).Distinct().ToListAsync(cancellationToken);
             }
         }
 
@@ -37,12 +44,25 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
 
             CollectionYears.Add(summarisationMessage.CollectionYear);
 
-            int CollectionPeriod = summarisationMessage.CollectionMonth;
-
             using (var contextFactory = _dasContext())
             {
                 return await contextFactory.Payments
-                             .Where(p => p.Ukprn == ukprn && p.ContractType == 1 && CollectionYears.Contains(p.AcademicYear) && p.CollectionPeriod == CollectionPeriod)
+                             .Where(p => p.Ukprn == ukprn 
+                                        && p.ContractType == ConstantKeys.ContractType_NonLevy
+                                        && (
+                                                 (
+                                                    CollectionYears.Contains(p.AcademicYear)
+                                                    && !p.LearningAimFundingLineType.Equals(ConstantKeys.Apps1618NonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
+                                                    && !p.LearningAimFundingLineType.Equals(ConstantKeys.Apps19plusNonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
+                                                )
+                                                ||
+                                                (
+                                                    p.AcademicYear >= 1718
+                                                    && (p.LearningAimFundingLineType.Equals(ConstantKeys.Apps1618NonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
+                                                    || p.LearningAimFundingLineType.Equals(ConstantKeys.Apps19plusNonLevyContractProcured, StringComparison.OrdinalIgnoreCase))
+                                                )
+                                          )
+                                   )
                              .GroupBy(x => x.LearningAimFundingLineType)
                              .Select(ld => new LearningDelivery
                              {
@@ -56,8 +76,8 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
                                      {
                                         new Period
                                         {
-                                            PeriodId = pd.CollectionPeriod,
-                                            CollectionMonth = pd.CollectionPeriod,
+                                            PeriodId = pd.DeliveryPeriod,
+                                            CollectionMonth = pd.DeliveryPeriod,
                                             CollectionYear = pd.AcademicYear,
                                             Value = pd.Amount
                                         }
@@ -65,11 +85,6 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
                                  }).ToList()
                              }).ToListAsync(cancellationToken);
             }
-        }
-
-        public Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
         }
     }
 }

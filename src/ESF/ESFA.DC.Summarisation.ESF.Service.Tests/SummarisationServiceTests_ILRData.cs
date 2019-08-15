@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using System;
+using Moq;
+using ESFA.DC.Summarisation.Interfaces;
 
 namespace ESFA.DC.Summarisation.ESF.Service.Tests
 {
@@ -235,9 +237,10 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                 fcsContractAllocations.Add(allocation);
             }
 
+            var summarisationMessageMock = new Mock<ISummarisationMessage>();
             var task = new SummarisationDeliverableProcess();
 
-            var result = task.Summarise(fundingStreams, GetTestProvider(ukprn), fcsContractAllocations, GetCollectionPeriods());
+            var result = task.Summarise(fundingStreams, GetTestProvider(ukprn), fcsContractAllocations, GetCollectionPeriods(),summarisationMessageMock.Object);
 
             foreach (var allocation in fcsContractAllocations)
             {
@@ -284,9 +287,11 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                     fcsContractAllocations.Add(allocation);
                 }
 
+                var summarisationMessageMock = new Mock<ISummarisationMessage>();
+
                 var task = new SummarisationDeliverableProcess();
 
-                var result = task.Summarise(fundingStreams, GetTestProvider(ukprn), fcsContractAllocations, GetCollectionPeriods());
+                var result = task.Summarise(fundingStreams, GetTestProvider(ukprn), fcsContractAllocations, GetCollectionPeriods(), summarisationMessageMock.Object);
 
                 foreach (var allocation in fcsContractAllocations)
                 {

@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Stubs\Apps1920SummarisationContextStub.cs" />
     <Compile Include="Stubs\AppsSummarisationContextStub.cs" />
     <Compile Include="Stubs\ESFSummarisationContextStub.cs" />
     <Compile Include="Stubs\ILR1920SummarisationContextStub.cs" />
@@ -69,6 +70,14 @@
     <ProjectReference Include="..\Apps1819\ESFA.DC.Summarisation.Apps1819.Service\ESFA.DC.Summarisation.Apps1819.Service.csproj">
       <Project>{449c1c30-e22a-4446-8d5e-63ca2521d629}</Project>
       <Name>ESFA.DC.Summarisation.Apps1819.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Apps1920\ESFA.DC.Summarisation.Apps1920.Data\ESFA.DC.Summarisation.Apps1920.Data.csproj">
+      <Project>{292e9dce-55c1-492a-a42d-ae450f30b2fa}</Project>
+      <Name>ESFA.DC.Summarisation.Apps1920.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Apps1920\ESFA.DC.Summarisation.Apps1920.Service\ESFA.DC.Summarisation.Apps1920.Service.csproj">
+      <Project>{f0ad1b8d-5771-452c-a1f8-cdaecb529282}</Project>
+      <Name>ESFA.DC.Summarisation.Apps1920.Service</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESF\ESFA.DC.Summarisation.ESF.Data\ESFA.DC.Summarisation.ESF.Data.csproj">
       <Project>{81ABBB7C-CEB5-47F9-8E07-3197D1135CCB}</Project>
