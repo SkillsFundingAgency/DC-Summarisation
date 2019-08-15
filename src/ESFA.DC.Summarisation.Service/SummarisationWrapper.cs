@@ -156,12 +156,8 @@ namespace ESFA.DC.Summarisation.Service
 
             foreach (var fundType in fundingTypes)
             {
-                var contractAllocation = fcsContractAllocations.Where(f => f.FundingStreamPeriodCode.Equals(fundType.PeriodCode));
-                if (contractAllocation == null)
-                {
-                    continue;
-                }
-                foreach (var fcs in contractAllocation)
+                foreach (var fcs in fcsContractAllocations
+                    .Where(f => f.FundingStreamPeriodCode.Equals(fundType.PeriodCode)))
                 {
                     var fcsCollectionPeriods = GetCollectionPeriodsForDateRange(
                                 fcs.ContractStartDate,
@@ -170,7 +166,7 @@ namespace ESFA.DC.Summarisation.Service
                                 _summarisationMessage.CollectionMonth,
                                 collectionPeriods);
 
-                    if (fcsCollectionPeriods == null)
+                    if ((fcsCollectionPeriods?.Count ?? 0) == 0)
                     {
                         continue;
                     }
