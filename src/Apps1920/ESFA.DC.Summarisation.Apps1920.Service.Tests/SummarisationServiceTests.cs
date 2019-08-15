@@ -65,9 +65,9 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
         [InlineData(1, "NONLEVY2019", 14, "4", "16")]
         public void SummariseByFundingStream(int apprenticeshipContractType, string fspCode, int dlc, string fundingStreamsCSV, string transactionTypesCSV)
         {
-            var fungingTypes = GetFundingTypes();
+            var fundingTypes = GetFundingTypes();
 
-            FundingStream fundingStream = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode.Equals(fspCode, StringComparison.OrdinalIgnoreCase) && fs.DeliverableLineCode == dlc).First();
+            FundingStream fundingStream = fundingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode.Equals(fspCode, StringComparison.OrdinalIgnoreCase) && fs.DeliverableLineCode == dlc).First();
 
             int ilrFundlineCount = fundingStream.FundLines.Where(fl => fl.LineType.Equals("ILR", StringComparison.OrdinalIgnoreCase)).Count();
 
@@ -105,9 +105,9 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
         [InlineData(2, "APPS1920", 24, "4", "4,6")]
         public void SummariseByFundingStream_NonLevy1920(int apprenticeshipContractType, string fspCode, int dlc, string fundingSourcesCSV, string transactionTypesCSV)
         {
-            var fungingTypes = GetFundingTypes();
+            var fundingTypes = GetFundingTypes();
 
-            FundingStream fundingStream = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode.Equals(fspCode, StringComparison.OrdinalIgnoreCase) && fs.DeliverableLineCode == dlc).First();
+            FundingStream fundingStream = fundingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode.Equals(fspCode, StringComparison.OrdinalIgnoreCase) && fs.DeliverableLineCode == dlc).First();
 
             int ilrFundlineCount = fundingStream.FundLines.Where(fl => fl.LineType.Equals("ILR", StringComparison.OrdinalIgnoreCase)).Count();
 
@@ -147,9 +147,9 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
         [InlineData(2, "ANLAP2018", 5, "4", "16")]
         public void SummariseByFundingStream_NonLevy2018(int apprenticeshipContractType, string fspCode, int dlc, string fundingSourcesCSV, string transactionTypesCSV)
         {
-            var fungingTypes = GetFundingTypes();
+            var fundingTypes = GetFundingTypes();
 
-            FundingStream fundingStream = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode.Equals(fspCode, StringComparison.OrdinalIgnoreCase) && fs.DeliverableLineCode == dlc).First();
+            FundingStream fundingStream = fundingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode.Equals(fspCode, StringComparison.OrdinalIgnoreCase) && fs.DeliverableLineCode == dlc).First();
 
             int ilrFundlineCount = fundingStream.FundLines.Where(fl => fl.LineType.Equals("ILR", StringComparison.OrdinalIgnoreCase)).Count();
 

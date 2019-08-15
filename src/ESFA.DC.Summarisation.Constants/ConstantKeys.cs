@@ -17,5 +17,9 @@ namespace ESFA.DC.Summarisation.Constants
         public const string NonLevy_ANLAP2018 = "ANLAP2018";
 
         public const string NonLevy_APPS1920 = "APPS1920";
+
+        public const int ContractType_Levy = 1;
+
+        public const int ContractType_NonLevy = 2;
     }
 }
