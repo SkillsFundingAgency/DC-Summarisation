@@ -33,7 +33,7 @@ namespace ESFA.DC.Summarisation.Apps1819.Data
         {
             using (var contextFactory = _dasContext())
             {
-                return await contextFactory.Payments.Where(w => w.ContractType == 2).Select(l => Convert.ToInt32(l.Ukprn)).Distinct().ToListAsync(cancellationToken);
+                return await contextFactory.Payments.Where(w => w.ContractType == ConstantKeys.ContractType_NonLevy).Select(l => Convert.ToInt32(l.Ukprn)).Distinct().ToListAsync(cancellationToken);
             }
         }
 
@@ -47,7 +47,7 @@ namespace ESFA.DC.Summarisation.Apps1819.Data
             {
                 return await contextFactory.Payments
                              .Where(p => p.Ukprn == ukprn
-                                        && p.ContractType == 2
+                                        && p.ContractType == ConstantKeys.ContractType_NonLevy
                                         && (
                                                  (
                                                     CollectionYears.Contains(p.AcademicYear)

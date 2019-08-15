@@ -7,6 +7,7 @@ using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using ESFA.DC.DASPayments.EF.Interfaces;
+using ESFA.DC.Summarisation.Constants;
 
 namespace ESFA.DC.Summarisation.Apps1819.Data
 {
@@ -42,7 +43,7 @@ namespace ESFA.DC.Summarisation.Apps1819.Data
             using (var contextFactory = _dasContext())
             {
                 return await contextFactory.Payments
-                             .Where(p => p.Ukprn == ukprn && p.ContractType == 1 && CollectionYears.Contains(p.AcademicYear) && p.CollectionPeriod == CollectionPeriod)
+                             .Where(p => p.Ukprn == ukprn && p.ContractType == ConstantKeys.ContractType_Levy && CollectionYears.Contains(p.AcademicYear) && p.CollectionPeriod == CollectionPeriod)
                              .GroupBy(x => x.LearningAimFundingLineType)
                              .Select(ld => new LearningDelivery
                              {
