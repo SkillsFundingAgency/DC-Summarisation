@@ -18,7 +18,8 @@ namespace ESFA.DC.Summarisation.Service
             List<FundingStream> fundingStreams,
             IProvider provider,
             IEnumerable<IFcsContractAllocation> allocations,
-            IEnumerable<CollectionPeriod> collectionPeriods)
+            IEnumerable<CollectionPeriod> collectionPeriods,
+            ISummarisationMessage summarisationMessage)
         {
             return fundingStreams.SelectMany(fs => Summarise(fs, provider, allocations, collectionPeriods));
         }

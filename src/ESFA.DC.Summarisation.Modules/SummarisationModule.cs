@@ -48,6 +48,9 @@ using Main1819FundingTypesProvider = ESFA.DC.Summarisation.Main1819.Service.Prov
 using Main1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Main1920.Service.Providers.CollectionPeriodsProvider;
 using Main1920FundingTypesProvider = ESFA.DC.Summarisation.Main1920.Service.Providers.FundingTypesProvider;
 using Main1920Providers = ESFA.DC.Summarisation.Main1920.Data.Providers;
+using Apps1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Apps1920.Service.CollectionPeriodsProvider;
+using Apps1920FundingTypesProvider = ESFA.DC.Summarisation.Apps1920.Service.FundingTypesProvider;
+using Apps1920Providers = ESFA.DC.Summarisation.Apps1920.Data;
 
 namespace ESFA.DC.Summarisation.Modules
 {
@@ -63,6 +66,7 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<SummarisationWrapper>().As<ISummarisationWrapper>();
             containerBuilder.RegisterType<SummarisationFundlineProcess>().As<ISummarisationService>();
             containerBuilder.RegisterType<SummarisationDeliverableProcess>().As<ISummarisationService>();
+            containerBuilder.RegisterType<SummarisationPaymentsProcess>().As<ISummarisationService>();
 
             containerBuilder.RegisterType<Main1819FundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();
             containerBuilder.RegisterType<ESFFundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();
@@ -83,6 +87,7 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<ESFILRProvider>().As<ILearningDeliveryProvider>();
 
             containerBuilder.RegisterType<LevyProvider>().As<ILearningDeliveryProvider>();
+            containerBuilder.RegisterType<NonLevyProvider>().As<ILearningDeliveryProvider>();
 
             containerBuilder.RegisterType<ProviderRepository>().As<IProviderRepository>();
 
@@ -195,6 +200,8 @@ namespace ESFA.DC.Summarisation.Modules
             .SingleInstance();
 
             LoadILR1920Modules(containerBuilder);
+
+            LoadApps1920Modules(containerBuilder);
         }
 
         private void LoadILR1920Modules(ContainerBuilder containerBuilder)
@@ -233,7 +240,15 @@ namespace ESFA.DC.Summarisation.Modules
                 return optionsBuilder.Options;
             }).As<DbContextOptions<EAS1920.EF.EasContext>>()
             .SingleInstance();
+        }
 
+        private void LoadApps1920Modules(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterType<Apps1920FundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();
+            containerBuilder.RegisterType<Apps1920CollectionPeriodsProvider>().As<ISummarisationConfigProvider<CollectionPeriod>>();
+
+            containerBuilder.RegisterType<Apps1920Providers.LevyProvider>().As<ILearningDeliveryProvider>();
+            containerBuilder.RegisterType<Apps1920Providers.NonLevyProvider>().As<ILearningDeliveryProvider>();
         }
     }
 }

@@ -5,9 +5,11 @@ using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Model;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
+using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using ESFA.DC.Summarisation.Service;
 using FluentAssertions;
+using Moq;
 using Xunit;
 
 namespace ESFA.DC.Summarisation.Main1819.Service.Tests
@@ -256,7 +258,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
         {
             var fungingTypes = GetFundingTypes();
 
-            List<FundingStream> fundingStream = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == "16-18TRN1819" && fs.DeliverableLineCode == 2).ToList();
+            List<FundingStream> fundingStreams = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode == "16-18TRN1819" && fs.DeliverableLineCode == 2).ToList();
 
             var provider = new Provider()
             {
@@ -330,9 +332,10 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
                 }
             };
 
+            var summarisationMessageMock = new Mock<ISummarisationMessage>();
             var task = new SummarisationFundlineProcess();
 
-            var results = task.Summarise(fundingStream, provider, fcsContractAllocations, GetCollectionPeriods()).OrderBy(x => x.Period).ToList();
+            var results = task.Summarise(fundingStreams, provider, fcsContractAllocations, GetCollectionPeriods(), summarisationMessageMock.Object).OrderBy(x => x.Period).ToList();
 
             results.Count().Should().Be(2);
             results.Should().NotBeNullOrEmpty();
