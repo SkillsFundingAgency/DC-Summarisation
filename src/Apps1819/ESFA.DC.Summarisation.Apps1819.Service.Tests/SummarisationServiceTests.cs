@@ -2,8 +2,10 @@
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Model;
 using ESFA.DC.Summarisation.Data.Input.Model;
+using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Service;
 using FluentAssertions;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,54 +25,34 @@ namespace ESFA.DC.Summarisation.Apps1819.Service.Tests
         [Fact]
         public void SummariseByPeriods()
         {
-            var task = new SummarisationFundlineProcess();
+            var task = new SummarisationPaymentsProcess();
 
-            var result = task.SummarisePeriods(GetPeriodsData());
+            var collectionPeriods = GetCollectionPeriods().Where(w => w.CollectionYear == 1819);
+
+            var result = task.SummarisePeriods(GetPeriodsData(), collectionPeriods);
 
             result.Count().Should().Be(12);
 
             foreach (var item in result)
             {
-                item.ActualValue.Should().Be(5 * item.Period * amount);
+                item.ActualValue.Should().Be(5 * amount);
             }
         }
 
         [Theory]
         [InlineData(1, "LEVY1799", 2, "1,5", "1,2,3")]
-        [InlineData(1, "LEVY1799", 8, "1,5", "1,2,3")]
-
         [InlineData(1, "LEVY1799", 3, "2", "1,2,3")]
-        [InlineData(1, "LEVY1799", 9, "2", "1,2,3")]
-
         [InlineData(1, "LEVY1799", 4, "4", "15")]
-        [InlineData(1, "LEVY1799", 10, "4", "15")]
-
         [InlineData(1, "LEVY1799", 5, "4", "5,7,8,9,10,11,12,13,14")]
-        [InlineData(1, "LEVY1799", 11, "4", "5,7,8,9,10,11,12,13,14")]
-
         [InlineData(1, "LEVY1799", 6, "4", "4,6")]
-        [InlineData(1, "LEVY1799", 12, "4", "4,6")]
-
         [InlineData(1, "LEVY1799", 13, "4", "16")]
+        [InlineData(1, "LEVY1799", 8, "1,5", "1,2,3")]
+        [InlineData(1, "LEVY1799", 9, "2", "1,2,3")]
+        [InlineData(1, "LEVY1799", 10, "4", "15")]
+        [InlineData(1, "LEVY1799", 11, "4", "5,7,8,9,10,11,12,13,14")]
+        [InlineData(1, "LEVY1799", 12, "4", "4,6")]
         [InlineData(1, "LEVY1799", 14, "4", "16")]
-
-        [InlineData(2, "APPS1819", 8, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
-        [InlineData(2, "16-18NLAP2018", 2, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
-        [InlineData(2, "APPS1819", 22, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
-        [InlineData(2, "ANLAP2018", 2, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
-
-        [InlineData(2, "16-18NLAP2018", 3 , "4", "15")]
-        [InlineData(2, "ANLAP2018", 3, "4", "15")]
-        [InlineData(2, "APPS1819", 9 , "4", "15")]
-        [InlineData(2, "APPS1819", 23 , "4", "15")]
-
-        [InlineData(2, "16-18NLAP2018", 4, "4", "4,6")]
-        [InlineData(2, "ANLAP2018", 4 , "4", "4,6")]
-        [InlineData(2, "APPS1819", 10, "4", "4,6")]
-        [InlineData(2, "APPS1819", 24, "4", "4,6")]
-
-        [InlineData(2, "16-18NLAP2018", 5, "4", "16")]
-        [InlineData(2, "ANLAP2018",5 , "4", "16")]
+        
         public void SummariseByFundingStream(int apprenticeshipContractType, string fspCode, int dlc, string fundingStreamsCSV, string transactionTypesCSV)
         {
             var fungingTypes = GetFundingTypes();
@@ -83,9 +65,54 @@ namespace ESFA.DC.Summarisation.Apps1819.Service.Tests
 
             List<int> transactionTypes = transactionTypesCSV.Split(',').Select(int.Parse).ToList();
 
-            var task = new SummarisationFundlineProcess();
+            var summarisationMessageMock = new Mock<ISummarisationMessage>();
 
-            var results = task.Summarise(fundingStream, GetTestProvider(apprenticeshipContractType, fundingStreams, transactionTypes), GetContractAllocation(), GetCollectionPeriods()).OrderBy(x => x.Period).ToList();
+            summarisationMessageMock.SetupGet(s => s.CollectionYear).Returns(1819);
+            summarisationMessageMock.SetupGet(s => s.CollectionMonth).Returns(1);
+
+            var task = new SummarisationPaymentsProcess();
+
+            var results = task.Summarise(fundingStream, GetTestProvider(apprenticeshipContractType, fundingStreams, transactionTypes), GetContractAllocation(), GetCollectionPeriods(), summarisationMessageMock.Object).OrderBy(x => x.Period).ToList();
+
+            results.Count().Should().Be(1);
+
+            int i = 1;
+
+            foreach (var item in results)
+            {
+                item.ActualValue.Should().Be(learningDeliveryRecords * fundingStreams.Count() * ilrFundlineCount * transactionTypes.Count() * periodsToGenerate * amount);
+
+                i++;
+            }
+        }
+
+        [Theory]
+        [InlineData(2, "APPS1819", 8, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
+        [InlineData(2, "APPS1819", 9, "4", "15")]
+        [InlineData(2, "APPS1819", 10, "4", "4,6")]
+        [InlineData(2, "APPS1819", 22, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
+        [InlineData(2, "APPS1819", 23, "4", "15")]
+        [InlineData(2, "APPS1819", 24, "4", "4,6")]
+        public void SummariseByFundingStream_NonLevy1819(int apprenticeshipContractType, string fspCode, int dlc, string fundingSourcesCSV, string transactionTypesCSV)
+        {
+            var fungingTypes = GetFundingTypes();
+
+            FundingStream fundingStream = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode.Equals(fspCode, StringComparison.OrdinalIgnoreCase) && fs.DeliverableLineCode == dlc).First();
+
+            int ilrFundlineCount = fundingStream.FundLines.Where(fl => fl.LineType.Equals("ILR", StringComparison.OrdinalIgnoreCase)).Count();
+
+            List<int> fundingSources = fundingSourcesCSV.Split(',').Select(int.Parse).ToList();
+
+            List<int> transactionTypes = transactionTypesCSV.Split(',').Select(int.Parse).ToList();
+
+            var summarisationMessageMock = new Mock<ISummarisationMessage>();
+
+            summarisationMessageMock.SetupGet(s => s.CollectionYear).Returns(1819);
+            summarisationMessageMock.SetupGet(s => s.CollectionMonth).Returns(1);
+
+            var task = new SummarisationPaymentsProcess();
+
+            var results = task.Summarise(fundingStream, GetTestProvider(apprenticeshipContractType, fundingSources, transactionTypes), GetContractAllocation(), GetCollectionPeriods(), summarisationMessageMock.Object).OrderBy(x => x.Period).ToList();
 
             results.Count().Should().Be(12);
 
@@ -93,11 +120,54 @@ namespace ESFA.DC.Summarisation.Apps1819.Service.Tests
 
             foreach (var item in results)
             {
-                item.ActualValue.Should().Be(learningDeliveryRecords * fundingStreams.Count() * ilrFundlineCount * transactionTypes.Count() * periodsToGenerate * amount * i);
+                item.ActualValue.Should().Be(learningDeliveryRecords * fundingSources.Count() * ilrFundlineCount * transactionTypes.Count() * periodsToGenerate * amount);
 
                 i++;
             }
         }
+
+        [Theory]
+        [InlineData(2, "16-18NLAP2018", 2, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
+        [InlineData(2, "16-18NLAP2018", 3, "4", "15")]
+        [InlineData(2, "16-18NLAP2018", 4, "4", "4,6")]
+        [InlineData(2, "16-18NLAP2018", 5, "4", "16")]
+        [InlineData(2, "ANLAP2018", 2, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
+        [InlineData(2, "ANLAP2018", 3, "4", "15")]
+        [InlineData(2, "ANLAP2018", 4, "4", "4,6")]
+        [InlineData(2, "ANLAP2018", 5, "4", "16")]
+        public void SummariseByFundingStream_NonLevy2018(int apprenticeshipContractType, string fspCode, int dlc, string fundingSourcesCSV, string transactionTypesCSV)
+        {
+            var fungingTypes = GetFundingTypes();
+
+            FundingStream fundingStream = fungingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode.Equals(fspCode, StringComparison.OrdinalIgnoreCase) && fs.DeliverableLineCode == dlc).First();
+
+            int ilrFundlineCount = fundingStream.FundLines.Where(fl => fl.LineType.Equals("ILR", StringComparison.OrdinalIgnoreCase)).Count();
+
+            List<int> fundingSources = fundingSourcesCSV.Split(',').Select(int.Parse).ToList();
+
+            List<int> transactionTypes = transactionTypesCSV.Split(',').Select(int.Parse).ToList();
+
+            var summarisationMessageMock = new Mock<ISummarisationMessage>();
+
+            summarisationMessageMock.SetupGet(s => s.CollectionYear).Returns(1819);
+            summarisationMessageMock.SetupGet(s => s.CollectionMonth).Returns(1);
+
+            var task = new SummarisationPaymentsProcess();
+
+            var results = task.Summarise(fundingStream, GetTestProvider(apprenticeshipContractType, fundingSources, transactionTypes), GetContractAllocation(), GetCollectionPeriods(), summarisationMessageMock.Object).OrderBy(x => x.Period).ToList();
+
+            results.Count().Should().Be(19);
+
+            int i = 1;
+
+            foreach (var item in results)
+            {
+                item.ActualValue.Should().Be(learningDeliveryRecords * fundingSources.Count() * ilrFundlineCount * transactionTypes.Count() * periodsToGenerate * amount);
+
+                i++;
+            }
+        }
+
 
         private Provider GetTestProvider(int apprenticeshipContratType, List<int> fundingSources, List<int> transactionTypes)
         {
@@ -158,9 +228,9 @@ namespace ESFA.DC.Summarisation.Apps1819.Service.Tests
 
             for (int j = 1; j <= periodsToGenerate; j++)
             {
-                for (int i = 1; i <= 12; i++)
+                foreach (var item in GetCollectionPeriods())
                 {
-                    Period period = new Period() { PeriodId = i, Value = i * amount };
+                    Period period = new Period() { PeriodId = item.Period, CollectionYear = item.CollectionYear, CollectionMonth = item.CollectionMonth, Value = amount };
                     periods.Add(period);
                 }
             }

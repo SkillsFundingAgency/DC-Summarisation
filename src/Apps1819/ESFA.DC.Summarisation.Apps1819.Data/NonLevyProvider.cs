@@ -7,6 +7,7 @@ using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using ESFA.DC.DASPayments.EF.Interfaces;
+using ESFA.DC.Summarisation.Constants;
 
 namespace ESFA.DC.Summarisation.Apps1819.Data
 {
@@ -45,7 +46,23 @@ namespace ESFA.DC.Summarisation.Apps1819.Data
             using (var contextFactory = _dasContext())
             {
                 return await contextFactory.Payments
-                             .Where(p => p.Ukprn == ukprn && p.ContractType == 2 && CollectionYears.Contains(p.AcademicYear))
+                             .Where(p => p.Ukprn == ukprn
+                                        && p.ContractType == 2
+                                        && (
+                                                 (
+                                                    CollectionYears.Contains(p.AcademicYear)
+                                                    && !p.LearningAimFundingLineType.Equals(ConstantKeys.Apps1618NonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
+                                                    && !p.LearningAimFundingLineType.Equals(ConstantKeys.Apps19plusNonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
+                                                )
+                                                ||
+                                                (
+                                                    p.AcademicYear >= 1718
+                                                    &&( p.LearningAimFundingLineType.Equals(ConstantKeys.Apps1618NonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
+                                                        || p.LearningAimFundingLineType.Equals(ConstantKeys.Apps19plusNonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
+                                                       )
+                                                )
+                                          )
+                                   )
                              .GroupBy(x => x.LearningAimFundingLineType)
                              .Select(ld => new LearningDelivery
                              {
@@ -60,6 +77,8 @@ namespace ESFA.DC.Summarisation.Apps1819.Data
                                         new Period
                                         {
                                             PeriodId = pd.DeliveryPeriod,
+                                            CollectionMonth = pd.DeliveryPeriod,
+                                            CollectionYear = pd.AcademicYear,
                                             Value = pd.Amount
                                         }
                                      }

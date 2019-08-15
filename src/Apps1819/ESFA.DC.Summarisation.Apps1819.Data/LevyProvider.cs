@@ -41,7 +41,6 @@ namespace ESFA.DC.Summarisation.Apps1819.Data
 
             using (var contextFactory = _dasContext())
             {
-
                 return await contextFactory.Payments
                              .Where(p => p.Ukprn == ukprn && p.ContractType == 1 && CollectionYears.Contains(p.AcademicYear) && p.CollectionPeriod == CollectionPeriod)
                              .GroupBy(x => x.LearningAimFundingLineType)
@@ -58,6 +57,8 @@ namespace ESFA.DC.Summarisation.Apps1819.Data
                                         new Period
                                         {
                                             PeriodId = pd.CollectionPeriod,
+                                            CollectionMonth = pd.CollectionPeriod,
+                                            CollectionYear = pd.AcademicYear,
                                             Value = pd.Amount
                                         }
                                      }
