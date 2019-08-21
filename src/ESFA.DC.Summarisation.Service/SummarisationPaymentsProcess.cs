@@ -47,7 +47,14 @@ namespace ESFA.DC.Summarisation.Service
             {
                 IEnumerable<IPeriodisedData> periodisedData;
 
-                if (fundingStream.ApprenticeshipContractType == 1 || fundingStream.ApprenticeshipContractType == 2)
+                if (fundLine.LineType.Equals(ConstantKeys.LineType_EAS, StringComparison.OrdinalIgnoreCase))
+                {
+                    periodisedData = provider
+                      .LearningDeliveries
+                      .Where(ld => ld.Fundline.Equals(fundLine.Fundline, StringComparison.OrdinalIgnoreCase))
+                      .SelectMany(x => x.PeriodisedData);
+                }
+                else
                 {
                     periodisedData = provider
                    .LearningDeliveries
@@ -56,13 +63,6 @@ namespace ESFA.DC.Summarisation.Service
                                         .Where(pd => pd.ApprenticeshipContractType == fundingStream.ApprenticeshipContractType
                                                                 && fundingStream.FundingSources.Contains(pd.FundingSource)
                                                                 && fundingStream.TransactionTypes.Contains(pd.TransactionType)));
-                }
-                else
-                {
-                    periodisedData = provider
-                   .LearningDeliveries
-                   .Where(ld => ld.Fundline.Equals(fundLine.Fundline, StringComparison.OrdinalIgnoreCase))
-                   .SelectMany(x => x.PeriodisedData);
                 }
 
                 var periods = GetPeriodsForFundLine(periodisedData, fundLine);
