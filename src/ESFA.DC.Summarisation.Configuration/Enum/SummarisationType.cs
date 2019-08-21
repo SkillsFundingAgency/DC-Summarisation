@@ -19,5 +19,6 @@
         Main1920_TBL,
         Apps1920_Levy,
         Apps1920_NonLevy,
+        Apps1920_EAS
     }
 }

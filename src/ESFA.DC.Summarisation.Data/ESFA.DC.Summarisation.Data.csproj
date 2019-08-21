@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ESFA.DC.DASPayments.EF" Version="0.1.70" />
+    <PackageReference Include="ESFA.DC.DASPayments.EF" Version="0.1.83" />
     <PackageReference Include="ESFA.DC.EAS1819.EF" Version="0.1.7" />
     <PackageReference Include="ESFA.DC.EAS1920.EF" Version="0.0.25" />
     <PackageReference Include="ESFA.DC.ESF.Database.EF" Version="0.0.358" />

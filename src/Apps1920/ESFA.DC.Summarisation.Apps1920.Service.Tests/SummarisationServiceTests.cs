@@ -69,7 +69,9 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
 
             FundingStream fundingStream = fundingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode.Equals(fspCode, StringComparison.OrdinalIgnoreCase) && fs.DeliverableLineCode == dlc).First();
 
-            int ilrFundlineCount = fundingStream.FundLines.Where(fl => fl.LineType.Equals("ILR", StringComparison.OrdinalIgnoreCase)).Count();
+            int ilrFundlineCount = fundingStream.FundLines.Count(fl => fl.LineType.Equals("ILR", StringComparison.OrdinalIgnoreCase));
+
+            int easFundlineCount = fundingStream.FundLines.Count(fl => fl.LineType.Equals("EAS", StringComparison.OrdinalIgnoreCase));
 
             List<int> fundingStreams = fundingStreamsCSV.Split(',').Select(int.Parse).ToList();
 
@@ -86,13 +88,15 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
 
             results.Count().Should().Be(1);
 
-            int i = 1;
-
             foreach (var item in results)
             {
-                item.ActualValue.Should().Be(learningDeliveryRecords * fundingStreams.Count() * ilrFundlineCount * transactionTypes.Count() * periodsToGenerate * amount * i);
+                decimal ilrActualValue = learningDeliveryRecords * fundingStreams.Count() * ilrFundlineCount * transactionTypes.Count() * periodsToGenerate * amount;
 
-                i++;
+                decimal easActualValue = learningDeliveryRecords * easFundlineCount * periodsToGenerate * amount;
+
+                decimal actualValue = ilrActualValue + easActualValue;
+
+                item.ActualValue.Should().Be(actualValue);
             }
         }
 
@@ -109,7 +113,9 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
 
             FundingStream fundingStream = fundingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode.Equals(fspCode, StringComparison.OrdinalIgnoreCase) && fs.DeliverableLineCode == dlc).First();
 
-            int ilrFundlineCount = fundingStream.FundLines.Where(fl => fl.LineType.Equals("ILR", StringComparison.OrdinalIgnoreCase)).Count();
+            int ilrFundlineCount = fundingStream.FundLines.Count(fl => fl.LineType.Equals("ILR", StringComparison.OrdinalIgnoreCase));
+
+            int easFundlineCount = fundingStream.FundLines.Count(fl => fl.LineType.Equals("EAS", StringComparison.OrdinalIgnoreCase));
 
             List<int> fundingSources = fundingSourcesCSV.Split(',').Select(int.Parse).ToList();
 
@@ -126,13 +132,15 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
 
             results.Count().Should().Be(12);
 
-            int i = 1;
-
             foreach (var item in results)
             {
-                item.ActualValue.Should().Be(learningDeliveryRecords * fundingSources.Count() * ilrFundlineCount * transactionTypes.Count() * periodsToGenerate * amount);
+                decimal ilrActualValue = learningDeliveryRecords * fundingSources.Count() * ilrFundlineCount * transactionTypes.Count() * periodsToGenerate * amount;
 
-                i++;
+                decimal easActualValue = learningDeliveryRecords * easFundlineCount * periodsToGenerate * amount;
+
+                decimal actualValue = ilrActualValue + easActualValue;
+
+                item.ActualValue.Should().Be(actualValue);
             }
         }
 
@@ -151,7 +159,9 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
 
             FundingStream fundingStream = fundingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode.Equals(fspCode, StringComparison.OrdinalIgnoreCase) && fs.DeliverableLineCode == dlc).First();
 
-            int ilrFundlineCount = fundingStream.FundLines.Where(fl => fl.LineType.Equals("ILR", StringComparison.OrdinalIgnoreCase)).Count();
+            int ilrFundlineCount = fundingStream.FundLines.Count(fl => fl.LineType.Equals("ILR", StringComparison.OrdinalIgnoreCase));
+
+            int easFundlineCount = fundingStream.FundLines.Count(fl => fl.LineType.Equals("EAS", StringComparison.OrdinalIgnoreCase));
 
             List<int> fundingSources = fundingSourcesCSV.Split(',').Select(int.Parse).ToList();
 
@@ -168,13 +178,15 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
 
             results.Count().Should().Be(31);
 
-            int i = 1;
-
             foreach (var item in results)
             {
-                item.ActualValue.Should().Be(learningDeliveryRecords * fundingSources.Count() * ilrFundlineCount * transactionTypes.Count() * periodsToGenerate * amount);
+                decimal ilrActualValue = learningDeliveryRecords * fundingSources.Count() * ilrFundlineCount * transactionTypes.Count() * periodsToGenerate * amount;
 
-                i++;
+                decimal easActualValue = learningDeliveryRecords * easFundlineCount * periodsToGenerate * amount;
+
+                decimal actualValue = ilrActualValue + easActualValue;
+
+                item.ActualValue.Should().Be(actualValue);
             }
         }
 
@@ -198,7 +210,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
                     LearningDelivery learningDelivery = new LearningDelivery()
                     {
                         Fundline = item.Fundline,
-                        PeriodisedData = GetPeriodisedData(apprenticeshipContratType, fundingSources, transactionTypes),
+                        PeriodisedData = item.LineType == "ILR" ? GetPeriodisedData(apprenticeshipContratType, fundingSources, transactionTypes) : GetPeriodisedData_EAS(),
                     };
 
                     learningDeliveries.Add(learningDelivery);
@@ -227,6 +239,20 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
                     periodisedDatas.Add(periodisedData);
                 }
             }
+
+            return periodisedDatas;
+        }
+
+        private List<PeriodisedData> GetPeriodisedData_EAS()
+        {
+            List<PeriodisedData> periodisedDatas = new List<PeriodisedData>();
+
+            PeriodisedData periodisedData = new PeriodisedData()
+            {
+                Periods = GetPeriodsData(),
+            };
+
+            periodisedDatas.Add(periodisedData);
 
             return periodisedDatas;
         }
@@ -283,6 +309,71 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
                 new FundLine { Fundline = "19+ Apprenticeship (From May 2017) Non-Levy Contract (non-procured)", LineType = "ILR" },
                 new FundLine { Fundline = "16-18 Apprenticeship Non-Levy Contract (procured)", LineType = "ILR" },
                 new FundLine { Fundline = "19+ Apprenticeship Non-Levy Contract (procured)", LineType = "ILR" },
+
+                new FundLine { Fundline = "Authorised Claims: 16-18 Levy Apprenticeships - Training", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: 16-18 Levy Apprenticeships - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Levy Apprenticeships - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Levy Apprenticeships - Employer", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Levy Apprenticeships - Apprentice", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Levy Apprenticeships - Training", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: Adult Levy Apprenticeships - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Levy Apprenticeships - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Levy Apprenticeships - Employer", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Levy Apprenticeships - Apprentice", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Apprenticeship (Employer on App Service) Non-Levy - Training", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: 16-18 Apprenticeship (Employer on App Service) Non-Levy", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Apprenticeship (Employer on App Service) Non-Levy - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Apprenticeship (Employer on App Service) Non-Levy - Employer", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Apprenticeship (Employer on App Service) Non-Levy - Apprentice", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 19+ Apprenticeship (Employer on App Service) Non-Levy - Training", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: 19+ Apprenticeship (Employer on App Service) Non-Levy", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 19+ Apprenticeship (Employer on App Service) Non-Levy - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 19+ Apprenticeship (Employer on App Service) Non-Levy - Employer", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 19+ Apprenticeship (Employer on App Service) Non-Levy - Apprentice", LineType = "EAS" },
+
+                new FundLine { Fundline = "Authorised Claims: 16-18 Non-Levy Apprenticeships - Training", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Non-Levy Apprenticeships - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: 16-18 Non-Levy Apprenticeships - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Non-Levy Apprenticeships - Employer", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Non-Levy Apprenticeships - Training", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Non-Levy Apprenticeships - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: Adult Non-Levy Apprenticeships - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Non-Levy Apprenticeships - Employer", LineType = "EAS" },
+
+                new FundLine { Fundline = "Audit Adjustments: 16-18 Non-Levy Apprenticeships (procured) - Training", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Non-Levy Apprenticeships (procured) - Training", LineType = "EAS" },
+                new FundLine { Fundline = "Audit Adjustments: 16-18 Non-Levy Apprenticeships (procured) - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Non-Levy Apprenticeships (procured) - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: 16-18 Non-Levy Apprenticeships (procured) - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Audit Adjustments: 16-18 Non-Levy Apprenticeships (procured) - Employer", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Non-Levy Apprenticeships (procured) - Employer", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Non-Levy Apprenticeships (procured) - Apprentice", LineType = "EAS" },
+                new FundLine { Fundline = "Audit Adjustments: Adult Non-Levy Apprenticeships (procured) - Training", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Non-Levy Apprenticeships (procured) - Training", LineType = "EAS" },
+                new FundLine { Fundline = "Audit Adjustments: Adult Non-Levy Apprenticeships (procured) - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Non-Levy Apprenticeships (procured) - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: Adult Non-Levy Apprenticeships (procured) - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Audit Adjustments: Adult Non-Levy Apprenticeships (procured) - Employer", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Non-Levy Apprenticeships (procured) - Employer", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Non-Levy Apprenticeships (procured) - Apprentice", LineType = "EAS" },
+                //new FundLine { Fundline = "", LineType = "EAS" },
+                //new FundLine { Fundline = "", LineType = "EAS" },
+                //new FundLine { Fundline = "", LineType = "EAS" },
+                //new FundLine { Fundline = "", LineType = "EAS" },
+                //new FundLine { Fundline = "", LineType = "EAS" },
+                //new FundLine { Fundline = "", LineType = "EAS" },
+                //new FundLine { Fundline = "", LineType = "EAS" },
+                //new FundLine { Fundline = "", LineType = "EAS" },
+                //new FundLine { Fundline = "", LineType = "EAS" },
+                //new FundLine { Fundline = "", LineType = "EAS" },
+                //new FundLine { Fundline = "", LineType = "EAS" },
+                //new FundLine { Fundline = "", LineType = "EAS" },
+                //new FundLine { Fundline = "", LineType = "EAS" },
+                //new FundLine { Fundline = "", LineType = "EAS" },
+                //new FundLine { Fundline = "", LineType = "EAS" },
+                //new FundLine { Fundline = "", LineType = "EAS" },
+                //new FundLine { Fundline = "", LineType = "EAS" },
+                //new FundLine { Fundline = "", LineType = "EAS" },
             };
             return fundLines;
         }

@@ -23,5 +23,7 @@ namespace ESFA.DC.Summarisation.Constants
         public const int ContractType_NonLevy = 2;
 
         public const string NonLevy_APPS1819 = "APPS1819";
+
+        public const string LineType_EAS = "EAS";
     }
 }

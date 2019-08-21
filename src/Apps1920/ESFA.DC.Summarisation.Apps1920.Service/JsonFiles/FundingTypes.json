@@ -272,26 +272,6 @@
       {
         "PeriodCode": "NONLEVY2019",
         "FundModel": "NonLevy",
-        "DeliverableLineCode": 3,
-        "ApprenticeshipContractType": 1,
-        "FundingSources": [ 2 ],
-        "TransactionTypes": [ 1, 2, 3 ],
-        "FundLines": [
-          {
-            "Fundline": "16-18 Apprenticeship (Employer on App Service) Non-Levy funding",
-            "LineType": "ILR",
-            "UseAttributes": false
-          },
-          {
-            "Fundline": "Authorised Claims: 16-18 Apprenticeship (Employer on App Service) Non-Levy - Training",
-            "LineType": "EAS",
-            "UseAttributes": false
-          }
-        ]
-      },
-      {
-        "PeriodCode": "NONLEVY2019",
-        "FundModel": "NonLevy",
         "DeliverableLineCode": 4,
         "ApprenticeshipContractType": 1,
         "FundingSources": [ 4 ],
