@@ -44,7 +44,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
                             Fundline = ld.Key,
                             PeriodisedData = ld.Select(pd => new PeriodisedData
                             {
-                                AttributeName = "",
+                                AttributeName = string.Empty,
                                 Periods = new List<Period>
                                 {
                                     new Period

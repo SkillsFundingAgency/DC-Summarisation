@@ -69,9 +69,9 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
 
             FundingStream fundingStream = fundingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode.Equals(fspCode, StringComparison.OrdinalIgnoreCase) && fs.DeliverableLineCode == dlc).First();
 
-            int ilrFundlineCount = fundingStream.FundLines.Where(fl => fl.LineType.Equals("ILR", StringComparison.OrdinalIgnoreCase)).Count();
+            int ilrFundlineCount = fundingStream.FundLines.Count(fl => fl.LineType.Equals("ILR", StringComparison.OrdinalIgnoreCase));
 
-            int easFundlineCount = fundingStream.FundLines.Where(fl => fl.LineType.Equals("EAS", StringComparison.OrdinalIgnoreCase)).Count();
+            int easFundlineCount = fundingStream.FundLines.Count(fl => fl.LineType.Equals("EAS", StringComparison.OrdinalIgnoreCase));
 
             List<int> fundingStreams = fundingStreamsCSV.Split(',').Select(int.Parse).ToList();
 
@@ -113,9 +113,9 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
 
             FundingStream fundingStream = fundingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode.Equals(fspCode, StringComparison.OrdinalIgnoreCase) && fs.DeliverableLineCode == dlc).First();
 
-            int ilrFundlineCount = fundingStream.FundLines.Where(fl => fl.LineType.Equals("ILR", StringComparison.OrdinalIgnoreCase)).Count();
+            int ilrFundlineCount = fundingStream.FundLines.Count(fl => fl.LineType.Equals("ILR", StringComparison.OrdinalIgnoreCase));
 
-            int easFundlineCount = fundingStream.FundLines.Where(fl => fl.LineType.Equals("EAS", StringComparison.OrdinalIgnoreCase)).Count();
+            int easFundlineCount = fundingStream.FundLines.Count(fl => fl.LineType.Equals("EAS", StringComparison.OrdinalIgnoreCase));
 
             List<int> fundingSources = fundingSourcesCSV.Split(',').Select(int.Parse).ToList();
 
@@ -159,9 +159,9 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
 
             FundingStream fundingStream = fundingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode.Equals(fspCode, StringComparison.OrdinalIgnoreCase) && fs.DeliverableLineCode == dlc).First();
 
-            int ilrFundlineCount = fundingStream.FundLines.Where(fl => fl.LineType.Equals("ILR", StringComparison.OrdinalIgnoreCase)).Count();
+            int ilrFundlineCount = fundingStream.FundLines.Count(fl => fl.LineType.Equals("ILR", StringComparison.OrdinalIgnoreCase));
 
-            int easFundlineCount = fundingStream.FundLines.Where(fl => fl.LineType.Equals("EAS", StringComparison.OrdinalIgnoreCase)).Count();
+            int easFundlineCount = fundingStream.FundLines.Count(fl => fl.LineType.Equals("EAS", StringComparison.OrdinalIgnoreCase));
 
             List<int> fundingSources = fundingSourcesCSV.Split(',').Select(int.Parse).ToList();
 
