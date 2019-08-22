@@ -13,5 +13,7 @@ namespace ESFA.DC.Summarisation.Data.Repository.Interface
         Task<IEnumerable<Output.Model.SummarisedActual>> GetLatestSummarisedActualsAsync(int collectionReturnId, CancellationToken cancellationToken);
 
         Task<IEnumerable<Output.Model.SummarisedActual>> GetSummarisedActualsForCollectionReturnAndOrganisationAsync(int collectionReturnId, string organisationId, CancellationToken cancellationToken);
+
+        Task<IEnumerable<Output.Model.SummarisedActual>> GetSummarisedActualsForCollectionRetrunAndFSPsAsync(int collectionReturnId, IEnumerable<string> fundingStreams, CancellationToken cancellationToken);
     }
 }

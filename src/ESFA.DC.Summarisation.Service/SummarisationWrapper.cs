@@ -18,6 +18,7 @@ using ESFA.DC.Summarisation.Service.EqualityComparer;
 using SummarisedActual = ESFA.DC.Summarisation.Data.Output.Model.SummarisedActual;
 using ESFA.DC.Summarisation.Configuration.Enum;
 using ESFA.DC.Summarisation.Data.Output.Model;
+using ESFA.DC.Summarisation.Constants;
 
 namespace ESFA.DC.Summarisation.Service
 {
@@ -75,6 +76,19 @@ namespace ESFA.DC.Summarisation.Service
             _logger.LogInfo($"Summarisation Wrapper: Retrieving FCS Contracts End");
 
             var summarisedActuals = new List<SummarisedActual>();
+
+            //Non-Levy FSPs ending with 2018, get data from Summarised Actuals.
+            if (_summarisationMessage.CollectionType.Equals(CollectionType.Apps1920.ToString(), StringComparison.OrdinalIgnoreCase)
+                || _summarisationMessage.CollectionType.Equals(CollectionType.Apps1819.ToString(), StringComparison.OrdinalIgnoreCase))
+            {
+                List<string> nonlevy2018FSPs = new List<string> { ConstantKeys.NonLevy_1618NLAP2018, ConstantKeys.NonLevy_ANLAP2018 };
+
+                var latestCollectionReturnIdApps1819 = await _summarisedActualsProcessRepository.GetLastCollectionReturnForCollectionTypeAsync(CollectionType.Apps1819.ToString(), cancellationToken);
+
+                var summarisedActuals2018 = await _summarisedActualsProcessRepository.GetSummarisedActualsForCollectionRetrunAndFSPsAsync(latestCollectionReturnIdApps1819.Id, nonlevy2018FSPs, cancellationToken);
+
+                summarisedActuals.AddRange(summarisedActuals2018);
+            }
 
             IList<int> providerIdentifiers;
 
