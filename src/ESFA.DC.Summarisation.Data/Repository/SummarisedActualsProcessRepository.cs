@@ -74,5 +74,27 @@ namespace ESFA.DC.Summarisation.Data.Repository
                              }).ToListAsync(cancellationToken);
             }
         }
+
+        public async Task<IEnumerable<SummarisedActual>> GetSummarisedActualsForCollectionRetrunAndFSPsAsync(int collectionReturnId, IEnumerable<string> fundingStreams, CancellationToken cancellationToken)
+        {
+            using (var contextFactory = _summarisationContext())
+            {
+                return await contextFactory.SummarisedActuals
+                .Where(sa => sa.CollectionReturnId == collectionReturnId
+                        && fundingStreams.Contains(sa.FundingStreamPeriodCode))
+                .Select(o => new Output.Model.SummarisedActual
+                {
+                    Period = o.Period,
+                    FundingStreamPeriodCode = o.FundingStreamPeriodCode,
+                    UoPCode = o.UoPCode,
+                    DeliverableCode = o.DeliverableCode,
+                    OrganisationId = o.OrganisationId,
+                    ActualValue = o.ActualValue,
+                    ActualVolume = o.ActualVolume,
+                    ContractAllocationNumber = o.ContractAllocationNumber,
+                    PeriodTypeCode = o.PeriodTypeCode,
+                }).ToListAsync(cancellationToken);
+            }
+        }
     }
 }

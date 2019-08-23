@@ -43,7 +43,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
             {
                 return await contextFactory.Payments
                              .Where(p => p.Ukprn == ukprn && p.ContractType == 1 && CollectionYears.Contains(p.AcademicYear) && p.CollectionPeriod == CollectionPeriod)
-                             .GroupBy(x => x.LearningAimFundingLineType)
+                             .GroupBy(x => x.ReportingAimFundingLineType)
                              .Select(ld => new LearningDelivery
                              {
                                  Fundline = ld.Key,

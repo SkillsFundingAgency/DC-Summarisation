@@ -36,7 +36,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
             using (var easContext = _dasContext())
             {
                 return await easContext.ProviderAdjustmentPayments
-                        .Where(sv => sv.Ukprn == ukprn && sv.CollectionPeriodYear >= 2018)
+                        .Where(sv => sv.Ukprn == ukprn && sv.CollectionPeriodYear == summarisationMessage.CollectionYear)
                         .GroupBy(x => x.PaymentTypeName)
                         .Select(ld => new LearningDelivery
                         {

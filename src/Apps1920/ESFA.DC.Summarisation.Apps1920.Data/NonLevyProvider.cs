@@ -49,21 +49,9 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
                 return await contextFactory.Payments
                              .Where(p => p.Ukprn == ukprn 
                                         && p.ContractType == ConstantKeys.ContractType_NonLevy
-                                        && (
-                                                 (
-                                                    CollectionYears.Contains(p.AcademicYear)
-                                                    && !p.LearningAimFundingLineType.Equals(ConstantKeys.Apps1618NonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
-                                                    && !p.LearningAimFundingLineType.Equals(ConstantKeys.Apps19plusNonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
-                                                )
-                                                ||
-                                                (
-                                                    p.AcademicYear >= 1718
-                                                    && (p.LearningAimFundingLineType.Equals(ConstantKeys.Apps1618NonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
-                                                    || p.LearningAimFundingLineType.Equals(ConstantKeys.Apps19plusNonLevyContractProcured, StringComparison.OrdinalIgnoreCase))
-                                                )
-                                          )
-                                   )
-                             .GroupBy(x => x.LearningAimFundingLineType)
+                                        && CollectionYears.Contains(p.AcademicYear)
+                                     )
+                             .GroupBy(x => x.ReportingAimFundingLineType)
                              .Select(ld => new LearningDelivery
                              {
                                  Fundline = ld.Key,
