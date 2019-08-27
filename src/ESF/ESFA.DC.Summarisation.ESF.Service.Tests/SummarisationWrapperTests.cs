@@ -139,7 +139,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             {
                 ActualsSchemaPeriod = 201801,
                 CollectionYear = 1819,
-                CollectionMonth = 01,
+                CollectionMonth = 05,
                 CalendarYear = 2018,
                 CalendarMonth = 01
 
@@ -148,7 +148,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             {
                 ActualsSchemaPeriod = 201802,
                 CollectionYear = 1819,
-                CollectionMonth = 02,
+                CollectionMonth = 06,
                 CalendarYear = 2018,
                 CalendarMonth = 02
             };
@@ -156,7 +156,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             {
                 ActualsSchemaPeriod = 201803,
                 CollectionYear = 1819,
-                CollectionMonth = 03,
+                CollectionMonth = 07,
                 CalendarYear = 2018,
                 CalendarMonth = 03
             };
@@ -164,7 +164,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             {
                 ActualsSchemaPeriod = 201804,
                 CollectionYear = 1819,
-                CollectionMonth = 04,
+                CollectionMonth = 08,
                 CalendarYear = 2018,
                 CalendarMonth = 04
             };
@@ -172,7 +172,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             {
                 ActualsSchemaPeriod = 201805,
                 CollectionYear = 1819,
-                CollectionMonth = 05,
+                CollectionMonth = 09,
                 CalendarYear = 2018,
                 CalendarMonth = 05
             };
@@ -193,9 +193,15 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                 collectionPeriod04
             };
 
-            NewSummarisationWrapper().GetCollectionPeriodsForDateRange(201801, 201804, 1819, 05, collectionPeriods).Should().NotBeNullOrEmpty();
-            NewSummarisationWrapper().GetCollectionPeriodsForDateRange(201801, 201804, 1819, 05, collectionPeriods).Count().Should().Be(4);
-            NewSummarisationWrapper().GetCollectionPeriodsForDateRange(201801, 201804, 1819, 05, collectionPeriods).Should().BeEquivalentTo(expectedCollectionPeriods);
+            CollectionPeriod summarisationCollectionPeriod = new CollectionPeriod()
+            {
+                CalendarYear = 2018,
+                CalendarMonth = 5
+            };
+
+            NewSummarisationWrapper().GetCollectionPeriodsForDateRange(201801, 201804, summarisationCollectionPeriod, collectionPeriods).Should().NotBeNullOrEmpty();
+            NewSummarisationWrapper().GetCollectionPeriodsForDateRange(201801, 201804, summarisationCollectionPeriod, collectionPeriods).Count().Should().Be(4);
+            NewSummarisationWrapper().GetCollectionPeriodsForDateRange(201801, 201804, summarisationCollectionPeriod, collectionPeriods).Should().BeEquivalentTo(expectedCollectionPeriods);
         }
 
         [Fact]
@@ -205,7 +211,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             {
                 ActualsSchemaPeriod = 201801,
                 CollectionYear = 1819,
-                CollectionMonth = 01,
+                CollectionMonth = 07,
                 CalendarYear = 2018,
                 CalendarMonth = 01
             };
@@ -213,7 +219,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             {
                 ActualsSchemaPeriod = 201802,
                 CollectionYear = 1819,
-                CollectionMonth = 02,
+                CollectionMonth = 08,
                 CalendarYear = 2018,
                 CalendarMonth = 02
             };
@@ -221,7 +227,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             {
                 ActualsSchemaPeriod = 201803,
                 CollectionYear = 1819,
-                CollectionMonth = 03,
+                CollectionMonth = 09,
                 CalendarYear = 2018,
                 CalendarMonth = 03
             };
@@ -233,14 +239,26 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                 collectionPeriod03
             };
 
-            NewSummarisationWrapper().GetCollectionPeriodsForDateRange(201901, 201904, 1819, 05, collectionPeriods).Should().BeNullOrEmpty();
-            NewSummarisationWrapper().GetCollectionPeriodsForDateRange(201901, 201904, 1819, 05, collectionPeriods).Count().Should().Be(0);
+            CollectionPeriod summarisationCollectionPeriod = new CollectionPeriod()
+            {
+                CalendarYear = 2018,
+                CalendarMonth = 5
+            };
+
+            NewSummarisationWrapper().GetCollectionPeriodsForDateRange(201901, 201904, summarisationCollectionPeriod, collectionPeriods).Should().BeNullOrEmpty();
+            NewSummarisationWrapper().GetCollectionPeriodsForDateRange(201901, 201904, summarisationCollectionPeriod, collectionPeriods).Count().Should().Be(0);
         }
 
         [Fact]
         private void GetCollectionPeriodsForDateRange_NullCheck()
         {
-            NewSummarisationWrapper().GetCollectionPeriodsForDateRange(201901, 201904, 1819, 05, null).Should().BeNullOrEmpty();
+            CollectionPeriod summarisationCollectionPeriod = new CollectionPeriod()
+            {
+                CalendarYear = 2018,
+                CalendarMonth = 5
+            };
+
+            NewSummarisationWrapper().GetCollectionPeriodsForDateRange(201901, 201904, summarisationCollectionPeriod, null).Should().BeNullOrEmpty();
         }
 
         [Fact]
