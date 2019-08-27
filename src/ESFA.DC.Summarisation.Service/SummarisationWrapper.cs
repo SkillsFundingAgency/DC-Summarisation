@@ -163,7 +163,16 @@ namespace ESFA.DC.Summarisation.Service
             var fundingTypes = GetFundingTypesData(SummarisationType.ESF_SuppData.ToString());
 
             if (fcsContractAllocations == null
-                || fundingTypes == null)
+                || fundingTypes == null
+                || collectionPeriods == null)
+            {
+                return missingSummarisedActuals;
+            }
+
+            var summarisationCollectionPeriod = collectionPeriods
+                .Where(c => c.CollectionYear == _summarisationMessage.CollectionYear
+                    && c.CollectionMonth == _summarisationMessage.CollectionMonth).SingleOrDefault();
+            if (summarisationCollectionPeriod == null)
             {
                 return missingSummarisedActuals;
             }
@@ -176,8 +185,7 @@ namespace ESFA.DC.Summarisation.Service
                     var fcsCollectionPeriods = GetCollectionPeriodsForDateRange(
                                 fcs.ContractStartDate,
                                 fcs.ContractEndDate,
-                                _summarisationMessage.CollectionYear,
-                                _summarisationMessage.CollectionMonth,
+                                summarisationCollectionPeriod,
                                 collectionPeriods);
 
                     if ((fcsCollectionPeriods?.Count ?? 0) == 0)
@@ -222,27 +230,15 @@ namespace ESFA.DC.Summarisation.Service
         public IList<CollectionPeriod> GetCollectionPeriodsForDateRange(
             int contractStartDate,
             int contractEndDate,
-            int msgCollectionYear,
-            int msgCollectionMonth,
+            CollectionPeriod summarisationCollectionPeriod,
             IEnumerable<CollectionPeriod> collectionPeriods)
         {
             IList<CollectionPeriod> collectionPeriodsRange = new List<CollectionPeriod>();
-            if (collectionPeriods == null)
-            {
-                return collectionPeriodsRange;
-            }
 
-            var summarisationCollectionPeriod = collectionPeriods
-                .Where(c => c.CollectionYear == msgCollectionYear 
-                    && c.CollectionMonth == msgCollectionMonth).SingleOrDefault();
-            if (summarisationCollectionPeriod == null)
-            {
-                return collectionPeriodsRange;
-            }
-            int msgCollectionPeriod = int.Parse($"{summarisationCollectionPeriod.CalendarYear.ToString()}{summarisationCollectionPeriod.CollectionMonth.ToString("D2")}");
+            int msgCollectionPeriod = int.Parse($"{summarisationCollectionPeriod.CalendarYear.ToString()}{summarisationCollectionPeriod.CalendarMonth.ToString("D2")}");
             
             if (contractStartDate == 0 
-                || contractStartDate >= msgCollectionPeriod)
+                || contractStartDate > msgCollectionPeriod)
             {
                 return collectionPeriodsRange;
             }
