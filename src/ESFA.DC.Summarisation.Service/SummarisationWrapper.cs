@@ -85,9 +85,12 @@ namespace ESFA.DC.Summarisation.Service
 
                 var latestCollectionReturnIdApps1819 = await _summarisedActualsProcessRepository.GetLastCollectionReturnForCollectionTypeAsync(CollectionType.Apps1819.ToString(), cancellationToken);
 
-                var summarisedActuals2018 = await _summarisedActualsProcessRepository.GetSummarisedActualsForCollectionRetrunAndFSPsAsync(latestCollectionReturnIdApps1819.Id, nonlevy2018FSPs, cancellationToken);
+                if (latestCollectionReturnIdApps1819 != null)
+                {
+                    var summarisedActuals2018 = await _summarisedActualsProcessRepository.GetSummarisedActualsForCollectionRetrunAndFSPsAsync(latestCollectionReturnIdApps1819.Id, nonlevy2018FSPs, cancellationToken);
 
-                summarisedActuals.AddRange(summarisedActuals2018);
+                    summarisedActuals.AddRange(summarisedActuals2018);
+                }
             }
 
             IList<int> providerIdentifiers;
