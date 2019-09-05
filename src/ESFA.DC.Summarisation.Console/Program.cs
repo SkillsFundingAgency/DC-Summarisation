@@ -48,6 +48,7 @@ using Main1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Main1920.Service
 using Apps1920Providers = ESFA.DC.Summarisation.Apps1920.Data;
 using Apps1920FundingTypesProvider = ESFA.DC.Summarisation.Apps1920.Service;
 using Apps1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Apps1920.Service;
+using ESFA.DC.ESF.FundingData.Database.EF;
 
 namespace ESFA.DC.Summarisation.Console
 {
@@ -73,6 +74,8 @@ namespace ESFA.DC.Summarisation.Console
 
             string dasConnectionString = @"Server=(local);Database=DASPayments;Trusted_Connection=True;";
 
+            string esfFundingDataConnectionString = @"Server=(local);Database=ESFFundingData;Trusted_Connection=True;";
+
             DbContextOptions<FcsContext> fcsdbContextOptions = new DbContextOptionsBuilder<FcsContext>().UseSqlServer(fcsConnectionString).Options;
             DbContextOptions<ILR1819_DataStoreEntities> ilr1819dbContextOptions = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>().UseSqlServer(ilr1819ConnectionString).Options;
             DbContextOptions<ILR1920_DataStoreEntities> ilr1920dbContextOptions = new DbContextOptionsBuilder<ILR1920_DataStoreEntities>().UseSqlServer(ilr1920ConnectionString).Options;
@@ -83,6 +86,7 @@ namespace ESFA.DC.Summarisation.Console
             DbContextOptions<SummarisationContext> sadbContextOptions = new DbContextOptionsBuilder<SummarisationContext>().UseSqlServer(summarisedActualsConnectionString).Options;
             DbContextOptions<ESF_DataStoreEntities> esfdbContextOptions = new DbContextOptionsBuilder<ESF_DataStoreEntities>().UseSqlServer(esfConnectionString).Options;
             DbContextOptions<ESFR2Context> esfR2dbContextOptions = new DbContextOptionsBuilder<ESFR2Context>().UseSqlServer(esfR2ConnectionString).Options;
+            DbContextOptions<ESFFundingDataContext> esfFddbContextOptions = new DbContextOptionsBuilder<ESFFundingDataContext>().UseSqlServer(esfFundingDataConnectionString).Options;
 
             DbContextOptions<DASPaymentsContext> dasdbContextOptions = new DbContextOptionsBuilder<DASPaymentsContext>().UseSqlServer(dasConnectionString).Options;
 
@@ -121,7 +125,7 @@ namespace ESFA.DC.Summarisation.Console
 
                 new ESFProvider_R1(() => new ESF_DataStoreEntities(esfdbContextOptions)),
                 new ESFProvider_R2(() => new ESFR2Context(esfR2dbContextOptions)),
-                new ESFILRProvider(() => new SummarisationContext(sadbContextOptions)),
+                new ESFILRProvider(() => new ESFFundingDataContext(esfFddbContextOptions)),
 
                 new LevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
                 new NonLevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
@@ -155,37 +159,37 @@ namespace ESFA.DC.Summarisation.Console
 
             SummarisationWrapper wrapper;
 
-           /* summarisationMessage = new SummarisationContextStub();
+            /* summarisationMessage = new SummarisationContextStub();
 
-            wrapper = new SummarisationWrapper(
-                fcsRepository,
-                saRepository,
-                fundingTypesProviders,
-                collectionPeriodsProviders,
-                summarisationServices,
-                dataStorePersistenceService,
-                () => repository,
-                new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
-                logger,
-                summarisationMessage);
+             wrapper = new SummarisationWrapper(
+                 fcsRepository,
+                 saRepository,
+                 fundingTypesProviders,
+                 collectionPeriodsProviders,
+                 summarisationServices,
+                 dataStorePersistenceService,
+                 () => repository,
+                 new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
+                 logger,
+                 summarisationMessage);
 
-            await wrapper.Summarise(CancellationToken.None);
+             await wrapper.Summarise(CancellationToken.None);
 
-            summarisationMessage = new ILR1920SummarisationContextStub();
+             summarisationMessage = new ILR1920SummarisationContextStub();
 
-            wrapper = new SummarisationWrapper(
-                fcsRepository,
-                saRepository,
-                fundingTypesProviders,
-                collectionPeriodsProviders,
-                summarisationServices,
-                dataStorePersistenceService,
-                () => repository,
-                new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
-                logger,
-                summarisationMessage);
+             wrapper = new SummarisationWrapper(
+                 fcsRepository,
+                 saRepository,
+                 fundingTypesProviders,
+                 collectionPeriodsProviders,
+                 summarisationServices,
+                 dataStorePersistenceService,
+                 () => repository,
+                 new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
+                 logger,
+                 summarisationMessage);
 
-            await wrapper.Summarise(CancellationToken.None);
+             await wrapper.Summarise(CancellationToken.None);*/
 
             summarisationMessage = new ESFSummarisationContextStub();
 
@@ -201,9 +205,9 @@ namespace ESFA.DC.Summarisation.Console
                 logger,
                 summarisationMessage);
 
-            await wrapper.Summarise(CancellationToken.None);*/
+            await wrapper.Summarise(CancellationToken.None);
 
-            summarisationMessage = new Apps1920SummarisationContextStub();
+            /*summarisationMessage = new Apps1920SummarisationContextStub();
 
             wrapper = new SummarisationWrapper(
                 fcsRepository,
@@ -217,7 +221,7 @@ namespace ESFA.DC.Summarisation.Console
                 logger,
                 summarisationMessage);
 
-            await wrapper.Summarise(CancellationToken.None);
+            await wrapper.Summarise(CancellationToken.None);*/
         }
     }
 }

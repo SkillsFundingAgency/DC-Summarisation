@@ -22,6 +22,7 @@
     <Parameter Name="ESFNonEFConnectionString"  Value=""/>
     <Parameter Name="ESFR2ConnectionString" Value="" />
     <Parameter Name="DASPaymentsConnectionString"  Value=""/>
+    <Parameter Name="ESFFundingDataConnectionString"  Value=""/>
     <Parameter Name="DataRetrievalMaxConcurrentCalls" Value=""/>
   </Section>
 </Settings>

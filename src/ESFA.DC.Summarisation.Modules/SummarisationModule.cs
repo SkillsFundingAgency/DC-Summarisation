@@ -51,6 +51,8 @@ using Main1920Providers = ESFA.DC.Summarisation.Main1920.Data.Providers;
 using Apps1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Apps1920.Service.CollectionPeriodsProvider;
 using Apps1920FundingTypesProvider = ESFA.DC.Summarisation.Apps1920.Service.FundingTypesProvider;
 using Apps1920Providers = ESFA.DC.Summarisation.Apps1920.Data;
+using ESFA.DC.ESF.FundingData.Database.EF.Interfaces;
+using ESFA.DC.ESF.FundingData.Database.EF;
 
 namespace ESFA.DC.Summarisation.Modules
 {
@@ -169,6 +171,19 @@ namespace ESFA.DC.Summarisation.Modules
 
                 return optionsBuilder.Options;
             }).As<DbContextOptions<ESFR2Context>>()
+            .SingleInstance();
+
+            containerBuilder.RegisterType<ESFFundingDataContext>().As<IESFFundingDataContext>().ExternallyOwned();
+            containerBuilder.Register(c =>
+            {
+                var summarisationSettings = c.Resolve<ISummarisationDataOptions>();
+                var optionsBuilder = new DbContextOptionsBuilder<ESFFundingDataContext>();
+                optionsBuilder.UseSqlServer(
+                    summarisationSettings.ESFFundingDataConnectionString,
+                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+
+                return optionsBuilder.Options;
+            }).As<DbContextOptions<ESFFundingDataContext>>()
             .SingleInstance();
 
             containerBuilder.RegisterType<DASPaymentsContext>().As<IDASPaymentsContext>().ExternallyOwned();

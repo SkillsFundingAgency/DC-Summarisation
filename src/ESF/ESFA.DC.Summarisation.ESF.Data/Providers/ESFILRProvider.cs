@@ -7,20 +7,21 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using LearningDelivery = ESFA.DC.Summarisation.Data.Input.Model.LearningDelivery;
+using ESFA.DC.ESF.FundingData.Database.EF.Interfaces;
 
 namespace ESFA.DC.Summarisation.ESF.Data.Providers
 {
     public class ESFILRProvider : ILearningDeliveryProvider
     {
-        private readonly Func<Model.Interface.ISummarisationContext> _summarisationContext;
+        private readonly Func<IESFFundingDataContext> _fundingDataContext;
 
         public string SummarisationType => nameof(Configuration.Enum.SummarisationType.ESF_ILRData);
 
         public string CollectionType => nameof(Configuration.Enum.CollectionType.ESF);
 
-        public ESFILRProvider(Func<Model.Interface.ISummarisationContext> summarisationContext)
+        public ESFILRProvider(Func<IESFFundingDataContext> fundingDataContext)
         {
-            _summarisationContext = summarisationContext;
+            _fundingDataContext = fundingDataContext;
         }
 
         public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
@@ -44,10 +45,10 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                     break;
             }
 
-            using (var contextFactory = _summarisationContext())
+            using (var contextFactory = _fundingDataContext())
             {
                 // This is to find out the latest ILR submission of the provider from current ILR collection year and previous ILR collection year
-                var esfdataToFilter = contextFactory.ESF_FundingDatas
+                var esfdataToFilter = contextFactory.ESFFundingDatasSummarised
                .Where(x => x.UKPRN == ukprn 
                         && (
                                 (x.CollectionYear == summarisationMessage.CollectionYear && x.CollectionPeriod <= summarisationMessage.CollectionMonth) 
@@ -60,7 +61,7 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                .OrderByDescending(o => o.CollectionPeriod).ToList();
 
 
-                return await contextFactory.ESF_FundingDatas
+                return await contextFactory.ESFFundingDatasSummarised
                     .Join(esfdataToFilter,
                                 esf => new {esf.UKPRN,esf.ConRefNumber,esf.CollectionYear,esf.CollectionPeriod },
                                 filter => new { filter.UKPRN, filter.ConRefNumber, filter.CollectionYear, filter.CollectionPeriod },
@@ -196,9 +197,9 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
 
         public async Task<IList<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
         {
-            using (var contextFactory = _summarisationContext())
+            using (var contextFactory = _fundingDataContext())
             {
-                return await contextFactory.ESF_FundingDatas.Select(l => l.UKPRN).Distinct().ToListAsync(cancellationToken);
+                return await contextFactory.ESFFundingDatasSummarised.Select(l => l.UKPRN).Distinct().ToListAsync(cancellationToken);
             }
         }
 

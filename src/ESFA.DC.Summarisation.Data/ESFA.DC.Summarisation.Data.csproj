@@ -24,6 +24,7 @@
     <PackageReference Include="ESFA.DC.EAS1819.EF" Version="0.1.7" />
     <PackageReference Include="ESFA.DC.EAS1920.EF" Version="0.0.25" />
     <PackageReference Include="ESFA.DC.ESF.Database.EF" Version="0.0.358" />
+    <PackageReference Include="ESFA.DC.ESF.FundingData.Database.EF" Version="0.2.496" />
     <PackageReference Include="ESFA.DC.ESF.R2.Database.EF" Version="0.2.182" />
     <PackageReference Include="ESFA.DC.ILR1819.Database.EF" Version="0.1.381" />
     <PackageReference Include="ESFA.DC.ILR1920.Database.EF" Version="0.0.231" />

@@ -20,6 +20,8 @@
 
         string DASPaymentsConnectionString { get; }
 
+        string ESFFundingDataConnectionString { get; }
+
         string DataRetrievalMaxConcurrentCalls { get; }
     }
 }
