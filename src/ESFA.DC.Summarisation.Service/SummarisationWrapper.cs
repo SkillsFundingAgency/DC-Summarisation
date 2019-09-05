@@ -97,7 +97,7 @@ namespace ESFA.DC.Summarisation.Service
 
             IList<int> providerIdentifiers;
 
-            if (!string.IsNullOrEmpty(_summarisationMessage.Ukprn))
+            if (!string.IsNullOrEmpty(_summarisationMessage.Ukprn) && Convert.ToInt32(_summarisationMessage.Ukprn) > 0)
             {
                 providerIdentifiers = new List<int> { Convert.ToInt32(_summarisationMessage.Ukprn) };
             }
