@@ -45,7 +45,7 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                         {
                                             CalendarMonth = p.CalendarMonth,
                                             CalendarYear = p.CalendarYear,
-                                            Value = p.CostType.Equals(SummarisationConstants.UnitCost, StringComparison.OrdinalIgnoreCase) ? (p.SupplementaryDataUnitCost.Value ?? p.Value) : p.CostType.Equals(SummarisationConstants.UnitCostDeduction, StringComparison.OrdinalIgnoreCase) ? (p.SupplementaryDataUnitCost.Value ?? p.Value) * -1 : 0,
+                                            Value = p.CostType.Equals(SummarisationConstants.UnitCost, StringComparison.OrdinalIgnoreCase) ? (p.SupplementaryDataUnitCost.Value ?? p.Value) : p.CostType.Equals(SummarisationConstants.UnitCostDeduction, StringComparison.OrdinalIgnoreCase) ? (p.SupplementaryDataUnitCost.Value ?? p.Value) : p.Value,
                                             Volume = p.CostType.Equals(SummarisationConstants.UnitCost, StringComparison.OrdinalIgnoreCase) ? 1 : p.CostType.Equals(SummarisationConstants.UnitCostDeduction, StringComparison.OrdinalIgnoreCase) ? -1 : 0
                                         }).ToList()
                                     }).ToList()
