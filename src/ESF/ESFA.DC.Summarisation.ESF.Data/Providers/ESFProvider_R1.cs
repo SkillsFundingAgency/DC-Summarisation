@@ -36,7 +36,7 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                 {
                                     LearnRefNumber = "",
                                     AimSeqNumber = 0,
-                                    ConRefNumber = ld.Key,
+                                    ConRefNumber = ld.Key.Trim(),
                                     PeriodisedData = ld.GroupBy(x => x.DeliverableCode).Select(pd => new PeriodisedData
                                     {
                                         DeliverableCode = pd.Key,

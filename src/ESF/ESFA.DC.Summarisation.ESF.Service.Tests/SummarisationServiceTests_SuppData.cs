@@ -262,7 +262,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                 LearningDelivery learningDelivery = new LearningDelivery()
                 {
 
-                    ConRefNumber = $"All{ukprn}-{i}",
+                    ConRefNumber = $"All{ukprn}-{i} ",
                     PeriodisedData = GetPeriodisedData()
                 };
 
