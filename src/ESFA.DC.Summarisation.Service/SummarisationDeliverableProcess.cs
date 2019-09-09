@@ -32,7 +32,7 @@ namespace ESFA.DC.Summarisation.Service
             {
                 var periodisedData = provider
                     .LearningDeliveries
-                    .Where(ld => ld.ConRefNumber != null && ld.ConRefNumber.Equals(allocation.ContractAllocationNumber, StringComparison.OrdinalIgnoreCase))
+                    .Where(ld => ld.ConRefNumber != null && ld.ConRefNumber.Trim().Equals(allocation.ContractAllocationNumber, StringComparison.OrdinalIgnoreCase))
                     .SelectMany(x => x.PeriodisedData.Where(w => w.DeliverableCode == fundLine.DeliverableCode));
 
                 var periods = GetPeriodsForFundLine(periodisedData, fundLine);
