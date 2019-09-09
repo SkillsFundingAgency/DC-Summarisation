@@ -31,12 +31,12 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
             {
                 return await esfContext.SupplementaryDatas
                                 .Where(sd => sd.SourceFile.UKPRN == ukprn.ToString())
-                                .GroupBy(sd => sd.ConRefNumber)
+                                .GroupBy(sd => sd.ConRefNumber.Trim())
                                 .Select(ld => new LearningDelivery
                                 {
                                     LearnRefNumber = "",
                                     AimSeqNumber = 0,
-                                    ConRefNumber = ld.Key.Trim(),
+                                    ConRefNumber = ld.Key,
                                     PeriodisedData = ld.GroupBy(x => x.DeliverableCode).Select(pd => new PeriodisedData
                                     {
                                         DeliverableCode = pd.Key,
