@@ -30,7 +30,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             FundLine fundLine = new FundLine() { CalculateVolume = true };
 
-            var result = task.SummarisePeriods(GetPeriodsData(5), fundLine, GetCollectionPeriods());
+            var result = task.SummarisePeriods(GetPeriodsData(5), fundLine, GetCollectionPeriods(), GetContractAllocation(GetProviders().First()));
 
             result.Count().Should().Be(12);
 
@@ -49,7 +49,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             FundLine fundLine = new FundLine() { CalculateVolume = false };
 
-            var result = task.SummarisePeriods(GetPeriodsData(5), fundLine, GetCollectionPeriods());
+            var result = task.SummarisePeriods(GetPeriodsData(5), fundLine, GetCollectionPeriods(), GetContractAllocation(GetProviders().First()));
 
             result.Count().Should().Be(12);
 
@@ -74,13 +74,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             int ukprn = GetProviders().First();
 
-            FcsContractAllocation allocation = new FcsContractAllocation()
-            {
-                ContractAllocationNumber = $"All{ukprn}-1",
-                FundingStreamPeriodCode = "ESF1420",
-                DeliveryUkprn = ukprn,
-                DeliveryOrganisation = $"Org{ukprn}"
-            };
+            var allocation = GetContractAllocation(ukprn);
             
             List<Period> periods = new List<Period>()
             {
@@ -133,8 +127,8 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             var results = task.Summarise(fundingStream, testProvider, allocation, GetCollectionPeriods());
 
-            results.Count().Should().Be(1);
-            results.FirstOrDefault().ActualValue.Should().Be(result);
+            results.Count().Should().Be(12);
+            results.FirstOrDefault(w => w.ActualValue > 0).ActualValue.Should().Be(result);
         }
 
         [Fact]
@@ -146,13 +140,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             int ukprn = GetProviders().First();
 
-            FcsContractAllocation allocation = new FcsContractAllocation()
-            {
-                ContractAllocationNumber = $"All{ukprn}-1",
-                FundingStreamPeriodCode = "ESF1420",
-                DeliveryUkprn = ukprn,
-                DeliveryOrganisation = $"Org{ukprn}"
-            };
+            var allocation = GetContractAllocation(ukprn);
 
             var task = new SummarisationDeliverableProcess();
 
@@ -183,13 +171,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             int ukprn = GetProviders().First();
 
-            FcsContractAllocation allocation = new FcsContractAllocation()
-            {
-                ContractAllocationNumber = $"All{ukprn}-1",
-                FundingStreamPeriodCode = "ESF1420",
-                DeliveryUkprn = ukprn,
-                DeliveryOrganisation = $"Org{ukprn}"
-            };
+            FcsContractAllocation allocation = GetContractAllocation(ukprn);
 
             var task = new SummarisationDeliverableProcess();
 
@@ -232,8 +214,11 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                     ContractAllocationNumber = $"All{ukprn}-{i}",
                     FundingStreamPeriodCode = "ESF1420",
                     DeliveryUkprn = ukprn,
-                    DeliveryOrganisation = $"Org{ukprn}"
+                    DeliveryOrganisation = $"Org{ukprn}",
+                    ContractStartDate = 201808,
+                    ContractEndDate = 201907
                 };
+
                 fcsContractAllocations.Add(allocation);
             }
 
@@ -282,8 +267,11 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                         ContractAllocationNumber = $"All{ukprn}-{i}",
                         FundingStreamPeriodCode = "ESF1420",
                         DeliveryUkprn = ukprn,
-                        DeliveryOrganisation = $"Org{ukprn}"
+                        DeliveryOrganisation = $"Org{ukprn}",
+                        ContractStartDate = 201808,
+                        ContractEndDate = 201907
                     };
+
                     fcsContractAllocations.Add(allocation);
                 }
 
@@ -437,6 +425,21 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                                     "ProgressionEarnings",
                                     "DeliverableVolume"
             };
+        }
+
+        private FcsContractAllocation GetContractAllocation(int ukprn)
+        {
+            FcsContractAllocation allocation = new FcsContractAllocation()
+            {
+                ContractAllocationNumber = $"All{ukprn}-1",
+                FundingStreamPeriodCode = "ESF1420",
+                DeliveryUkprn = ukprn,
+                DeliveryOrganisation = $"Org{ukprn}",
+                ContractStartDate = 201808,
+                ContractEndDate = 201907
+            };
+
+            return allocation;
         }
 
 
