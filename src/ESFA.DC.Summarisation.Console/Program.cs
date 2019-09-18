@@ -189,7 +189,7 @@ namespace ESFA.DC.Summarisation.Console
                  logger,
                  summarisationMessage);
 
-             await wrapper.Summarise(CancellationToken.None);*/
+             await wrapper.Summarise(CancellationToken.None);
 
             summarisationMessage = new ESFSummarisationContextStub();
 
@@ -205,9 +205,9 @@ namespace ESFA.DC.Summarisation.Console
                 logger,
                 summarisationMessage);
 
-            await wrapper.Summarise(CancellationToken.None);
+            await wrapper.Summarise(CancellationToken.None);*/
 
-            /*summarisationMessage = new Apps1920SummarisationContextStub();
+            summarisationMessage = new Apps1920SummarisationContextStub();
 
             wrapper = new SummarisationWrapper(
                 fcsRepository,
@@ -221,7 +221,7 @@ namespace ESFA.DC.Summarisation.Console
                 logger,
                 summarisationMessage);
 
-            await wrapper.Summarise(CancellationToken.None);*/
+            await wrapper.Summarise(CancellationToken.None);
         }
     }
 }

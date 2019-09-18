@@ -1,62 +1,5 @@
 [
   {
-    "Period": 1,
-    "CalendarMonth": 1,
-    "CalendarYear": 2018,
-    "ActualsSchemaPeriod": 201801,
-    "CollectionMonth": 6,
-    "CollectionYear": 1718
-  },
-  {
-    "Period": 2,
-    "CalendarMonth": 2,
-    "CalendarYear": 2018,
-    "ActualsSchemaPeriod": 201802,
-    "CollectionMonth": 7,
-    "CollectionYear": 1718
-  },
-  {
-    "Period": 3,
-    "CalendarMonth": 3,
-    "CalendarYear": 2018,
-    "ActualsSchemaPeriod": 201803,
-    "CollectionMonth": 8,
-    "CollectionYear": 1718
-  },
-  {
-    "Period": 4,
-    "CalendarMonth": 4,
-    "CalendarYear": 2018,
-    "ActualsSchemaPeriod": 201804,
-    "CollectionMonth": 9,
-    "CollectionYear": 1718
-  },
-  {
-    "Period": 5,
-    "CalendarMonth": 5,
-    "CalendarYear": 2018,
-    "ActualsSchemaPeriod": 201805,
-    "CollectionMonth": 10,
-    "CollectionYear": 1718
-  },
-  {
-    "Period": 6,
-    "CalendarMonth": 6,
-    "CalendarYear": 2018,
-    "ActualsSchemaPeriod": 201806,
-    "CollectionMonth": 11,
-    "CollectionYear": 1718
-  },
-  {
-    "Period": 7,
-    "CalendarMonth": 7,
-    "CalendarYear": 2018,
-    "ActualsSchemaPeriod": 201807,
-    "CollectionMonth": 12,
-    "CollectionYear": 1718
-  },
-  {
-    "Period": 8,
     "CalendarMonth": 8,
     "CalendarYear": 2018,
     "ActualsSchemaPeriod": 201808,
@@ -64,7 +7,6 @@
     "CollectionYear": 1819
   },
   {
-    "Period": 9,
     "CalendarMonth": 9,
     "CalendarYear": 2018,
     "ActualsSchemaPeriod": 201809,
@@ -72,7 +14,6 @@
     "CollectionYear": 1819
   },
   {
-    "Period": 10,
     "CalendarMonth": 10,
     "CalendarYear": 2018,
     "ActualsSchemaPeriod": 201810,
@@ -80,7 +21,6 @@
     "CollectionYear": 1819
   },
   {
-    "Period": 11,
     "CalendarMonth": 11,
     "CalendarYear": 2018,
     "ActualsSchemaPeriod": 201811,
@@ -88,7 +28,6 @@
     "CollectionYear": 1819
   },
   {
-    "Period": 12,
     "CalendarMonth": 12,
     "CalendarYear": 2018,
     "ActualsSchemaPeriod": 201812,
@@ -96,7 +35,6 @@
     "CollectionYear": 1819
   },
   {
-    "Period": 13,
     "CalendarMonth": 1,
     "CalendarYear": 2019,
     "ActualsSchemaPeriod": 201901,
@@ -104,7 +42,6 @@
     "CollectionYear": 1819
   },
   {
-    "Period": 14,
     "CalendarMonth": 2,
     "CalendarYear": 2019,
     "ActualsSchemaPeriod": 201902,
@@ -112,7 +49,6 @@
     "CollectionYear": 1819
   },
   {
-    "Period": 15,
     "CalendarMonth": 3,
     "CalendarYear": 2019,
     "ActualsSchemaPeriod": 201903,
@@ -120,7 +56,6 @@
     "CollectionYear": 1819
   },
   {
-    "Period": 16,
     "CalendarMonth": 4,
     "CalendarYear": 2019,
     "ActualsSchemaPeriod": 201904,
@@ -128,7 +63,6 @@
     "CollectionYear": 1819
   },
   {
-    "Period": 17,
     "CalendarMonth": 5,
     "CalendarYear": 2019,
     "ActualsSchemaPeriod": 201905,
@@ -136,7 +70,6 @@
     "CollectionYear": 1819
   },
   {
-    "Period": 18,
     "CalendarMonth": 6,
     "CalendarYear": 2019,
     "ActualsSchemaPeriod": 201906,
@@ -144,7 +77,6 @@
     "CollectionYear": 1819
   },
   {
-    "Period": 19,
     "CalendarMonth": 7,
     "CalendarYear": 2019,
     "ActualsSchemaPeriod": 201907,
@@ -152,7 +84,20 @@
     "CollectionYear": 1819
   },
   {
-    "Period": 20,
+    "CalendarMonth": 9,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201909,
+    "CollectionMonth": 13,
+    "CollectionYear": 1819
+  },
+  {
+    "CalendarMonth": 10,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201910,
+    "CollectionMonth": 14,
+    "CollectionYear": 1819
+  },
+  {
     "CalendarMonth": 8,
     "CalendarYear": 2019,
     "ActualsSchemaPeriod": 201908,
@@ -160,7 +105,6 @@
     "CollectionYear": 1920
   },
   {
-    "Period": 21,
     "CalendarMonth": 9,
     "CalendarYear": 2019,
     "ActualsSchemaPeriod": 201909,
@@ -168,7 +112,6 @@
     "CollectionYear": 1920
   },
   {
-    "Period": 22,
     "CalendarMonth": 10,
     "CalendarYear": 2019,
     "ActualsSchemaPeriod": 201910,
@@ -176,7 +119,6 @@
     "CollectionYear": 1920
   },
   {
-    "Period": 23,
     "CalendarMonth": 11,
     "CalendarYear": 2019,
     "ActualsSchemaPeriod": 201911,
@@ -184,7 +126,6 @@
     "CollectionYear": 1920
   },
   {
-    "Period": 24,
     "CalendarMonth": 12,
     "CalendarYear": 2019,
     "ActualsSchemaPeriod": 201912,
@@ -192,7 +133,6 @@
     "CollectionYear": 1920
   },
   {
-    "Period": 25,
     "CalendarMonth": 1,
     "CalendarYear": 2020,
     "ActualsSchemaPeriod": 202001,
@@ -200,7 +140,6 @@
     "CollectionYear": 1920
   },
   {
-    "Period": 26,
     "CalendarMonth": 2,
     "CalendarYear": 2020,
     "ActualsSchemaPeriod": 202002,
@@ -208,7 +147,6 @@
     "CollectionYear": 1920
   },
   {
-    "Period": 27,
     "CalendarMonth": 3,
     "CalendarYear": 2020,
     "ActualsSchemaPeriod": 202003,
@@ -216,7 +154,6 @@
     "CollectionYear": 1920
   },
   {
-    "Period": 28,
     "CalendarMonth": 4,
     "CalendarYear": 2020,
     "ActualsSchemaPeriod": 202004,
@@ -224,7 +161,6 @@
     "CollectionYear": 1920
   },
   {
-    "Period": 29,
     "CalendarMonth": 5,
     "CalendarYear": 2020,
     "ActualsSchemaPeriod": 202005,
@@ -232,7 +168,6 @@
     "CollectionYear": 1920
   },
   {
-    "Period": 30,
     "CalendarMonth": 6,
     "CalendarYear": 2020,
     "ActualsSchemaPeriod": 202006,
@@ -240,7 +175,6 @@
     "CollectionYear": 1920
   },
   {
-    "Period": 31,
     "CalendarMonth": 7,
     "CalendarYear": 2020,
     "ActualsSchemaPeriod": 202007,

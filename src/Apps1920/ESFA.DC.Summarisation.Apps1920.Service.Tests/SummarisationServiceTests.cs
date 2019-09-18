@@ -38,38 +38,126 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
         }
 
         [Theory]
-        [InlineData(1, "LEVY1799", 2, "1,5", "1,2,3")]
-        [InlineData(1, "LEVY1799", 3, "2", "1,2,3")]
-        [InlineData(1, "LEVY1799", 4, "4", "15")]
-        [InlineData(1, "LEVY1799", 5, "4", "5,7,8,9,10,11,12,13,14")]
-        [InlineData(1, "LEVY1799", 6, "4", "4,6")]
-        [InlineData(1, "LEVY1799", 13, "4", "16")]
-        [InlineData(1, "LEVY1799", 8, "1,5", "1,2,3")]
-        [InlineData(1, "LEVY1799", 9, "2", "1,2,3")]
-        [InlineData(1, "LEVY1799", 10, "4", "15")]
-        [InlineData(1, "LEVY1799", 11, "4", "5,7,8,9,10,11,12,13,14")]
-        [InlineData(1, "LEVY1799", 12, "4", "4,6")]
-        [InlineData(1, "LEVY1799", 14, "4", "16")]
-
-        [InlineData(1, "NONLEVY2019", 2, "5", "1,2,3")]
-        [InlineData(1, "NONLEVY2019", 3, "2", "1,2,3")]
-        [InlineData(1, "NONLEVY2019", 4, "4", "15")]
-        [InlineData(1, "NONLEVY2019", 5, "4", "5,7,8,9,10,11,12,13,14")]
-        [InlineData(1, "NONLEVY2019", 6, "4", "4,6")]
-        [InlineData(1, "NONLEVY2019", 7, "4", "16")]
-        [InlineData(1, "NONLEVY2019", 9, "5", "1,2,3")]
-        [InlineData(1, "NONLEVY2019", 10, "2", "1,2,3")]
-        [InlineData(1, "NONLEVY2019", 11, "4", "15")]
-        [InlineData(1, "NONLEVY2019", 12, "4", "5,7,8,9,10,11,12,13,14")]
-        [InlineData(1, "NONLEVY2019", 13, "4", "4,6")]
-        [InlineData(1, "NONLEVY2019", 14, "4", "16")]
-        public void SummariseByFundingStream(int apprenticeshipContractType, string fspCode, int dlc, string fundingStreamsCSV, string transactionTypesCSV)
+        [InlineData(1, "LEVY1799", 2, "1,5", "1,2,3", 1920)]
+        [InlineData(1, "LEVY1799", 3, "2", "1,2,3", 1920)]
+        [InlineData(1, "LEVY1799", 4, "4", "15", 1920)]
+        [InlineData(1, "LEVY1799", 5, "4", "5,7,8,9,10,11,12,13,14", 1920)]
+        [InlineData(1, "LEVY1799", 6, "4", "4,6", 1920)]
+        [InlineData(1, "LEVY1799", 13, "4", "16", 1920)]
+        [InlineData(1, "LEVY1799", 8, "1,5", "1,2,3", 1920)]
+        [InlineData(1, "LEVY1799", 9, "2", "1,2,3", 1920)]
+        [InlineData(1, "LEVY1799", 10, "4", "15", 1920)]
+        [InlineData(1, "LEVY1799", 11, "4", "5,7,8,9,10,11,12,13,14", 1920)]
+        [InlineData(1, "LEVY1799", 12, "4", "4,6", 1920)]
+        [InlineData(1, "LEVY1799", 14, "4", "16", 1920)]
+        public void SummariseByFundingStream_R01(int apprenticeshipContractType, string fspCode, int dlc, string fundingStreamsCSV, string transactionTypesCSV, int academicYear)
         {
             var fundingTypes = GetFundingTypes();
 
             FundingStream fundingStream = fundingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode.Equals(fspCode, StringComparison.OrdinalIgnoreCase) && fs.DeliverableLineCode == dlc).First();
 
-            int ilrFundlineCount = fundingStream.FundLines.Count(fl => fl.LineType.Equals("ILR", StringComparison.OrdinalIgnoreCase));
+            int ilrFundlineCount = fundingStream.FundLines.Count(fl => fl.LineType.Equals("ILR", StringComparison.OrdinalIgnoreCase) && fl.AcademicYear == academicYear);
+
+            int easFundlineCount = fundingStream.FundLines.Count(fl => fl.LineType.Equals("EAS", StringComparison.OrdinalIgnoreCase));
+
+            List<int> fundingStreams = fundingStreamsCSV.Split(',').Select(int.Parse).ToList();
+
+            List<int> transactionTypes = transactionTypesCSV.Split(',').Select(int.Parse).ToList();
+
+            var summarisationMessageMock = new Mock<ISummarisationMessage>();
+
+            summarisationMessageMock.SetupGet(s => s.CollectionYear).Returns(academicYear);
+            summarisationMessageMock.SetupGet(s => s.CollectionMonth).Returns(1);
+
+            var task = new SummarisationPaymentsProcess();
+
+            var results = task.Summarise(fundingStream, GetTestProvider(apprenticeshipContractType, fundingStreams, transactionTypes), GetContractAllocation(), GetCollectionPeriods(), summarisationMessageMock.Object).OrderBy(x => x.Period).ToList();
+
+            results.Count().Should().Be(1);
+
+            foreach (var item in results)
+            {
+                decimal ilrActualValue = learningDeliveryRecords * fundingStreams.Count() * ilrFundlineCount * transactionTypes.Count() * periodsToGenerate * amount;
+
+                decimal easActualValue = learningDeliveryRecords * easFundlineCount * periodsToGenerate * amount;
+
+                decimal actualValue = ilrActualValue + easActualValue;
+
+                item.ActualValue.Should().Be(actualValue);
+            }
+        }
+
+        [Theory]
+        [InlineData(1, "LEVY1799", 2, "1,5", "1,2,3", "1819,1920")]
+        [InlineData(1, "LEVY1799", 3, "2", "1,2,3", "1819,1920")]
+        [InlineData(1, "LEVY1799", 4, "4", "15", "1819,1920")]
+        [InlineData(1, "LEVY1799", 5, "4", "5,7,8,9,10,11,12,13,14", "1819,1920")]
+        [InlineData(1, "LEVY1799", 6, "4", "4,6", "1819,1920")]
+        [InlineData(1, "LEVY1799", 13, "4", "16", "1819,1920")]
+        [InlineData(1, "LEVY1799", 8, "1,5", "1,2,3", "1819,1920")]
+        [InlineData(1, "LEVY1799", 9, "2", "1,2,3", "1819,1920")]
+        [InlineData(1, "LEVY1799", 10, "4", "15", "1819,1920")]
+        [InlineData(1, "LEVY1799", 11, "4", "5,7,8,9,10,11,12,13,14", "1819,1920")]
+        [InlineData(1, "LEVY1799", 12, "4", "4,6", "1819,1920")]
+        [InlineData(1, "LEVY1799", 14, "4", "16", "1819,1920")]
+        public void SummariseByFundingStream_R02(int apprenticeshipContractType, string fspCode, int dlc, string fundingSourceCSV, string transactionTypesCSV, string academicYearsCSV)
+        {
+            var fundingTypes = GetFundingTypes();
+
+            FundingStream fundingStream = fundingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode.Equals(fspCode, StringComparison.OrdinalIgnoreCase) && fs.DeliverableLineCode == dlc).First();
+
+            List<int> academicYears = academicYearsCSV.Split(',').Select(int.Parse).ToList();
+
+            int ilrFundlineCount = fundingStream.FundLines.Count(fl => fl.LineType.Equals("ILR", StringComparison.OrdinalIgnoreCase) && academicYears.Contains(fl.AcademicYear.HasValue ? fl.AcademicYear.Value : 0));
+
+            int easFundlineCount = fundingStream.FundLines.Count(fl => fl.LineType.Equals("EAS", StringComparison.OrdinalIgnoreCase));
+
+            List<int> fundingSources = fundingSourceCSV.Split(',').Select(int.Parse).ToList();
+
+            List<int> transactionTypes = transactionTypesCSV.Split(',').Select(int.Parse).ToList();
+
+            var summarisationMessageMock = new Mock<ISummarisationMessage>();
+
+            summarisationMessageMock.SetupGet(s => s.CollectionYear).Returns(1920);
+            summarisationMessageMock.SetupGet(s => s.CollectionMonth).Returns(2);
+
+            var task = new SummarisationPaymentsProcess();
+
+            var results = task.Summarise(fundingStream, GetTestProvider(apprenticeshipContractType, fundingSources, transactionTypes), GetContractAllocation(), GetCollectionPeriods(), summarisationMessageMock.Object).OrderBy(x => x.Period).ToList();
+
+            results.Count().Should().Be(1);
+
+            foreach (var item in results)
+            {
+                decimal ilrActualValue = learningDeliveryRecords * fundingSources.Count() * ilrFundlineCount * transactionTypes.Count() * periodsToGenerate * amount;
+
+                decimal easActualValue = academicYears.Count * learningDeliveryRecords * easFundlineCount * periodsToGenerate * amount;
+
+                decimal actualValue = ilrActualValue + easActualValue;
+
+                item.ActualValue.Should().Be(actualValue);
+            }
+        }
+
+        [InlineData(1, "NONLEVY2019", 2, "5", "1,2,3", 1920)]
+        [InlineData(1, "NONLEVY2019", 3, "2", "1,2,3", 1920)]
+        [InlineData(1, "NONLEVY2019", 4, "4", "15", 1920)]
+        [InlineData(1, "NONLEVY2019", 5, "4", "5,7,8,9,10,11,12,13,14", 1920)]
+        [InlineData(1, "NONLEVY2019", 6, "4", "4,6", 1920)]
+        [InlineData(1, "NONLEVY2019", 7, "4", "16", 1920)]
+        [InlineData(1, "NONLEVY2019", 9, "5", "1,2,3", 1920)]
+        [InlineData(1, "NONLEVY2019", 10, "2", "1,2,3", 1920)]
+        [InlineData(1, "NONLEVY2019", 11, "4", "15", 1920)]
+        [InlineData(1, "NONLEVY2019", 12, "4", "5,7,8,9,10,11,12,13,14", 1920)]
+        [InlineData(1, "NONLEVY2019", 13, "4", "4,6", 1920)]
+        [InlineData(1, "NONLEVY2019", 14, "4", "16", 1920)]
+        public void SummariseByFundingStream_NonLevy2019(int apprenticeshipContractType, string fspCode, int dlc, string fundingStreamsCSV, string transactionTypesCSV, int academicYear)
+        {
+            var fundingTypes = GetFundingTypes();
+
+            FundingStream fundingStream = fundingTypes.SelectMany(ft => ft.FundingStreams).Where(fs => fs.PeriodCode.Equals(fspCode, StringComparison.OrdinalIgnoreCase) && fs.DeliverableLineCode == dlc).First();
+
+            int ilrFundlineCount = fundingStream.FundLines.Count(fl => fl.LineType.Equals("ILR", StringComparison.OrdinalIgnoreCase) && fl.AcademicYear == academicYear);
 
             int easFundlineCount = fundingStream.FundLines.Count(fl => fl.LineType.Equals("EAS", StringComparison.OrdinalIgnoreCase));
 
@@ -166,7 +254,21 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
         {
             List<LearningDelivery> learningDeliveries = new List<LearningDelivery>();
 
-            foreach (var item in GetFundLines())
+            foreach (var item in GetFundLines_1920())
+            {
+                for (int i = 1; i <= learningDeliveryRecords; i++)
+                {
+                    LearningDelivery learningDelivery = new LearningDelivery()
+                    {
+                        Fundline = item.Fundline,
+                        PeriodisedData = item.LineType == "ILR" ? GetPeriodisedData(apprenticeshipContratType, fundingSources, transactionTypes) : GetPeriodisedData_EAS(),
+                    };
+
+                    learningDeliveries.Add(learningDelivery);
+                }
+            }
+
+            foreach (var item in GetFundLines_1819())
             {
                 for (int i = 1; i <= learningDeliveryRecords; i++)
                 {
@@ -196,7 +298,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
                         ApprenticeshipContractType = apprenticeshipContratType,
                         FundingSource = fundingSource,
                         TransactionType = transactionType,
-                        Periods = GetPeriodsData()
+                        Periods = GetPeriodsData(),
                     };
 
                     periodisedDatas.Add(periodisedData);
@@ -228,7 +330,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
             {
                 foreach (var item in GetCollectionPeriods())
                 {
-                    Period period = new Period() { PeriodId = item.Period, CollectionYear = item.CollectionYear, CollectionMonth = item.CollectionMonth, Value = amount };
+                    Period period = new Period() { CollectionYear = item.CollectionYear, CollectionMonth = item.CollectionMonth, Value = amount };
                     periods.Add(period);
                 }
             }
@@ -260,7 +362,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
             return Enumerable.Range(1, 16);
         }
 
-        private List<FundLine> GetFundLines()
+        private List<FundLine> GetFundLines_1920()
         {
             List<FundLine> fundLines = new List<FundLine>
             {
@@ -319,24 +421,16 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
                 new FundLine { Fundline = "Audit Adjustments: Adult Non-Levy Apprenticeships (procured) - Employer", LineType = "EAS" },
                 new FundLine { Fundline = "Authorised Claims: Adult Non-Levy Apprenticeships (procured) - Employer", LineType = "EAS" },
                 new FundLine { Fundline = "Authorised Claims: Adult Non-Levy Apprenticeships (procured) - Apprentice", LineType = "EAS" },
-                //new FundLine { Fundline = "", LineType = "EAS" },
-                //new FundLine { Fundline = "", LineType = "EAS" },
-                //new FundLine { Fundline = "", LineType = "EAS" },
-                //new FundLine { Fundline = "", LineType = "EAS" },
-                //new FundLine { Fundline = "", LineType = "EAS" },
-                //new FundLine { Fundline = "", LineType = "EAS" },
-                //new FundLine { Fundline = "", LineType = "EAS" },
-                //new FundLine { Fundline = "", LineType = "EAS" },
-                //new FundLine { Fundline = "", LineType = "EAS" },
-                //new FundLine { Fundline = "", LineType = "EAS" },
-                //new FundLine { Fundline = "", LineType = "EAS" },
-                //new FundLine { Fundline = "", LineType = "EAS" },
-                //new FundLine { Fundline = "", LineType = "EAS" },
-                //new FundLine { Fundline = "", LineType = "EAS" },
-                //new FundLine { Fundline = "", LineType = "EAS" },
-                //new FundLine { Fundline = "", LineType = "EAS" },
-                //new FundLine { Fundline = "", LineType = "EAS" },
-                //new FundLine { Fundline = "", LineType = "EAS" },
+            };
+            return fundLines;
+        }
+
+        private List<FundLine> GetFundLines_1819()
+        {
+            List<FundLine> fundLines = new List<FundLine>
+            {
+                new FundLine { Fundline = "16-18 Apprenticeship (From May 2017) Levy Contract", LineType = "ILR" },
+                new FundLine { Fundline = "19+ Apprenticeship (From May 2017) Levy Contract", LineType = "ILR" },
             };
             return fundLines;
         }
