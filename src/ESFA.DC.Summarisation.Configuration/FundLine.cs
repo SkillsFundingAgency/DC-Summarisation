@@ -15,5 +15,7 @@ namespace ESFA.DC.Summarisation.Configuration
         public List<string> Attributes { get; set; }
 
         public bool CalculateVolume { get; set; }
+
+        public int? AcademicYear { get; set; }
     }
 }
