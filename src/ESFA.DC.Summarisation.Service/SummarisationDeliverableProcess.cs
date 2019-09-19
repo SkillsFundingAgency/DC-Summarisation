@@ -37,7 +37,7 @@ namespace ESFA.DC.Summarisation.Service
 
                 var periods = GetPeriodsForFundLine(periodisedData, fundLine);
 
-                summarisedActuals.AddRange(SummarisePeriods(periods, fundLine, collectionPeriods));
+                summarisedActuals.AddRange(SummarisePeriods(periods, fundLine, collectionPeriods, allocation));
             }
 
             return summarisedActuals
@@ -48,7 +48,7 @@ namespace ESFA.DC.Summarisation.Service
                         OrganisationId = allocation.DeliveryOrganisation,
                         DeliverableCode = fundingStream.DeliverableLineCode,
                         FundingStreamPeriodCode = fundingStream.PeriodCode,
-                        Period = collectionPeriods.First(cp => cp.Period == g.Key).ActualsSchemaPeriod,
+                        Period = g.Key,
                         ActualValue = Math.Round(g.Sum(x => x.ActualValue),2),
                         ActualVolume = g.Sum(x => x.ActualVolume),
                         ContractAllocationNumber = allocation.ContractAllocationNumber,
@@ -66,18 +66,43 @@ namespace ESFA.DC.Summarisation.Service
             return periodisedData.SelectMany(fpd => fpd.Periods);
         }
 
-        public IEnumerable<SummarisedActual> SummarisePeriods(IEnumerable<IPeriod> periods, FundLine fundLine, IEnumerable<CollectionPeriod> collectionPeriods)
+        public IEnumerable<SummarisedActual> SummarisePeriods(IEnumerable<IPeriod> periods, FundLine fundLine, IEnumerable<CollectionPeriod> collectionPeriods, IFcsContractAllocation allocation)
         {
-            return periods
-                .Join(collectionPeriods, p => new { p.CalendarMonth, p.CalendarYear }, cp => new { cp.CalendarMonth, cp.CalendarYear }, (p, cp) => new { cp.Period, p.Value, p.Volume })
-                .GroupBy(pg => pg.Period)
-                .Select(g => new SummarisedActual
-                {
-                    Period = g.Key,
-                    ActualValue = g.Where(w => w.Value.HasValue).Sum(sw => sw.Value.Value),
-                    ActualVolume = fundLine.CalculateVolume ? g.Where(w => w.Volume.HasValue).Sum(sw => sw.Volume.Value) : 0
-                });
-        }
+            var filteredCollectonPeriods = collectionPeriods.Where(cp => cp.ActualsSchemaPeriod >= allocation.ContractStartDate && cp.ActualsSchemaPeriod <= allocation.ContractEndDate);
 
+            var summarisedPeriods = periods
+                       .GroupBy(g => new { g.CalendarYear, g.CalendarMonth })
+                       .Select(pg => new
+                       {
+                           CalendarYear = pg.Key.CalendarYear,
+                           CalendarMonth = pg.Key.CalendarMonth,
+                           ActualValue = pg.Where(w => w.Value.HasValue).Sum(sw => sw.Value.Value),
+                           ActualVolume = fundLine.CalculateVolume ? pg.Where(w => w.Volume.HasValue).Sum(sw => sw.Volume.Value) : 0
+                       });
+
+            if (summarisedPeriods.All(w => w.ActualValue == 0 && w.ActualVolume == 0))
+            {
+                return new List<SummarisedActual>();
+            }
+
+            return (filteredCollectonPeriods
+              .GroupJoin(summarisedPeriods,
+                       cp => new { cp.CalendarYear, cp.CalendarMonth },
+                       p => new { p.CalendarYear, p.CalendarMonth },
+                       (cp, p) => new { Period = p, CollectionPeriod = cp }
+                   )).SelectMany(grp => grp.Period.DefaultIfEmpty(), (outGrp, outPeriod) => new
+                   {
+                       ActualsSchemaPeriod = outGrp.CollectionPeriod.ActualsSchemaPeriod,
+                       ActualValue = outPeriod == null ? decimal.Zero : outPeriod.ActualValue,
+                       ActualVolume = outPeriod == null ? 0 : outPeriod.ActualVolume,
+                   })
+              .GroupBy(pg => pg.ActualsSchemaPeriod)
+              .Select(g => new SummarisedActual
+              {
+                  Period = g.Key,
+                  ActualValue = g.Sum(sw => sw.ActualValue),
+                  ActualVolume = g.Sum(sw => sw.ActualVolume),
+              });
+        }
     }
 }

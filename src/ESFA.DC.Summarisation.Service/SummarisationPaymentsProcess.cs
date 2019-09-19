@@ -33,13 +33,39 @@ namespace ESFA.DC.Summarisation.Service
         {
             var summarisedActuals = new List<SummarisedActual>();
 
-            if (fundingStream.PeriodCode.Equals(ConstantKeys.Levy1799, StringComparison.OrdinalIgnoreCase) || fundingStream.PeriodCode.Equals(ConstantKeys.NonLevy2019, StringComparison.OrdinalIgnoreCase))
+            int currentCollectionPeriod = summarisationMessage.CollectionMonth;
+
+            int previousCollectionYear = 0;
+            int previousCollectionMonth = 0;
+
+            switch (summarisationMessage.CollectionMonth)
             {
-                collectionPeriods = collectionPeriods.Where(w => w.CollectionYear == summarisationMessage.CollectionYear && w.CollectionMonth == summarisationMessage.CollectionMonth);
+                case 2:
+                    previousCollectionMonth = 13;
+                    previousCollectionYear = summarisationMessage.CollectionYear - 101;
+                    break;
+                case 3:
+                    previousCollectionMonth = 14;
+                    previousCollectionYear = summarisationMessage.CollectionYear - 101;
+                    break;
+                default:
+                    previousCollectionMonth = 0;
+                    previousCollectionYear = 0;
+                    break;
+            }
+
+            if (fundingStream.PeriodCode.Equals(ConstantKeys.Levy1799, StringComparison.OrdinalIgnoreCase) 
+                || fundingStream.PeriodCode.Equals(ConstantKeys.NonLevy2019, StringComparison.OrdinalIgnoreCase))
+            {
+                collectionPeriods = collectionPeriods.Where(w => 
+                                                                (w.CollectionYear == summarisationMessage.CollectionYear && w.CollectionMonth == summarisationMessage.CollectionMonth)
+                                                                ||
+                                                                (w.CollectionYear == previousCollectionYear && w.CollectionMonth == previousCollectionMonth)
+                                                            );
             }
             else 
             {
-                collectionPeriods = collectionPeriods.Where(w => w.CollectionYear == summarisationMessage.CollectionYear);
+                collectionPeriods = collectionPeriods.Where(w => w.CollectionYear == summarisationMessage.CollectionYear || w.CollectionYear == previousCollectionYear);
             }
 
             foreach (var fundLine in fundingStream.FundLines)
@@ -94,7 +120,10 @@ namespace ESFA.DC.Summarisation.Service
                 periodisedData = periodisedData.Where(pd => fundLine.Attributes.Contains(pd.AttributeName));
             }
 
-            return periodisedData.SelectMany(fpd => fpd.Periods);
+            if (fundLine.AcademicYear.HasValue)
+                return periodisedData.SelectMany(fpd => fpd.Periods.Where(w => w.CollectionYear == fundLine.AcademicYear));
+            else
+                return periodisedData.SelectMany(fpd => fpd.Periods);
         }
 
         public IEnumerable<SummarisedActual> SummarisePeriods(IEnumerable<IPeriod> periods, IEnumerable<CollectionPeriod> collectionPeriods)

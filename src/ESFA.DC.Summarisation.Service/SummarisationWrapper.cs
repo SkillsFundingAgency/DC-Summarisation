@@ -131,18 +131,6 @@ namespace ESFA.DC.Summarisation.Service
                     providerActuals.AddRange(actualsToCarry);
                 }
 
-                if (_summarisationMessage.CollectionType.Equals(
-                    CollectionType.ESF.ToString(), StringComparison.OrdinalIgnoreCase)
-                    && providerActuals.Count > 0)
-                {
-                    _logger.LogInfo($"Summarisation Wrapper: Adding missing esf zero value summarised records Start");
-                    providerActuals.AddRange(
-                        GetESFMissingSummarisedActuals(
-                            providerActuals,
-                            collectionPeriods,
-                            fcsContractAllocations.SelectMany(f => f.Value.Where(c => c.DeliveryUkprn == ukprn)).ToList()));
-                    _logger.LogInfo($"Summarisation Wrapper: Adding missing esf zero value summarised records End");
-                }
                 summarisedActuals.AddRange(providerActuals);
             }
             
@@ -156,105 +144,6 @@ namespace ESFA.DC.Summarisation.Service
             _logger.LogInfo($"Summarisation Wrapper: Storing data to Summarised Actuals End");
 
             return summarisedActuals;
-        }
-
-        public IEnumerable<SummarisedActual> GetESFMissingSummarisedActuals(
-            List<SummarisedActual> providerActuals,
-            IEnumerable<CollectionPeriod> collectionPeriods,
-            List<IFcsContractAllocation> fcsContractAllocations)
-        {
-            List<SummarisedActual> missingSummarisedActuals = new List<SummarisedActual>();
-
-            var fundingTypes = GetFundingTypesData(SummarisationType.ESF_SuppData.ToString());
-
-            if (fcsContractAllocations == null
-                || fundingTypes == null
-                || collectionPeriods == null)
-            {
-                return missingSummarisedActuals;
-            }
-
-            var summarisationCollectionPeriod = collectionPeriods
-                .Where(c => c.CollectionYear == _summarisationMessage.CollectionYear
-                    && c.CollectionMonth == _summarisationMessage.CollectionMonth).SingleOrDefault();
-            if (summarisationCollectionPeriod == null)
-            {
-                return missingSummarisedActuals;
-            }
-
-            foreach (var fundType in fundingTypes)
-            {
-                foreach (var fcs in fcsContractAllocations
-                    .Where(f => f.FundingStreamPeriodCode.Equals(fundType.PeriodCode, StringComparison.OrdinalIgnoreCase)))
-                {
-                    var fcsCollectionPeriods = GetCollectionPeriodsForDateRange(
-                                fcs.ContractStartDate,
-                                fcs.ContractEndDate,
-                                summarisationCollectionPeriod,
-                                collectionPeriods);
-
-                    if ((fcsCollectionPeriods?.Count ?? 0) == 0)
-                    {
-                        continue;
-                    }
-
-                    foreach (var collectionPeriod in fcsCollectionPeriods)
-                    {
-                        SummarisedActual missingSummarisedActual = new SummarisedActual()
-                        {
-                            ContractAllocationNumber = fcs.ContractAllocationNumber,
-                            DeliverableCode = fundType.DeliverableLineCode,
-                            FundingStreamPeriodCode = fundType.PeriodCode,
-                            OrganisationId = fcs.DeliveryOrganisation,
-                            Period = collectionPeriod.ActualsSchemaPeriod,
-                            PeriodTypeCode = PeriodTypeCode.CM.ToString(),
-                            ActualVolume = 0,
-                            ActualValue = 0.00M
-                        };
-                        if (!SummarisedActualAlreadyExist(missingSummarisedActual, providerActuals))
-                        {
-                            missingSummarisedActuals.Add(missingSummarisedActual);
-                        }
-                    }
-                }
-            }
-            
-            return missingSummarisedActuals;
-        }
-        
-        public bool SummarisedActualAlreadyExist(
-            SummarisedActual missingSummarisedActual,
-            List<SummarisedActual> providerActuals)
-        {
-            return providerActuals?.Any(p =>
-                p.ContractAllocationNumber.Equals(missingSummarisedActual.ContractAllocationNumber, StringComparison.OrdinalIgnoreCase)
-                && p.Period == missingSummarisedActual.Period
-                && p.DeliverableCode == missingSummarisedActual.DeliverableCode) ?? false;
-        }
-
-        public IList<CollectionPeriod> GetCollectionPeriodsForDateRange(
-            int contractStartDate,
-            int contractEndDate,
-            CollectionPeriod summarisationCollectionPeriod,
-            IEnumerable<CollectionPeriod> collectionPeriods)
-        {
-            IList<CollectionPeriod> collectionPeriodsRange = new List<CollectionPeriod>();
-
-            int msgCollectionPeriod = int.Parse($"{summarisationCollectionPeriod.CalendarYear.ToString()}{summarisationCollectionPeriod.CalendarMonth.ToString("D2")}");
-            
-            if (contractStartDate == 0 
-                || contractStartDate > msgCollectionPeriod)
-            {
-                return collectionPeriodsRange;
-            }
-
-            if (contractEndDate == 0
-                || contractEndDate > msgCollectionPeriod)
-            {
-                contractEndDate = msgCollectionPeriod;
-            }
-
-            return collectionPeriods?.Where(c => c.ActualsSchemaPeriod >= contractStartDate && c.ActualsSchemaPeriod <= contractEndDate).ToList();
         }
 
         private IEnumerable<SummarisedActual> SummariseByFundModel(

@@ -13,7 +13,14 @@
           {
             "Fundline": "16-18 Apprenticeship (Employer on App Service) Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
+          },
+          {
+            "Fundline": "16-18 Apprenticeship (From May 2017) Levy Contract",
+            "LineType": "ILR",
+            "UseAttributes": false,
+            "AcademicYear": 1819
           }
         ]
       },
@@ -28,7 +35,14 @@
           {
             "Fundline": "16-18 Apprenticeship (Employer on App Service) Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
+          },
+          {
+            "Fundline": "16-18 Apprenticeship (From May 2017) Levy Contract",
+            "LineType": "ILR",
+            "UseAttributes": false,
+            "AcademicYear": 1819
           },
           {
             "Fundline": "Authorised Claims: 16-18 Levy Apprenticeships - Training",
@@ -48,7 +62,14 @@
           {
             "Fundline": "16-18 Apprenticeship (Employer on App Service) Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
+          },
+          {
+            "Fundline": "16-18 Apprenticeship (From May 2017) Levy Contract",
+            "LineType": "ILR",
+            "UseAttributes": false,
+            "AcademicYear": 1819
           },
           {
             "Fundline": "Excess Learning Support: 16-18 Levy Apprenticeships - Provider",
@@ -68,7 +89,14 @@
           {
             "Fundline": "16-18 Apprenticeship (Employer on App Service) Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
+          },
+          {
+            "Fundline": "16-18 Apprenticeship (From May 2017) Levy Contract",
+            "LineType": "ILR",
+            "UseAttributes": false,
+            "AcademicYear": 1819
           },
           {
             "Fundline": "Authorised Claims: 16-18 Levy Apprenticeships - Provider",
@@ -88,7 +116,14 @@
           {
             "Fundline": "16-18 Apprenticeship (Employer on App Service) Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
+          },
+          {
+            "Fundline": "16-18 Apprenticeship (From May 2017) Levy Contract",
+            "LineType": "ILR",
+            "UseAttributes": false,
+            "AcademicYear": 1819
           },
           {
             "Fundline": "Authorised Claims: 16-18 Levy Apprenticeships - Employer",
@@ -108,7 +143,14 @@
           {
             "Fundline": "16-18 Apprenticeship (Employer on App Service) Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
+          },
+          {
+            "Fundline": "16-18 Apprenticeship (From May 2017) Levy Contract",
+            "LineType": "ILR",
+            "UseAttributes": false,
+            "AcademicYear": 1819
           },
           {
             "Fundline": "Authorised Claims: 16-18 Levy Apprenticeships - Apprentice",
@@ -128,7 +170,14 @@
           {
             "Fundline": "19+ Apprenticeship (Employer on App Service) Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
+          },
+          {
+            "Fundline": "19+ Apprenticeship (From May 2017) Levy Contract",
+            "LineType": "ILR",
+            "UseAttributes": false,
+            "AcademicYear": 1819
           }
         ]
       },
@@ -143,9 +192,15 @@
           {
             "Fundline": "19+ Apprenticeship (Employer on App Service) Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           },
-
+          {
+            "Fundline": "19+ Apprenticeship (From May 2017) Levy Contract",
+            "LineType": "ILR",
+            "UseAttributes": false,
+            "AcademicYear": 1819
+          },
           {
             "Fundline": "Authorised Claims: Adult Levy Apprenticeships - Training",
             "LineType": "EAS",
@@ -164,7 +219,14 @@
           {
             "Fundline": "19+ Apprenticeship (Employer on App Service) Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
+          },
+          {
+            "Fundline": "19+ Apprenticeship (From May 2017) Levy Contract",
+            "LineType": "ILR",
+            "UseAttributes": false,
+            "AcademicYear": 1819
           },
           {
             "Fundline": "Excess Learning Support: Adult Levy Apprenticeships - Provider",
@@ -184,9 +246,15 @@
           {
             "Fundline": "19+ Apprenticeship (Employer on App Service) Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           },
-
+          {
+            "Fundline": "19+ Apprenticeship (From May 2017) Levy Contract",
+            "LineType": "ILR",
+            "UseAttributes": false,
+            "AcademicYear": 1819
+          },
           {
             "Fundline": "Authorised Claims: Adult Levy Apprenticeships - Provider",
             "LineType": "EAS",
@@ -205,7 +273,14 @@
           {
             "Fundline": "19+ Apprenticeship (Employer on App Service) Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
+          },
+          {
+            "Fundline": "19+ Apprenticeship (From May 2017) Levy Contract",
+            "LineType": "ILR",
+            "UseAttributes": false,
+            "AcademicYear": 1819
           },
           {
             "Fundline": "Authorised Claims: Adult Levy Apprenticeships - Employer",
@@ -225,7 +300,14 @@
           {
             "Fundline": "19+ Apprenticeship (Employer on App Service) Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
+          },
+          {
+            "Fundline": "19+ Apprenticeship (From May 2017) Levy Contract",
+            "LineType": "ILR",
+            "UseAttributes": false,
+            "AcademicYear": 1819
           },
           {
             "Fundline": "Authorised Claims: Adult Levy Apprenticeships - Apprentice",
