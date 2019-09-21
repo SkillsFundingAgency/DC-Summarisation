@@ -44,34 +44,52 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
 
             CollectionYears.Add(summarisationMessage.CollectionYear);
 
+            int previousCollectionYear = summarisationMessage.CollectionYear - 101;
+
+            CollectionYears.Add(previousCollectionYear);
+
             using (var contextFactory = _dasContext())
             {
-                return await contextFactory.Payments
-                             .Where(p => p.Ukprn == ukprn 
-                                        && p.ContractType == ConstantKeys.ContractType_NonLevy
-                                        && CollectionYears.Contains(p.AcademicYear)
-                                     )
-                             .GroupBy(x => x.ReportingAimFundingLineType)
-                             .Select(ld => new LearningDelivery
-                             {
-                                 Fundline = ld.Key,
-                                 PeriodisedData = ld.Select(pd => new PeriodisedData
-                                 {
-                                     ApprenticeshipContractType = pd.ContractType,
-                                     FundingSource = pd.FundingSource,
-                                     TransactionType = pd.TransactionType,
-                                     Periods = new List<Period>
-                                     {
-                                        new Period
-                                        {
-                                            PeriodId = pd.DeliveryPeriod,
-                                            CollectionMonth = pd.DeliveryPeriod,
-                                            CollectionYear = pd.AcademicYear,
-                                            Value = pd.Amount
-                                        }
-                                     }
-                                 }).ToList()
-                             }).ToListAsync(cancellationToken);
+                var preSummarisedData = await contextFactory.Payments
+                            .Where(p => p.Ukprn == ukprn
+                                       && p.ContractType == ConstantKeys.ContractType_NonLevy
+                                       && CollectionYears.Contains(p.AcademicYear)
+                                    )
+                            .GroupBy(x => new { x.ContractType, x.FundingSource, x.TransactionType, x.AcademicYear, x.DeliveryPeriod, x.LearningAimFundingLineType, x.ReportingAimFundingLineType })
+                            .Select(obj => new
+                            {
+                                ContractType = obj.Key.ContractType,
+                                FundingSource = obj.Key.FundingSource,
+                                TransactionType = obj.Key.TransactionType,
+                                AcademicYear = obj.Key.AcademicYear,
+                                DeliveryPeriod = obj.Key.DeliveryPeriod,
+                                ReportingAimFundingLineType = obj.Key.AcademicYear == previousCollectionYear ? obj.Key.LearningAimFundingLineType : obj.Key.ReportingAimFundingLineType,
+                                Amount = obj.Sum(s => s.Amount)
+                            }).ToListAsync(cancellationToken);
+
+
+
+                return preSummarisedData
+                            .GroupBy(x => x.ReportingAimFundingLineType)
+                            .Select(ld => new LearningDelivery
+                            {
+                                Fundline = ld.Key,
+                                PeriodisedData = ld.Select(pd => new PeriodisedData
+                                {
+                                    ApprenticeshipContractType = pd.ContractType,
+                                    FundingSource = pd.FundingSource,
+                                    TransactionType = pd.TransactionType,
+                                    Periods = new List<Period>
+                                    {
+                                    new Period
+                                    {
+                                        CollectionMonth = pd.DeliveryPeriod,
+                                        CollectionYear = pd.AcademicYear,
+                                        Value = pd.Amount
+                                    }
+                                    }
+                                }).ToList()
+                            }).ToList();
             }
         }
     }

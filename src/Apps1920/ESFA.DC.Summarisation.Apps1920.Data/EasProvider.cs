@@ -33,10 +33,19 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
 
         public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
+            List<int> CollectionYears = new List<int>();
+
+            CollectionYears.Add(summarisationMessage.CollectionYear);
+
+            int previousCollectionYear = summarisationMessage.CollectionYear - 101;
+
+            CollectionYears.Add(previousCollectionYear);
+
             using (var easContext = _dasContext())
             {
                 return await easContext.ProviderAdjustmentPayments
-                        .Where(sv => sv.Ukprn == ukprn && sv.CollectionPeriodYear == summarisationMessage.CollectionYear)
+                        .Where(sv => sv.Ukprn == ukprn
+                            && CollectionYears.Contains(sv.CollectionPeriodYear))
                         .GroupBy(x => x.PaymentTypeName)
                         .Select(ld => new LearningDelivery
                         {

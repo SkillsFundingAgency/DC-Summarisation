@@ -47,7 +47,14 @@
           {
             "Fundline": "Authorised Claims: 16-18 Levy Apprenticeships - Training",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
+          },
+          {
+            "Fundline": "Authorised Claims: 16-18 Levy Apprenticeships - Training",
+            "LineType": "EAS",
+            "UseAttributes": false,
+            "AcademicYear": 1819
           }
         ]
       },
@@ -74,7 +81,14 @@
           {
             "Fundline": "Excess Learning Support: 16-18 Levy Apprenticeships - Provider",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
+          },
+          {
+            "Fundline": "Excess Learning Support: 16-18 Levy Apprenticeships - Provider",
+            "LineType": "EAS",
+            "UseAttributes": false,
+            "AcademicYear": 1819
           }
         ]
       },
@@ -101,7 +115,14 @@
           {
             "Fundline": "Authorised Claims: 16-18 Levy Apprenticeships - Provider",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
+          },
+          {
+            "Fundline": "Authorised Claims: 16-18 Levy Apprenticeships - Provider",
+            "LineType": "EAS",
+            "UseAttributes": false,
+            "AcademicYear": 1819
           }
         ]
       },
@@ -128,7 +149,14 @@
           {
             "Fundline": "Authorised Claims: 16-18 Levy Apprenticeships - Employer",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
+          },
+          {
+            "Fundline": "Authorised Claims: 16-18 Levy Apprenticeships - Employer",
+            "LineType": "EAS",
+            "UseAttributes": false,
+            "AcademicYear": 1819
           }
         ]
       },
@@ -155,7 +183,14 @@
           {
             "Fundline": "Authorised Claims: 16-18 Levy Apprenticeships - Apprentice",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
+          },
+          {
+            "Fundline": "Authorised Claims: 16-18 Levy Apprenticeships - Apprentice",
+            "LineType": "EAS",
+            "UseAttributes": false,
+            "AcademicYear": 1819
           }
         ]
       },
@@ -204,7 +239,14 @@
           {
             "Fundline": "Authorised Claims: Adult Levy Apprenticeships - Training",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
+          },
+          {
+            "Fundline": "Authorised Claims: Adult Levy Apprenticeships - Training",
+            "LineType": "EAS",
+            "UseAttributes": false,
+            "AcademicYear": 1819
           }
         ]
       },
@@ -231,7 +273,14 @@
           {
             "Fundline": "Excess Learning Support: Adult Levy Apprenticeships - Provider",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
+          },
+          {
+            "Fundline": "Excess Learning Support: Adult Levy Apprenticeships - Provider",
+            "LineType": "EAS",
+            "UseAttributes": false,
+            "AcademicYear": 1819
           }
         ]
       },
@@ -258,7 +307,14 @@
           {
             "Fundline": "Authorised Claims: Adult Levy Apprenticeships - Provider",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
+          },
+          {
+            "Fundline": "Authorised Claims: Adult Levy Apprenticeships - Provider",
+            "LineType": "EAS",
+            "UseAttributes": false,
+            "AcademicYear": 1819
           }
         ]
       },
@@ -285,7 +341,14 @@
           {
             "Fundline": "Authorised Claims: Adult Levy Apprenticeships - Employer",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
+          },
+          {
+            "Fundline": "Authorised Claims: Adult Levy Apprenticeships - Employer",
+            "LineType": "EAS",
+            "UseAttributes": false,
+            "AcademicYear": 1819
           }
         ]
       },
@@ -312,7 +375,14 @@
           {
             "Fundline": "Authorised Claims: Adult Levy Apprenticeships - Apprentice",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
+          },
+          {
+            "Fundline": "Authorised Claims: Adult Levy Apprenticeships - Apprentice",
+            "LineType": "EAS",
+            "UseAttributes": false,
+            "AcademicYear": 1819
           }
         ]
       },
@@ -327,7 +397,8 @@
           {
             "Fundline": "16-18 Apprenticeship (Employer on App Service) Non-Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           }
         ]
       },
@@ -342,12 +413,14 @@
           {
             "Fundline": "16-18 Apprenticeship (Employer on App Service) Non-Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           },
           {
             "Fundline": "Authorised Claims: 16-18 Apprenticeship (Employer on App Service) Non-Levy - Training",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           }
         ]
       },
@@ -362,12 +435,14 @@
           {
             "Fundline": "16-18 Apprenticeship (Employer on App Service) Non-Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           },
           {
             "Fundline": "Excess Learning Support: 16-18 Apprenticeship (Employer on App Service) Non-Levy",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           }
         ]
       },
@@ -382,12 +457,14 @@
           {
             "Fundline": "16-18 Apprenticeship (Employer on App Service) Non-Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           },
           {
             "Fundline": "Authorised Claims: 16-18 Apprenticeship (Employer on App Service) Non-Levy - Provider",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           }
         ]
       },
@@ -402,12 +479,14 @@
           {
             "Fundline": "16-18 Apprenticeship (Employer on App Service) Non-Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           },
           {
             "Fundline": "Authorised Claims: 16-18 Apprenticeship (Employer on App Service) Non-Levy - Employer",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           }
         ]
       },
@@ -422,12 +501,14 @@
           {
             "Fundline": "16-18 Apprenticeship (Employer on App Service) Non-Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           },
           {
             "Fundline": "Authorised Claims: 16-18 Apprenticeship (Employer on App Service) Non-Levy - Apprentice",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           }
         ]
       },
@@ -442,7 +523,8 @@
           {
             "Fundline": "19+ Apprenticeship (Employer on App Service) Non-Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           }
         ]
       },
@@ -457,12 +539,14 @@
           {
             "Fundline": "19+ Apprenticeship (Employer on App Service) Non-Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           },
           {
             "Fundline": "Authorised Claims: 19+ Apprenticeship (Employer on App Service) Non-Levy - Training",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           }
         ]
       },
@@ -477,12 +561,14 @@
           {
             "Fundline": "19+ Apprenticeship (Employer on App Service) Non-Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           },
           {
             "Fundline": "Excess Learning Support: 19+ Apprenticeship (Employer on App Service) Non-Levy",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           }
         ]
       },
@@ -497,12 +583,14 @@
           {
             "Fundline": "19+ Apprenticeship (Employer on App Service) Non-Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           },
           {
             "Fundline": "Authorised Claims: 19+ Apprenticeship (Employer on App Service) Non-Levy - Provider",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           }
         ]
       },
@@ -517,12 +605,14 @@
           {
             "Fundline": "19+ Apprenticeship (Employer on App Service) Non-Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           },
           {
             "Fundline": "Authorised Claims: 19+ Apprenticeship (Employer on App Service) Non-Levy - Employer",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           }
         ]
       },
@@ -537,12 +627,14 @@
           {
             "Fundline": "19+ Apprenticeship (Employer on App Service) Non-Levy funding",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           },
           {
             "Fundline": "Authorised Claims: 19+ Apprenticeship (Employer on App Service) Non-Levy - Apprentice",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           }
         ]
       }
@@ -562,17 +654,20 @@
           {
             "Fundline": "16-18 Apprenticeship (From May 2017) Non-Levy Contract (non-procured)",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           },
           {
             "Fundline": "Authorised Claims: 16-18 Non-Levy Apprenticeships - Training",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           },
           {
             "Fundline": "Authorised Claims: 16-18 Non-Levy Apprenticeships - Provider",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           }
         ]
       },
@@ -587,12 +682,14 @@
           {
             "Fundline": "16-18 Apprenticeship (From May 2017) Non-Levy Contract (non-procured)",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           },
           {
             "Fundline": "Excess Learning Support: 16-18 Non-Levy Apprenticeships - Provider",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           }
         ]
       },
@@ -607,12 +704,14 @@
           {
             "Fundline": "16-18 Apprenticeship (From May 2017) Non-Levy Contract (non-procured)",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           },
           {
             "Fundline": "Authorised Claims: 16-18 Non-Levy Apprenticeships - Employer",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           }
         ]
       },
@@ -627,17 +726,20 @@
           {
             "Fundline": "19+ Apprenticeship (From May 2017) Non-Levy Contract (non-procured)",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           },
           {
             "Fundline": "Authorised Claims: Adult Non-Levy Apprenticeships - Training",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           },
           {
             "Fundline": "Authorised Claims: Adult Non-Levy Apprenticeships - Provider",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           }
         ]
       },
@@ -652,12 +754,14 @@
           {
             "Fundline": "19+ Apprenticeship (From May 2017) Non-Levy Contract (non-procured)",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           },
           {
-            "Fundline": "Excess Learning Support: 16-18 Non-Levy Apprenticeships - Provider",
+            "Fundline": "Excess Learning Support: Adult Non-Levy Apprenticeships - Provider",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           }
         ]
       },
@@ -672,15 +776,182 @@
           {
             "Fundline": "19+ Apprenticeship (From May 2017) Non-Levy Contract (non-procured)",
             "LineType": "ILR",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           },
           {
             "Fundline": "Authorised Claims: Adult Non-Levy Apprenticeships - Employer",
             "LineType": "EAS",
-            "UseAttributes": false
+            "UseAttributes": false,
+            "AcademicYear": 1920
           }
         ]
       },
+      {
+        "PeriodCode": "APPS1819",
+        "FundModel": "NonLevy",
+        "DeliverableLineCode": 8,
+        "ApprenticeshipContractType": 2,
+        "FundingSources": [ 2, 4 ],
+        "TransactionTypes": [ 1, 2, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14 ],
+        "FundLines": [
+          {
+            "Fundline": "16-18 Apprenticeship (From May 2017) Non-Levy Contract (non-procured)",
+            "LineType": "ILR",
+            "AcademicYear": 1819
+          },
+          {
+            "Fundline": "Audit Adjustments: 16-18 Non-Levy Apprenticeships - Training",
+            "LineType": "EAS",
+            "AcademicYear": 1819
+          },
+          {
+            "Fundline": "Authorised Claims: 16-18 Non-Levy Apprenticeships - Training",
+            "LineType": "EAS",
+            "AcademicYear": 1819
+          },
+          {
+            "Fundline": "Audit Adjustments: 16-18 Non-Levy Apprenticeships - Provider",
+            "LineType": "EAS",
+            "AcademicYear": 1819
+          },
+          {
+            "Fundline": "Authorised Claims: 16-18 Non-Levy Apprenticeships - Provider",
+            "LineType": "EAS",
+            "AcademicYear": 1819
+          }
+        ]
+      },
+      {
+        "PeriodCode": "APPS1819",
+        "FundModel": "NonLevy",
+        "DeliverableLineCode": 9,
+        "ApprenticeshipContractType": 2,
+        "FundingSources": [ 4 ],
+        "TransactionTypes": [ 15 ],
+        "FundLines": [
+          {
+            "Fundline": "16-18 Apprenticeship (From May 2017) Non-Levy Contract (non-procured)",
+            "LineType": "ILR",
+            "AcademicYear": 1819
+          },
+          {
+            "Fundline": "Excess Learning Support: 16-18 Non-Levy Apprenticeships - Provider",
+            "LineType": "EAS",
+            "AcademicYear": 1819
+          }
+        ]
+      },
+      {
+        "PeriodCode": "APPS1819",
+        "FundModel": "NonLevy",
+        "DeliverableLineCode": 10,
+        "ApprenticeshipContractType": 2,
+        "FundingSources": [ 4 ],
+        "TransactionTypes": [ 4, 6 ],
+        "FundLines": [
+          {
+            "Fundline": "16-18 Apprenticeship (From May 2017) Non-Levy Contract (non-procured)",
+            "LineType": "ILR",
+            "AcademicYear": 1819
+          },
+          {
+            "Fundline": "Audit Adjustments: 16-18 Non-Levy Apprenticeships - Employer",
+            "LineType": "EAS",
+            "AcademicYear": 1819
+          },
+          {
+            "Fundline": "Authorised Claims: 16-18 Non-Levy Apprenticeships - Employer",
+            "LineType": "EAS",
+            "AcademicYear": 1819
+          }
+        ]
+      },
+      {
+        "PeriodCode": "APPS1819",
+        "FundModel": "NonLevy",
+        "DeliverableLineCode": 22,
+        "ApprenticeshipContractType": 2,
+        "FundingSources": [ 2, 4 ],
+        "TransactionTypes": [ 1, 2, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14 ],
+        "FundLines": [
+          {
+            "Fundline": "19+ Apprenticeship (From May 2017) Non-Levy Contract (non-procured)",
+            "LineType": "ILR",
+            "AcademicYear": 1819
+          },
+          {
+            "Fundline": "Audit Adjustments: Adult Non-Levy Apprenticeships - Training",
+            "LineType": "EAS",
+            "AcademicYear": 1819
+          },
+          {
+            "Fundline": "Authorised Claims: Adult Non-Levy Apprenticeships - Training",
+            "LineType": "EAS",
+            "AcademicYear": 1819
+          },
+          {
+            "Fundline": "Audit Adjustments: Adult Non-Levy Apprenticeships - Provider",
+            "LineType": "EAS",
+            "AcademicYear": 1819
+          },
+          {
+            "Fundline": "Authorised Claims: Adult Non-Levy Apprenticeships - Provider",
+            "LineType": "EAS",
+            "AcademicYear": 1819
+          }
+        ]
+      },
+
+      {
+        "PeriodCode": "APPS1819",
+        "FundModel": "NonLevy",
+        "DeliverableLineCode": 23,
+        "ApprenticeshipContractType": 2,
+        "FundingSources": [ 4 ],
+        "TransactionTypes": [ 15 ],
+        "FundLines": [
+          {
+            "Fundline": "19+ Apprenticeship (From May 2017) Non-Levy Contract (non-procured)",
+            "LineType": "ILR",
+            "AcademicYear": 1819
+          },
+          {
+            "Fundline": "Excess Learning Support: Adult Non-Levy Apprenticeships - Provider",
+            "LineType": "EAS",
+            "AcademicYear": 1819
+          }
+        ]
+      },
+
+      {
+        "PeriodCode": "APPS1819",
+        "FundModel": "NonLevy",
+        "DeliverableLineCode": 24,
+        "ApprenticeshipContractType": 2,
+        "FundingSources": [ 4 ],
+        "TransactionTypes": [ 4, 6 ],
+        "FundLines": [
+          {
+            "Fundline": "19+ Apprenticeship (From May 2017) Non-Levy Contract (non-procured)",
+            "LineType": "ILR",
+            "AcademicYear": 1819
+          },
+          {
+            "Fundline": "Audit Adjustments: Adult Non-Levy Apprenticeships - Employer",
+            "LineType": "EAS",
+            "AcademicYear": 1819
+          },
+          {
+            "Fundline": "Authorised Claims: Adult Non-Levy Apprenticeships - Employer",
+            "LineType": "EAS",
+            "AcademicYear": 1819
+          }
+        ]
+      },
+
+
+
       {
         "PeriodCode": "16-18NLAP2018",
         "FundModel": "NonLevy",

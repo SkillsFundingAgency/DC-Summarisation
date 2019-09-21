@@ -7,6 +7,7 @@ using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using ESFA.DC.DASPayments.EF.Interfaces;
+using ESFA.DC.Summarisation.Constants;
 
 namespace ESFA.DC.Summarisation.Apps1920.Data
 {
@@ -55,13 +56,28 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
 
             using (var contextFactory = _dasContext())
             {
-                return await contextFactory.Payments
-                             .Where(p => p.Ukprn == ukprn && p.ContractType == 1
+
+                var preSummarisedData = await contextFactory.Payments
+                             .Where(p => p.Ukprn == ukprn && p.ContractType == ConstantKeys.ContractType_Levy
                                     && (
                                         (p.AcademicYear == currentCollectionYear && p.CollectionPeriod == currentCollectionPeriod)
                                         ||
                                         (p.AcademicYear == previousCollectionYear && p.CollectionPeriod == previousCollectionMonth))
                                      )
+                            .GroupBy(x => new { x.ContractType, x.FundingSource, x.TransactionType, x.AcademicYear, x.CollectionPeriod, x.LearningAimFundingLineType, x.ReportingAimFundingLineType })
+                            .Select(obj => new
+                            {
+                                ContractType = obj.Key.ContractType,
+                                FundingSource = obj.Key.FundingSource,
+                                TransactionType = obj.Key.TransactionType,
+                                AcademicYear = obj.Key.AcademicYear,
+                                CollectionPeriod = obj.Key.CollectionPeriod,
+                                ReportingAimFundingLineType = obj.Key.AcademicYear == previousCollectionYear ? obj.Key.LearningAimFundingLineType : obj.Key.ReportingAimFundingLineType,
+                                Amount = obj.Sum(s => s.Amount)
+                            }).ToListAsync(cancellationToken);
+
+
+                return preSummarisedData
                              .GroupBy(x => x.ReportingAimFundingLineType)
                              .Select(ld => new LearningDelivery
                              {
@@ -81,7 +97,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
                                         }
                                      }
                                  }).ToList()
-                             }).ToListAsync(cancellationToken);
+                             }).ToList();
             }
         }
 
