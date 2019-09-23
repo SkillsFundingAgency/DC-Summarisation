@@ -63,6 +63,14 @@ namespace ESFA.DC.Summarisation.Service
                                                                 (w.CollectionYear == previousCollectionYear && w.CollectionMonth == previousCollectionMonth)
                                                             );
             }
+            else if (fundingStream.PeriodCode.Equals(ConstantKeys.NonLevy_APPS1920, StringComparison.OrdinalIgnoreCase))
+            {
+                collectionPeriods = collectionPeriods.Where(w => w.CollectionYear == summarisationMessage.CollectionYear && w.CollectionMonth <= 12);
+            }
+            else if (fundingStream.PeriodCode.Equals(ConstantKeys.NonLevy_APPS1819, StringComparison.OrdinalIgnoreCase))
+            {
+                collectionPeriods = collectionPeriods.Where(w => w.CollectionYear == previousCollectionYear && w.CollectionMonth <= 12);
+            }
             else 
             {
                 collectionPeriods = collectionPeriods.Where(w => w.CollectionYear == summarisationMessage.CollectionYear || w.CollectionYear == previousCollectionYear);

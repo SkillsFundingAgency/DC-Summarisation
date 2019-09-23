@@ -87,12 +87,12 @@ namespace ESFA.DC.Summarisation.Apps1819.Service.Tests
         }
 
         [Theory]
-        [InlineData(2, "APPS1819", 8, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
-        [InlineData(2, "APPS1819", 9, "4", "15")]
-        [InlineData(2, "APPS1819", 10, "4", "4,6")]
-        [InlineData(2, "APPS1819", 22, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
-        [InlineData(2, "APPS1819", 23, "4", "15")]
-        [InlineData(2, "APPS1819", 24, "4", "4,6")]
+        //[InlineData(2, "APPS1819", 8, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
+        //[InlineData(2, "APPS1819", 9, "4", "15")]
+        //[InlineData(2, "APPS1819", 10, "4", "4,6")]
+        //[InlineData(2, "APPS1819", 22, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
+        //[InlineData(2, "APPS1819", 23, "4", "15")]
+        //[InlineData(2, "APPS1819", 24, "4", "4,6")]
 
         [InlineData(2, "16-18NLAP2018", 2, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
         [InlineData(2, "16-18NLAP2018", 3, "4", "15")]
