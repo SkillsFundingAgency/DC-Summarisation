@@ -28,13 +28,24 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
         {
             using (var esfr2Context = _esf())
             {
-                return await esfr2Context.SupplementaryDatas
-                        .Where(sd => sd.SourceFile.Ukprn == ukprn.ToString())
-                        .GroupBy(sd => sd.ConRefNumber.Trim())
+
+                var preSummarised = await esfr2Context.SupplementaryDatas
+                                .Where(sd => sd.SourceFile.Ukprn == ukprn.ToString())
+                                .GroupBy(g => new { ConRefNumber = g.ConRefNumber.Trim(), g.DeliverableCode, g.CalendarYear, g.CalendarMonth })
+                                .Select(obj => new
+                                {
+                                    ConRefNumber = obj.Key.ConRefNumber,
+                                    DeliverableCode = obj.Key.DeliverableCode,
+                                    CalendarYear = obj.Key.CalendarYear,
+                                    CalendarMonth = obj.Key.CalendarMonth,
+                                    Value = obj.Sum(p => p.CostType.Equals(SummarisationConstants.UnitCost, StringComparison.OrdinalIgnoreCase) ? (p.SupplementaryDataUnitCost.Value ?? p.Value) : p.CostType.Equals(SummarisationConstants.UnitCostDeduction, StringComparison.OrdinalIgnoreCase) ? (p.SupplementaryDataUnitCost.Value ?? p.Value) * -1 : p.Value),
+                                    Volume = obj.Sum(p => p.CostType.Equals(SummarisationConstants.UnitCost, StringComparison.OrdinalIgnoreCase) ? 1 : p.CostType.Equals(SummarisationConstants.UnitCostDeduction, StringComparison.OrdinalIgnoreCase) ? -1 : 0),
+                                }).ToListAsync(cancellationToken);
+
+                return  preSummarised
+                        .GroupBy(sd => sd.ConRefNumber)
                         .Select(ld => new LearningDelivery
                         {
-                            LearnRefNumber = "",
-                            AimSeqNumber = 0,
                             ConRefNumber = ld.Key,
                             PeriodisedData = ld.GroupBy(x => x.DeliverableCode).Select(pd => new PeriodisedData
                             {
@@ -44,11 +55,11 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                 {
                                     CalendarMonth = p.CalendarMonth,
                                     CalendarYear = p.CalendarYear,
-                                    Value = p.CostType.Equals(SummarisationConstants.UnitCost, StringComparison.OrdinalIgnoreCase) ? (p.SupplementaryDataUnitCost.Value ?? p.Value) : p.CostType.Equals(SummarisationConstants.UnitCostDeduction, StringComparison.OrdinalIgnoreCase) ? (p.SupplementaryDataUnitCost.Value ?? p.Value) * -1 : p.Value,
-                                    Volume = p.CostType.Equals(SummarisationConstants.UnitCost, StringComparison.OrdinalIgnoreCase) ? 1 : p.CostType.Equals(SummarisationConstants.UnitCostDeduction, StringComparison.OrdinalIgnoreCase) ? -1 : 0
+                                    Value = p.Value,
+                                    Volume = p.Volume
                                 }).ToList()
                             }).ToList()
-                        }).ToListAsync(cancellationToken);
+                        }).ToList();
             }
         }
 
