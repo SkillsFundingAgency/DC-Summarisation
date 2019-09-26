@@ -22,51 +22,51 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
                 new ContractAllocation
                 {
                     ContractAllocationNumber = "100",
-                    FundingStreamPeriodCode = "PeriodCode1",
+                    FundingStreamPeriodCode = "APPS1819",
                     UoPcode = "UoPcode1",
                     DeliveryUkprn = 1,
-                    DeliveryOrganisation = "Org001"
+                    DeliveryOrganisation = "Org001",
                 },
                 new ContractAllocation
                 {
                     ContractAllocationNumber = "101",
-                    FundingStreamPeriodCode = "PeriodCode2",
+                    FundingStreamPeriodCode = "APPS1920",
                     UoPcode = "UoPcode1",
                     DeliveryUkprn = 1,
-                    DeliveryOrganisation = "Org001"
+                    DeliveryOrganisation = "Org001",
                 },
                 new ContractAllocation
                 {
                     ContractAllocationNumber = "103",
-                    FundingStreamPeriodCode = "PeriodCode3",
+                    FundingStreamPeriodCode = "ESF1420",
                     UoPcode = "UoPcode1",
                     DeliveryUkprn = 1,
-                    DeliveryOrganisation = "Org001"
+                    DeliveryOrganisation = "Org001",
                 },
                 new ContractAllocation
                 {
                     ContractAllocationNumber = "104",
-                    FundingStreamPeriodCode = "PeriodCode4",
+                    FundingStreamPeriodCode = "LEVY1799",
                     UoPcode = "UoPcode1",
                     DeliveryUkprn = 1,
-                    DeliveryOrganisation = "Org001"
+                    DeliveryOrganisation = "Org001",
                 },
                 new ContractAllocation
                 {
                     ContractAllocationNumber = "100",
-                    FundingStreamPeriodCode = "PeriodCode1",
+                    FundingStreamPeriodCode = "APPS1819",
                     UoPcode = "UoPcode1",
                     DeliveryUkprn = 2,
-                    DeliveryOrganisation = "Org002"
+                    DeliveryOrganisation = "Org002",
                 },
                 new ContractAllocation
                 {
                     ContractAllocationNumber = "101",
-                    FundingStreamPeriodCode = "PeriodCode2",
+                    FundingStreamPeriodCode = "APPS1920",
                     UoPcode = "UoPcode1",
                     DeliveryUkprn = 2,
-                    DeliveryOrganisation = "Org002"
-                }
+                    DeliveryOrganisation = "Org002",
+                },
             }.AsQueryable().BuildMock();
 
             var fcsMock = new Mock<IFcsContext>();
@@ -78,10 +78,10 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
 
             var fcsa = await service.RetrieveAsync(CancellationToken.None);
 
-            fcsa["PeriodCode1"].Count.Should().Be(2);
-            fcsa["PeriodCode2"].Count.Should().Be(2);
-            fcsa["PeriodCode3"].Count.Should().Be(1);
-            fcsa["PeriodCode4"].Count.Should().Be(1);
+            fcsa["APPS1819"].Count.Should().Be(2);
+            fcsa["APPS1920"].Count.Should().Be(2);
+            fcsa["ESF1420"].Count.Should().Be(1);
+            fcsa["LEVY1799"].Count.Should().Be(1);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ESFA.DC.Summarisation.Constants
 {
@@ -25,5 +26,23 @@ namespace ESFA.DC.Summarisation.Constants
         public const string NonLevy_APPS1819 = "APPS1819";
 
         public const string LineType_EAS = "EAS";
+
+        public static List<string> FundingStreams = new List<string>()
+        {
+            "16-18TRN1920",
+            "AEBC-19TRN1920",
+            "AEBC-ASCL1920",
+            "AEB-19TRN1920",
+            "AEB-AS1920",
+            "ALLB1920",
+            "ALLBC1920",
+            "LEVY1799",
+            "NONLEVY2019",
+            "16-18NLAP2018",
+            "ANLAP2018",
+            "APPS1920",
+            "APPS1819",
+            "ESF1420",
+        };
     }
 }

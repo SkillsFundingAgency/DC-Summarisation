@@ -47,24 +47,25 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
 
             using (var contextFactory = _fundingDataContext())
             {
-                // This is to find out the latest ILR submission of the provider from current ILR collection year and previous ILR collection year
-                var esfdataToFilter = contextFactory.ESFFundingDatasSummarised
-               .Where(x => x.UKPRN == ukprn 
-                        && (
-                                (x.CollectionYear == summarisationMessage.CollectionYear && x.CollectionPeriod <= summarisationMessage.CollectionMonth) 
-                                || (x.CollectionYear == previousCollectionYear && x.CollectionPeriod <= previousCollectionMonth)
-                                || (x.CollectionYear < previousCollectionYear )
-                            )
-                        )
-               .GroupBy(g => new { g.UKPRN, g.ConRefNumber, g.CollectionYear })
-               .Select(s => new { s.Key.UKPRN, s.Key.ConRefNumber, s.Key.CollectionYear, CollectionPeriod = s.Max(y => y.CollectionPeriod) })
-               .OrderByDescending(o => o.CollectionPeriod).ToList();
-
+                var esfdataToFilter = contextFactory.LatestProviderSubmissions
+               .Where(x => x.UKPRN == ukprn)
+               .Select(s1 => new
+               {
+                   s1.UKPRN,
+                   CollectionYear = Convert.ToInt32(s1.CollectionType.Substring(3)),
+                   CollectionMonth = (s1.CollectionReturnCode == string.Empty ? 0 : Convert.ToInt32(s1.CollectionReturnCode.Substring(1)))
+               })
+               .Select(s2 => new
+                    {
+                        s2.UKPRN,
+                        s2.CollectionYear,
+                        CollectionPeriod = (s2.CollectionYear == previousCollectionYear && s2.CollectionMonth > previousCollectionMonth ? previousCollectionMonth : s2.CollectionMonth)
+                    }).ToList();
 
                 return await contextFactory.ESFFundingDatasSummarised
                     .Join(esfdataToFilter,
-                                esf => new {esf.UKPRN,esf.ConRefNumber,esf.CollectionYear,esf.CollectionPeriod },
-                                filter => new { filter.UKPRN, filter.ConRefNumber, filter.CollectionYear, filter.CollectionPeriod },
+                                esf => new {esf.UKPRN, esf.CollectionYear,esf.CollectionPeriod },
+                                filter => new { filter.UKPRN, filter.CollectionYear, filter.CollectionPeriod },
                                 (esf, filter) => esf)
                     .Where(x => x.UKPRN == ukprn
                         && (x.Period_1 + x.Period_2 + x.Period_3 + x.Period_4 + x.Period_5 + x.Period_6 + x.Period_7 + x.Period_8 + x.Period_9 + x.Period_10 + x.Period_11 + x.Period_12) > 0)
@@ -199,7 +200,7 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
         {
             using (var contextFactory = _fundingDataContext())
             {
-                return await contextFactory.ESFFundingDatasSummarised.Select(l => l.UKPRN).Distinct().ToListAsync(cancellationToken);
+                return await contextFactory.LatestProviderSubmissions.Select(l => l.UKPRN).Distinct().ToListAsync(cancellationToken);
             }
         }
 
