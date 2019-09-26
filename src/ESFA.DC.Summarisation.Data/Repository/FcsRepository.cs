@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ReferenceData.FCS.Model.Interface;
+using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.External.FCS.Model;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
@@ -25,6 +26,7 @@ namespace ESFA.DC.Summarisation.Data.Population.Service
             using (var fcsContext = _fcs())
             {
                 return await fcsContext.ContractAllocations
+                    .Where(w => ConstantKeys.FundingStreams.Contains(w.FundingStreamPeriodCode))
                     .Select(ca => new FcsContractAllocation
                     {
                         ContractAllocationNumber = ca.ContractAllocationNumber,
