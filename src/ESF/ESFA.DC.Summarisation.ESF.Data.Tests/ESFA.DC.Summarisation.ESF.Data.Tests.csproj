@@ -42,8 +42,8 @@
     <Reference Include="ESFA.DC.ESF.Database.EF, Version=0.0.358.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ESFA.DC.ESF.Database.EF.0.0.358\lib\netstandard2.0\ESFA.DC.ESF.Database.EF.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ESF.FundingData.Database.EF, Version=0.2.496.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ESFA.DC.ESF.FundingData.Database.EF.0.2.496\lib\netstandard2.0\ESFA.DC.ESF.FundingData.Database.EF.dll</HintPath>
+    <Reference Include="ESFA.DC.ESF.FundingData.Database.EF, Version=0.2.563.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ESFA.DC.ESF.FundingData.Database.EF.0.2.563\lib\netstandard2.0\ESFA.DC.ESF.FundingData.Database.EF.dll</HintPath>
     </Reference>
     <Reference Include="FluentAssertions, Version=5.9.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\FluentAssertions.5.9.0\lib\net45\FluentAssertions.dll</HintPath>

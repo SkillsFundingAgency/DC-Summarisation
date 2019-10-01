@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ESFA.DC.Summarisation.ESF.Data.Providers;
 using ESFA.DC.ESF.FundingData.Database.EF.Interfaces;
+using Query = ESFA.DC.ESF.FundingData.Database.EF.Query;
 using ESFA.DC.ESF.FundingData.Database.EF;
 using Xunit;
 using MockQueryable.Moq;
@@ -20,19 +21,19 @@ namespace ESFA.DC.Summarisation.ESF.Data.Tests
         [Fact]
         public async Task ProvideUkprnsAsync_Check()
         {
-            var latestProviderSubmissions = new List<LatestProviderSubmission>()
+            var latestProviderSubmissions = new List<Query.LatestProviderSubmission>()
             {
-                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1516", CollectionReturnCode = "" },
-                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1617", CollectionReturnCode = "R13"  },
-                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1718", CollectionReturnCode = "R14"  },
-                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1819", CollectionReturnCode = "R14"  },
-                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1920", CollectionReturnCode = "R02"  },
+                new Query.LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1516", CollectionReturnCode = "" },
+                new Query.LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1617", CollectionReturnCode = "R13"  },
+                new Query.LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1718", CollectionReturnCode = "R14"  },
+                new Query.LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1819", CollectionReturnCode = "R14"  },
+                new Query.LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1920", CollectionReturnCode = "R02"  },
 
-                new LatestProviderSubmission() { UKPRN = 1009876, CollectionType = "ILR1516", CollectionReturnCode = "" },
-                new LatestProviderSubmission() { UKPRN = 1009876, CollectionType = "ILR1617", CollectionReturnCode = "R13"  },
-                new LatestProviderSubmission() { UKPRN = 1009876, CollectionType = "ILR1718", CollectionReturnCode = "R14"  },
-                new LatestProviderSubmission() { UKPRN = 1009876, CollectionType = "ILR1819", CollectionReturnCode = "R14"  },
-                new LatestProviderSubmission() { UKPRN = 1009876, CollectionType = "ILR1920", CollectionReturnCode = "R02"  },
+                new Query.LatestProviderSubmission() { UKPRN = 1009876, CollectionType = "ILR1516", CollectionReturnCode = "" },
+                new Query.LatestProviderSubmission() { UKPRN = 1009876, CollectionType = "ILR1617", CollectionReturnCode = "R13"  },
+                new Query.LatestProviderSubmission() { UKPRN = 1009876, CollectionType = "ILR1718", CollectionReturnCode = "R14"  },
+                new Query.LatestProviderSubmission() { UKPRN = 1009876, CollectionType = "ILR1819", CollectionReturnCode = "R14"  },
+                new Query.LatestProviderSubmission() { UKPRN = 1009876, CollectionType = "ILR1920", CollectionReturnCode = "R02"  },
 
             }.AsQueryable().BuildMock();
 
@@ -55,13 +56,13 @@ namespace ESFA.DC.Summarisation.ESF.Data.Tests
         [Fact]
         public async Task ProvideAsync_Check_R13Added()
         {
-            var latestProviderSubmissions = new List<LatestProviderSubmission>()
+            var latestProviderSubmissions = new List<Query.LatestProviderSubmission>()
             {
-                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1516", CollectionReturnCode = "" },
-                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1617", CollectionReturnCode = "R13"  },
-                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1718", CollectionReturnCode = "R14"  },
-                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1819", CollectionReturnCode = "R14"  },
-                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1920", CollectionReturnCode = "R02"  },
+                new Query.LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1516", CollectionReturnCode = "" },
+                new Query.LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1617", CollectionReturnCode = "R13"  },
+                new Query.LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1718", CollectionReturnCode = "R14"  },
+                new Query.LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1819", CollectionReturnCode = "R14"  },
+                new Query.LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1920", CollectionReturnCode = "R02"  },
             }.AsQueryable().BuildMock();
 
             var esfFundingData = new List<ESFFundingDataSummarised>()
@@ -122,13 +123,13 @@ namespace ESFA.DC.Summarisation.ESF.Data.Tests
         [Fact]
         public async Task ProvideAsync_Check_R13Removed()
         {
-            var latestProviderSubmissions = new List<LatestProviderSubmission>()
+            var latestProviderSubmissions = new List<Query.LatestProviderSubmission>()
             {
-                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1516", CollectionReturnCode = "" },
-                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1617", CollectionReturnCode = "R13"  },
-                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1718", CollectionReturnCode = "R14"  },
-                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1819", CollectionReturnCode = "R13"  },
-                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1920", CollectionReturnCode = "R02"  },
+                new Query.LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1516", CollectionReturnCode = "" },
+                new Query.LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1617", CollectionReturnCode = "R13"  },
+                new Query.LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1718", CollectionReturnCode = "R14"  },
+                new Query.LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1819", CollectionReturnCode = "R13"  },
+                new Query.LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1920", CollectionReturnCode = "R02"  },
             }.AsQueryable().BuildMock();
 
             var esfFundingData = new List<ESFFundingDataSummarised>()
