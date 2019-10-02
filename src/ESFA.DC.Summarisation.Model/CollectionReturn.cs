@@ -13,6 +13,7 @@ namespace ESFA.DC.Summarisation.Model
         public int Id { get; set; }
         public string CollectionType { get; set; }
         public string CollectionReturnCode { get; set; }
+        public DateTime? DateTime { get; set; }
 
         public virtual ICollection<SummarisedActual> SummarisedActuals { get; set; }
     }

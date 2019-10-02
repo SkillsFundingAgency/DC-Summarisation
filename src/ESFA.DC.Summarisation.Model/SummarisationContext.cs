@@ -24,17 +24,21 @@ namespace ESFA.DC.Summarisation.Model
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DCT-DG-DEV;Database=SummarisedActuals;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=(local);Database=SummarisedActuals;Trusted_Connection=True;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("ProductVersion", "2.2.3-servicing-35854");
+            modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
 
             modelBuilder.Entity<CollectionReturn>(entity =>
             {
                 entity.ToTable("CollectionReturn");
+
+                entity.HasIndex(e => new { e.CollectionType, e.CollectionReturnCode })
+                    .HasName("UK_CollectionReturn")
+                    .IsUnique();
 
                 entity.Property(e => e.CollectionReturnCode)
                     .IsRequired()
@@ -45,12 +49,16 @@ namespace ESFA.DC.Summarisation.Model
                     .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false);
+
+                entity.Property(e => e.DateTime)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
             });
 
             modelBuilder.Entity<ESF_FundingData>(entity =>
             {
                 entity.HasKey(e => new { e.UKPRN, e.ConRefNumber, e.DeliverableCode, e.AttributeName, e.CollectionYear, e.CollectionPeriod })
-                    .HasName("PK__ESF_Fund__F8AAD8A3CA4209F0");
+                    .HasName("PK__ESF_Fund__F8AAD8A3185C2C42");
 
                 entity.ToTable("ESF_FundingData");
 
