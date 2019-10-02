@@ -9,10 +9,18 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
         [Fact]
         public void CollectionPeriodCount()
         {
-            NewProvider().Provide().Should().HaveCount(26);
+            NewProvider().Provide().Should().HaveCount(33);
         }
 
         [Theory]
+        [InlineData(1, 2018, 201801, 6, 1718)]
+        [InlineData(2, 2018, 201802, 7, 1718)]
+        [InlineData(3, 2018, 201803, 8, 1718)]
+        [InlineData(4, 2018, 201804, 9, 1718)]
+        [InlineData(5, 2018, 201805, 10, 1718)]
+        [InlineData(6, 2018, 201806, 11, 1718)]
+        [InlineData(7, 2018, 201807, 12, 1718)]
+
         [InlineData(8, 2018, 201808, 1, 1819)]
         [InlineData(9, 2018, 201809, 2, 1819)]
         [InlineData(10, 2018, 201810, 3, 1819)]

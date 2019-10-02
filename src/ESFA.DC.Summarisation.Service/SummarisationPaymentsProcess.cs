@@ -71,6 +71,11 @@ namespace ESFA.DC.Summarisation.Service
             {
                 collectionPeriods = collectionPeriods.Where(w => w.CollectionYear == previousCollectionYear && w.CollectionMonth <= 12);
             }
+            else if (fundingStream.PeriodCode.Equals(ConstantKeys.NonLevy_ANLAP2018, StringComparison.OrdinalIgnoreCase)
+                    || fundingStream.PeriodCode.Equals(ConstantKeys.NonLevy_1618NLAP2018, StringComparison.OrdinalIgnoreCase))
+            {
+                // No Filter needed. Need every thing from Collection Periods configuration
+            }
             else 
             {
                 collectionPeriods = collectionPeriods.Where(w => w.CollectionYear == summarisationMessage.CollectionYear || w.CollectionYear == previousCollectionYear);

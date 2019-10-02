@@ -27,10 +27,12 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
 
         public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
         {
+            var ukprnString = ukprn.ToString();
+
             using (var esfContext = _esf())
             {
                 var preSummarised = await esfContext.SupplementaryDatas
-                                .Where(sd => sd.SourceFile.UKPRN == ukprn.ToString())
+                                .Where(sd => sd.SourceFile.UKPRN == ukprnString)
                                 .GroupBy(g => new { ConRefNumber = g.ConRefNumber.Trim(), g.DeliverableCode, g.CalendarYear, g.CalendarMonth })
                                 .Select(obj => new 
                                 {
@@ -44,7 +46,7 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
 
 
                 return preSummarised
-                                .GroupBy(sd => sd.ConRefNumber)
+                                .GroupBy(sd => sd.ConRefNumber, StringComparer.OrdinalIgnoreCase)
                                 .Select(ld => new LearningDelivery
                                 {
                                     ConRefNumber = ld.Key,

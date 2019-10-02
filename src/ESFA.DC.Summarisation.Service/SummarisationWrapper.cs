@@ -79,22 +79,6 @@ namespace ESFA.DC.Summarisation.Service
 
             var summarisedActuals = new List<SummarisedActual>();
 
-            //Non-Levy FSPs ending with 2018, get data from Summarised Actuals.
-            if (_summarisationMessage.CollectionType.Equals(CollectionType.Apps1920.ToString(), StringComparison.OrdinalIgnoreCase)
-                || _summarisationMessage.CollectionType.Equals(CollectionType.Apps1819.ToString(), StringComparison.OrdinalIgnoreCase))
-            {
-                List<string> nonlevy2018FSPs = new List<string> { ConstantKeys.NonLevy_1618NLAP2018, ConstantKeys.NonLevy_ANLAP2018 };
-
-                var latestCollectionReturnIdApps1819 = await _summarisedActualsProcessRepository.GetLastCollectionReturnForCollectionTypeAsync(CollectionType.Apps1819.ToString(), cancellationToken);
-
-                if (latestCollectionReturnIdApps1819 != null)
-                {
-                    var summarisedActuals2018 = await _summarisedActualsProcessRepository.GetSummarisedActualsForCollectionRetrunAndFSPsAsync(latestCollectionReturnIdApps1819.Id, nonlevy2018FSPs, cancellationToken);
-
-                    summarisedActuals.AddRange(summarisedActuals2018);
-                }
-            }
-
             IList<int> providerIdentifiers;
 
             if (!string.IsNullOrEmpty(_summarisationMessage.Ukprn) && Convert.ToInt32(_summarisationMessage.Ukprn) > 0)
