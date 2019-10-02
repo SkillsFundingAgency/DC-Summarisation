@@ -6,6 +6,6 @@
         ILR1920,
         ESF,
         Apps1819,
-        Apps1920
+        APPS
     }
 }

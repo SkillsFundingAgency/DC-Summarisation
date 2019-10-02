@@ -11,9 +11,9 @@ namespace ESFA.DC.Summarisation.Console.Stubs
     {
         public string ProcessType => "Payments";
 
-        public string CollectionType => "Apps1920";
+        public string CollectionType => "APPS";
 
-        public string CollectionReturnCode => "Apps28";
+        public string CollectionReturnCode => "APPS29";
 
         public IEnumerable<string> SummarisationTypes => new List<string> { "Apps1920_Levy", "Apps1920_NonLevy", "Apps1920_EAS" };
 

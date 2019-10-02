@@ -12,7 +12,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Service
         {
         }
 
-        public override string CollectionType => nameof(Configuration.Enum.CollectionType.Apps1920);
+        public override string CollectionType => nameof(Configuration.Enum.CollectionType.APPS);
 
         protected override Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
 
