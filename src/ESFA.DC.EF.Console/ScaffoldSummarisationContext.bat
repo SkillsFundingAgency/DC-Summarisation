@@ -1,1 +1,1 @@
-dotnet.exe ef dbcontext scaffold "Server=.\;Database=ESFA.DC.Summarisation.Database;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -c SummarisationContext --schema dbo --force --startup-project . --project ..\ESFA.DC.Summarisation.Model --verbose
+dotnet.exe ef dbcontext scaffold "Server=DCT-DG-DEV;Database=SummarisationActuals;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -c SummarisationContext --schema dbo --force --startup-project . --project ..\ESFA.DC.Summarisation.Model --verbose

@@ -76,6 +76,8 @@
     <Build Include="Security\User_RW.sql" />
     <None Include="z.ExtendedProperties.sql" />
     <Build Include="dbo\Tables\ESF_FundingData.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetClosedCollectionEvents.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetSummarisedActuals.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="BUILD_BRANCHNAME">
