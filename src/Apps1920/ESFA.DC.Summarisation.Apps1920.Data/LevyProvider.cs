@@ -17,7 +17,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
 
         public string SummarisationType => nameof(Configuration.Enum.SummarisationType.Apps1920_Levy);
 
-        public string CollectionType => nameof(Configuration.Enum.CollectionType.Apps1920);
+        public string CollectionType => nameof(Configuration.Enum.CollectionType.APPS);
 
         public LevyProvider(Func<IDASPaymentsContext> dasContext)
         {
