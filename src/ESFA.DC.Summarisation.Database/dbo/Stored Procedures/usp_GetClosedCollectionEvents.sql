@@ -6,7 +6,7 @@ BEGIN
 
 	BEGIN TRY
 		SELECT 
-			NEWID() as Id
+			[Id]
 			,[CollectionType]
 			,[CollectionReturnCode]
 			,[DateTime]
