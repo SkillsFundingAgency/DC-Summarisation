@@ -40,37 +40,48 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
 
         public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
-            List<int> CollectionYears = new List<int>();
-
-            CollectionYears.Add(summarisationMessage.CollectionYear);
-
-            int previousCollectionYear = summarisationMessage.CollectionYear - 101;
-
-            CollectionYears.Add(previousCollectionYear);
+            List<int> CollectionYears = new List<int>
+            {
+                summarisationMessage.CollectionYear,
+                summarisationMessage.CollectionYear - 101,
+            };
 
             using (var contextFactory = _dasContext())
             {
                 var preSummarisedData = await contextFactory.Payments
-                            .Where(p => p.Ukprn == ukprn
-                                       && p.ContractType == ConstantKeys.ContractType_NonLevy
-                                       && CollectionYears.Contains(p.AcademicYear)
-                                    )
-                            .GroupBy(x => new { x.ContractType, x.FundingSource, x.TransactionType, x.AcademicYear, x.DeliveryPeriod, x.LearningAimFundingLineType, x.ReportingAimFundingLineType })
-                            .Select(obj => new
-                            {
-                                ContractType = obj.Key.ContractType,
-                                FundingSource = obj.Key.FundingSource,
-                                TransactionType = obj.Key.TransactionType,
-                                AcademicYear = obj.Key.AcademicYear,
-                                DeliveryPeriod = obj.Key.DeliveryPeriod,
-                                ReportingAimFundingLineType = obj.Key.AcademicYear == previousCollectionYear ? obj.Key.LearningAimFundingLineType : obj.Key.ReportingAimFundingLineType,
-                                Amount = obj.Sum(s => s.Amount)
-                            }).ToListAsync(cancellationToken);
-
-
+                           .Where(p => p.Ukprn == ukprn
+                                      && p.ContractType == ConstantKeys.ContractType_NonLevy
+                                      && (
+                                            CollectionYears.Contains(p.AcademicYear)
+                                            || p.LearningAimFundingLineType.Equals(ConstantKeys.Apps1618NonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
+                                            || p.LearningAimFundingLineType.Equals(ConstantKeys.Apps19plusNonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
+                                        )
+                                   )
+                                   .Select(q1 => new
+                                   {
+                                       q1.ContractType,
+                                       q1.FundingSource,
+                                       q1.TransactionType,
+                                       q1.AcademicYear,
+                                       q1.DeliveryPeriod,
+                                       FundingLineType = q1.AcademicYear == summarisationMessage.CollectionYear ? q1.ReportingAimFundingLineType : q1.LearningAimFundingLineType,
+                                       q1.Amount
+                                   }
+                                   )
+                           .GroupBy(x => new { x.ContractType, x.FundingSource, x.TransactionType, x.AcademicYear, x.DeliveryPeriod, x.FundingLineType})
+                           .Select(obj => new
+                           {
+                               ContractType = obj.Key.ContractType,
+                               FundingSource = obj.Key.FundingSource,
+                               TransactionType = obj.Key.TransactionType,
+                               AcademicYear = obj.Key.AcademicYear,
+                               DeliveryPeriod = obj.Key.DeliveryPeriod,
+                               FundingLineType = obj.Key.FundingLineType,
+                               Amount = obj.Sum(s => s.Amount)
+                           }).ToListAsync(cancellationToken);
 
                 return preSummarisedData
-                            .GroupBy(x => x.ReportingAimFundingLineType)
+                            .GroupBy(x => x.FundingLineType, StringComparer.OrdinalIgnoreCase)
                             .Select(ld => new LearningDelivery
                             {
                                 Fundline = ld.Key,
@@ -81,12 +92,12 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
                                     TransactionType = pd.TransactionType,
                                     Periods = new List<Period>
                                     {
-                                    new Period
-                                    {
-                                        CollectionMonth = pd.DeliveryPeriod,
-                                        CollectionYear = pd.AcademicYear,
-                                        Value = pd.Amount
-                                    }
+                                        new Period
+                                        {
+                                            CollectionMonth = pd.DeliveryPeriod,
+                                            CollectionYear = pd.AcademicYear,
+                                            Value = pd.Amount
+                                        }
                                     }
                                 }).ToList()
                             }).ToList();

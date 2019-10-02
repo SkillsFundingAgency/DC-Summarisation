@@ -78,7 +78,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
 
 
                 return preSummarisedData
-                             .GroupBy(x => x.ReportingAimFundingLineType)
+                             .GroupBy(x => x.ReportingAimFundingLineType, StringComparer.OrdinalIgnoreCase)
                              .Select(ld => new LearningDelivery
                              {
                                  Fundline = ld.Key,

@@ -1,5 +1,54 @@
 [
   {
+    "CalendarMonth": 1,
+    "CalendarYear": 2018,
+    "ActualsSchemaPeriod": 201801,
+    "CollectionMonth": 6,
+    "CollectionYear": 1718
+  },
+  {
+    "CalendarMonth": 2,
+    "CalendarYear": 2018,
+    "ActualsSchemaPeriod": 201802,
+    "CollectionMonth": 7,
+    "CollectionYear": 1718
+  },
+  {
+    "CalendarMonth": 3,
+    "CalendarYear": 2018,
+    "ActualsSchemaPeriod": 201803,
+    "CollectionMonth": 8,
+    "CollectionYear": 1718
+  },
+  {
+    "CalendarMonth": 4,
+    "CalendarYear": 2018,
+    "ActualsSchemaPeriod": 201804,
+    "CollectionMonth": 9,
+    "CollectionYear": 1718
+  },
+  {
+    "CalendarMonth": 5,
+    "CalendarYear": 2018,
+    "ActualsSchemaPeriod": 201805,
+    "CollectionMonth": 10,
+    "CollectionYear": 1718
+  },
+  {
+    "CalendarMonth": 6,
+    "CalendarYear": 2018,
+    "ActualsSchemaPeriod": 201806,
+    "CollectionMonth": 11,
+    "CollectionYear": 1718
+  },
+  {
+    "CalendarMonth": 7,
+    "CalendarYear": 2018,
+    "ActualsSchemaPeriod": 201807,
+    "CollectionMonth": 12,
+    "CollectionYear": 1718
+  },
+  {
     "CalendarMonth": 8,
     "CalendarYear": 2018,
     "ActualsSchemaPeriod": 201808,
