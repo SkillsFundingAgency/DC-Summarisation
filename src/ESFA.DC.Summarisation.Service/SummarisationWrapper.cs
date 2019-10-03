@@ -211,16 +211,15 @@ namespace ESFA.DC.Summarisation.Service
             {
                 var dictionary = new Dictionary<int, IProvider>();
 
-                int runningCount = 1;
                 int totalCount = providerIdentifiers.Count;
 
                 while (identifiers.TryDequeue(out int identifier))
                 {
-                    _logger.LogInfo($"Summarisation Wrapper: Retrieving Data for UKPRN: {identifier} Start, {runningCount} / {totalCount}");
+                    _logger.LogInfo($"Summarisation Wrapper: Retrieving Data for UKPRN: {identifier} Start, {providerIdentifiers.IndexOf(identifier) + 1} / {totalCount}");
 
                     dictionary.Add(identifier, await RetrieveProviderData(identifier, cancellationToken));
 
-                    _logger.LogInfo($"Summarisation Wrapper: Retrieving Data for UKPRN: {identifier} End, {runningCount++} / {totalCount}");
+                    _logger.LogInfo($"Summarisation Wrapper: Retrieving Data for UKPRN: {identifier} End, {providerIdentifiers.IndexOf(identifier) + 1} / {totalCount}");
                 }
 
                 return dictionary;
