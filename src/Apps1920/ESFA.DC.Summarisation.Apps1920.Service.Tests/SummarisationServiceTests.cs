@@ -136,6 +136,8 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
                 decimal actualValue = ilrActualValue + easActualValue;
 
                 item.ActualValue.Should().Be(actualValue);
+
+                item.ContractAllocationNumber.Should().Be("AllocLEVY1799-2");
             }
         }
 
@@ -563,14 +565,25 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
             {
                 if (!fcsContractAllocations.Any(f => f.FundingStreamPeriodCode == item.PeriodCode))
                 {
-                    FcsContractAllocation allocation = new FcsContractAllocation()
+                    FcsContractAllocation allocation1 = new FcsContractAllocation()
                     {
-                        ContractAllocationNumber = $"Alloc{item.PeriodCode}",
+                        ContractAllocationNumber = $"Alloc{item.PeriodCode}-1",
                         FundingStreamPeriodCode = item.PeriodCode,
+                        ContractStartDate = 201801,
                         DeliveryUkprn = ukprn,
                         DeliveryOrganisation = $"Org{ukprn}",
                     };
-                    fcsContractAllocations.Add(allocation);
+                    fcsContractAllocations.Add(allocation1);
+
+                    FcsContractAllocation allocation2 = new FcsContractAllocation()
+                    {
+                        ContractAllocationNumber = $"Alloc{item.PeriodCode}-2",
+                        FundingStreamPeriodCode = item.PeriodCode,
+                        ContractStartDate = 201901,
+                        DeliveryUkprn = ukprn,
+                        DeliveryOrganisation = $"Org{ukprn}",
+                    };
+                    fcsContractAllocations.Add(allocation2);
                 }
             }
 

@@ -108,7 +108,15 @@ namespace ESFA.DC.Summarisation.Service
                 summarisedActuals.AddRange(SummarisePeriods(periods, collectionPeriods));
             }
 
-            var fcsAllocations = allocations.ToDictionary(a => a.FundingStreamPeriodCode, StringComparer.OrdinalIgnoreCase);
+            var fcsAllocations = allocations.GroupBy(g => new { g.FundingStreamPeriodCode, g.DeliveryOrganisation })
+                .Select(x => new
+                {
+                    FundingStreamPeriodCode = x.Key.FundingStreamPeriodCode,
+                    DeliveryOrganisation = x.Key.DeliveryOrganisation,
+                    ContractAllocationNumber = allocations.Where(y => x.Key.FundingStreamPeriodCode == y.FundingStreamPeriodCode)
+                                                .OrderByDescending(z => z.ContractStartDate)
+                                                .FirstOrDefault()?.ContractAllocationNumber,
+                }).ToDictionary(a => a.FundingStreamPeriodCode, StringComparer.OrdinalIgnoreCase);
 
             return summarisedActuals
                 .GroupBy(grp => grp.Period)
