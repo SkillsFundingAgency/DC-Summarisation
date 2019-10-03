@@ -264,6 +264,7 @@ namespace ESFA.DC.Summarisation.Modules
 
             containerBuilder.RegisterType<Apps1920Providers.LevyProvider>().As<ILearningDeliveryProvider>();
             containerBuilder.RegisterType<Apps1920Providers.NonLevyProvider>().As<ILearningDeliveryProvider>();
+            containerBuilder.RegisterType<Apps1920Providers.EasProvider>().As<ILearningDeliveryProvider>();
         }
     }
 }
