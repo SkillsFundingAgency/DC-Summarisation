@@ -113,27 +113,33 @@ namespace ESFA.DC.Summarisation.Service
                 
                 foreach (var SummarisationType in _summarisationMessage.SummarisationTypes)
                 {
-                    _logger.LogInfo($"Summarisation Wrapper: Summarising Data of UKPRN: {ukprn}, Fundmodel {SummarisationType} Start");
+                    if (!SummarisationType.Equals(ConstantKeys.ReRunSummarisation, StringComparison.OrdinalIgnoreCase))
+                    {
+                        _logger.LogInfo($"Summarisation Wrapper: Summarising Data of UKPRN: {ukprn}, Fundmodel {SummarisationType} Start");
 
-                    providerActuals.AddRange(SummariseByFundModel(SummarisationType, collectionPeriods, fcsContractAllocations, providersData[ukprn]));
+                        providerActuals.AddRange(SummariseByFundModel(SummarisationType, collectionPeriods, fcsContractAllocations, providersData[ukprn]));
 
-                    _logger.LogInfo($"Summarisation Wrapper: Summarising Data of UKPRN: {ukprn}, Fundmodel {SummarisationType} End");
+                        _logger.LogInfo($"Summarisation Wrapper: Summarising Data of UKPRN: {ukprn}, Fundmodel {SummarisationType} End");
+                    }
                 }
 
-                var organisationId = providerActuals.Select(x => x.OrganisationId).FirstOrDefault();
-
-                if (latestCollectionReturn != null)
+                if (!_summarisationMessage.ProcessType.Equals(ProcessType.Payments.ToString(), StringComparison.OrdinalIgnoreCase))
                 {
-                    _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed  Rule UKPRN: {ukprn} Start");
+                    var organisationId = providerActuals.Select(x => x.OrganisationId).FirstOrDefault();
 
-                    var actualsToCarry = await GetFundingDataRemoved(latestCollectionReturn.Id, organisationId, providerActuals, cancellationToken);
-                    providerActuals.AddRange(actualsToCarry);
+                    if (latestCollectionReturn != null)
+                    {
+                        _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed  Rule UKPRN: {ukprn} Start");
 
-                    _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed  Rule UKPRN: {ukprn} End");
+                        var actualsToCarry = await GetFundingDataRemoved(latestCollectionReturn.Id, organisationId, providerActuals, cancellationToken);
+                        providerActuals.AddRange(actualsToCarry);
+
+                        _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed  Rule UKPRN: {ukprn} End");
+                    }
                 }
 
                 summarisedActuals.AddRange(providerActuals);
-
+                
                 _logger.LogInfo($"Summarisation Wrapper: Summarising Data of UKPRN: {ukprn} End, {runningCount++} / {totalProviderCount}");
             }
 

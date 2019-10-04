@@ -44,5 +44,7 @@ namespace ESFA.DC.Summarisation.Constants
             "APPS1819",
             "ESF1420",
         };
+
+        public const string ReRunSummarisation = "Re-Run";
     }
 }
