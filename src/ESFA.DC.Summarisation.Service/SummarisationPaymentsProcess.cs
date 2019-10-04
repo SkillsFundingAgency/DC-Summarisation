@@ -156,11 +156,13 @@ namespace ESFA.DC.Summarisation.Service
                            CollectionYear = pg.Key.CollectionYear,
                            CollectionMonth = pg.Key.CollectionMonth,
                            Value = pg.Where(w => w.Value.HasValue).Sum(sw => sw.Value.Value),
-                       });
+                       })
+                       .Where(p => p.Value != 0)
+                       .ToList();
 
-            if (!summarisedPeriods.Any(w => w.Value > 0))
+            if (!summarisedPeriods.Any())
             {
-                return new List<SummarisedActual>();
+                return Enumerable.Empty<SummarisedActual>();
             }
 
             return (collectionPeriods
