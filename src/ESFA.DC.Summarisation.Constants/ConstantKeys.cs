@@ -45,6 +45,8 @@ namespace ESFA.DC.Summarisation.Constants
             "ESF1420",
         };
 
+        public const string ReRunSummarisation = "Re-Run";
+
         public static List<string> Levy1799_EASlines = new List<string>()
         {
             "Authorised Claims: 16-18 Levy Apprenticeships - Training",
