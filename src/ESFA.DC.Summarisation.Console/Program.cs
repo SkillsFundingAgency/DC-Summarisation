@@ -135,7 +135,7 @@ namespace ESFA.DC.Summarisation.Console
 
                 new Apps1920Providers.LevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
                 new Apps1920Providers.NonLevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
-                new Apps1920Providers.EasProvider(() => new DASPaymentsContext(dasdbContextOptions)),
+                new Apps1920Providers.EasProvider(() => new DASPaymentsContext(dasdbContextOptions), new Apps1920CollectionPeriodsProvider.CollectionPeriodsProvider(jsonSerializationService)),
             });
 
             List<ISummarisationService> summarisationServices = new List<ISummarisationService>()

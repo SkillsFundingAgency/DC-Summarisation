@@ -44,5 +44,19 @@ namespace ESFA.DC.Summarisation.Constants
             "APPS1819",
             "ESF1420",
         };
+
+        public static List<string> Levy1799_EASlines = new List<string>()
+        {
+            "Authorised Claims: 16-18 Levy Apprenticeships - Training",
+            "Excess Learning Support: 16-18 Levy Apprenticeships - Provider",
+            "Authorised Claims: 16-18 Levy Apprenticeships - Provider",
+            "Authorised Claims: 16-18 Levy Apprenticeships - Employer",
+            "Authorised Claims: 16-18 Levy Apprenticeships - Apprentice",
+            "Authorised Claims: Adult Levy Apprenticeships - Training",
+            "Excess Learning Support: Adult Levy Apprenticeships - Provider",
+            "Authorised Claims: Adult Levy Apprenticeships - Provider",
+            "Authorised Claims: Adult Levy Apprenticeships - Employer",
+            "Authorised Claims: Adult Levy Apprenticeships - Apprentice",
+        };
     }
 }

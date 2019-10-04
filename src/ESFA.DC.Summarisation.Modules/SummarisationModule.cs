@@ -53,6 +53,7 @@ using Apps1920FundingTypesProvider = ESFA.DC.Summarisation.Apps1920.Service.Fund
 using Apps1920Providers = ESFA.DC.Summarisation.Apps1920.Data;
 using ESFA.DC.ESF.FundingData.Database.EF.Interfaces;
 using ESFA.DC.ESF.FundingData.Database.EF;
+using System.Linq;
 
 namespace ESFA.DC.Summarisation.Modules
 {
@@ -264,7 +265,14 @@ namespace ESFA.DC.Summarisation.Modules
 
             containerBuilder.RegisterType<Apps1920Providers.LevyProvider>().As<ILearningDeliveryProvider>();
             containerBuilder.RegisterType<Apps1920Providers.NonLevyProvider>().As<ILearningDeliveryProvider>();
-            containerBuilder.RegisterType<Apps1920Providers.EasProvider>().As<ILearningDeliveryProvider>();
+            containerBuilder.Register(c =>
+            {
+                var factory = c.Resolve<Func<IDASPaymentsContext>>();
+
+                var provider = c.Resolve<IEnumerable<ISummarisationConfigProvider<CollectionPeriod>>>().FirstOrDefault(p => p.CollectionType == "APPS");
+
+                return new Apps1920Providers.EasProvider(factory, provider);
+            }).As<ILearningDeliveryProvider>();
         }
     }
 }
