@@ -73,7 +73,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
             {
                 var nonlevyEAS = await easContext.ProviderAdjustmentPayments
                             .Where(sv => sv.Ukprn == ukprn
-                                && CollectionYears.Contains(sv.SubmissionAcademicYear)
+                              //&& CollectionYears.Contains(sv.SubmissionAcademicYear)
                                 && !ConstantKeys.Levy1799_EASlines.Contains(sv.PaymentTypeName)
                             ).
                             Select(q1 => new
