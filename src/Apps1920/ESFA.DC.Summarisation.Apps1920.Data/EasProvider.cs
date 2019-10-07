@@ -105,7 +105,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
                             }).ToList();
 
 
-                var eas = nonlevyEAS.Union(levyEAS).ToList();
+                var eas = nonlevyEAS.Concat(levyEAS).ToList();
 
 
                 return eas
