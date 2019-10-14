@@ -35,19 +35,6 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
                         AimSeqNumber = ld.AimSeqNumber,
                         Fundline = ld.FundLine,
                         PeriodisedData = ld.TBL_LearningDelivery_PeriodisedValues
-                            .Where(x => (
-                                x.Period_1 +
-                                x.Period_2 +
-                                x.Period_3 +
-                                x.Period_4 +
-                                x.Period_5 +
-                                x.Period_6 +
-                                x.Period_7 +
-                                x.Period_8 +
-                                x.Period_9 +
-                                x.Period_10 +
-                                x.Period_11 +
-                                x.Period_12) > 0)
                             .Select(pv => new PeriodisedData
                             {
                                 AttributeName = pv.AttributeName,
