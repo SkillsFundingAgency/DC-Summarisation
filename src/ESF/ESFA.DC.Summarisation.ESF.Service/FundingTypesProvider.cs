@@ -1,5 +1,6 @@
 ﻿using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Summarisation.Configuration;
+using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Service.Providers;
 using System.Reflection;
 
@@ -16,7 +17,7 @@ namespace ESFA.DC.Summarisation.ESF.Service
 
         protected override Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
 
-        public override string CollectionType => nameof(Configuration.Enum.CollectionType.ESF);
+        public override string CollectionType => ConstantKeys.CollectionType_ESF;
     }
 }
 

@@ -60,5 +60,20 @@ namespace ESFA.DC.Summarisation.Constants
             "Authorised Claims: Adult Levy Apprenticeships - Employer",
             "Authorised Claims: Adult Levy Apprenticeships - Apprentice",
         };
+
+        //Collection Type Constants
+        public const string CollectionType_ILR1819 = "ILR1819";
+        public const string CollectionType_ILR1920 = "ILR1920";
+        public const string CollectionType_ESF = "ESF";
+        public const string CollectionType_Apps1819 = "Apps1819";
+        public const string CollectionType_APPS = "APPS";
+
+        //PeriodTypeCode Constants
+        public const string PeriodTypeCode_CM = "CM";
+
+        //ProcessType Constants
+        public const string ProcessType_Fundline = "Fundline";
+        public const string ProcessType_Deliverable = "Deliverable";
+        public const string ProcessType_Payments = "Payments";
     }
 }

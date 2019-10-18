@@ -121,6 +121,10 @@
       <Project>{6B10F154-0C66-49C8-BEFB-646A8C8909DA}</Project>
       <Name>ESFA.DC.Summarisation.Configuration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ESFA.DC.Summarisation.Constants\ESFA.DC.Summarisation.Constants.csproj">
+      <Project>{799ccc9b-2ab7-46c5-8902-43df0920fb87}</Project>
+      <Name>ESFA.DC.Summarisation.Constants</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Data.Persist\ESFA.DC.Summarisation.Data.Persist.csproj">
       <Project>{147D4B0C-4706-4DC9-A844-3F89E107C572}</Project>
       <Name>ESFA.DC.Summarisation.Data.Persist</Name>

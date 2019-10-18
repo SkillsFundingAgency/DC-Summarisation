@@ -12,7 +12,7 @@ namespace ESFA.DC.Summarisation.Service
 {
     public class SummarisationPaymentsProcess : ISummarisationService
     {
-        public string ProcessType => nameof(Configuration.Enum.ProcessType.Payments);
+        public string ProcessType => ConstantKeys.ProcessType_Payments;
 
         public IEnumerable<SummarisedActual> Summarise(
             List<FundingStream> fundingStreams,

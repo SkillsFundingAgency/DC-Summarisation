@@ -1,5 +1,6 @@
 ﻿using ESFA.DC.ESF.Database.EF.Interfaces;
 using ESFA.DC.Summarisation.Configuration;
+using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,7 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
 
         public string SummarisationType => nameof(Configuration.Enum.SummarisationType.ESF_SuppData);
 
-        public string CollectionType => nameof(Configuration.Enum.CollectionType.ESF);
+        public string CollectionType => ConstantKeys.CollectionType_ESF;
 
         public ESFProvider_R1(Func<IESF_DataStoreEntities> esf)
         {

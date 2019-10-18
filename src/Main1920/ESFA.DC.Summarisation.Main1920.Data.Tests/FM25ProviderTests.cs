@@ -1,5 +1,6 @@
 ﻿using ESFA.DC.ILR1920.DataStore.EF;
 using ESFA.DC.ILR1920.DataStore.EF.Interface;
+using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Main1920.Data.Providers;
 using FluentAssertions;
 using MockQueryable.Moq;
@@ -37,7 +38,7 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Tests
         [Fact]
         public void CollectionType_CheckWithConstantValue()
         {
-            NewProvider().CollectionType.Should().Be(nameof(Configuration.Enum.CollectionType.ILR1920));
+            NewProvider().CollectionType.Should().Be(ConstantKeys.CollectionType_ILR1920);
         }
 
         [Fact]

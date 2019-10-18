@@ -7,6 +7,7 @@ using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using ESFA.DC.EAS1920.EF.Interface;
+using ESFA.DC.Summarisation.Constants;
 
 namespace ESFA.DC.Summarisation.Main1920.Data.Providers
 {
@@ -16,7 +17,7 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
 
         public string SummarisationType => nameof(Configuration.Enum.SummarisationType.Main1920_EAS);
 
-        public string CollectionType => nameof(Configuration.Enum.CollectionType.ILR1920);
+        public string CollectionType => ConstantKeys.CollectionType_ILR1920;
 
         public EasProvider(Func<IEasdbContext> easContext)
         {

@@ -8,11 +8,11 @@ using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Configuration.Enum;
 using ESFA.DC.Summarisation.Configuration.Interface;
+using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.External.FCS.Model;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
-using ESFA.DC.Summarisation.Data.Output.Model;
 using ESFA.DC.Summarisation.Data.Persist;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interface;
@@ -57,7 +57,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             var repositoryMock = new Mock<IProviderRepository>();
             repositoryMock.Setup(r => r.ProvideAsync(ukprn, summarisationMessageMock.Object, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProviderData(ukprn)));
 
-            repositoryMock.Setup(r => r.GetAllProviderIdentifiersAsync(CollectionType.ESF.ToString(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetProviderList(ukprn)));
+            repositoryMock.Setup(r => r.GetAllProviderIdentifiersAsync(ConstantKeys.CollectionType_ESF.ToString(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetProviderList(ukprn)));
 
             Func<IProviderRepository> providerRepositoryFunc = () =>
             {
@@ -175,7 +175,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             var repositoryMock = new Mock<IProviderRepository>();
             repositoryMock.Setup(r => r.ProvideAsync(ukprn, summarisationMessageMock.Object, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProviderData(ukprn)));
 
-            repositoryMock.Setup(r => r.GetAllProviderIdentifiersAsync(CollectionType.ESF.ToString(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetProviderList(ukprn)));
+            repositoryMock.Setup(r => r.GetAllProviderIdentifiersAsync(ConstantKeys.CollectionType_ESF, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetProviderList(ukprn)));
 
             Func<IProviderRepository> providerRepositoryFunc = () =>
             {
@@ -308,7 +308,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             var fundingTypesProvider = new FundingTypesProvider(new JsonSerializationService());
             fundingTypesProviders.Add(fundingTypesProvider);
             return fundingTypesProviders
-                .FirstOrDefault(w => w.CollectionType.Equals(CollectionType.ESF.ToString(), StringComparison.OrdinalIgnoreCase))
+                .FirstOrDefault(w => w.CollectionType.Equals(ConstantKeys.CollectionType_ESF.ToString(), StringComparison.OrdinalIgnoreCase))
                 .Provide().Where(x => x.SummarisationType.Equals(SummarisationType.ESF_SuppData.ToString(), StringComparison.OrdinalIgnoreCase))
                 .SelectMany(fs => fs.FundingStreams)
                 .ToList();
