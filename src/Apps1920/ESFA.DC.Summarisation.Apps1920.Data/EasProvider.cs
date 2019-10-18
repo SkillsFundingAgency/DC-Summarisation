@@ -17,7 +17,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
         private readonly Func<IDASPaymentsContext> _dasContext;
         private readonly ISummarisationConfigProvider<CollectionPeriod> _collectionPeriodProvider;
 
-        public string SummarisationType => nameof(Configuration.Enum.SummarisationType.Apps1920_EAS);
+        public string SummarisationType => ConstantKeys.SummarisationType_Apps1920_EAS;
 
         public string CollectionType => ConstantKeys.CollectionType_APPS;
 

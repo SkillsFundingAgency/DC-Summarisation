@@ -17,7 +17,7 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
     {
         private readonly Func<IIlr1920RulebaseContext> _ilr;
 
-        public string SummarisationType => nameof(Configuration.Enum.SummarisationType.Main1920_FM35);
+        public string SummarisationType => ConstantKeys.SummarisationType_Main1920_FM35;
 
         public string CollectionType => ConstantKeys.CollectionType_ILR1920;
 

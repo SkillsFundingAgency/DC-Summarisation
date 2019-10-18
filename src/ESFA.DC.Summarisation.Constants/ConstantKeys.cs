@@ -75,5 +75,17 @@ namespace ESFA.DC.Summarisation.Constants
         public const string ProcessType_Fundline = "Fundline";
         public const string ProcessType_Deliverable = "Deliverable";
         public const string ProcessType_Payments = "Payments";
+
+        //SummarisationType Constants
+        public const string SummarisationType_ESF_SuppData = "ESF_SuppData";
+        public const string SummarisationType_ESF_ILRData = "ESF_ILRData";
+        public const string SummarisationType_Main1920_FM35 = "Main1920_FM35";
+        public const string SummarisationType_Main1920_EAS = "Main1920_EAS";
+        public const string SummarisationType_Main1920_FM25 = "Main1920_FM25"; 
+        public const string SummarisationType_Main1920_ALB = "Main1920_ALB";
+        public const string SummarisationType_Main1920_TBL = "Main1920_TBL";
+        public const string SummarisationType_Apps1920_Levy = "Apps1920_Levy";
+        public const string SummarisationType_Apps1920_NonLevy = "Apps1920_NonLevy";
+        public const string SummarisationType_Apps1920_EAS = "Apps1920_EAS";
     }
 }

@@ -15,7 +15,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
     {
         private readonly Func<IDASPaymentsContext> _dasContext;
 
-        public string SummarisationType => nameof(Configuration.Enum.SummarisationType.Apps1920_Levy);
+        public string SummarisationType => ConstantKeys.SummarisationType_Apps1920_Levy;
 
         public string CollectionType => ConstantKeys.CollectionType_APPS;
 

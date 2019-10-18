@@ -13,7 +13,7 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
 {
     public class Fm25Provider : ILearningDeliveryProvider
     {
-        public string SummarisationType => nameof(ESFA.DC.Summarisation.Configuration.Enum.SummarisationType.Main1920_FM25);
+        public string SummarisationType => ConstantKeys.SummarisationType_Main1920_FM25;
 
         public string CollectionType => ConstantKeys.CollectionType_ILR1920;
 

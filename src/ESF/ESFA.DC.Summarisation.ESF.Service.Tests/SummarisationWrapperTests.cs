@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.Configuration;
-using ESFA.DC.Summarisation.Configuration.Enum;
 using ESFA.DC.Summarisation.Configuration.Interface;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
@@ -309,7 +308,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             fundingTypesProviders.Add(fundingTypesProvider);
             return fundingTypesProviders
                 .FirstOrDefault(w => w.CollectionType.Equals(ConstantKeys.CollectionType_ESF.ToString(), StringComparison.OrdinalIgnoreCase))
-                .Provide().Where(x => x.SummarisationType.Equals(SummarisationType.ESF_SuppData.ToString(), StringComparison.OrdinalIgnoreCase))
+                .Provide().Where(x => x.SummarisationType.Equals(ConstantKeys.SummarisationType_ESF_SuppData, StringComparison.OrdinalIgnoreCase))
                 .SelectMany(fs => fs.FundingStreams)
                 .ToList();
         }

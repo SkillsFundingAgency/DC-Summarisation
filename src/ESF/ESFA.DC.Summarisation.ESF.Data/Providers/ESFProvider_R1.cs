@@ -17,7 +17,7 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
     {
         private readonly Func<IESF_DataStoreEntities> _esf;
 
-        public string SummarisationType => nameof(Configuration.Enum.SummarisationType.ESF_SuppData);
+        public string SummarisationType => ConstantKeys.SummarisationType_ESF_SuppData;
 
         public string CollectionType => ConstantKeys.CollectionType_ESF;
 

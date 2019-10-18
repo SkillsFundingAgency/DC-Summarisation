@@ -1,5 +1,4 @@
 ﻿using ESFA.DC.Summarisation.Configuration;
-using ESFA.DC.Summarisation.Configuration.Enum;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.Input.Interface;

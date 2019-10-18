@@ -1,6 +1,5 @@
 ﻿using ESFA.DC.ILR1920.DataStore.EF;
 using ESFA.DC.ILR1920.DataStore.EF.Interface;
-using ESFA.DC.Summarisation.Configuration.Enum;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Main1920.Data.Providers;
 using FluentAssertions;
@@ -9,7 +8,6 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -111,7 +109,7 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Tests
         [Fact]
         public void SummarisationType_CheckWithConstantValue()
         {
-            NewProvider().SummarisationType.Should().Be(nameof(SummarisationType.Main1920_TBL));
+            NewProvider().SummarisationType.Should().Be(ConstantKeys.SummarisationType_Main1920_TBL);
         }
 
         [Fact]

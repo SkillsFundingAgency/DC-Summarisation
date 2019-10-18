@@ -26,7 +26,7 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Tests
         [Fact]
         public void SummarisationType_CheckWithConstantValue()
         {
-            NewProvider().SummarisationType.Should().Be(nameof(Configuration.Enum.SummarisationType.Main1920_FM25));
+            NewProvider().SummarisationType.Should().Be(ConstantKeys.SummarisationType_Main1920_FM25);
         }
 
         [Fact]

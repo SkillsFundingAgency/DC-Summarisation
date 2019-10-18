@@ -20,7 +20,7 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
             _ilrContext = ilrContext;
         }
 
-        public string SummarisationType => nameof(Configuration.Enum.SummarisationType.Main1920_TBL);
+        public string SummarisationType => ConstantKeys.SummarisationType_Main1920_TBL;
 
         public string CollectionType => ConstantKeys.CollectionType_ILR1920;
 

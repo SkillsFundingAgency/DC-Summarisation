@@ -3,6 +3,7 @@ using ESFA.DC.Summarisation.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using ESFA.DC.Summarisation.Constants;
 
 namespace ESFA.DC.Summarisation.Stateless.Context
 {
@@ -79,25 +80,22 @@ namespace ESFA.DC.Summarisation.Stateless.Context
         {
             string returnValue = string.Empty;
 
-            if (SummarisationTypes.Any(item => item.Equals(Configuration.Enum.SummarisationType.Main1819_FM35.ToString(), StringComparison.OrdinalIgnoreCase)
-                        || item.Equals(Configuration.Enum.SummarisationType.Main1819_FM25.ToString(), StringComparison.OrdinalIgnoreCase)
-                        || item.Equals(Configuration.Enum.SummarisationType.Main1819_ALB.ToString(), StringComparison.OrdinalIgnoreCase)
-                        || item.Equals(Configuration.Enum.SummarisationType.Main1819_TBL.ToString(), StringComparison.OrdinalIgnoreCase)
-                        || item.Equals(Configuration.Enum.SummarisationType.Main1819_EAS.ToString(), StringComparison.OrdinalIgnoreCase)
-                        || item.Equals(Configuration.Enum.SummarisationType.Main1920_FM35.ToString(), StringComparison.OrdinalIgnoreCase)))
+            if (SummarisationTypes.Any(item => item.Equals(ConstantKeys.SummarisationType_Main1920_FM25, StringComparison.OrdinalIgnoreCase)
+                        || item.Equals(ConstantKeys.SummarisationType_Main1920_ALB, StringComparison.OrdinalIgnoreCase)
+                        || item.Equals(ConstantKeys.SummarisationType_Main1920_TBL, StringComparison.OrdinalIgnoreCase)
+                        || item.Equals(ConstantKeys.SummarisationType_Main1920_EAS, StringComparison.OrdinalIgnoreCase)
+                        || item.Equals(ConstantKeys.SummarisationType_Main1920_FM35, StringComparison.OrdinalIgnoreCase)))
             {
                 returnValue = _jobContextMessage.KeyValuePairs[$"{key}DC"].ToString();
             }
-            else if (SummarisationTypes.Any(item => item.Equals(Configuration.Enum.SummarisationType.ESF_ILRData.ToString(), StringComparison.OrdinalIgnoreCase)
-                   || item.Equals(Configuration.Enum.SummarisationType.ESF_SuppData.ToString(), StringComparison.OrdinalIgnoreCase)))
+            else if (SummarisationTypes.Any(item => item.Equals(ConstantKeys.SummarisationType_ESF_ILRData, StringComparison.OrdinalIgnoreCase)
+                   || item.Equals(ConstantKeys.SummarisationType_ESF_SuppData, StringComparison.OrdinalIgnoreCase)))
             {
                 returnValue = _jobContextMessage.KeyValuePairs[$"{key}ESF"].ToString();
             }
-            else if (SummarisationTypes.Any(item => item.Equals(Configuration.Enum.SummarisationType.Apps1819_Levy.ToString(), StringComparison.OrdinalIgnoreCase)
-                   || item.Equals(Configuration.Enum.SummarisationType.Apps1819_NonLevy.ToString(), StringComparison.OrdinalIgnoreCase)
-                   || item.Equals(Configuration.Enum.SummarisationType.Apps1920_Levy.ToString(), StringComparison.OrdinalIgnoreCase)
-                   || item.Equals(Configuration.Enum.SummarisationType.Apps1920_NonLevy.ToString(), StringComparison.OrdinalIgnoreCase)
-                   || item.Equals(Configuration.Enum.SummarisationType.Apps1920_EAS.ToString(), StringComparison.OrdinalIgnoreCase)))
+            else if (SummarisationTypes.Any(item => item.Equals(ConstantKeys.SummarisationType_Apps1920_Levy, StringComparison.OrdinalIgnoreCase)
+                   || item.Equals(ConstantKeys.SummarisationType_Apps1920_NonLevy, StringComparison.OrdinalIgnoreCase)
+                   || item.Equals(ConstantKeys.SummarisationType_Apps1920_EAS, StringComparison.OrdinalIgnoreCase)))
             {
                 returnValue = _jobContextMessage.KeyValuePairs[$"{key}App"].ToString();
             }

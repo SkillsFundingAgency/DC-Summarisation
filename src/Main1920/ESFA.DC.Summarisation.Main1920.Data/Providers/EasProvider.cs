@@ -15,7 +15,7 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
     {
         private readonly Func<IEasdbContext> _easContext;
 
-        public string SummarisationType => nameof(Configuration.Enum.SummarisationType.Main1920_EAS);
+        public string SummarisationType => ConstantKeys.SummarisationType_Main1920_EAS;
 
         public string CollectionType => ConstantKeys.CollectionType_ILR1920;
 
