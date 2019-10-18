@@ -23,7 +23,7 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
             _easContext = easContext;
         }
 
-        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
+        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             using (var easContext = _easContext())
             {
@@ -70,8 +70,5 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
                 return await easContext.EasSubmissions.Select(l => Convert.ToInt32(l.Ukprn)).Distinct().ToListAsync(cancellationToken);
             }
         }
-
-        public Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken) => ProvideAsync(ukprn, cancellationToken);
-
     }
 }

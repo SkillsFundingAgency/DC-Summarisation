@@ -44,7 +44,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             var summarisationMessageMock = new Mock<ISummarisationMessage>();
 
-            summarisationMessageMock.SetupGet(s => s.Ukprn).Returns(ukprn.ToString());
+            summarisationMessageMock.SetupGet(s => s.Ukprn).Returns(ukprn);
             summarisationMessageMock.SetupGet(s => s.SummarisationTypes).Returns(new List<string>() { "ESF_SuppData" });
             summarisationMessageMock.SetupGet(s => s.CollectionType).Returns("ESF");
             summarisationMessageMock.SetupGet(s => s.ProcessType).Returns("Deliverable");
@@ -133,7 +133,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             var summarisedActualsRepositoryMock = new Mock<ISummarisedActualsProcessRepository>();
             summarisedActualsRepositoryMock.Setup(r => r.GetLastCollectionReturnForCollectionTypeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetLatestCollectionReturn()));
-            summarisedActualsRepositoryMock.Setup(r => r.GetLatestSummarisedActualsAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(providerActuals/*GetSummarisedActuals()*/));
+            summarisedActualsRepositoryMock.Setup(r => r.GetSummarisedActualsForCollectionReturnAndOrganisationAsync(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(providerActuals/*GetSummarisedActuals()*/));
             
             var result = await NewSummarisationWrapper(
                 fundingTypesProviders: fundingTypesProviders,
@@ -144,9 +144,8 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                 dataStorePersistenceService: dataStorePersistenceServiceMock.Object,
                 repositoryFactory: providerRepositoryFunc,
                 dataOptions: null,
-                logger: loggerMock.Object,
-                summarisationMessage: summarisationMessageMock.Object)
-                .Summarise(CancellationToken.None);
+                logger: loggerMock.Object)
+                .Summarise(summarisationMessageMock.Object, CancellationToken.None);
 
             result.Should().NotBeNullOrEmpty();
             result.Count().Should().BeGreaterThan(0);
@@ -163,7 +162,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             var summarisationMessageMock = new Mock<ISummarisationMessage>();
 
-            summarisationMessageMock.SetupGet(s => s.Ukprn).Returns(ukprn.ToString());
+            summarisationMessageMock.SetupGet(s => s.Ukprn).Returns(ukprn);
             summarisationMessageMock.SetupGet(s => s.SummarisationTypes).Returns(new List<string>() { "ESF_SuppData" });
             summarisationMessageMock.SetupGet(s => s.CollectionType).Returns("ESF");
             summarisationMessageMock.SetupGet(s => s.ProcessType).Returns("Deliverable");
@@ -253,7 +252,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             var summarisedActualsRepositoryMock = new Mock<ISummarisedActualsProcessRepository>();
             summarisedActualsRepositoryMock.Setup(r => r.GetLastCollectionReturnForCollectionTypeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetLatestCollectionReturn()));
-            summarisedActualsRepositoryMock.Setup(r => r.GetLatestSummarisedActualsAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(providerActuals/*GetSummarisedActuals()*/));
+            summarisedActualsRepositoryMock.Setup(r => r.GetSummarisedActualsForCollectionReturnAndOrganisationAsync(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(providerActuals/*GetSummarisedActuals()*/));
 
             var result = await NewSummarisationWrapper(
                 fundingTypesProviders: fundingTypesProviders,
@@ -264,12 +263,10 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                 dataStorePersistenceService: dataStorePersistenceServiceMock.Object,
                 repositoryFactory: providerRepositoryFunc,
                 dataOptions: null,
-                logger: loggerMock.Object,
-                summarisationMessage: summarisationMessageMock.Object)
-                .Summarise(CancellationToken.None);
+                logger: loggerMock.Object)
+                .Summarise(summarisationMessageMock.Object, CancellationToken.None);
 
-            result.Should().BeNullOrEmpty();
-            result.Count().Should().Be(0);
+            result.Count().Should().Be(1);
         }
         
         private SummarisationWrapper NewSummarisationWrapper(
@@ -301,8 +298,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                 dataStorePersistenceService: dataStorePersistenceService,
                 repositoryFactory: repositoryFactory,
                 dataOptions: dataOptions,
-                logger: logger,
-                summarisationMessage: summarisationMessage);
+                logger: logger);
         }
 
         private IReadOnlyCollection<FundingStream> GetESFFundingStreamsData()

@@ -60,7 +60,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
 
             var summarisedActualsRepositoryMock = new Mock<ISummarisedActualsProcessRepository>();
             summarisedActualsRepositoryMock.Setup(r => r.GetLastCollectionReturnForCollectionTypeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetLatestCollectionReturn()));
-            summarisedActualsRepositoryMock.Setup(r => r.GetLatestSummarisedActualsAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetSummarisedActuals()));
+            summarisedActualsRepositoryMock.Setup(r => r.GetSummarisedActualsForCollectionReturnAndOrganisationAsync(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetSummarisedActuals()));
 
             var dataStorePersistenceServiceMock = new Mock<IDataStorePersistenceService>();
 
@@ -93,10 +93,9 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
                 dataStorePersistenceServiceMock.Object,
                 providerRepositoryFunc,
                 dataOptions,
-                logger.Object,
-                summarisationContextMock.Object);
+                logger.Object);
 
-            var result = await wrapper.Summarise(cancellationToken);
+            var result = await wrapper.Summarise(summarisationContextMock.Object, cancellationToken);
 
             if (fundModel == FundModel.FM35)
             {
@@ -180,7 +179,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
 
             summarisedActualsRepositoryMock.Setup(r => r.GetLastCollectionReturnForCollectionTypeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetLatestCollectionReturn()));
 
-            summarisedActualsRepositoryMock.Setup(r => r.GetLatestSummarisedActualsAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetSummarisedActuals()));
+            summarisedActualsRepositoryMock.Setup(r => r.GetSummarisedActualsForCollectionReturnAndOrganisationAsync(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetSummarisedActuals()));
 
             var dataStorePersistenceServiceMock = new Mock<IDataStorePersistenceService>();
 
@@ -213,9 +212,8 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
                 dataStorePersistenceServiceMock.Object,
                 providerRepositoryFunc,
                 dataOptions,
-                logger.Object,
-                summarisationContextMock.Object);
-            var result = await wrapper.Summarise(cancellationToken);
+                logger.Object);
+            var result = await wrapper.Summarise(summarisationContextMock.Object, cancellationToken);
 
             if (fundModel == FundModel.FM35)
             {
@@ -308,8 +306,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
                 dataStorePersistenceServiceMock.Object,
                 providerRepositoryFunc,
                 dataOptions,
-                logger.Object,
-                summarisationMesageMock.Object);
+                logger.Object);
 
             var summarisedActuals = new List<Summarisation.Data.Output.Model.SummarisedActual>();
 
@@ -366,8 +363,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
                 dataStorePersistenceServiceMock.Object,
                 providerRepositoryFunc,
                 dataOptions,
-                logger.Object,
-                summarisationMessageMock.Object);
+                logger.Object);
 
             var summarisedActuals = GetSummarisedActuals().Where(x => x.FundingStreamPeriodCode == "APPS1920");
 

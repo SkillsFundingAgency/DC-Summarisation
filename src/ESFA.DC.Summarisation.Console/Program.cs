@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
-using ESF.DC.Summarisation.Main1819.Data.Providers;
 using ESFA.DC.DASPayments.EF;
 using ESFA.DC.DASPayments.EF.Interfaces;
-using ESFA.DC.EAS1819.EF;
-using ESFA.DC.EAS1819.EF.Interface;
 using ESFA.DC.ESF.Database.EF;
 using ESFA.DC.ESF.Database.EF.Interfaces;
 using ESFA.DC.ESF.R2.Database.EF;
@@ -20,7 +17,6 @@ using ESFA.DC.ReferenceData.FCS.Model;
 using ESFA.DC.ReferenceData.FCS.Model.Interface;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
-using ESFA.DC.Summarisation.Apps1819.Data;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Console.Stubs;
 using ESFA.DC.Summarisation.Data.Persist;
@@ -35,9 +31,6 @@ using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.ESF.Data.Providers;
 using ESFA.DC.Summarisation.Interface;
 using ESFA.DC.Summarisation.Interfaces;
-using ESFA.DC.Summarisation.Main1819.Data.Providers;
-using ESFA.DC.Summarisation.Main1819.Data.Repository;
-using ESFA.DC.Summarisation.Main1819.Service.Providers;
 using ESFA.DC.Summarisation.Main1819.Service.Tests.Stubs;
 using ESFA.DC.Summarisation.Model;
 using ESFA.DC.Summarisation.Service;
@@ -98,9 +91,7 @@ namespace ESFA.DC.Summarisation.Console
 
             List<ISummarisationConfigProvider<FundingType>> fundingTypesProviders = new List<ISummarisationConfigProvider<FundingType>>()
             {
-                new FundingTypesProvider(jsonSerializationService),
                 new ESF.Service.FundingTypesProvider(jsonSerializationService),
-                new Apps1819.Service.FundingTypesProvider(jsonSerializationService),
                 new Main1920FundingTypesProvider.FundingTypesProvider(jsonSerializationService),
                 new Apps1920FundingTypesProvider.FundingTypesProvider(jsonSerializationService),
             };
@@ -108,27 +99,16 @@ namespace ESFA.DC.Summarisation.Console
             List<ISummarisationConfigProvider<CollectionPeriod>> collectionPeriodsProviders
                 = new List<ISummarisationConfigProvider<CollectionPeriod>>()
             {
-                new CollectionPeriodsProvider(jsonSerializationService),
                 new ESF.Service.CollectionPeriodsProvider(jsonSerializationService),
-                new Apps1819.Service.CollectionPeriodsProvider(jsonSerializationService),
                 new Main1920CollectionPeriodsProvider.CollectionPeriodsProvider(jsonSerializationService),
                 new Apps1920CollectionPeriodsProvider.CollectionPeriodsProvider(jsonSerializationService),
             };
 
             IProviderRepository repository = new ProviderRepository(new List<ILearningDeliveryProvider>
             {
-                new AlbProvider(() => new ILR1819_DataStoreEntities(ilr1819dbContextOptions)),
-                new EasProvider(() => new EAS1819.EF.EasContext(eas1819dbContextOptions)),
-                new Fm25Provider(() => new ILR1819_DataStoreEntities(ilr1819dbContextOptions)),
-                new Fm35Provider(() => new ILR1819_DataStoreEntities(ilr1819dbContextOptions)),
-                new TblProvider(() => new ILR1819_DataStoreEntities(ilr1819dbContextOptions)),
-
                 new ESFProvider_R1(() => new ESF_DataStoreEntities(esfdbContextOptions)),
                 new ESFProvider_R2(() => new ESFR2Context(esfR2dbContextOptions)),
                 new ESFILRProvider(() => new ESFFundingDataContext(esfFddbContextOptions)),
-
-                new LevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
-                new NonLevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
 
                 new Main1920Providers.Fm35Provider(() => new ILR1920_DataStoreEntities(ilr1920dbContextOptions)),
                 new Main1920Providers.EasProvider(() => new EAS1920.EF.EasContext(eas1920dbContextOptions)),
@@ -170,8 +150,7 @@ namespace ESFA.DC.Summarisation.Console
                  dataStorePersistenceService,
                  () => repository,
                  new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
-                 logger,
-                 summarisationMessage);
+                 logger);
 
              await wrapper.Summarise(CancellationToken.None);
 
@@ -186,8 +165,7 @@ namespace ESFA.DC.Summarisation.Console
                  dataStorePersistenceService,
                  () => repository,
                  new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
-                 logger,
-                 summarisationMessage);
+                 logger);
 
              await wrapper.Summarise(CancellationToken.None);
 
@@ -202,8 +180,7 @@ namespace ESFA.DC.Summarisation.Console
                 dataStorePersistenceService,
                 () => repository,
                 new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
-                logger,
-                summarisationMessage);
+                logger);
 
             await wrapper.Summarise(CancellationToken.None);*/
 
@@ -218,10 +195,10 @@ namespace ESFA.DC.Summarisation.Console
                 dataStorePersistenceService,
                 () => repository,
                 new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" },
-                logger,
-                summarisationMessage);
+                logger
+                );
 
-            await wrapper.Summarise(CancellationToken.None);
+            await wrapper.Summarise(summarisationMessage, CancellationToken.None);
         }
     }
 }

@@ -39,9 +39,9 @@ namespace ESFA.DC.Summarisation.Stateless.Context
             get => GetKeyValue(_collectionReturnCode);
         }
 
-        public string Ukprn
+        public int? Ukprn
         {
-            get => _jobContextMessage.KeyValuePairs[_ukprn].ToString();
+            get => int.Parse(_jobContextMessage.KeyValuePairs[_ukprn].ToString());
         }
 
         public IEnumerable<string> SummarisationTypes

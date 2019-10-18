@@ -23,7 +23,7 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
             _ilr = ilr;
         }
 
-        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
+        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             using (var ilrContext = _ilr())
             {
@@ -34,19 +34,11 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
                         LearnRefNumber = ld.LearnRefNumber,
                         Fundline = ld.FundLine,
                         PeriodisedData = ld.FM25_FM35_Learner_PeriodisedValues
-                            .Where(x => (
-                                x.Period_1 +
-                                x.Period_2 +
-                                x.Period_3 +
-                                x.Period_4 +
-                                x.Period_5 +
-                                x.Period_6 +
-                                x.Period_7 +
-                                x.Period_8 +
-                                x.Period_9 +
-                                x.Period_10 +
-                                x.Period_11 +
-                                x.Period_12) > 0)
+                            .Where(x => (x.Period_1 != 0 || x.Period_2 != 0 || x.Period_3 != 0 || x.Period_4 != 0
+                                            || x.Period_5 != 0 || x.Period_6 != 0 || x.Period_7 != 0 || x.Period_8 != 0
+                                            || x.Period_9 != 0 || x.Period_10 != 0 || x.Period_11 != 0 || x.Period_12 != 0
+                                        )
+                                )
                             .Select(pv => new PeriodisedData
                             {
                                 AttributeName = pv.AttributeName,
@@ -127,7 +119,5 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
                     .ToListAsync();
             }
         }
-
-        public Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken) => ProvideAsync(ukprn, cancellationToken);
     }
 }

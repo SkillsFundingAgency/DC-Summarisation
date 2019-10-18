@@ -23,7 +23,7 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
 
         public string CollectionType => nameof(Configuration.Enum.CollectionType.ILR1920);
 
-        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
+        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             using (var ilrContext = _ilrContext())
             {
@@ -128,7 +128,5 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
                     .ToListAsync(cancellationToken);
             }
         }
-
-        public Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken) => ProvideAsync(ukprn, cancellationToken);
     }
 }

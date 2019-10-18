@@ -27,10 +27,12 @@ namespace ESFA.DC.Summarisation.Stateless
         {
             try
             {
+                var summarisationMessage = new JobContextMessageSummarisationContext(message);
+
                 using (var childLifetimeScope = this._lifetimeScope.BeginLifetimeScope(
                     c =>
                     {
-                        c.RegisterInstance(new JobContextMessageSummarisationContext(message)).As<ISummarisationMessage>();
+                        c.RegisterInstance(summarisationMessage).As<ISummarisationMessage>();
                         }))
                 {
                     var executionContext = (ExecutionContext)childLifetimeScope.Resolve<IExecutionContext>();
@@ -40,7 +42,7 @@ namespace ESFA.DC.Summarisation.Stateless
 
                     var summarisationWrapper = childLifetimeScope.Resolve<ISummarisationWrapper>();
 
-                    await summarisationWrapper.Summarise(cancellationToken);
+                    await summarisationWrapper.Summarise(summarisationMessage, cancellationToken);
 
                     _logger.LogInfo($"Summarisation Task Finished");
 

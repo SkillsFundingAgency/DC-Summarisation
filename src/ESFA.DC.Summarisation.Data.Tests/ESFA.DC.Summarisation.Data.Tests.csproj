@@ -52,18 +52,12 @@
   <ItemGroup>
     <Compile Include="Repository\FcsRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository\FM25ProviderTests.cs" />
-    <Compile Include="Repository\TblProviderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="ESFA.DC.Summarisation.Data.Tests.ruleset" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Main1819\ESFA.DC.Summarisation.Main1819.Data\ESFA.DC.Summarisation.Main1819.Data.csproj">
-      <Project>{98F8DF97-A434-4B24-B3D4-30C4A71EC42C}</Project>
-      <Name>ESFA.DC.Summarisation.Main1819.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.Summarisation.Configuration\ESFA.DC.Summarisation.Configuration.csproj">
       <Project>{6b10f154-0c66-49c8-befb-646a8c8909da}</Project>
       <Name>ESFA.DC.Summarisation.Configuration</Name>
