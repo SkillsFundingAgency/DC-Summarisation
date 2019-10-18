@@ -9,11 +9,12 @@ namespace ESFA.DC.Summarisation.Service.EqualityComparer
     {
         public bool Equals(SummarisedActual x, SummarisedActual y)
         {
-            return y != null && x != null && x.OrganisationId == y.OrganisationId
-                   && x.FundingStreamPeriodCode == y.FundingStreamPeriodCode
-                   && x.DeliverableCode == y.DeliverableCode
-                   && x.Period == y.Period
-                   && x.UoPCode == y.UoPCode;
+            return y != null && x != null 
+                && x.DeliverableCode == y.DeliverableCode
+                && x.Period == y.Period
+                && x.OrganisationId == y.OrganisationId
+                && x.FundingStreamPeriodCode == y.FundingStreamPeriodCode
+                && x.UoPCode == y.UoPCode;
         }
 
         public int GetHashCode(SummarisedActual obj)

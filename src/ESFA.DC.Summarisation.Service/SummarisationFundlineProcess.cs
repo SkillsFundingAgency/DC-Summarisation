@@ -36,24 +36,11 @@ namespace ESFA.DC.Summarisation.Service
             foreach (var fundLine in fundingStream.FundLines)
             {
                 IEnumerable<IPeriodisedData> periodisedData;
-
-                if (fundingStream.ApprenticeshipContractType == 1 || fundingStream.ApprenticeshipContractType == 2)
-                {
-                    periodisedData = provider
-                   .LearningDeliveries
-                   .Where(ld => ld.Fundline.Equals(fundLine.Fundline, StringComparison.OrdinalIgnoreCase) )
-                   .SelectMany(x => x.PeriodisedData
-                                        .Where(pd => pd.ApprenticeshipContractType == fundingStream.ApprenticeshipContractType
-                                                                && fundingStream.FundingSources.Contains(pd.FundingSource)
-                                                                && fundingStream.TransactionTypes.Contains(pd.TransactionType)));
-                }
-                else
-                {
-                     periodisedData = provider
+               
+                periodisedData = provider
                     .LearningDeliveries
                     .Where(ld => ld.Fundline.Equals(fundLine.Fundline, StringComparison.OrdinalIgnoreCase))
                     .SelectMany(x => x.PeriodisedData);
-                }
 
                 var periods = GetPeriodsForFundLine(periodisedData, fundLine);
 
