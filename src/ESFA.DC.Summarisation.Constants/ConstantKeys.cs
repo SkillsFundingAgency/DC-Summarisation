@@ -87,5 +87,9 @@ namespace ESFA.DC.Summarisation.Constants
         public const string SummarisationType_Apps1920_Levy = "Apps1920_Levy";
         public const string SummarisationType_Apps1920_NonLevy = "Apps1920_NonLevy";
         public const string SummarisationType_Apps1920_EAS = "Apps1920_EAS";
+
+        public const string UnitCost = "Unit Cost";
+
+        public const string UnitCostDeduction = "Unit Cost Deduction";
     }
 }

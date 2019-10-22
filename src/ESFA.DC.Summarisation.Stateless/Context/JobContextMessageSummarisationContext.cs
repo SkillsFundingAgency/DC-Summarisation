@@ -42,7 +42,12 @@ namespace ESFA.DC.Summarisation.Stateless.Context
 
         public int? Ukprn
         {
-            get => int.Parse(_jobContextMessage.KeyValuePairs[_ukprn].ToString());
+            get
+            {
+                int.TryParse(_jobContextMessage.KeyValuePairs[_ukprn].ToString(), out int result);
+
+                return result;
+            }
         }
 
         public IEnumerable<string> SummarisationTypes

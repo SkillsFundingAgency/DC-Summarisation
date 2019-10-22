@@ -39,8 +39,8 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                     DeliverableCode = obj.Key.DeliverableCode,
                                     CalendarYear = obj.Key.CalendarYear,
                                     CalendarMonth = obj.Key.CalendarMonth,
-                                    Value = obj.Sum(p => p.CostType.Equals(SummarisationConstants.UnitCost, StringComparison.OrdinalIgnoreCase) ? (p.SupplementaryDataUnitCost.Value ?? p.Value) : p.CostType.Equals(SummarisationConstants.UnitCostDeduction, StringComparison.OrdinalIgnoreCase) ? (p.SupplementaryDataUnitCost.Value ?? p.Value) * -1 : p.Value),
-                                    Volume = obj.Sum(p => p.CostType.Equals(SummarisationConstants.UnitCost, StringComparison.OrdinalIgnoreCase) ? 1 : p.CostType.Equals(SummarisationConstants.UnitCostDeduction, StringComparison.OrdinalIgnoreCase) ? -1 : 0),
+                                    Value = obj.Sum(p => p.CostType.Equals(ConstantKeys.UnitCost, StringComparison.OrdinalIgnoreCase) ? (p.SupplementaryDataUnitCost.Value ?? p.Value) : p.CostType.Equals(ConstantKeys.UnitCostDeduction, StringComparison.OrdinalIgnoreCase) ? (p.SupplementaryDataUnitCost.Value ?? p.Value) * -1 : p.Value),
+                                    Volume = obj.Sum(p => p.CostType.Equals(ConstantKeys.UnitCost, StringComparison.OrdinalIgnoreCase) ? 1 : p.CostType.Equals(ConstantKeys.UnitCostDeduction, StringComparison.OrdinalIgnoreCase) ? -1 : 0),
                                 }).ToListAsync(cancellationToken);
 
                 return  preSummarised
