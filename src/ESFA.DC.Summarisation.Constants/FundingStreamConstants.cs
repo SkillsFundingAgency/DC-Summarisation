@@ -18,22 +18,40 @@ namespace ESFA.DC.Summarisation.Constants
 
         public const string NonLevy_APPS1819 = "APPS1819";
 
+        public const string Traineeship_1618TRN1920 = "16-18TRN1920";
+
+        public const string Traineeship_AEBC19TRN1920 = "AEBC-19TRN1920";
+
+        public const string Traineeship_AEB19TRN1920 = "AEB-19TRN1920";
+
+        public const string AdultSkills_AEBCASCL1920 = "AEBC-ASCL1920";
+
+        public const string AdultSkills_AEBAS1920 = "AEB-AS1920";
+
+        public const string LoansBursary_ALLB1920 = "ALLB1920";
+
+        public const string LoansBursary_ALLBC1920 = "ALLBC1920";
+
+        public const string ESF1420 = "ESF1420";
+
+        public const string LineType_EAS = "EAS";
+
         public static List<string> FundingStreams = new List<string>()
         {
-            "16-18TRN1920",
-            "AEBC-19TRN1920",
-            "AEBC-ASCL1920",
-            "AEB-19TRN1920",
-            "AEB-AS1920",
-            "ALLB1920",
-            "ALLBC1920",
-            "LEVY1799",
-            "NONLEVY2019",
-            "16-18NLAP2018",
-            "ANLAP2018",
-            "APPS1920",
-            "APPS1819",
-            "ESF1420",
+            Traineeship_1618TRN1920,
+            Traineeship_AEBC19TRN1920,
+            AdultSkills_AEBCASCL1920,
+            Traineeship_AEB19TRN1920,
+            AdultSkills_AEBAS1920,
+            LoansBursary_ALLB1920,
+            LoansBursary_ALLBC1920,
+            Levy1799,
+            NonLevy2019,
+            NonLevy_1618NLAP2018,
+            NonLevy_ANLAP2018,
+            NonLevy_APPS1920,
+            NonLevy_APPS1819,
+            ESF1420,
         };
     }
 }

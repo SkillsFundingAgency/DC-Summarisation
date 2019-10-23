@@ -85,7 +85,7 @@ namespace ESFA.DC.Summarisation.Service
             {
                 IEnumerable<IPeriodisedData> periodisedData;
 
-                if (fundLine.LineType.Equals(ConstantKeys.LineType_EAS, StringComparison.OrdinalIgnoreCase))
+                if (fundLine.LineType.Equals(FundingStreamConstants.LineType_EAS, StringComparison.OrdinalIgnoreCase))
                 {
                     periodisedData = provider
                       .LearningDeliveries
@@ -129,7 +129,7 @@ namespace ESFA.DC.Summarisation.Service
                         Period = g.Key,
                         ActualValue = Math.Round(g.Sum(x => x.ActualValue), 2),
                         ContractAllocationNumber = fcsAllocations[fundingStream.PeriodCode].ContractAllocationNumber,
-                        PeriodTypeCode = ConstantKeys.PeriodTypeCode_CM
+                        PeriodTypeCode = PeriodTypeCodeConstants.CalendarMonth
                     });
 
         }
