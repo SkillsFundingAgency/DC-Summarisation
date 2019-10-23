@@ -10,7 +10,7 @@ namespace ESFA.DC.Summarisation.Interfaces
 
         string CollectionReturnCode { get; }
 
-        string Ukprn { get; }
+        int? Ukprn { get; }
 
         IEnumerable<string> SummarisationTypes { get; }
 

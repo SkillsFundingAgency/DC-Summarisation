@@ -1,5 +1,5 @@
 ﻿using ESFA.DC.Summarisation.Configuration;
-using ESFA.DC.Summarisation.Configuration.Enum;
+using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Output.Model;
@@ -12,7 +12,7 @@ namespace ESFA.DC.Summarisation.Service
 {
     public class SummarisationDeliverableProcess : ISummarisationService
     {
-        public string ProcessType => nameof(Configuration.Enum.ProcessType.Deliverable);
+        public string ProcessType => ProcessTypeConstants.Deliverable;
 
         public IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams, IProvider provider, IEnumerable<IFcsContractAllocation> allocations, IEnumerable<CollectionPeriod> collectionPeriods, ISummarisationMessage summarisationMessage)
         {
@@ -52,7 +52,7 @@ namespace ESFA.DC.Summarisation.Service
                         ActualValue = Math.Round(g.Sum(x => x.ActualValue),2),
                         ActualVolume = g.Sum(x => x.ActualVolume),
                         ContractAllocationNumber = allocation.ContractAllocationNumber,
-                        PeriodTypeCode = PeriodTypeCode.CM.ToString()
+                        PeriodTypeCode = PeriodTypeCodeConstants.CalendarMonth
                     });
         }
 

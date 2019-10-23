@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.Configuration;
-using ESFA.DC.Summarisation.Configuration.Enum;
 using ESFA.DC.Summarisation.Configuration.Interface;
+using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.External.FCS.Model;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
-using ESFA.DC.Summarisation.Data.Output.Model;
 using ESFA.DC.Summarisation.Data.Persist;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interface;
@@ -44,7 +43,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             var summarisationMessageMock = new Mock<ISummarisationMessage>();
 
-            summarisationMessageMock.SetupGet(s => s.Ukprn).Returns(ukprn.ToString());
+            summarisationMessageMock.SetupGet(s => s.Ukprn).Returns(ukprn);
             summarisationMessageMock.SetupGet(s => s.SummarisationTypes).Returns(new List<string>() { "ESF_SuppData" });
             summarisationMessageMock.SetupGet(s => s.CollectionType).Returns("ESF");
             summarisationMessageMock.SetupGet(s => s.ProcessType).Returns("Deliverable");
@@ -57,7 +56,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             var repositoryMock = new Mock<IProviderRepository>();
             repositoryMock.Setup(r => r.ProvideAsync(ukprn, summarisationMessageMock.Object, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProviderData(ukprn)));
 
-            repositoryMock.Setup(r => r.GetAllProviderIdentifiersAsync(CollectionType.ESF.ToString(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetProviderList(ukprn)));
+            repositoryMock.Setup(r => r.GetAllProviderIdentifiersAsync(CollectionTypeConstants.ESF.ToString(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetProviderList(ukprn)));
 
             Func<IProviderRepository> providerRepositoryFunc = () =>
             {
@@ -133,7 +132,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             var summarisedActualsRepositoryMock = new Mock<ISummarisedActualsProcessRepository>();
             summarisedActualsRepositoryMock.Setup(r => r.GetLastCollectionReturnForCollectionTypeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetLatestCollectionReturn()));
-            summarisedActualsRepositoryMock.Setup(r => r.GetLatestSummarisedActualsAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(providerActuals/*GetSummarisedActuals()*/));
+            summarisedActualsRepositoryMock.Setup(r => r.GetSummarisedActualsForCollectionReturnAndOrganisationAsync(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(providerActuals/*GetSummarisedActuals()*/));
             
             var result = await NewSummarisationWrapper(
                 fundingTypesProviders: fundingTypesProviders,
@@ -144,9 +143,8 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                 dataStorePersistenceService: dataStorePersistenceServiceMock.Object,
                 repositoryFactory: providerRepositoryFunc,
                 dataOptions: null,
-                logger: loggerMock.Object,
-                summarisationMessage: summarisationMessageMock.Object)
-                .Summarise(CancellationToken.None);
+                logger: loggerMock.Object)
+                .Summarise(summarisationMessageMock.Object, CancellationToken.None);
 
             result.Should().NotBeNullOrEmpty();
             result.Count().Should().BeGreaterThan(0);
@@ -163,7 +161,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             var summarisationMessageMock = new Mock<ISummarisationMessage>();
 
-            summarisationMessageMock.SetupGet(s => s.Ukprn).Returns(ukprn.ToString());
+            summarisationMessageMock.SetupGet(s => s.Ukprn).Returns(ukprn);
             summarisationMessageMock.SetupGet(s => s.SummarisationTypes).Returns(new List<string>() { "ESF_SuppData" });
             summarisationMessageMock.SetupGet(s => s.CollectionType).Returns("ESF");
             summarisationMessageMock.SetupGet(s => s.ProcessType).Returns("Deliverable");
@@ -176,7 +174,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             var repositoryMock = new Mock<IProviderRepository>();
             repositoryMock.Setup(r => r.ProvideAsync(ukprn, summarisationMessageMock.Object, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProviderData(ukprn)));
 
-            repositoryMock.Setup(r => r.GetAllProviderIdentifiersAsync(CollectionType.ESF.ToString(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetProviderList(ukprn)));
+            repositoryMock.Setup(r => r.GetAllProviderIdentifiersAsync(CollectionTypeConstants.ESF, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetProviderList(ukprn)));
 
             Func<IProviderRepository> providerRepositoryFunc = () =>
             {
@@ -253,7 +251,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             var summarisedActualsRepositoryMock = new Mock<ISummarisedActualsProcessRepository>();
             summarisedActualsRepositoryMock.Setup(r => r.GetLastCollectionReturnForCollectionTypeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetLatestCollectionReturn()));
-            summarisedActualsRepositoryMock.Setup(r => r.GetLatestSummarisedActualsAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(providerActuals/*GetSummarisedActuals()*/));
+            summarisedActualsRepositoryMock.Setup(r => r.GetSummarisedActualsForCollectionReturnAndOrganisationAsync(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(providerActuals/*GetSummarisedActuals()*/));
 
             var result = await NewSummarisationWrapper(
                 fundingTypesProviders: fundingTypesProviders,
@@ -264,12 +262,10 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                 dataStorePersistenceService: dataStorePersistenceServiceMock.Object,
                 repositoryFactory: providerRepositoryFunc,
                 dataOptions: null,
-                logger: loggerMock.Object,
-                summarisationMessage: summarisationMessageMock.Object)
-                .Summarise(CancellationToken.None);
+                logger: loggerMock.Object)
+                .Summarise(summarisationMessageMock.Object, CancellationToken.None);
 
-            result.Should().BeNullOrEmpty();
-            result.Count().Should().Be(0);
+            result.Count().Should().Be(1);
         }
         
         private SummarisationWrapper NewSummarisationWrapper(
@@ -301,8 +297,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                 dataStorePersistenceService: dataStorePersistenceService,
                 repositoryFactory: repositoryFactory,
                 dataOptions: dataOptions,
-                logger: logger,
-                summarisationMessage: summarisationMessage);
+                logger: logger);
         }
 
         private IReadOnlyCollection<FundingStream> GetESFFundingStreamsData()
@@ -312,8 +307,8 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             var fundingTypesProvider = new FundingTypesProvider(new JsonSerializationService());
             fundingTypesProviders.Add(fundingTypesProvider);
             return fundingTypesProviders
-                .FirstOrDefault(w => w.CollectionType.Equals(CollectionType.ESF.ToString(), StringComparison.OrdinalIgnoreCase))
-                .Provide().Where(x => x.SummarisationType.Equals(SummarisationType.ESF_SuppData.ToString(), StringComparison.OrdinalIgnoreCase))
+                .FirstOrDefault(w => w.CollectionType.Equals(CollectionTypeConstants.ESF.ToString(), StringComparison.OrdinalIgnoreCase))
+                .Provide().Where(x => x.SummarisationType.Equals(SummarisationTypeConstants.ESF_SuppData, StringComparison.OrdinalIgnoreCase))
                 .SelectMany(fs => fs.FundingStreams)
                 .ToList();
         }

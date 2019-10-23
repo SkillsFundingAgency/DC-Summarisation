@@ -7,6 +7,7 @@ using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using ESFA.DC.EAS1920.EF.Interface;
+using ESFA.DC.Summarisation.Constants;
 
 namespace ESFA.DC.Summarisation.Main1920.Data.Providers
 {
@@ -14,16 +15,16 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
     {
         private readonly Func<IEasdbContext> _easContext;
 
-        public string SummarisationType => nameof(Configuration.Enum.SummarisationType.Main1920_EAS);
+        public string SummarisationType => SummarisationTypeConstants.Main1920_EAS;
 
-        public string CollectionType => nameof(Configuration.Enum.CollectionType.ILR1920);
+        public string CollectionType => CollectionTypeConstants.ILR1920;
 
         public EasProvider(Func<IEasdbContext> easContext)
         {
             _easContext = easContext;
         }
 
-        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
+        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             using (var easContext = _easContext())
             {
@@ -70,8 +71,5 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
                 return await easContext.EasSubmissions.Select(l => Convert.ToInt32(l.Ukprn)).Distinct().ToListAsync(cancellationToken);
             }
         }
-
-        public Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken) => ProvideAsync(ukprn, cancellationToken);
-
     }
 }

@@ -17,7 +17,7 @@ namespace ESFA.DC.Summarisation.Console.Stubs
 
         public IEnumerable<string> SummarisationTypes => new List<string> { "Apps1819_Levy", "Apps1819_NonLevy" };
 
-        public string Ukprn => string.Empty;
+        public int? Ukprn => 0;
 
         public int CollectionYear => 1819;
 

@@ -110,7 +110,7 @@ namespace ESFA.DC.Summarisation.ESF.Data.Tests
 
             var summarisationMessageMock = new Mock<ISummarisationMessage>();
 
-            summarisationMessageMock.SetupGet(s => s.Ukprn).Returns("1000825");
+            summarisationMessageMock.SetupGet(s => s.Ukprn).Returns(1000825);
             summarisationMessageMock.SetupGet(s => s.CollectionYear).Returns(1920);
             summarisationMessageMock.SetupGet(s => s.CollectionMonth).Returns(2);
 
@@ -175,7 +175,7 @@ namespace ESFA.DC.Summarisation.ESF.Data.Tests
 
             var summarisationMessageMock = new Mock<ISummarisationMessage>();
 
-            summarisationMessageMock.SetupGet(s => s.Ukprn).Returns("1000825");
+            summarisationMessageMock.SetupGet(s => s.Ukprn).Returns(1000825);
             summarisationMessageMock.SetupGet(s => s.CollectionYear).Returns(1920);
             summarisationMessageMock.SetupGet(s => s.CollectionMonth).Returns(2);
 

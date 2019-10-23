@@ -11,8 +11,6 @@ namespace ESFA.DC.Summarisation.Interfaces
 
         string CollectionType { get; }
 
-        Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken);
-
         Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken);
 
         Task<IList<int>> ProvideUkprnsAsync(CancellationToken cancellationToken);

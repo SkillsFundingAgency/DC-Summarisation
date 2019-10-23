@@ -1,6 +1,7 @@
-﻿using ESF.DC.Summarisation.Main1819.Data.Providers;
-using ESFA.DC.ILR1819.DataStore.EF;
-using ESFA.DC.ILR1819.DataStore.EF.Interface;
+﻿using ESFA.DC.ILR1920.DataStore.EF;
+using ESFA.DC.ILR1920.DataStore.EF.Interface;
+using ESFA.DC.Summarisation.Constants;
+using ESFA.DC.Summarisation.Main1920.Data.Providers;
 using FluentAssertions;
 using MockQueryable.Moq;
 using Moq;
@@ -12,32 +13,32 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace ESFA.DC.Summarisation.Data.Tests.Repository
+namespace ESFA.DC.Summarisation.Main1920.Data.Tests
 {
     public class FM25ProviderTests
     {
         [Fact]
         public void SummarisationType_Check()
         {
-            NewProvider().SummarisationType.Should().Be("Main1819_FM25");
+            NewProvider().SummarisationType.Should().Be("Main1920_FM25");
         }
 
         [Fact]
         public void SummarisationType_CheckWithConstantValue()
         {
-            NewProvider().SummarisationType.Should().Be(nameof(Configuration.Enum.SummarisationType.Main1819_FM25));
+            NewProvider().SummarisationType.Should().Be(SummarisationTypeConstants.Main1920_FM25);
         }
 
         [Fact]
         public void CollectionType_Check()
         {
-            NewProvider().CollectionType.Should().Be("ILR1819");
+            NewProvider().CollectionType.Should().Be("ILR1920");
         }
 
         [Fact]
         public void CollectionType_CheckWithConstantValue()
         {
-            NewProvider().CollectionType.Should().Be(nameof(Configuration.Enum.CollectionType.ILR1819));
+            NewProvider().CollectionType.Should().Be(CollectionTypeConstants.ILR1920);
         }
 
         [Fact]
@@ -53,12 +54,12 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
 
             var expectedLearners = new List<int> { 1000825, 1009876, 145800 };
 
-            var ilr1819ContextMock = new Mock<IIlr1819RulebaseContext>();
-            ilr1819ContextMock
+            var ilr1920ContextMock = new Mock<IIlr1920RulebaseContext>();
+            ilr1920ContextMock
                 .Setup(x => x.FM25_Learners)
                 .Returns(FM25Learners.Object);
 
-            var result = await NewProvider(() => ilr1819ContextMock.Object)
+            var result = await NewProvider(() => ilr1920ContextMock.Object)
                 .ProvideUkprnsAsync(CancellationToken.None);
             result.Count().Should().Be(3);
             result.Should().BeEquivalentTo(expectedLearners);
@@ -71,12 +72,12 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
             {
             }.AsQueryable().BuildMockDbSet();
 
-            var ilr1819ContextMock = new Mock<IIlr1819RulebaseContext>();
-            ilr1819ContextMock
+            var ilr1920ContextMock = new Mock<IIlr1920RulebaseContext>();
+            ilr1920ContextMock
                 .Setup(x => x.FM25_Learners)
                 .Returns(FM25Learners.Object);
 
-            var result = await NewProvider(() => ilr1819ContextMock.Object)
+            var result = await NewProvider(() => ilr1920ContextMock.Object)
                 .ProvideUkprnsAsync(CancellationToken.None);
             result.Count().Should().Be(0);
             result.Should().BeNullOrEmpty();
@@ -138,13 +139,13 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
                 }
             }.AsQueryable().BuildMockDbSet();
 
-            var ilr1819ContextMock = new Mock<IIlr1819RulebaseContext>();
-            ilr1819ContextMock
+            var ilr1920ContextMock = new Mock<IIlr1920RulebaseContext>();
+            ilr1920ContextMock
                 .Setup(x => x.FM25_Learners)
                 .Returns(FM25Learners.Object);
 
-            var result = await NewProvider(() => ilr1819ContextMock.Object)
-                .ProvideAsync(ukprn, CancellationToken.None);
+            var result = await NewProvider(() => ilr1920ContextMock.Object)
+                .ProvideAsync(ukprn, null, CancellationToken.None);
             result.Count().Should().Be(1);
             result.Should().NotBeNullOrEmpty();
         }
@@ -185,13 +186,13 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
                 }
             }.AsQueryable().BuildMockDbSet();
 
-            var ilr1819ContextMock = new Mock<IIlr1819RulebaseContext>();
-            ilr1819ContextMock
+            var ilr1920ContextMock = new Mock<IIlr1920RulebaseContext>();
+            ilr1920ContextMock
                 .Setup(x => x.FM25_Learners)
                 .Returns(FM25Learners.Object);
 
-            var result = await NewProvider(() => ilr1819ContextMock.Object)
-                .ProvideAsync(ukprn, CancellationToken.None);
+            var result = await NewProvider(() => ilr1920ContextMock.Object)
+                .ProvideAsync(ukprn,null, CancellationToken.None);
             result.Count().Should().Be(0);
             result.Should().BeNullOrEmpty();
         }
@@ -204,21 +205,21 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
             var FM25Learners = new List<FM25_Learner>()
             { }.AsQueryable().BuildMockDbSet();
 
-            var ilr1819ContextMock = new Mock<IIlr1819RulebaseContext>();
-            ilr1819ContextMock
+            var ilrContextMock = new Mock<IIlr1920RulebaseContext>();
+            ilrContextMock
                 .Setup(x => x.FM25_Learners)
                 .Returns(FM25Learners.Object);
 
-            var result = await NewProvider(() => ilr1819ContextMock.Object)
-                .ProvideAsync(ukprn, CancellationToken.None);
+            var result = await NewProvider(() => ilrContextMock.Object)
+                .ProvideAsync(ukprn, null, CancellationToken.None);
 
             result.Count().Should().Be(0);
             result.Should().BeNullOrEmpty();
         }
 
-        private Fm25Provider NewProvider(Func<IIlr1819RulebaseContext> ilr1819RulebaseContext = null)
+        private Fm25Provider NewProvider(Func<IIlr1920RulebaseContext> ilrRulebaseContext = null)
         {
-            return new Fm25Provider(ilr1819RulebaseContext);
+            return new Fm25Provider(ilrRulebaseContext);
         }
     }
 }

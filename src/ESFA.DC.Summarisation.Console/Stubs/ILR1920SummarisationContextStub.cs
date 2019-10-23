@@ -13,7 +13,7 @@ namespace ESFA.DC.Summarisation.Console.Stubs
 
         public IEnumerable<string> SummarisationTypes => new List<string> { "Main1920_FM35", "Main1920_EAS" };
 
-        public string Ukprn => string.Empty;
+        public int? Ukprn => 0;
 
         public int CollectionYear => 1920;
 

@@ -16,9 +16,9 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
     {
         private readonly Func<IDASPaymentsContext> _dasContext;
 
-        public string SummarisationType => nameof(Configuration.Enum.SummarisationType.Apps1920_NonLevy);
+        public string SummarisationType => SummarisationTypeConstants.Apps1920_NonLevy;
 
-        public string CollectionType => nameof(Configuration.Enum.CollectionType.APPS);
+        public string CollectionType => CollectionTypeConstants.APPS;
 
         public NonLevyProvider(Func<IDASPaymentsContext> dasContext)
         {
@@ -34,7 +34,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
         {
             using (var contextFactory = _dasContext())
             {
-                return await contextFactory.Payments.Where(w => w.ContractType == ConstantKeys.ContractType_NonLevy).Select(l => Convert.ToInt32(l.Ukprn)).Distinct().ToListAsync(cancellationToken);
+                return await contextFactory.Payments.Where(w => w.ContractType == ContractTypeConstants.NonLevy).Select(l => Convert.ToInt32(l.Ukprn)).Distinct().ToListAsync(cancellationToken);
             }
         }
 
@@ -50,11 +50,11 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
             {
                 var preSummarisedData = await contextFactory.Payments
                            .Where(p => p.Ukprn == ukprn
-                                      && p.ContractType == ConstantKeys.ContractType_NonLevy
+                                      && p.ContractType == ContractTypeConstants.NonLevy
                                       && (
                                             CollectionYears.Contains(p.AcademicYear)
-                                            || p.LearningAimFundingLineType.Equals(ConstantKeys.Apps1618NonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
-                                            || p.LearningAimFundingLineType.Equals(ConstantKeys.Apps19plusNonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
+                                            || p.LearningAimFundingLineType.Equals(FundlineConstants.Apps1618NonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
+                                            || p.LearningAimFundingLineType.Equals(FundlineConstants.Apps19plusNonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
                                         )
                                    )
                                    .Select(q1 => new

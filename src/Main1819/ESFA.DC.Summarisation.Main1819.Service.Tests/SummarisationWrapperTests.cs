@@ -57,7 +57,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var summarisedActualsRepositoryMock = new Mock<ISummarisedActualsProcessRepository>();
             summarisedActualsRepositoryMock.Setup(r => r.GetLastCollectionReturnForCollectionTypeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetLatestCollectionReturn()));
-            summarisedActualsRepositoryMock.Setup(r => r.GetLatestSummarisedActualsAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetSummarisedActuals()));
+            summarisedActualsRepositoryMock.Setup(r => r.GetSummarisedActualsForCollectionReturnAndOrganisationAsync(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetSummarisedActuals()));
 
             var dataStorePersistenceServiceMock = new Mock<IDataStorePersistenceService>();
 
@@ -81,9 +81,9 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var logger = new Mock<ILogger>();
 
-            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, summarisedActualsRepositoryMock.Object, fundingTypesProviders, collectionPeriodsProvider, summarisationServices, dataStorePersistenceServiceMock.Object, providerRepositoryFunc, dataOptions, logger.Object, summarisationContextMock.Object);
+            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, summarisedActualsRepositoryMock.Object, fundingTypesProviders, collectionPeriodsProvider, summarisationServices, dataStorePersistenceServiceMock.Object, providerRepositoryFunc, dataOptions, logger.Object);
 
-            var result = await wrapper.Summarise(cancellationToken);
+            var result = await wrapper.Summarise(summarisationContextMock.Object, cancellationToken);
 
             if (fundModel == FundModel.FM35)
             {
@@ -151,7 +151,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var summarisedActualsRepositoryMock = new Mock<ISummarisedActualsProcessRepository>();
             summarisedActualsRepositoryMock.Setup(r => r.GetLastCollectionReturnForCollectionTypeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetLatestCollectionReturn()));
-            summarisedActualsRepositoryMock.Setup(r => r.GetLatestSummarisedActualsAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetSummarisedActuals()));
+            summarisedActualsRepositoryMock.Setup(r => r.GetSummarisedActualsForCollectionReturnAndOrganisationAsync(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetSummarisedActuals()));
 
             var dataStorePersistenceServiceMock = new Mock<IDataStorePersistenceService>();
 
@@ -175,9 +175,9 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var logger = new Mock<ILogger>();
 
-            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, summarisedActualsRepositoryMock.Object, fundingTypesProviders, collectionPeriodsProvider, summarisationServices, dataStorePersistenceServiceMock.Object, providerRepositoryFunc, dataOptions, logger.Object, summarisationContextMock.Object);
+            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, summarisedActualsRepositoryMock.Object, fundingTypesProviders, collectionPeriodsProvider, summarisationServices, dataStorePersistenceServiceMock.Object, providerRepositoryFunc, dataOptions, logger.Object);
 
-            var result = await wrapper.Summarise(cancellationToken);
+            var result = await wrapper.Summarise(summarisationContextMock.Object, cancellationToken);
             result.Count().Should().Be(0);
             result.Should().BeNullOrEmpty();
         }
@@ -217,7 +217,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             summarisedActualsRepositoryMock.Setup(r => r.GetLastCollectionReturnForCollectionTypeAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetLatestCollectionReturn()));
 
-            summarisedActualsRepositoryMock.Setup(r => r.GetLatestSummarisedActualsAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetSummarisedActuals()));
+            summarisedActualsRepositoryMock.Setup(r => r.GetSummarisedActualsForCollectionReturnAndOrganisationAsync(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetSummarisedActuals()));
 
             var dataStorePersistenceServiceMock = new Mock<IDataStorePersistenceService>();
 
@@ -241,8 +241,8 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
 
             var logger = new Mock<ILogger>();
 
-            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, summarisedActualsRepositoryMock.Object, fundingTypesProviders, collectionPeriodsProvider, summarisationServices, dataStorePersistenceServiceMock.Object, providerRepositoryFunc, dataOptions, logger.Object, summarisationContextMock.Object);
-            var result = await wrapper.Summarise(cancellationToken);
+            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, summarisedActualsRepositoryMock.Object, fundingTypesProviders, collectionPeriodsProvider, summarisationServices, dataStorePersistenceServiceMock.Object, providerRepositoryFunc, dataOptions, logger.Object);
+            var result = await wrapper.Summarise(summarisationContextMock.Object, cancellationToken);
 
             if (fundModel == FundModel.FM35)
             {
@@ -313,7 +313,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             var messageMock = new Mock<ISummarisationMessage>();
             var dataOptions = new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" };
 
-            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, summarisedActualsRepositoryMock.Object, fundingTypesProviders, collectionPeriodsProvider, summarisationServices, dataStorePersistenceServiceMock.Object, providerRepositoryFunc, dataOptions, logger.Object, messageMock.Object);
+            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, summarisedActualsRepositoryMock.Object, fundingTypesProviders, collectionPeriodsProvider, summarisationServices, dataStorePersistenceServiceMock.Object, providerRepositoryFunc, dataOptions, logger.Object);
 
             var summarisedActuals = new List<Summarisation.Data.Output.Model.SummarisedActual>();
 
@@ -359,7 +359,7 @@ namespace ESFA.DC.Summarisation.Main1819.Service.Tests
             var messageMock = new Mock<ISummarisationMessage>();
             var dataOptions = new SummarisationDataOptions { DataRetrievalMaxConcurrentCalls = "4" };
 
-            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, summarisedActualsRepositoryMock.Object, fundingTypesProviders, collectionPeriodsProvider, summarisationServices, dataStorePersistenceServiceMock.Object, providerRepositoryFunc, dataOptions, logger.Object, messageMock.Object);
+            var wrapper = new SummarisationWrapper(fcsRepositoryMock.Object, summarisedActualsRepositoryMock.Object, fundingTypesProviders, collectionPeriodsProvider, summarisationServices, dataStorePersistenceServiceMock.Object, providerRepositoryFunc, dataOptions, logger.Object);
 
             var summarisedActuals = GetSummarisedActuals().Where(x => x.FundingStreamPeriodCode == "APPS1819");
 

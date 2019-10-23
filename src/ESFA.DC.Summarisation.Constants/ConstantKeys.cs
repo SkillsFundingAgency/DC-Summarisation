@@ -5,60 +5,6 @@ namespace ESFA.DC.Summarisation.Constants
 {
     public static class ConstantKeys
     {
-        public const string Apps1618NonLevyContractProcured = "16-18 Apprenticeship Non-Levy Contract (procured)";
-
-        public const string Apps19plusNonLevyContractProcured = "19+ Apprenticeship Non-Levy Contract (procured)";
-
-        public const string Levy1799 = "LEVY1799";
-
-        public const string NonLevy2019 = "NONLEVY2019";
-
-        public const string NonLevy_1618NLAP2018 = "16-18NLAP2018";
-
-        public const string NonLevy_ANLAP2018 = "ANLAP2018";
-
-        public const string NonLevy_APPS1920 = "APPS1920";
-
-        public const int ContractType_Levy = 1;
-
-        public const int ContractType_NonLevy = 2;
-
-        public const string NonLevy_APPS1819 = "APPS1819";
-
-        public const string LineType_EAS = "EAS";
-
-        public static List<string> FundingStreams = new List<string>()
-        {
-            "16-18TRN1920",
-            "AEBC-19TRN1920",
-            "AEBC-ASCL1920",
-            "AEB-19TRN1920",
-            "AEB-AS1920",
-            "ALLB1920",
-            "ALLBC1920",
-            "LEVY1799",
-            "NONLEVY2019",
-            "16-18NLAP2018",
-            "ANLAP2018",
-            "APPS1920",
-            "APPS1819",
-            "ESF1420",
-        };
-
         public const string ReRunSummarisation = "Re-Run";
-
-        public static List<string> Levy1799_EASlines = new List<string>()
-        {
-            "Authorised Claims: 16-18 Levy Apprenticeships - Training",
-            "Excess Learning Support: 16-18 Levy Apprenticeships - Provider",
-            "Authorised Claims: 16-18 Levy Apprenticeships - Provider",
-            "Authorised Claims: 16-18 Levy Apprenticeships - Employer",
-            "Authorised Claims: 16-18 Levy Apprenticeships - Apprentice",
-            "Authorised Claims: Adult Levy Apprenticeships - Training",
-            "Excess Learning Support: Adult Levy Apprenticeships - Provider",
-            "Authorised Claims: Adult Levy Apprenticeships - Provider",
-            "Authorised Claims: Adult Levy Apprenticeships - Employer",
-            "Authorised Claims: Adult Levy Apprenticeships - Apprentice",
-        };
     }
 }

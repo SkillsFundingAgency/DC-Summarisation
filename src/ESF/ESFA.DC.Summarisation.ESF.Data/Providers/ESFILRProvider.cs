@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using LearningDelivery = ESFA.DC.Summarisation.Data.Input.Model.LearningDelivery;
 using ESFA.DC.ESF.FundingData.Database.EF.Interfaces;
+using ESFA.DC.Summarisation.Constants;
 
 namespace ESFA.DC.Summarisation.ESF.Data.Providers
 {
@@ -15,9 +16,9 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
     {
         private readonly Func<IESFFundingDataContext> _fundingDataContext;
 
-        public string SummarisationType => nameof(Configuration.Enum.SummarisationType.ESF_ILRData);
+        public string SummarisationType => SummarisationTypeConstants.ESF_ILRData;
 
-        public string CollectionType => nameof(Configuration.Enum.CollectionType.ESF);
+        public string CollectionType => CollectionTypeConstants.ESF;
 
         public ESFILRProvider(Func<IESFFundingDataContext> fundingDataContext)
         {

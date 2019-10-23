@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ESFA.DC.Summarisation.Configuration
+namespace ESFA.DC.Summarisation.ESF.Data
 {
-    public static class SummarisationConstants
+    public static class UnitCostConstants
     {
-        public const string PeriodTypeCode = "CM";
-
         public const string UnitCost = "Unit Cost";
 
         public const string UnitCostDeduction = "Unit Cost Deduction";

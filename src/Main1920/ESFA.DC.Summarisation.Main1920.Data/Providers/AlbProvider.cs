@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR1920.DataStore.EF.Interface;
+using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -14,16 +15,16 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
     {
         private readonly Func<IIlr1920RulebaseContext> _ilr;
 
-        public string SummarisationType => nameof(Configuration.Enum.SummarisationType.Main1920_ALB);
+        public string SummarisationType => SummarisationTypeConstants.Main1920_ALB;
 
-        public string CollectionType => nameof(Configuration.Enum.CollectionType.ILR1920);
+        public string CollectionType => CollectionTypeConstants.ILR1920;
 
         public AlbProvider(Func<IIlr1920RulebaseContext> ilr)
         {
             _ilr = ilr;
         }
 
-        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
+        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             using (var ilrContext = _ilr())
             {
@@ -35,7 +36,11 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
                         AimSeqNumber = ld.AimSeqNumber,
                         Fundline = ld.FundLine,
                         PeriodisedData = ld.ALB_LearningDelivery_PeriodisedValues
-                            .Where(x => (x.Period_1 + x.Period_2 + x.Period_3 + x.Period_4 + x.Period_5 + x.Period_6 + x.Period_7 + x.Period_8 + x.Period_9 + x.Period_10 + x.Period_11 + x.Period_12) > 0)
+                            .Where(x => (x.Period_1 != 0 || x.Period_2 != 0 || x.Period_3 != 0 || x.Period_4 != 0 
+                                            || x.Period_5 != 0 || x.Period_6 != 0 || x.Period_7 != 0 || x.Period_8 != 0
+                                            || x.Period_9 != 0 || x.Period_10 != 0 || x.Period_11 != 0 || x.Period_12 != 0
+                                        )
+                                )
                             .Select(pv => new PeriodisedData
                             {
                                 AttributeName = pv.AttributeName,
@@ -114,8 +119,5 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
                 return await ilrContext.ALB_Learners.Select(l => l.UKPRN).Distinct().ToListAsync(cancellationToken);
             }
         }
-
-        public Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
-            => ProvideAsync(ukprn, cancellationToken);
     }
 }
