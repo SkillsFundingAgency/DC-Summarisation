@@ -17,9 +17,9 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
         private readonly Func<IDASPaymentsContext> _dasContext;
         private readonly ISummarisationConfigProvider<CollectionPeriod> _collectionPeriodProvider;
 
-        public string SummarisationType => ConstantKeys.SummarisationType_Apps1920_EAS;
+        public string SummarisationType => SummarisationTypeConstants.Apps1920_EAS;
 
-        public string CollectionType => ConstantKeys.CollectionType_APPS;
+        public string CollectionType => CollectionTypeConstants.APPS;
 
         public EasProvider(Func<IDASPaymentsContext> easContext, ISummarisationConfigProvider<CollectionPeriod> collectionPeriodProvider)
         {
@@ -74,7 +74,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
                 var nonlevyEAS = await easContext.ProviderAdjustmentPayments
                             .Where(sv => sv.Ukprn == ukprn
                               //&& CollectionYears.Contains(sv.SubmissionAcademicYear)
-                                && !ConstantKeys.Levy1799_EASlines.Contains(sv.PaymentTypeName)
+                                && !FundlineConstants.Levy1799_EASlines.Contains(sv.PaymentTypeName)
                             ).
                             Select(q1 => new
                                 {
@@ -88,7 +88,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
                 var levyEAS = (await easContext.ProviderAdjustmentPayments
                             .Where(sv => sv.Ukprn == ukprn
                                 && CollectionPeriodNames.Contains(sv.CollectionPeriodName)
-                                && ConstantKeys.Levy1799_EASlines.Contains(sv.PaymentTypeName)
+                                && FundlineConstants.Levy1799_EASlines.Contains(sv.PaymentTypeName)
                             ).ToListAsync(cancellationToken))
                             .Select(p =>
                             {

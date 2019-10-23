@@ -56,7 +56,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             var repositoryMock = new Mock<IProviderRepository>();
             repositoryMock.Setup(r => r.ProvideAsync(ukprn, summarisationMessageMock.Object, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProviderData(ukprn)));
 
-            repositoryMock.Setup(r => r.GetAllProviderIdentifiersAsync(ConstantKeys.CollectionType_ESF.ToString(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetProviderList(ukprn)));
+            repositoryMock.Setup(r => r.GetAllProviderIdentifiersAsync(CollectionTypeConstants.ESF.ToString(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetProviderList(ukprn)));
 
             Func<IProviderRepository> providerRepositoryFunc = () =>
             {
@@ -174,7 +174,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             var repositoryMock = new Mock<IProviderRepository>();
             repositoryMock.Setup(r => r.ProvideAsync(ukprn, summarisationMessageMock.Object, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetTestProviderData(ukprn)));
 
-            repositoryMock.Setup(r => r.GetAllProviderIdentifiersAsync(ConstantKeys.CollectionType_ESF, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetProviderList(ukprn)));
+            repositoryMock.Setup(r => r.GetAllProviderIdentifiersAsync(CollectionTypeConstants.ESF, It.IsAny<CancellationToken>())).Returns(Task.FromResult(GetProviderList(ukprn)));
 
             Func<IProviderRepository> providerRepositoryFunc = () =>
             {
@@ -307,8 +307,8 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             var fundingTypesProvider = new FundingTypesProvider(new JsonSerializationService());
             fundingTypesProviders.Add(fundingTypesProvider);
             return fundingTypesProviders
-                .FirstOrDefault(w => w.CollectionType.Equals(ConstantKeys.CollectionType_ESF.ToString(), StringComparison.OrdinalIgnoreCase))
-                .Provide().Where(x => x.SummarisationType.Equals(ConstantKeys.SummarisationType_ESF_SuppData, StringComparison.OrdinalIgnoreCase))
+                .FirstOrDefault(w => w.CollectionType.Equals(CollectionTypeConstants.ESF.ToString(), StringComparison.OrdinalIgnoreCase))
+                .Provide().Where(x => x.SummarisationType.Equals(SummarisationTypeConstants.ESF_SuppData, StringComparison.OrdinalIgnoreCase))
                 .SelectMany(fs => fs.FundingStreams)
                 .ToList();
         }

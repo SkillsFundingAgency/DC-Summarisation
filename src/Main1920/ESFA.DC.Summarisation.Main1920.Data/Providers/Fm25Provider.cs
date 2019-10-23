@@ -13,9 +13,9 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
 {
     public class Fm25Provider : ILearningDeliveryProvider
     {
-        public string SummarisationType => ConstantKeys.SummarisationType_Main1920_FM25;
+        public string SummarisationType => SummarisationTypeConstants.Main1920_FM25;
 
-        public string CollectionType => ConstantKeys.CollectionType_ILR1920;
+        public string CollectionType => CollectionTypeConstants.ILR1920;
 
         private readonly Func<IIlr1920RulebaseContext> _ilr;
 

@@ -13,7 +13,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Providers
         {
         }
 
-        public override string CollectionType => ConstantKeys.CollectionType_ILR1920;
+        public override string CollectionType => CollectionTypeConstants.ILR1920;
 
         protected override Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
 

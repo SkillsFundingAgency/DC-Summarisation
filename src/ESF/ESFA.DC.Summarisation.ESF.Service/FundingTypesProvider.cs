@@ -17,7 +17,7 @@ namespace ESFA.DC.Summarisation.ESF.Service
 
         protected override Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
 
-        public override string CollectionType => ConstantKeys.CollectionType_ESF;
+        public override string CollectionType => CollectionTypeConstants.ESF;
     }
 }
 

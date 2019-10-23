@@ -12,7 +12,7 @@ namespace ESFA.DC.Summarisation.Service
 {
     public class SummarisationDeliverableProcess : ISummarisationService
     {
-        public string ProcessType => ConstantKeys.ProcessType_Deliverable;
+        public string ProcessType => ProcessTypeConstants.Deliverable;
 
         public IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams, IProvider provider, IEnumerable<IFcsContractAllocation> allocations, IEnumerable<CollectionPeriod> collectionPeriods, ISummarisationMessage summarisationMessage)
         {

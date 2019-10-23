@@ -109,7 +109,7 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Tests
         [Fact]
         public void SummarisationType_CheckWithConstantValue()
         {
-            NewProvider().SummarisationType.Should().Be(ConstantKeys.SummarisationType_Main1920_TBL);
+            NewProvider().SummarisationType.Should().Be(SummarisationTypeConstants.Main1920_TBL);
         }
 
         [Fact]
@@ -121,7 +121,7 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Tests
         [Fact]
         public void CollectionType_CheckWithConstantValue()
         {
-            NewProvider().CollectionType.Should().Be(ConstantKeys.CollectionType_ILR1920);
+            NewProvider().CollectionType.Should().Be(CollectionTypeConstants.ILR1920);
         }
 
         [Fact]

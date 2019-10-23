@@ -20,9 +20,9 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
             _ilrContext = ilrContext;
         }
 
-        public string SummarisationType => ConstantKeys.SummarisationType_Main1920_TBL;
+        public string SummarisationType => SummarisationTypeConstants.Main1920_TBL;
 
-        public string CollectionType => ConstantKeys.CollectionType_ILR1920;
+        public string CollectionType => CollectionTypeConstants.ILR1920;
 
         public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {

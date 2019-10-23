@@ -15,9 +15,9 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
     {
         private readonly Func<IDASPaymentsContext> _dasContext;
 
-        public string SummarisationType => ConstantKeys.SummarisationType_Apps1920_Levy;
+        public string SummarisationType => SummarisationTypeConstants.Apps1920_Levy;
 
-        public string CollectionType => ConstantKeys.CollectionType_APPS;
+        public string CollectionType => CollectionTypeConstants.APPS;
 
         public LevyProvider(Func<IDASPaymentsContext> dasContext)
         {
@@ -58,7 +58,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
             {
 
                 var preSummarisedData = await contextFactory.Payments
-                             .Where(p => p.Ukprn == ukprn && p.ContractType == ConstantKeys.ContractType_Levy
+                             .Where(p => p.Ukprn == ukprn && p.ContractType == ContractTypeConstants.Levy
                                     && (
                                         (p.AcademicYear == currentCollectionYear && p.CollectionPeriod == currentCollectionPeriod)
                                         ||

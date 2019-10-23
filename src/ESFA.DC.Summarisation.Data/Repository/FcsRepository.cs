@@ -26,7 +26,7 @@ namespace ESFA.DC.Summarisation.Data.Population.Service
             using (var fcsContext = _fcs())
             {
                 return await fcsContext.ContractAllocations
-                    .Where(w => ConstantKeys.FundingStreams.Contains(w.FundingStreamPeriodCode))
+                    .Where(w => FundingStreamConstants.FundingStreams.Contains(w.FundingStreamPeriodCode))
                     .Select(ca => new FcsContractAllocation
                     {
                         ContractAllocationNumber = ca.ContractAllocationNumber,

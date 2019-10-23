@@ -117,7 +117,7 @@ namespace ESFA.DC.Summarisation.Service
                     }
                 }
 
-                if (!summarisationMessage.ProcessType.Equals(ConstantKeys.ProcessType_Payments, StringComparison.OrdinalIgnoreCase))
+                if (!summarisationMessage.ProcessType.Equals(ProcessTypeConstants.Payments, StringComparison.OrdinalIgnoreCase))
                 {
                     var organisationId = providerActuals.Select(x => x.OrganisationId).FirstOrDefault();
 

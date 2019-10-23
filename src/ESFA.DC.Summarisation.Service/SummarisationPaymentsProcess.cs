@@ -12,7 +12,7 @@ namespace ESFA.DC.Summarisation.Service
 {
     public class SummarisationPaymentsProcess : ISummarisationService
     {
-        public string ProcessType => ConstantKeys.ProcessType_Payments;
+        public string ProcessType => ProcessTypeConstants.Payments;
 
         public IEnumerable<SummarisedActual> Summarise(
             List<FundingStream> fundingStreams,
@@ -54,8 +54,8 @@ namespace ESFA.DC.Summarisation.Service
                     break;
             }
 
-            if (fundingStream.PeriodCode.Equals(ConstantKeys.Levy1799, StringComparison.OrdinalIgnoreCase) 
-                || fundingStream.PeriodCode.Equals(ConstantKeys.NonLevy2019, StringComparison.OrdinalIgnoreCase))
+            if (fundingStream.PeriodCode.Equals(FundingStreamConstants.Levy1799, StringComparison.OrdinalIgnoreCase) 
+                || fundingStream.PeriodCode.Equals(FundingStreamConstants.NonLevy2019, StringComparison.OrdinalIgnoreCase))
             {
                 collectionPeriods = collectionPeriods.Where(w => 
                                                                 (w.CollectionYear == summarisationMessage.CollectionYear && w.CollectionMonth == summarisationMessage.CollectionMonth)
@@ -63,16 +63,16 @@ namespace ESFA.DC.Summarisation.Service
                                                                 (w.CollectionYear == previousCollectionYear && w.CollectionMonth == previousCollectionMonth)
                                                             );
             }
-            else if (fundingStream.PeriodCode.Equals(ConstantKeys.NonLevy_APPS1920, StringComparison.OrdinalIgnoreCase))
+            else if (fundingStream.PeriodCode.Equals(FundingStreamConstants.NonLevy_APPS1920, StringComparison.OrdinalIgnoreCase))
             {
                 collectionPeriods = collectionPeriods.Where(w => w.CollectionYear == summarisationMessage.CollectionYear && w.CollectionMonth <= 12);
             }
-            else if (fundingStream.PeriodCode.Equals(ConstantKeys.NonLevy_APPS1819, StringComparison.OrdinalIgnoreCase))
+            else if (fundingStream.PeriodCode.Equals(FundingStreamConstants.NonLevy_APPS1819, StringComparison.OrdinalIgnoreCase))
             {
                 collectionPeriods = collectionPeriods.Where(w => w.CollectionYear == previousCollectionYear && w.CollectionMonth <= 12);
             }
-            else if (fundingStream.PeriodCode.Equals(ConstantKeys.NonLevy_ANLAP2018, StringComparison.OrdinalIgnoreCase)
-                    || fundingStream.PeriodCode.Equals(ConstantKeys.NonLevy_1618NLAP2018, StringComparison.OrdinalIgnoreCase))
+            else if (fundingStream.PeriodCode.Equals(FundingStreamConstants.NonLevy_ANLAP2018, StringComparison.OrdinalIgnoreCase)
+                    || fundingStream.PeriodCode.Equals(FundingStreamConstants.NonLevy_1618NLAP2018, StringComparison.OrdinalIgnoreCase))
             {
                 // No Filter needed. Need every thing from Collection Periods configuration
             }

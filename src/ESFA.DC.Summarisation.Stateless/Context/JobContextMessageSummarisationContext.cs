@@ -85,22 +85,22 @@ namespace ESFA.DC.Summarisation.Stateless.Context
         {
             string returnValue = string.Empty;
 
-            if (SummarisationTypes.Any(item => item.Equals(ConstantKeys.SummarisationType_Main1920_FM25, StringComparison.OrdinalIgnoreCase)
-                        || item.Equals(ConstantKeys.SummarisationType_Main1920_ALB, StringComparison.OrdinalIgnoreCase)
-                        || item.Equals(ConstantKeys.SummarisationType_Main1920_TBL, StringComparison.OrdinalIgnoreCase)
-                        || item.Equals(ConstantKeys.SummarisationType_Main1920_EAS, StringComparison.OrdinalIgnoreCase)
-                        || item.Equals(ConstantKeys.SummarisationType_Main1920_FM35, StringComparison.OrdinalIgnoreCase)))
+            if (SummarisationTypes.Any(item => item.Equals(SummarisationTypeConstants.Main1920_FM25, StringComparison.OrdinalIgnoreCase)
+                        || item.Equals(SummarisationTypeConstants.Main1920_ALB, StringComparison.OrdinalIgnoreCase)
+                        || item.Equals(SummarisationTypeConstants.Main1920_TBL, StringComparison.OrdinalIgnoreCase)
+                        || item.Equals(SummarisationTypeConstants.Main1920_EAS, StringComparison.OrdinalIgnoreCase)
+                        || item.Equals(SummarisationTypeConstants.Main1920_FM35, StringComparison.OrdinalIgnoreCase)))
             {
                 returnValue = _jobContextMessage.KeyValuePairs[$"{key}DC"].ToString();
             }
-            else if (SummarisationTypes.Any(item => item.Equals(ConstantKeys.SummarisationType_ESF_ILRData, StringComparison.OrdinalIgnoreCase)
-                   || item.Equals(ConstantKeys.SummarisationType_ESF_SuppData, StringComparison.OrdinalIgnoreCase)))
+            else if (SummarisationTypes.Any(item => item.Equals(SummarisationTypeConstants.ESF_ILRData, StringComparison.OrdinalIgnoreCase)
+                   || item.Equals(SummarisationTypeConstants.ESF_SuppData, StringComparison.OrdinalIgnoreCase)))
             {
                 returnValue = _jobContextMessage.KeyValuePairs[$"{key}ESF"].ToString();
             }
-            else if (SummarisationTypes.Any(item => item.Equals(ConstantKeys.SummarisationType_Apps1920_Levy, StringComparison.OrdinalIgnoreCase)
-                   || item.Equals(ConstantKeys.SummarisationType_Apps1920_NonLevy, StringComparison.OrdinalIgnoreCase)
-                   || item.Equals(ConstantKeys.SummarisationType_Apps1920_EAS, StringComparison.OrdinalIgnoreCase)))
+            else if (SummarisationTypes.Any(item => item.Equals(SummarisationTypeConstants.Apps1920_Levy, StringComparison.OrdinalIgnoreCase)
+                   || item.Equals(SummarisationTypeConstants.Apps1920_NonLevy, StringComparison.OrdinalIgnoreCase)
+                   || item.Equals(SummarisationTypeConstants.Apps1920_EAS, StringComparison.OrdinalIgnoreCase)))
             {
                 returnValue = _jobContextMessage.KeyValuePairs[$"{key}App"].ToString();
             }

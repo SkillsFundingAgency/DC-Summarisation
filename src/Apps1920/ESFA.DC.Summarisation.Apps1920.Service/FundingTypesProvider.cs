@@ -13,7 +13,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Service
         {
         }
 
-        public override string CollectionType => ConstantKeys.CollectionType_APPS;
+        public override string CollectionType => CollectionTypeConstants.APPS;
 
         protected override Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
 

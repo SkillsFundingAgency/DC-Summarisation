@@ -16,9 +16,9 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
     {
         private readonly Func<IESFFundingDataContext> _fundingDataContext;
 
-        public string SummarisationType => ConstantKeys.SummarisationType_ESF_ILRData;
+        public string SummarisationType => SummarisationTypeConstants.ESF_ILRData;
 
-        public string CollectionType => ConstantKeys.CollectionType_ESF;
+        public string CollectionType => CollectionTypeConstants.ESF;
 
         public ESFILRProvider(Func<IESFFundingDataContext> fundingDataContext)
         {
