@@ -30,7 +30,7 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
             int previousCollectionYear = summarisationMessage.CollectionYear - 101;
             int previousCollectionMonth = 0;
 
-            switch(summarisationMessage.CollectionMonth)
+            switch (summarisationMessage.CollectionMonth)
             {
                 case 1:
                     previousCollectionMonth = 12;
@@ -48,166 +48,100 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
 
             using (var contextFactory = _fundingDataContext())
             {
-                var esfdataToFilter = contextFactory.LatestProviderSubmissions
-               .Where(x => x.UKPRN == ukprn)
-               .Select(s1 => new
-               {
-                   s1.UKPRN,
-                   CollectionYear = Convert.ToInt32(s1.CollectionType.Substring(3)),
-                   CollectionMonth = (s1.CollectionReturnCode == string.Empty ? 0 : Convert.ToInt32(s1.CollectionReturnCode.Substring(1)))
-               })
-               .Select(s2 => new
-                    {
-                        s2.UKPRN,
-                        s2.CollectionYear,
-                        CollectionPeriod = (s2.CollectionYear == previousCollectionYear && s2.CollectionMonth > previousCollectionMonth ? previousCollectionMonth : s2.CollectionMonth)
-                    }).ToList();
+                // This is to find out the latest ILR submission of the provider from current ILR collection year and previous ILR collection year
+                var esfdataToFilter = contextFactory.ESFFundingDatasSummarised
+               .Where(x => x.UKPRN == ukprn
+                        && (
+                                (x.CollectionYear == summarisationMessage.CollectionYear && x.CollectionPeriod <= summarisationMessage.CollectionMonth)
+                                || (x.CollectionYear == previousCollectionYear && x.CollectionPeriod <= previousCollectionMonth)
+                                || (x.CollectionYear < previousCollectionYear)
+                            )
+                        )
+               .GroupBy(g => new { g.UKPRN, g.ConRefNumber, g.CollectionYear })
+               .Select(s => new { s.Key.UKPRN, s.Key.ConRefNumber, s.Key.CollectionYear, CollectionPeriod = s.Max(y => y.CollectionPeriod) })
+               .OrderByDescending(o => o.CollectionPeriod).ToList();
 
-                return await contextFactory.ESFFundingDatasSummarised
-                    .Join(esfdataToFilter,
-                                esf => new {esf.UKPRN, esf.CollectionYear,esf.CollectionPeriod },
-                                filter => new { filter.UKPRN, filter.CollectionYear, filter.CollectionPeriod },
+                var esfdata = await contextFactory.ESFFundingDatasSummarised
+                            .Where(x => x.UKPRN == ukprn
+                                && (x.Period_1 != 0 || x.Period_2 != 0 || x.Period_3 != 0 || x.Period_4 != 0
+                                                    || x.Period_5 != 0 || x.Period_6 != 0 || x.Period_7 != 0 || x.Period_8 != 0
+                                                    || x.Period_9 != 0 || x.Period_10 != 0 || x.Period_11 != 0 || x.Period_12 != 0)
+                                                    )
+                            .ToListAsync(cancellationToken);
+
+                return esfdata
+                      .Join(esfdataToFilter,
+                                esf => new { esf.UKPRN, esf.ConRefNumber, esf.CollectionYear, esf.CollectionPeriod },
+                                filter => new { filter.UKPRN, filter.ConRefNumber, filter.CollectionYear, filter.CollectionPeriod },
                                 (esf, filter) => esf)
-                    .Where(x => x.UKPRN == ukprn
-                        && (x.Period_1 + x.Period_2 + x.Period_3 + x.Period_4 + x.Period_5 + x.Period_6 + x.Period_7 + x.Period_8 + x.Period_9 + x.Period_10 + x.Period_11 + x.Period_12) > 0)
-                    .Select(ld => new LearningDelivery
-                    {
-                        ConRefNumber = ld.ConRefNumber,
-                        PeriodisedData = new List<PeriodisedData>
+                        .Select(ld =>
+                         {
+                            var CalendarYear2018 = 2000 + (ld.CollectionYear / 100);
+                            var CalendarYear2019 = 2000 + (ld.CollectionYear % 100);
+
+                            return new LearningDelivery
                             {
-                             new PeriodisedData
-                              {
-                                AttributeName = ld.AttributeName,
-                                DeliverableCode = ld.DeliverableCode,
-                                Periods = new List<Period>
-                                {
-                                    new Period
+                                ConRefNumber = ld.ConRefNumber,
+                                PeriodisedData = new List<PeriodisedData>
+                                { 
+                                    new PeriodisedData
                                     {
-                                        PeriodId = 1,
-                                        CollectionYear = ld.CollectionYear,
-                                        CalendarYear = 2000 + (ld.CollectionYear / 100),
-                                        CalendarMonth = 8,
-                                        Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_1 : 0,
-                                        Volume = ld.AttributeName.Equals("DeliverableVolume") ? Convert.ToInt32(ld.Period_1) : 0
-                                    },
-                                    new Period
-                                    {
-                                        PeriodId = 2,
-                                        CollectionYear = ld.CollectionYear,
-                                        CalendarYear = 2000 + (ld.CollectionYear / 100),
-                                        CalendarMonth = 9,
-                                        Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_2 : 0,
-                                        Volume = ld.AttributeName == "DeliverableVolume" ? Convert.ToInt32(ld.Period_2) : 0
-                                    },
-                                    new Period
-                                    {
-                                        PeriodId = 3,
-                                        CollectionYear = ld.CollectionYear,
-                                        CalendarYear = 2000 + (ld.CollectionYear / 100),
-                                        CalendarMonth = 10,
-                                        Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_3 : 0,
-                                        Volume = ld.AttributeName == "DeliverableVolume" ? Convert.ToInt32(ld.Period_3) : 0
-                                    },
-                                    new Period
-                                    {
-                                        PeriodId = 4,
-                                        CollectionYear = ld.CollectionYear,
-                                        CalendarYear = 2000 + (ld.CollectionYear / 100),
-                                        CalendarMonth = 11,
-                                        Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_4 : 0,
-                                        Volume = ld.AttributeName == "DeliverableVolume" ? Convert.ToInt32(ld.Period_4) : 0
-                                    },
-                                    new Period
-                                    {
-                                        PeriodId = 5,
-                                        CollectionYear = ld.CollectionYear,
-                                        CalendarYear = 2000 + (ld.CollectionYear / 100),
-                                        CalendarMonth = 12,
-                                        Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_5 : 0,
-                                        Volume = ld.AttributeName == "DeliverableVolume" ? Convert.ToInt32(ld.Period_5) : 0
-                                    },
-                                    new Period
-                                    {
-                                        PeriodId = 6,
-                                        CollectionYear = ld.CollectionYear,
-                                        CalendarYear = 2000 + (ld.CollectionYear % 100),
-                                        CalendarMonth = 1,
-                                        Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_6 : 0,
-                                        Volume = ld.AttributeName == "DeliverableVolume" ? Convert.ToInt32(ld.Period_6) : 0
-                                    },
-                                    new Period
-                                    {
-                                        PeriodId = 7,
-                                        CollectionYear = ld.CollectionYear,
-                                        CalendarYear = 2000 + (ld.CollectionYear % 100),
-                                        CalendarMonth = 2,
-                                        Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_7 : 0,
-                                        Volume = ld.AttributeName == "DeliverableVolume" ? Convert.ToInt32(ld.Period_7) : 0
-                                    },
-                                    new Period
-                                    {
-                                        PeriodId = 8,
-                                        CollectionYear = ld.CollectionYear,
-                                        CalendarYear = 2000 + (ld.CollectionYear % 100),
-                                        CalendarMonth = 3,
-                                        Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_8 : 0,
-                                        Volume = ld.AttributeName == "DeliverableVolume" ? Convert.ToInt32(ld.Period_8) : 0
-                                    },
-                                    new Period
-                                    {
-                                        PeriodId = 9,
-                                        CollectionYear = ld.CollectionYear,
-                                        CalendarYear = 2000 + (ld.CollectionYear % 100),
-                                        CalendarMonth = 4,
-                                        Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_9 : 0,
-                                        Volume = ld.AttributeName == "DeliverableVolume" ? Convert.ToInt32(ld.Period_9) : 0
-                                    },
-                                    new Period
-                                    {
-                                        PeriodId = 10,
-                                        CollectionYear = ld.CollectionYear,
-                                        CalendarYear = 2000 + (ld.CollectionYear % 100),
-                                        CalendarMonth = 5,
-                                        Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_10 : 0,
-                                        Volume = ld.AttributeName == "DeliverableVolume" ? Convert.ToInt32(ld.Period_10) : 0
-                                    },
-                                    new Period
-                                    {
-                                        PeriodId = 11,
-                                        CollectionYear = ld.CollectionYear,
-                                        CalendarYear = 2000 + (ld.CollectionYear % 100),
-                                        CalendarMonth = 6,
-                                        Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_11 : 0,
-                                        Volume = ld.AttributeName == "DeliverableVolume" ? Convert.ToInt32(ld.Period_11) : 0
-                                    },
-                                    new Period
-                                    {
-                                        PeriodId = 12,
-                                        CollectionYear = ld.CollectionYear,
-                                        CalendarYear = 2000 + (ld.CollectionYear % 100),
-                                        CalendarMonth = 7,
-                                        Value = ld.AttributeName != "DeliverableVolume" ? ld.Period_12 : 0,
-                                        Volume = ld.AttributeName == "DeliverableVolume" ? Convert.ToInt32(ld.Period_12) : 0
+                                        AttributeName = ld.AttributeName,
+                                        DeliverableCode = ld.DeliverableCode,
+                                        Periods = new List<Period>
+                                        {
+                                            BuildPeriodFromLearningDelivery(1, ld.CollectionYear, CalendarYear2018, 8, ld.AttributeName, ld.Period_1),
+
+                                            BuildPeriodFromLearningDelivery(2, ld.CollectionYear, CalendarYear2018, 9, ld.AttributeName, ld.Period_2),
+
+                                            BuildPeriodFromLearningDelivery(3, ld.CollectionYear, CalendarYear2018, 10, ld.AttributeName, ld.Period_3),
+
+                                            BuildPeriodFromLearningDelivery(4, ld.CollectionYear, CalendarYear2018, 11, ld.AttributeName, ld.Period_4),
+
+                                            BuildPeriodFromLearningDelivery(5, ld.CollectionYear, CalendarYear2018, 12, ld.AttributeName, ld.Period_5),
+
+                                            BuildPeriodFromLearningDelivery(6, ld.CollectionYear, CalendarYear2019, 1, ld.AttributeName, ld.Period_6),
+
+                                            BuildPeriodFromLearningDelivery(7, ld.CollectionYear, CalendarYear2019, 2, ld.AttributeName, ld.Period_7),
+
+                                            BuildPeriodFromLearningDelivery(8, ld.CollectionYear, CalendarYear2019, 3, ld.AttributeName, ld.Period_8),
+
+                                            BuildPeriodFromLearningDelivery(9, ld.CollectionYear, CalendarYear2019, 4, ld.AttributeName, ld.Period_9),
+
+                                            BuildPeriodFromLearningDelivery(10, ld.CollectionYear, CalendarYear2019, 5, ld.AttributeName, ld.Period_10),
+
+                                            BuildPeriodFromLearningDelivery(11, ld.CollectionYear, CalendarYear2019, 6, ld.AttributeName, ld.Period_11),
+
+                                            BuildPeriodFromLearningDelivery(12, ld.CollectionYear, CalendarYear2019, 7, ld.AttributeName, ld.Period_12),
+                                        }
                                     }
                                 }
-                             }
-                            }
-                    }).ToListAsync(cancellationToken);
+                            };
+                         }).ToList();
             }
-            
         }
 
         public async Task<IList<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
         {
             using (var contextFactory = _fundingDataContext())
             {
-                return await contextFactory.LatestProviderSubmissions.Select(l => l.UKPRN).Distinct().ToListAsync(cancellationToken);
+                return await contextFactory.ESFFundingDatasSummarised.Select(l => l.UKPRN).Distinct().ToListAsync(cancellationToken);
             }
         }
 
-        public Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
+        private Period BuildPeriodFromLearningDelivery(int period, int collectionYear, int calendarYear, int calendarMonth, string attributeName, decimal? periodValue)
         {
-            throw new NotImplementedException();
+            var isDeliverableVolume = string.Equals(attributeName, ESFConstants.DeliverableVolume, StringComparison.OrdinalIgnoreCase);
+
+            return new Period
+            {
+                PeriodId = period,
+                CollectionYear = collectionYear,
+                CalendarYear = calendarYear,
+                CalendarMonth = calendarMonth,
+                Value = !isDeliverableVolume ? periodValue : 0,
+                Volume = isDeliverableVolume ? Convert.ToInt32(periodValue) : 0
+            };
         }
     }
 }
