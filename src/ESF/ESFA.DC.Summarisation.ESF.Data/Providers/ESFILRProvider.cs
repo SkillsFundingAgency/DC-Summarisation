@@ -76,8 +76,8 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                 (esf, filter) => esf)
                         .Select(ld =>
                          {
-                            var CalendarYear2018 = 2000 + (ld.CollectionYear / 100);
-                            var CalendarYear2019 = 2000 + (ld.CollectionYear % 100);
+                            var CalendarYearStart = 2000 + (ld.CollectionYear / 100);
+                            var CalendarYearEnd = 2000 + (ld.CollectionYear % 100);
 
                             return new LearningDelivery
                             {
@@ -90,29 +90,29 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                         DeliverableCode = ld.DeliverableCode,
                                         Periods = new List<Period>
                                         {
-                                            BuildPeriodFromLearningDelivery(1, ld.CollectionYear, CalendarYear2018, 8, ld.AttributeName, ld.Period_1),
+                                            BuildPeriodFromLearningDelivery(1, ld.CollectionYear, CalendarYearStart, 8, ld.AttributeName, ld.Period_1),
 
-                                            BuildPeriodFromLearningDelivery(2, ld.CollectionYear, CalendarYear2018, 9, ld.AttributeName, ld.Period_2),
+                                            BuildPeriodFromLearningDelivery(2, ld.CollectionYear, CalendarYearStart, 9, ld.AttributeName, ld.Period_2),
 
-                                            BuildPeriodFromLearningDelivery(3, ld.CollectionYear, CalendarYear2018, 10, ld.AttributeName, ld.Period_3),
+                                            BuildPeriodFromLearningDelivery(3, ld.CollectionYear, CalendarYearStart, 10, ld.AttributeName, ld.Period_3),
 
-                                            BuildPeriodFromLearningDelivery(4, ld.CollectionYear, CalendarYear2018, 11, ld.AttributeName, ld.Period_4),
+                                            BuildPeriodFromLearningDelivery(4, ld.CollectionYear, CalendarYearStart, 11, ld.AttributeName, ld.Period_4),
 
-                                            BuildPeriodFromLearningDelivery(5, ld.CollectionYear, CalendarYear2018, 12, ld.AttributeName, ld.Period_5),
+                                            BuildPeriodFromLearningDelivery(5, ld.CollectionYear, CalendarYearStart, 12, ld.AttributeName, ld.Period_5),
 
-                                            BuildPeriodFromLearningDelivery(6, ld.CollectionYear, CalendarYear2019, 1, ld.AttributeName, ld.Period_6),
+                                            BuildPeriodFromLearningDelivery(6, ld.CollectionYear, CalendarYearEnd, 1, ld.AttributeName, ld.Period_6),
 
-                                            BuildPeriodFromLearningDelivery(7, ld.CollectionYear, CalendarYear2019, 2, ld.AttributeName, ld.Period_7),
+                                            BuildPeriodFromLearningDelivery(7, ld.CollectionYear, CalendarYearEnd, 2, ld.AttributeName, ld.Period_7),
 
-                                            BuildPeriodFromLearningDelivery(8, ld.CollectionYear, CalendarYear2019, 3, ld.AttributeName, ld.Period_8),
+                                            BuildPeriodFromLearningDelivery(8, ld.CollectionYear, CalendarYearEnd, 3, ld.AttributeName, ld.Period_8),
 
-                                            BuildPeriodFromLearningDelivery(9, ld.CollectionYear, CalendarYear2019, 4, ld.AttributeName, ld.Period_9),
+                                            BuildPeriodFromLearningDelivery(9, ld.CollectionYear, CalendarYearEnd, 4, ld.AttributeName, ld.Period_9),
 
-                                            BuildPeriodFromLearningDelivery(10, ld.CollectionYear, CalendarYear2019, 5, ld.AttributeName, ld.Period_10),
+                                            BuildPeriodFromLearningDelivery(10, ld.CollectionYear, CalendarYearEnd, 5, ld.AttributeName, ld.Period_10),
 
-                                            BuildPeriodFromLearningDelivery(11, ld.CollectionYear, CalendarYear2019, 6, ld.AttributeName, ld.Period_11),
+                                            BuildPeriodFromLearningDelivery(11, ld.CollectionYear, CalendarYearEnd, 6, ld.AttributeName, ld.Period_11),
 
-                                            BuildPeriodFromLearningDelivery(12, ld.CollectionYear, CalendarYear2019, 7, ld.AttributeName, ld.Period_12),
+                                            BuildPeriodFromLearningDelivery(12, ld.CollectionYear, CalendarYearEnd, 7, ld.AttributeName, ld.Period_12),
                                         }
                                     }
                                 }
