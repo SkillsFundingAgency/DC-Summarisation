@@ -28,9 +28,20 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
         {
             using (var esfr2Context = _esf())
             {
-
-                var preSummarised = await esfr2Context.SupplementaryDatas
+                var esfData = await esfr2Context.SupplementaryDatas
                                 .Where(sd => sd.SourceFile.Ukprn == ukprn.ToString())
+                                 .Select(obj => new
+                                 {
+                                     ConRefNumber = obj.ConRefNumber,
+                                     DeliverableCode = obj.DeliverableCode,
+                                     CalendarYear = obj.CalendarYear,
+                                     CalendarMonth = obj.CalendarMonth,
+                                     CostType = obj.CostType,
+                                     Value = obj.Value,
+                                     UnitCostValue = obj.SupplementaryDataUnitCost.Value,
+                                 }).ToListAsync(cancellationToken);
+
+                var preSummarised = esfData
                                 .GroupBy(g => new { ConRefNumber = g.ConRefNumber.Trim(), g.DeliverableCode, g.CalendarYear, g.CalendarMonth })
                                 .Select(obj => new
                                 {
@@ -38,9 +49,9 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                     DeliverableCode = obj.Key.DeliverableCode,
                                     CalendarYear = obj.Key.CalendarYear,
                                     CalendarMonth = obj.Key.CalendarMonth,
-                                    Value = obj.Sum(p => p.CostType.Equals(UnitCostConstants.UnitCost, StringComparison.OrdinalIgnoreCase) ? (p.SupplementaryDataUnitCost.Value ?? p.Value) : p.CostType.Equals(UnitCostConstants.UnitCostDeduction, StringComparison.OrdinalIgnoreCase) ? (p.SupplementaryDataUnitCost.Value ?? p.Value) * -1 : p.Value),
-                                    Volume = obj.Sum(p => p.CostType.Equals(UnitCostConstants.UnitCost, StringComparison.OrdinalIgnoreCase) ? 1 : p.CostType.Equals(UnitCostConstants.UnitCostDeduction, StringComparison.OrdinalIgnoreCase) ? -1 : 0),
-                                }).ToListAsync(cancellationToken);
+                                    Value = obj.Sum(p => p.CostType.Equals(ESFConstants.UnitCost, StringComparison.OrdinalIgnoreCase) ? (p.UnitCostValue ?? p.Value) : p.CostType.Equals(ESFConstants.UnitCostDeduction, StringComparison.OrdinalIgnoreCase) ? (p.UnitCostValue ?? p.Value) * -1 : p.Value),
+                                    Volume = obj.Sum(p => p.CostType.Equals(ESFConstants.UnitCost, StringComparison.OrdinalIgnoreCase) ? 1 : p.CostType.Equals(ESFConstants.UnitCostDeduction, StringComparison.OrdinalIgnoreCase) ? -1 : 0),
+                                }).ToList();
 
                 return  preSummarised
                         .GroupBy(sd => sd.ConRefNumber)

@@ -18,7 +18,8 @@ namespace ESFA.DC.Summarisation.ESF.Data.Tests
 {
     public class ESFILRProvider_Tests
     {
-        [Fact]
+        /*Following tests are valid once we implement LatestProviderSubmission data for summarisation*/
+        /*[Fact]
         public async Task ProvideUkprnsAsync_Check()
         {
             var latestProviderSubmissions = new List<Query.LatestProviderSubmission>()
@@ -188,6 +189,6 @@ namespace ESFA.DC.Summarisation.ESF.Data.Tests
         private ESFILRProvider NewProvider(Func<IESFFundingDataContext> esfFundingDataContext = null)
         {
             return new ESFILRProvider(esfFundingDataContext);
-        }
+        }*/
     }
 }
