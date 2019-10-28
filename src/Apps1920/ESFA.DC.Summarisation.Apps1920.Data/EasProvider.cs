@@ -48,7 +48,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
             };            
 
             string previouscollectionPeriodName = string.Empty;
-            string currentcollectionPeriodName = $"{summarisationMessage.CollectionYear}-{summarisationMessage.CollectionMonth:D2}";
+            string currentcollectionPeriodName = $"{summarisationMessage.CollectionYear}-R{summarisationMessage.CollectionMonth:D2}";
 
             switch (summarisationMessage.CollectionMonth)
             {
