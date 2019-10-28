@@ -391,7 +391,7 @@
         "FundModel": "NonLevy",
         "DeliverableLineCode": 2,
         "ApprenticeshipContractType": 1,
-        "FundingSources": [ 5 ],
+        "FundingSources": [ 1, 5 ],
         "TransactionTypes": [ 1, 2, 3 ],
         "FundLines": [
           {
@@ -517,7 +517,7 @@
         "FundModel": "NonLevy",
         "DeliverableLineCode": 9,
         "ApprenticeshipContractType": 1,
-        "FundingSources": [ 5 ],
+        "FundingSources": [ 1, 5 ],
         "TransactionTypes": [ 1, 2, 3 ],
         "FundLines": [
           {

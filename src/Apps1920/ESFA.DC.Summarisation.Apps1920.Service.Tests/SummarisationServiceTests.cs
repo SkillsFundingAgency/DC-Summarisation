@@ -141,13 +141,13 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
             }
         }
 
-        [InlineData(1, "NONLEVY2019", 2, "5", "1,2,3", 1920)]
+        [InlineData(1, "NONLEVY2019", 2, "1,5", "1,2,3", 1920)]
         [InlineData(1, "NONLEVY2019", 3, "2", "1,2,3", 1920)]
         [InlineData(1, "NONLEVY2019", 4, "4", "15", 1920)]
         [InlineData(1, "NONLEVY2019", 5, "4", "5,7,8,9,10,11,12,13,14", 1920)]
         [InlineData(1, "NONLEVY2019", 6, "4", "4,6", 1920)]
         [InlineData(1, "NONLEVY2019", 7, "4", "16", 1920)]
-        [InlineData(1, "NONLEVY2019", 9, "5", "1,2,3", 1920)]
+        [InlineData(1, "NONLEVY2019", 9, "1,5", "1,2,3", 1920)]
         [InlineData(1, "NONLEVY2019", 10, "2", "1,2,3", 1920)]
         [InlineData(1, "NONLEVY2019", 11, "4", "15", 1920)]
         [InlineData(1, "NONLEVY2019", 12, "4", "5,7,8,9,10,11,12,13,14", 1920)]
