@@ -255,7 +255,10 @@ namespace ESFA.DC.Summarisation.Service
         {
             var previousActuals = await _summarisedActualsProcessRepository
                 .GetSummarisedActualsForCollectionReturnAndOrganisationAsync(collectionReturnId, organisationId, cancellationToken);
-            var actualsToCarry = previousActuals.Except(providerActuals, new SummarisedActualsComparer());
+
+            var comparer = new CarryOverActualsComparer();
+
+            var actualsToCarry = previousActuals.Except(providerActuals, comparer);
 
             foreach (var actuals in actualsToCarry)
             {
