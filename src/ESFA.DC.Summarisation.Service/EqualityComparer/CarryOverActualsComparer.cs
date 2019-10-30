@@ -24,7 +24,8 @@ namespace ESFA.DC.Summarisation.Service.EqualityComparer
 
             return (obj.DeliverableCode,
                 obj.Period,
-                obj.FundingStreamPeriodCode).GetHashCode();
+                obj.FundingStreamPeriodCode,
+                obj.ContractAllocationNumber).GetHashCode();
         }
     }
 }
