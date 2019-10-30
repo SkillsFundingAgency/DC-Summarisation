@@ -40,5 +40,7 @@ DROP USER IF EXISTS [DCSummarisation_RO_User]
 GO
 DROP USER IF EXISTS [DCSummarisation_RW_User]  
 GO
+DROP TABLE IF EXISTS [dbo].[ESF_FundingData]
+GO
 RAISERROR('Completed',10,1) WITH NOWAIT;
 GO

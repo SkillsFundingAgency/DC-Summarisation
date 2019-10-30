@@ -12,3 +12,9 @@
     [ContractAllocationNumber]  VARCHAR(20) NULL, 
     CONSTRAINT [FK_SummarisedActuals_CollectionReturn] FOREIGN KEY ([CollectionReturnId]) REFERENCES CollectionReturn([Id]),
 )
+GO
+CREATE NONCLUSTERED INDEX [IX_SA_CollectionReturnId_OrgId] ON [dbo].[SummarisedActuals]
+(
+	[CollectionReturnId] ASC,
+	[OrganisationId] ASC)
+GO
