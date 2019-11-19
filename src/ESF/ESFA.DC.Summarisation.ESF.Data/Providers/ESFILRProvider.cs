@@ -49,23 +49,32 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
 
             using (var context = _fundingDataContext())
             {
-                
+                var distinctFundingData = await context.ESFFundingDatas
+                                                     .Where(d => d.UKPRN == ukprn)
+                                                     .Select(d => new
+                                                     {
+                                                         d.ConRefNumber,
+                                                         d.CollectionType,
+                                                         d.CollectionReturnCode
+                                                     }).Distinct()
+                                                     .ToListAsync(cancellationToken);
 
-                var maxReturnKeys = await context.ESFFundingDatas
-                    .Where(d => d.UKPRN == ukprn)
-                    .Select(d => new { d.ConRefNumber, d.CollectionType, d.CollectionReturnCode,
-                        CollectionYear = Convert.ToInt16(d.CollectionType.Substring(3)),
-                        CollectionPeriod = Convert.ToInt16(d.CollectionReturnCode == string.Empty ? "0" : d.CollectionReturnCode.Substring(1))
-                    })
-                    .Where(x =>
-                                (x.CollectionYear == summarisationMessage.CollectionYear && x.CollectionPeriod <= summarisationMessage.CollectionMonth)
-                                || (x.CollectionYear == previousCollectionYear && x.CollectionPeriod <= previousCollectionMonth)
-                                || (x.CollectionYear < previousCollectionYear)
-                        )
-                   .GroupBy(g => new {g.ConRefNumber, g.CollectionYear, g.CollectionType })
-                   .Select(s => new { s.Key.ConRefNumber, s.Key.CollectionType, s.Key.CollectionYear, CollectionPeriod = s.Max(y => y.CollectionPeriod) })
-                   .Distinct()
-                   .ToListAsync(cancellationToken);
+                var maxReturnKeys = distinctFundingData
+                                     .Select(d => new {
+                                         d.ConRefNumber,
+                                         d.CollectionType,
+                                         d.CollectionReturnCode,
+                                         CollectionYear = Convert.ToInt16(d.CollectionType.Substring(3)),
+                                         CollectionPeriod = Convert.ToInt16(d.CollectionReturnCode == string.Empty ? "0" : d.CollectionReturnCode.Substring(1))
+                                     })
+                                     .Where(x =>
+                                                 (x.CollectionYear == summarisationMessage.CollectionYear && x.CollectionPeriod <= summarisationMessage.CollectionMonth)
+                                                 || (x.CollectionYear == previousCollectionYear && x.CollectionPeriod <= previousCollectionMonth)
+                                                 || (x.CollectionYear < previousCollectionYear)
+                                         )
+                                    .GroupBy(g => new { g.ConRefNumber, g.CollectionType })
+                                    .Select(s => new { s.Key.ConRefNumber, s.Key.CollectionType, CollectionPeriod = s.Max(y => y.CollectionPeriod) })
+                                    .ToList();
 
                 var predicate = PredicateBuilder.False<ESFFundingData>();
 
@@ -88,8 +97,6 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                            s.Key.AttributeName,
                            s.Key.CollectionType,
                            s.Key.CollectionReturnCode,
-                           CollectionYear = Convert.ToInt16(s.Key.CollectionType.Substring(3)),
-                           CollectionPeriod = Convert.ToInt16(s.Key.CollectionReturnCode == string.Empty ? "0" : s.Key.CollectionReturnCode.Substring(1)),
                            Period_1 = s.Sum(p => p.Period_1),
                            Period_2 = s.Sum(p => p.Period_2),
                            Period_3 = s.Sum(p => p.Period_3),
@@ -107,8 +114,10 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                 var result = esfpreSummarised
                         .Select(ld =>
                         {
-                            var CalendarYearStart = 2000 + (ld.CollectionYear / 100);
-                            var CalendarYearEnd = 2000 + (ld.CollectionYear % 100);
+                            int CollectionYear = Convert.ToInt32(ld.CollectionType.Substring(3));
+
+                            var CalendarYearStart = 2000 + (CollectionYear / 100);
+                            var CalendarYearEnd = 2000 + (CollectionYear % 100);
 
                             return new LearningDelivery
                             {
@@ -121,168 +130,34 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                         DeliverableCode = ld.DeliverableCode,
                                         Periods = new List<Period>
                                         {
-                                            BuildPeriodFromLearningDelivery(1, ld.CollectionYear, CalendarYearStart, 8, ld.AttributeName, ld.Period_1),
+                                            BuildPeriodFromLearningDelivery(1, CollectionYear, CalendarYearStart, 8, ld.AttributeName, ld.Period_1),
 
-                                            BuildPeriodFromLearningDelivery(2, ld.CollectionYear, CalendarYearStart, 9, ld.AttributeName, ld.Period_2),
+                                            BuildPeriodFromLearningDelivery(2, CollectionYear, CalendarYearStart, 9, ld.AttributeName, ld.Period_2),
 
-                                            BuildPeriodFromLearningDelivery(3, ld.CollectionYear, CalendarYearStart, 10, ld.AttributeName, ld.Period_3),
+                                            BuildPeriodFromLearningDelivery(3, CollectionYear, CalendarYearStart, 10, ld.AttributeName, ld.Period_3),
 
-                                            BuildPeriodFromLearningDelivery(4, ld.CollectionYear, CalendarYearStart, 11, ld.AttributeName, ld.Period_4),
+                                            BuildPeriodFromLearningDelivery(4, CollectionYear, CalendarYearStart, 11, ld.AttributeName, ld.Period_4),
 
-                                            BuildPeriodFromLearningDelivery(5, ld.CollectionYear, CalendarYearStart, 12, ld.AttributeName, ld.Period_5),
+                                            BuildPeriodFromLearningDelivery(5, CollectionYear, CalendarYearStart, 12, ld.AttributeName, ld.Period_5),
 
-                                            BuildPeriodFromLearningDelivery(6, ld.CollectionYear, CalendarYearEnd, 1, ld.AttributeName, ld.Period_6),
+                                            BuildPeriodFromLearningDelivery(6, CollectionYear, CalendarYearEnd, 1, ld.AttributeName, ld.Period_6),
 
-                                            BuildPeriodFromLearningDelivery(7, ld.CollectionYear, CalendarYearEnd, 2, ld.AttributeName, ld.Period_7),
+                                            BuildPeriodFromLearningDelivery(7, CollectionYear, CalendarYearEnd, 2, ld.AttributeName, ld.Period_7),
 
-                                            BuildPeriodFromLearningDelivery(8, ld.CollectionYear, CalendarYearEnd, 3, ld.AttributeName, ld.Period_8),
+                                            BuildPeriodFromLearningDelivery(8, CollectionYear, CalendarYearEnd, 3, ld.AttributeName, ld.Period_8),
 
-                                            BuildPeriodFromLearningDelivery(9, ld.CollectionYear, CalendarYearEnd, 4, ld.AttributeName, ld.Period_9),
+                                            BuildPeriodFromLearningDelivery(9, CollectionYear, CalendarYearEnd, 4, ld.AttributeName, ld.Period_9),
 
-                                            BuildPeriodFromLearningDelivery(10, ld.CollectionYear, CalendarYearEnd, 5, ld.AttributeName, ld.Period_10),
+                                            BuildPeriodFromLearningDelivery(10, CollectionYear, CalendarYearEnd, 5, ld.AttributeName, ld.Period_10),
 
-                                            BuildPeriodFromLearningDelivery(11, ld.CollectionYear, CalendarYearEnd, 6, ld.AttributeName, ld.Period_11),
+                                            BuildPeriodFromLearningDelivery(11, CollectionYear, CalendarYearEnd, 6, ld.AttributeName, ld.Period_11),
 
-                                            BuildPeriodFromLearningDelivery(12, ld.CollectionYear, CalendarYearEnd, 7, ld.AttributeName, ld.Period_12),
+                                            BuildPeriodFromLearningDelivery(12, CollectionYear, CalendarYearEnd, 7, ld.AttributeName, ld.Period_12),
                                         }
                                     }
                                 }
                             };
                         }).ToList();
-
-
-                //var esfpreSummarised = context.ESFFundingDatas
-                //    .Where(w => w.UKPRN == ukprn)
-                //    .GroupBy(g => new { g.UKPRN, g.ConRefNumber, g.DeliverableCode, g.AttributeName, g.CollectionType, g.CollectionReturnCode })
-                //    .Select(s => new {  s.Key.UKPRN,
-                //                        s.Key.ConRefNumber,
-                //                        s.Key.DeliverableCode,
-                //                        s.Key.AttributeName,
-                //                        s.Key.CollectionType,
-                //                        s.Key.CollectionReturnCode,
-                //                        Period_1 = s.Sum(p => p.Period_1),
-                //                        Period_2 = s.Sum(p => p.Period_2),
-                //                        Period_3 = s.Sum(p => p.Period_3),
-                //                        Period_4 = s.Sum(p => p.Period_4),
-                //                        Period_5 = s.Sum(p => p.Period_5),
-                //                        Period_6 = s.Sum(p => p.Period_6),
-                //                        Period_7 = s.Sum(p => p.Period_7),
-                //                        Period_8 = s.Sum(p => p.Period_8),
-                //                        Period_9 = s.Sum(p => p.Period_9),
-                //                        Period_10 = s.Sum(p => p.Period_10),
-                //                        Period_11 = s.Sum(p => p.Period_11),
-                //                        Period_12 = s.Sum(p => p.Period_12),
-                //    }).ToList();
-
-                //var esfpreSummarised_1 = esfpreSummarised
-                //                         .Where(x => x.Period_1 != 0 || x.Period_2 != 0 || x.Period_3 != 0 || x.Period_4 != 0
-                //                                    || x.Period_5 != 0 || x.Period_6 != 0 || x.Period_7 != 0 || x.Period_8 != 0
-                //                                    || x.Period_9 != 0 || x.Period_10 != 0 || x.Period_11 != 0 || x.Period_12 != 0
-                //                               )
-                //                        .Select(s => new
-                //                                        {
-                //                                            s.UKPRN,
-                //                                            s.ConRefNumber,
-                //                                            s.DeliverableCode,
-                //                                            s.AttributeName,
-                //                                            CollectionYear = Convert.ToInt16(s.CollectionType.Substring(3)),
-                //                                            CollectionPeriod = Convert.ToInt16(s.CollectionReturnCode == string.Empty ? "0" : s.CollectionReturnCode.Substring(1)),
-                //                                            s.Period_1,
-                //                                            s.Period_2,
-                //                                            s.Period_3,
-                //                                            s.Period_4,
-                //                                            s.Period_5,
-                //                                            s.Period_6,
-                //                                            s.Period_7,
-                //                                            s.Period_8,
-                //                                            s.Period_9,
-                //                                            s.Period_10,
-                //                                            s.Period_11,
-                //                                            s.Period_12,
-
-                //                    }).ToList();
-
-
-                // var esfdataToFilter = esfpreSummarised_1
-                //     .Where(x =>
-                //                 (x.CollectionYear == summarisationMessage.CollectionYear && x.CollectionPeriod <= summarisationMessage.CollectionMonth)
-                //                 || (x.CollectionYear == previousCollectionYear && x.CollectionPeriod <= previousCollectionMonth)
-                //                 || (x.CollectionYear < previousCollectionYear)
-                //         )
-                //.GroupBy(g => new { g.UKPRN, g.ConRefNumber, g.CollectionYear })
-                //.Select(s => new { s.Key.UKPRN, s.Key.ConRefNumber, s.Key.CollectionYear, CollectionPeriod = s.Max(y => y.CollectionPeriod) })
-                //.OrderByDescending(o => o.CollectionPeriod).ToList();
-
-                // This is to find out the latest ILR submission of the provider from current ILR collection year and previous ILR collection year
-                // var esfdataToFilter = contextFactory.ESFFundingDatasSummarised
-                //.Where(x => x.UKPRN == ukprn
-                //         && (
-                //                 (x.CollectionYear == summarisationMessage.CollectionYear && x.CollectionPeriod <= summarisationMessage.CollectionMonth)
-                //                 || (x.CollectionYear == previousCollectionYear && x.CollectionPeriod <= previousCollectionMonth)
-                //                 || (x.CollectionYear < previousCollectionYear)
-                //             )
-                //         )
-                //.GroupBy(g => new { g.UKPRN, g.ConRefNumber, g.CollectionYear })
-                //.Select(s => new { s.Key.UKPRN, s.Key.ConRefNumber, s.Key.CollectionYear, CollectionPeriod = s.Max(y => y.CollectionPeriod) })
-                //.OrderByDescending(o => o.CollectionPeriod).ToList();
-
-                //var esfdata = await contextFactory.ESFFundingDatasSummarised
-                //            .Where(x => x.UKPRN == ukprn
-                //                && (x.Period_1 != 0 || x.Period_2 != 0 || x.Period_3 != 0 || x.Period_4 != 0
-                //                                    || x.Period_5 != 0 || x.Period_6 != 0 || x.Period_7 != 0 || x.Period_8 != 0
-                //                                    || x.Period_9 != 0 || x.Period_10 != 0 || x.Period_11 != 0 || x.Period_12 != 0)
-                //                                    )
-                //            .ToListAsync(cancellationToken);
-
-                //var result = esfpreSummarised_1
-                //      .Join(esfdataToFilter,
-                //                esf => new { esf.UKPRN, esf.ConRefNumber, esf.CollectionYear, esf.CollectionPeriod },
-                //                filter => new { filter.UKPRN, filter.ConRefNumber, filter.CollectionYear, filter.CollectionPeriod },
-                //                (esf, filter) => esf)
-                //        .Select(ld =>
-                //         {
-                //            var CalendarYearStart = 2000 + (ld.CollectionYear / 100);
-                //            var CalendarYearEnd = 2000 + (ld.CollectionYear % 100);
-
-                //            return new LearningDelivery
-                //            {
-                //                ConRefNumber = ld.ConRefNumber,
-                //                PeriodisedData = new List<PeriodisedData>
-                //                { 
-                //                    new PeriodisedData
-                //                    {
-                //                        AttributeName = ld.AttributeName,
-                //                        DeliverableCode = ld.DeliverableCode,
-                //                        Periods = new List<Period>
-                //                        {
-                //                            BuildPeriodFromLearningDelivery(1, ld.CollectionYear, CalendarYearStart, 8, ld.AttributeName, ld.Period_1),
-
-                //                            BuildPeriodFromLearningDelivery(2, ld.CollectionYear, CalendarYearStart, 9, ld.AttributeName, ld.Period_2),
-
-                //                            BuildPeriodFromLearningDelivery(3, ld.CollectionYear, CalendarYearStart, 10, ld.AttributeName, ld.Period_3),
-
-                //                            BuildPeriodFromLearningDelivery(4, ld.CollectionYear, CalendarYearStart, 11, ld.AttributeName, ld.Period_4),
-
-                //                            BuildPeriodFromLearningDelivery(5, ld.CollectionYear, CalendarYearStart, 12, ld.AttributeName, ld.Period_5),
-
-                //                            BuildPeriodFromLearningDelivery(6, ld.CollectionYear, CalendarYearEnd, 1, ld.AttributeName, ld.Period_6),
-
-                //                            BuildPeriodFromLearningDelivery(7, ld.CollectionYear, CalendarYearEnd, 2, ld.AttributeName, ld.Period_7),
-
-                //                            BuildPeriodFromLearningDelivery(8, ld.CollectionYear, CalendarYearEnd, 3, ld.AttributeName, ld.Period_8),
-
-                //                            BuildPeriodFromLearningDelivery(9, ld.CollectionYear, CalendarYearEnd, 4, ld.AttributeName, ld.Period_9),
-
-                //                            BuildPeriodFromLearningDelivery(10, ld.CollectionYear, CalendarYearEnd, 5, ld.AttributeName, ld.Period_10),
-
-                //                            BuildPeriodFromLearningDelivery(11, ld.CollectionYear, CalendarYearEnd, 6, ld.AttributeName, ld.Period_11),
-
-                //                            BuildPeriodFromLearningDelivery(12, ld.CollectionYear, CalendarYearEnd, 7, ld.AttributeName, ld.Period_12),
-                //                        }
-                //                    }
-                //                }
-                //            };
-                //         }).ToList();
 
                 return result;
             }
