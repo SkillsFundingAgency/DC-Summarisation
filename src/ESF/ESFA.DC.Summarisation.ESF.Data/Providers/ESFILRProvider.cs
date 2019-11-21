@@ -167,8 +167,6 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
         {
             using (var contextFactory = _fundingDataContext())
             {
-                //return await contextFactory.ESFFundingDatasSummarised.Select(l => l.UKPRN).Distinct().ToListAsync(cancellationToken);
-
                 return await contextFactory.ESFFundingDatas.Select(l => l.UKPRN).Distinct().ToListAsync(cancellationToken);
             }
         }
