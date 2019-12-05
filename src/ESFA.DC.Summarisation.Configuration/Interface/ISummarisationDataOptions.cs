@@ -23,5 +23,7 @@
         string ESFFundingDataConnectionString { get; }
 
         string DataRetrievalMaxConcurrentCalls { get; }
+
+        string SqlCommandTimeoutSeconds { get; }
     }
 }

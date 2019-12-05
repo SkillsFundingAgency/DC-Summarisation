@@ -25,5 +25,7 @@ namespace ESFA.DC.Summarisation.Configuration
         public string EAS1920ConnectionString { get; set; }
 
         public string ESFFundingDataConnectionString { get; set; }
+
+        public string SqlCommandTimeoutSeconds { get; set; }
     }
 }

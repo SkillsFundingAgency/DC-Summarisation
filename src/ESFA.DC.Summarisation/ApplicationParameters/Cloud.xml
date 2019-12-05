@@ -26,5 +26,6 @@
     <Parameter Name="ESFR2ConnectionString" Value="__ESFR2ConnectionString__" />
     <Parameter Name="DASPaymentsConnectionString" Value="__DASPaymentsConnectionStringRO__" />
     <Parameter Name="ESFFundingDataConnectionString" Value="__ESFFundingDataConnectionStringRO__" />
+    <Parameter Name="SqlCommandTimeoutSeconds" Value="__SqlCommandTimeoutSeconds__" />
   </Parameters>
 </Application>
