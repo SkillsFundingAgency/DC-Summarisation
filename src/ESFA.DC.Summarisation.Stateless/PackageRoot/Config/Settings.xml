@@ -24,5 +24,6 @@
     <Parameter Name="DASPaymentsConnectionString"  Value=""/>
     <Parameter Name="ESFFundingDataConnectionString"  Value=""/>
     <Parameter Name="DataRetrievalMaxConcurrentCalls" Value=""/>
+    <Parameter Name="SqlCommandTimeoutSeconds" Value="" />
   </Section>
 </Settings>

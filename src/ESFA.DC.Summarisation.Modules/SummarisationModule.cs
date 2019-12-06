@@ -94,7 +94,11 @@ namespace ESFA.DC.Summarisation.Modules
                 var optionsBuilder = new DbContextOptionsBuilder<ESF_DataStoreEntities>();
                 optionsBuilder.UseSqlServer(
                     summarisationSettings.ESFNonEFConnectionString,
-                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+                    options =>
+                    {
+                        options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>());
+                        options.CommandTimeout(int.Parse(summarisationSettings.SqlCommandTimeoutSeconds));
+                    });
 
                 return optionsBuilder.Options;
             }).As<DbContextOptions<ESF_DataStoreEntities>>()
@@ -107,7 +111,11 @@ namespace ESFA.DC.Summarisation.Modules
                 var optionsBuilder = new DbContextOptionsBuilder<ESFR2Context>();
                 optionsBuilder.UseSqlServer(
                     summarisationSettings.ESFR2ConnectionString,
-                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+                    options =>
+                    {
+                        options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>());
+                        options.CommandTimeout(int.Parse(summarisationSettings.SqlCommandTimeoutSeconds));
+                    });
 
                 return optionsBuilder.Options;
             }).As<DbContextOptions<ESFR2Context>>()
@@ -120,7 +128,11 @@ namespace ESFA.DC.Summarisation.Modules
                 var optionsBuilder = new DbContextOptionsBuilder<ESFFundingDataContext>();
                 optionsBuilder.UseSqlServer(
                     summarisationSettings.ESFFundingDataConnectionString,
-                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+                    options =>
+                    {
+                        options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>());
+                        options.CommandTimeout(int.Parse(summarisationSettings.SqlCommandTimeoutSeconds));
+                    });
 
                 return optionsBuilder.Options;
             }).As<DbContextOptions<ESFFundingDataContext>>()
@@ -145,7 +157,11 @@ namespace ESFA.DC.Summarisation.Modules
                 var optionsBuilder = new DbContextOptionsBuilder<ILR1920_DataStoreEntities>();
                 optionsBuilder.UseSqlServer(
                     summarisationSettings.ILR1920ConnectionString,
-                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+                    options =>
+                    {
+                        options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>());
+                        options.CommandTimeout(int.Parse(summarisationSettings.SqlCommandTimeoutSeconds));
+                    });
 
                 return optionsBuilder.Options;
             }).As<DbContextOptions<ILR1920_DataStoreEntities>>()
@@ -158,7 +174,11 @@ namespace ESFA.DC.Summarisation.Modules
                 var optionsBuilder = new DbContextOptionsBuilder<EAS1920.EF.EasContext>();
                 optionsBuilder.UseSqlServer(
                     summarisationSettings.EAS1920ConnectionString,
-                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+                    options =>
+                    {
+                        options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>());
+                        options.CommandTimeout(int.Parse(summarisationSettings.SqlCommandTimeoutSeconds));
+                    });
 
                 return optionsBuilder.Options;
             }).As<DbContextOptions<EAS1920.EF.EasContext>>()
@@ -188,7 +208,11 @@ namespace ESFA.DC.Summarisation.Modules
                 var optionsBuilder = new DbContextOptionsBuilder<DASPaymentsContext>();
                 optionsBuilder.UseSqlServer(
                     summarisationSettings.DASPaymentsConnectionString,
-                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+                    options =>
+                    {
+                        options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>());
+                        options.CommandTimeout(int.Parse(summarisationSettings.SqlCommandTimeoutSeconds));
+                    });
 
                 return optionsBuilder.Options;
 
@@ -207,7 +231,11 @@ namespace ESFA.DC.Summarisation.Modules
                 var optionsBuilder = new DbContextOptionsBuilder<FcsContext>();
                 optionsBuilder.UseSqlServer(
                     summarisationSettings.FCSConnectionString,
-                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+                    options =>
+                    {
+                        options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>());
+                        options.CommandTimeout(int.Parse(summarisationSettings.SqlCommandTimeoutSeconds));
+                    });
 
                 return optionsBuilder.Options;
             })
@@ -233,7 +261,11 @@ namespace ESFA.DC.Summarisation.Modules
                 var optionsBuilder = new DbContextOptionsBuilder<SummarisationContext>();
                 optionsBuilder.UseSqlServer(
                     summarisationSettings.SummarisedActualsConnectionString,
-                    options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+                    options =>
+                    {
+                        options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>());
+                        options.CommandTimeout(int.Parse(summarisationSettings.SqlCommandTimeoutSeconds));
+                    });
 
                 return optionsBuilder.Options;
             })
