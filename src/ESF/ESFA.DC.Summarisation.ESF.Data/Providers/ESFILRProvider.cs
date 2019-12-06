@@ -43,7 +43,7 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                     previousCollectionMonth = 14;
                     break;
                 default:
-                    previousCollectionMonth = 0;
+                    previousCollectionMonth = 14;
                     break;
             }
 
