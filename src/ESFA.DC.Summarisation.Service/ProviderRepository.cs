@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace ESFA.DC.Summarisation.Service
 {
+    //public class ProviderRepository : IProviderRepository<IProvider, int>
     public class ProviderRepository : IProviderRepository
     {
         private readonly IList<ILearningDeliveryProvider> _providers;
