@@ -75,7 +75,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NCS1920", "NCS1920", "{32A7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.Summarisation.NCS1920.Service", "NCS1920\ESFA.DC.Summarisation.NCS1920.Service\ESFA.DC.Summarisation.NCS1920.Service.csproj", "{8486D982-7A84-4F8A-9D1A-6F4C19C7AD36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.Summarisation.NCS1920.Data", "NCS1920\ESFA.DC.Summarisation.NCS1920.Data\ESFA.DC.Summarisation.NCS1920.Data.csproj", "{A874258A-EE94-40A7-94CB-7A5D1E13E586}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.Summarisation.NCS1920.Data", "NCS1920\ESFA.DC.Summarisation.NCS1920.Data\ESFA.DC.Summarisation.NCS1920.Data.csproj", "{A874258A-EE94-40A7-94CB-7A5D1E13E586}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -106,7 +106,6 @@ Global
 		{D1A55CBE-8485-41E1-8748-C83CBA3D1F03}.Release|x64.Build.0 = Release|Any CPU
 		{D1A55CBE-8485-41E1-8748-C83CBA3D1F03}.Release|x64.Deploy.0 = Release|Any CPU
 		{618A425B-F52F-475F-A773-8E27EA1A3B6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{618A425B-F52F-475F-A773-8E27EA1A3B6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{618A425B-F52F-475F-A773-8E27EA1A3B6C}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{618A425B-F52F-475F-A773-8E27EA1A3B6C}.Debug|x64.Build.0 = Debug|Any CPU
 		{618A425B-F52F-475F-A773-8E27EA1A3B6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
