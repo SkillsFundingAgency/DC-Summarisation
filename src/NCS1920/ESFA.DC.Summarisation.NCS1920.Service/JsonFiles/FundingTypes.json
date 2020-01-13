@@ -1,0 +1,54 @@
+[
+  {
+    "SummarisationType": "NCS1920",
+    "FundingStreams": [
+      {
+        "PeriodCode": "NCS-C1920",
+        "FundModel": "NCS",
+        "DeliverableLineCode": 2,
+        "FundLines": [
+          {
+            "Fundline": "",
+            "LineType": "",
+            "UseAttributes": true,
+            "Attributes": [
+              "1"
+            ]
+          }
+        ]
+      },
+      {
+        "PeriodCode": "NCS-C1920",
+        "FundModel": "NCS",
+        "DeliverableLineCode": 4,
+        "FundLines": [
+          {
+            "Fundline": "",
+            "LineType": "",
+            "UseAttributes": true,
+            "Attributes": [
+              "2"
+            ]
+          }
+        ]
+      },
+      {
+        "PeriodCode": "NCS-C1920",
+        "FundModel": "NCS",
+        "DeliverableLineCode": 5,
+        "FundLines": [
+          {
+            "Fundline": "",
+            "LineType": "",
+            "UseAttributes": true,
+            "Attributes": [
+              "3",
+              "4",
+              "5"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

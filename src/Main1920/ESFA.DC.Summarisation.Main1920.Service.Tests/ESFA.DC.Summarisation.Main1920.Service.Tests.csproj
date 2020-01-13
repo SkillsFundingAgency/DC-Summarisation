@@ -112,7 +112,6 @@
     <Compile Include="CollectionPeriodTests.cs" />
     <Compile Include="FundingTypeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SummarisationWrapperTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -44,6 +44,7 @@ using Apps1920Providers = ESFA.DC.Summarisation.Apps1920.Data;
 using ESFA.DC.ESF.FundingData.Database.EF.Interfaces;
 using ESFA.DC.ESF.FundingData.Database.EF;
 using System.Linq;
+using ESFA.DC.Summarisation.Constants;
 
 namespace ESFA.DC.Summarisation.Modules
 {
@@ -57,9 +58,10 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterInstance(referenceDataOptions).As<ISummarisationDataOptions>().SingleInstance();
 
             containerBuilder.RegisterType<SummarisationWrapper>().As<ISummarisationWrapper>();
-            containerBuilder.RegisterType<SummarisationFundlineProcess>().As<ISummarisationService>();
-            containerBuilder.RegisterType<SummarisationDeliverableProcess>().As<ISummarisationService>();
-            containerBuilder.RegisterType<SummarisationPaymentsProcess>().As<ISummarisationService>();
+
+            LoadSummarisationProcessModules(containerBuilder);
+
+            LoadNewModules(containerBuilder);
 
             containerBuilder.RegisterType<ProviderRepository>().As<IProviderRepository>();
 
@@ -76,6 +78,24 @@ namespace ESFA.DC.Summarisation.Modules
             LoadESFModules(containerBuilder);
 
             LoadApps1920Modules(containerBuilder);
+        }
+
+        private void LoadSummarisationProcessModules(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterType<SummarisationFundlineProcess>().As<ISummarisationService>();
+            containerBuilder.RegisterType<SummarisationDeliverableProcess>().As<ISummarisationService>();
+            containerBuilder.RegisterType<SummarisationPaymentsProcess>().As<ISummarisationService>();
+
+            //containerBuilder.RegisterType<SummarisationFundlineProcess>().Keyed<ISummarisationService>(ProcessTypeConstants.Fundline);
+            //containerBuilder.RegisterType<SummarisationDeliverableProcess>().Keyed<ISummarisationService>(ProcessTypeConstants.Deliverable);
+            //containerBuilder.RegisterType<SummarisationPaymentsProcess>().Keyed<ISummarisationService>(ProcessTypeConstants.Payments);
+        }
+
+        private void LoadNewModules(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterType<ProviderContractsService>().As<IProviderContractsService>();
+            containerBuilder.RegisterType<SummarisationProcess>().As<ISummarisationProcess>();
+            containerBuilder.RegisterType<ProviderSummarisationService>().As<IProviderSummarisationService>();
         }
 
         private void LoadESFModules(ContainerBuilder containerBuilder)

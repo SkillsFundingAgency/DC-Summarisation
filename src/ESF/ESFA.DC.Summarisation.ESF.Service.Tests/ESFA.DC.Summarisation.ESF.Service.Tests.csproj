@@ -114,7 +114,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SummarisationServiceTests_SuppData.cs" />
     <Compile Include="SummarisationServiceTests_ILRData.cs" />
-    <Compile Include="SummarisationWrapperTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Configuration\ESFA.DC.Summarisation.Configuration.csproj">
