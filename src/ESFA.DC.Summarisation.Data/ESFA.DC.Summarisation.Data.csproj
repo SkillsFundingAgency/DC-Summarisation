@@ -28,7 +28,6 @@
     <PackageReference Include="ESFA.DC.ESF.R2.Database.EF" Version="0.2.182" />
     <PackageReference Include="ESFA.DC.ILR1819.Database.EF" Version="0.1.381" />
     <PackageReference Include="ESFA.DC.ILR1920.Database.EF" Version="0.0.231" />
-    <PackageReference Include="ESFA.DC.NCS.EF" Version="1.0.0" />
     <PackageReference Include="ESFA.DC.ReferenceData.FCS.Model" Version="0.1.218" />
     <PackageReference Include="FastMember" Version="1.5.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
