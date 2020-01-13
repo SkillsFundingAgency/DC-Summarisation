@@ -14,17 +14,17 @@ namespace ESFA.DC.Summarisation.Service
     {
         public string ProcessType => ProcessTypeConstants.Deliverable;
 
-        public IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams, IProvider provider, IEnumerable<IFcsContractAllocation> allocations, IEnumerable<CollectionPeriod> collectionPeriods, ISummarisationMessage summarisationMessage)
+        public IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams, ILearningProvider provider, IEnumerable<IFcsContractAllocation> allocations, IEnumerable<CollectionPeriod> collectionPeriods, ISummarisationMessage summarisationMessage)
         {
             return allocations.Where(w => w.FundingStreamPeriodCode.Equals("ESF1420", StringComparison.OrdinalIgnoreCase)).SelectMany(all => Summarise(fundingStreams, provider, all, collectionPeriods));
         }
 
-        public IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams, IProvider provider, IFcsContractAllocation allocation, IEnumerable<CollectionPeriod> collectionPeriods)
+        public IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams, ILearningProvider provider, IFcsContractAllocation allocation, IEnumerable<CollectionPeriod> collectionPeriods)
         {
             return fundingStreams.SelectMany(fs => Summarise(fs, provider, allocation, collectionPeriods));
         }
 
-        public IEnumerable<SummarisedActual> Summarise(FundingStream fundingStream, IProvider provider, IFcsContractAllocation allocation, IEnumerable<CollectionPeriod> collectionPeriods)
+        public IEnumerable<SummarisedActual> Summarise(FundingStream fundingStream, ILearningProvider provider, IFcsContractAllocation allocation, IEnumerable<CollectionPeriod> collectionPeriods)
         {
             var summarisedActuals = new List<SummarisedActual>();
 

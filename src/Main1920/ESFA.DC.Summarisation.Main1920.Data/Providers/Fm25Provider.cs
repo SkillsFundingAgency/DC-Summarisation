@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Main1920.Data.Providers
 {
-    public class Fm25Provider : ILearningDeliveryProvider
+    public class Fm25Provider : ISummarisationInputDataProvider<IList<LearningDelivery>>
     {
         public string SummarisationType => SummarisationTypeConstants.Main1920_FM25;
 

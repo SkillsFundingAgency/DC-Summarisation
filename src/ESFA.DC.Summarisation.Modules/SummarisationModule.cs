@@ -44,6 +44,7 @@ using Apps1920Providers = ESFA.DC.Summarisation.Apps1920.Data;
 using ESFA.DC.ESF.FundingData.Database.EF.Interfaces;
 using ESFA.DC.ESF.FundingData.Database.EF;
 using System.Linq;
+using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Constants;
 
 namespace ESFA.DC.Summarisation.Modules
@@ -103,9 +104,9 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<ESFFundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();
             containerBuilder.RegisterType<ESFCollectionPeriodsProvider>().As<ISummarisationConfigProvider<CollectionPeriod>>();
 
-            containerBuilder.RegisterType<ESFProvider_R1>().As<ILearningDeliveryProvider>();
-            containerBuilder.RegisterType<ESFProvider_R2>().As<ILearningDeliveryProvider>();
-            containerBuilder.RegisterType<ESFILRProvider>().As<ILearningDeliveryProvider>();
+            containerBuilder.RegisterType<ESFProvider_R1>().As<ISummarisationInputDataProvider<IList<LearningDelivery>>>();
+            containerBuilder.RegisterType<ESFProvider_R2>().As<ISummarisationInputDataProvider<IList<LearningDelivery>>>();
+            containerBuilder.RegisterType<ESFILRProvider>().As<ISummarisationInputDataProvider<IList<LearningDelivery>>>();
 
             containerBuilder.RegisterType<ESF_DataStoreEntities>().As<IESF_DataStoreEntities>().ExternallyOwned();
             containerBuilder.Register(c =>
@@ -164,11 +165,11 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<Main1920FundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();
             containerBuilder.RegisterType<Main1920CollectionPeriodsProvider>().As<ISummarisationConfigProvider<CollectionPeriod>>();
 
-            containerBuilder.RegisterType<Main1920Providers.Fm35Provider>().As<ILearningDeliveryProvider>();
-            containerBuilder.RegisterType<Main1920Providers.EasProvider>().As<ILearningDeliveryProvider>();
-            containerBuilder.RegisterType<Main1920Providers.Fm25Provider>().As<ILearningDeliveryProvider>();
-            containerBuilder.RegisterType<Main1920Providers.AlbProvider>().As<ILearningDeliveryProvider>();
-            containerBuilder.RegisterType<Main1920Providers.TblProvider>().As<ILearningDeliveryProvider>();
+            containerBuilder.RegisterType<Main1920Providers.Fm35Provider>().As<ISummarisationInputDataProvider<IList<LearningDelivery>>>();
+            containerBuilder.RegisterType<Main1920Providers.EasProvider>().As<ISummarisationInputDataProvider<IList<LearningDelivery>>>();
+            containerBuilder.RegisterType<Main1920Providers.Fm25Provider>().As<ISummarisationInputDataProvider<IList<LearningDelivery>>>();
+            containerBuilder.RegisterType<Main1920Providers.AlbProvider>().As<ISummarisationInputDataProvider<IList<LearningDelivery>>>();
+            containerBuilder.RegisterType<Main1920Providers.TblProvider>().As<ISummarisationInputDataProvider<IList<LearningDelivery>>>();
 
             containerBuilder.RegisterType<ILR1920_DataStoreEntities>().As<IIlr1920RulebaseContext>().ExternallyOwned();
             containerBuilder.Register(c =>
@@ -210,8 +211,8 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<Apps1920FundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();
             containerBuilder.RegisterType<Apps1920CollectionPeriodsProvider>().As<ISummarisationConfigProvider<CollectionPeriod>>();
 
-            containerBuilder.RegisterType<Apps1920Providers.LevyProvider>().As<ILearningDeliveryProvider>();
-            containerBuilder.RegisterType<Apps1920Providers.NonLevyProvider>().As<ILearningDeliveryProvider>();
+            containerBuilder.RegisterType<Apps1920Providers.LevyProvider>().As<ISummarisationInputDataProvider<IList<LearningDelivery>>>();
+            containerBuilder.RegisterType<Apps1920Providers.NonLevyProvider>().As<ISummarisationInputDataProvider<IList<LearningDelivery>>>();
             containerBuilder.Register(c =>
             {
                 var factory = c.Resolve<Func<IDASPaymentsContext>>();
@@ -219,7 +220,7 @@ namespace ESFA.DC.Summarisation.Modules
                 var provider = c.Resolve<IEnumerable<ISummarisationConfigProvider<CollectionPeriod>>>().FirstOrDefault(p => p.CollectionType == "APPS");
 
                 return new Apps1920Providers.EasProvider(factory, provider);
-            }).As<ILearningDeliveryProvider>();
+            }).As<ISummarisationInputDataProvider<IList<LearningDelivery>>>();
 
             containerBuilder.RegisterType<DASPaymentsContext>().As<IDASPaymentsContext>().ExternallyOwned();
             containerBuilder.Register(c =>

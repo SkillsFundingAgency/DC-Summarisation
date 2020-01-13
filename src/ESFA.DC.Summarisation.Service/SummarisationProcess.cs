@@ -113,13 +113,13 @@ namespace ESFA.DC.Summarisation.Service
             return summarisedActuals;
         }
 
-        private async Task<IDictionary<int, IProvider>> RetrieveProvidersData(IList<int> providerIdentifiers, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        private async Task<IDictionary<int, ILearningProvider>> RetrieveProvidersData(IList<int> providerIdentifiers, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             var identifiers = new ConcurrentQueue<int>(providerIdentifiers);
 
             var tasks = Enumerable.Range(1, _dataRetrievalMaxConcurrentCalls).Select(async _ =>
             {
-                var dictionary = new Dictionary<int, IProvider>();
+                var dictionary = new Dictionary<int, ILearningProvider>();
 
                 int totalCount = providerIdentifiers.Count;
 
@@ -140,7 +140,7 @@ namespace ESFA.DC.Summarisation.Service
             return tasks.SelectMany(t => t.Result).ToDictionary(p => p.Key, p => p.Value);
         }
 
-        private async Task<IProvider> RetrieveProviderData(int identifier, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        private async Task<ILearningProvider> RetrieveProviderData(int identifier, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             var repo = _repositoryFactory();
 

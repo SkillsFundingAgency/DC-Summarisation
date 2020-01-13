@@ -44,7 +44,7 @@ namespace ESFA.DC.Summarisation.Service
             _providerContractsService = providerContractsService;
         }
 
-        public async Task<IEnumerable<SummarisedActual>> SummariseProviderData(IProvider providerData, IEnumerable<CollectionPeriod> collectionPeriods, IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<IEnumerable<SummarisedActual>> SummariseProviderData(ILearningProvider providerData, IEnumerable<CollectionPeriod> collectionPeriods, IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             var latestCollectionReturn = await _summarisedActualsProcessRepository.GetLastCollectionReturnForCollectionTypeAsync(summarisationMessage.CollectionType, cancellationToken);
 

@@ -330,9 +330,9 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
             }
         }
 
-        private Provider GetTestProvider(int apprenticeshipContratType, List<int> fundingSources, List<int> transactionTypes)
+        private LearningProvider GetTestProvider(int apprenticeshipContratType, List<int> fundingSources, List<int> transactionTypes)
         {
-            return new Provider()
+            return new LearningProvider()
             {
                 UKPRN = ukprn,
                 LearningDeliveries = GetLearningDeliveries(apprenticeshipContratType, fundingSources, transactionTypes),

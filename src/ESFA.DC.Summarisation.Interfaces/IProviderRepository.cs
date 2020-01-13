@@ -9,7 +9,7 @@ namespace ESFA.DC.Summarisation.Interface
     //public interface IProviderRepository<TModel, TIdentifier>
     public interface IProviderRepository
     {
-        Task<IProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken);
+        Task<ILearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken);
 
         Task<IList<int>> GetAllProviderIdentifiersAsync(string collectionType, CancellationToken cancellationToken);
 

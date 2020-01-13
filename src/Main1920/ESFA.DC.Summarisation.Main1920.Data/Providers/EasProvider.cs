@@ -11,7 +11,7 @@ using ESFA.DC.Summarisation.Constants;
 
 namespace ESFA.DC.Summarisation.Main1920.Data.Providers
 {
-    public class EasProvider : ILearningDeliveryProvider
+    public class EasProvider : ISummarisationInputDataProvider<IList<LearningDelivery>>
     {
         private readonly Func<IEasdbContext> _easContext;
 

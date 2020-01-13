@@ -13,7 +13,7 @@ using ESFA.DC.ESF.FundingData.Database.EF.Query;
 
 namespace ESFA.DC.Summarisation.ESF.Data.Providers
 {
-    public class ESFILRProvider : ILearningDeliveryProvider
+    public class ESFILRProvider : ISummarisationInputDataProvider<IList<LearningDelivery>>
     {
         private readonly Func<IESFFundingDataContext> _fundingDataContext;
 

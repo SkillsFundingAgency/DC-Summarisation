@@ -14,18 +14,18 @@ namespace ESFA.DC.Summarisation.Service
     //public class ProviderRepository : IProviderRepository<IProvider, int>
     public class ProviderRepository : IProviderRepository
     {
-        private readonly IList<ILearningDeliveryProvider> _providers;
+        private readonly IList<ISummarisationInputDataProvider<IList<LearningDelivery>>> _providers;
 
-        public ProviderRepository(IList<ILearningDeliveryProvider> providers)
+        public ProviderRepository(IList<ISummarisationInputDataProvider<IList<LearningDelivery>>> providers)
         {
             _providers = providers;
         }
 
-        public async Task<IProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<ILearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             var taskResults = await Task.WhenAll(_providers.Where(w => w.CollectionType == summarisationMessage.CollectionType).Select(p => p.ProvideAsync(ukprn, summarisationMessage, cancellationToken)));
 
-            return new Provider
+            return new LearningProvider
             {
                 UKPRN = ukprn,
                 LearningDeliveries = taskResults.SelectMany(x => x).ToList()

@@ -11,7 +11,7 @@ using ESFA.DC.Summarisation.Constants;
 
 namespace ESFA.DC.Summarisation.Apps1920.Data
 {
-    public class LevyProvider : ILearningDeliveryProvider
+    public class LevyProvider : ISummarisationInputDataProvider<IList<LearningDelivery>>
     {
         private readonly Func<IDASPaymentsContext> _dasContext;
 

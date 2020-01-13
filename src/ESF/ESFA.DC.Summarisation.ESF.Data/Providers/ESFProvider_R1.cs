@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ESFA.DC.Summarisation.ESF.Data.Providers
 {
-    public class ESFProvider_R1 : ILearningDeliveryProvider
+    public class ESFProvider_R1 : ISummarisationInputDataProvider<IList<LearningDelivery>>
     {
         private readonly Func<IESF_DataStoreEntities> _esf;
 
