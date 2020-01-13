@@ -14,9 +14,9 @@ namespace ESFA.DC.Summarisation.Service
     //public class ProviderRepository : IProviderRepository<IProvider, int>
     public class ProviderRepository : IProviderRepository
     {
-        private readonly IList<ISummarisationInputDataProvider<IList<LearningDelivery>>> _providers;
+        private readonly IList<ISummarisationInputDataProvider<ILearningProvider>> _providers;
 
-        public ProviderRepository(IList<ISummarisationInputDataProvider<IList<LearningDelivery>>> providers)
+        public ProviderRepository(IList<ISummarisationInputDataProvider<ILearningProvider>> providers)
         {
             _providers = providers;
         }
@@ -28,8 +28,9 @@ namespace ESFA.DC.Summarisation.Service
             return new LearningProvider
             {
                 UKPRN = ukprn,
-                LearningDeliveries = taskResults.SelectMany(x => x).ToList()
+                LearningDeliveries = taskResults.SelectMany(x => x.LearningDeliveries).ToList()
             };
+
         }
 
         public async Task<IList<int>> GetAllProviderIdentifiersAsync(string collectionType, CancellationToken cancellationToken)

@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Main1920.Data.Providers
 {
-    public class Fm35Provider : ISummarisationInputDataProvider<IList<LearningDelivery>>
+    public class Fm35Provider : AbstractLearningProviderProvider, ISummarisationInputDataProvider<ILearningProvider>
     {
         private readonly Func<IIlr1920RulebaseContext> _ilr;
 
@@ -26,11 +26,11 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
             _ilr = ilr;
         }
 
-        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<ILearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             using (var ilrContext = _ilr())
             {
-                return await ilrContext.FM35_LearningDeliveries
+                var learningDeliveries = await ilrContext.FM35_LearningDeliveries
                     .Where(ld => ld.UKPRN == ukprn)
                     .Select(ld => new LearningDelivery
                     {
@@ -111,6 +111,8 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
                                 }
                             }).ToList()
                     }).ToListAsync(cancellationToken);
+
+                return BuildLearningProvider(ukprn, learningDeliveries);
             }
         }
 

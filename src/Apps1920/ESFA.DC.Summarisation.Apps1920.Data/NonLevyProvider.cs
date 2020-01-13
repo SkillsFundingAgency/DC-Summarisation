@@ -9,10 +9,11 @@ using System;
 using ESFA.DC.DASPayments.EF.Interfaces;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Constants;
+using ESFA.DC.Summarisation.Data.Input.Interface;
 
 namespace ESFA.DC.Summarisation.Apps1920.Data
 {
-    public class NonLevyProvider : ISummarisationInputDataProvider<IList<LearningDelivery>>
+    public class NonLevyProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider<ILearningProvider>
     {
         private readonly Func<IDASPaymentsContext> _dasContext;
 
@@ -38,7 +39,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
             }
         }
 
-        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<ILearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             List<int> CollectionYears = new List<int>
             {
@@ -80,7 +81,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
                                Amount = obj.Sum(s => s.Amount)
                            }).ToListAsync(cancellationToken);
 
-                return preSummarisedData
+                var learningDeliveries = preSummarisedData
                             .GroupBy(x => x.FundingLineType, StringComparer.OrdinalIgnoreCase)
                             .Select(ld => new LearningDelivery
                             {
@@ -101,6 +102,8 @@ namespace ESFA.DC.Summarisation.Apps1920.Data
                                     }
                                 }).ToList()
                             }).ToList();
+
+                return BuildLearningProvider(ukprn, learningDeliveries);
             }
         }
     }

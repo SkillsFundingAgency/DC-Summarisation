@@ -43,6 +43,7 @@ using Apps1920FundingTypesProvider = ESFA.DC.Summarisation.Apps1920.Service;
 using Apps1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Apps1920.Service;
 using ESFA.DC.ESF.FundingData.Database.EF;
 using ESFA.DC.Summarisation.Data.Input.Model;
+using ESFA.DC.Summarisation.Data.Input.Interface;
 
 namespace ESFA.DC.Summarisation.Console
 {
@@ -105,7 +106,7 @@ namespace ESFA.DC.Summarisation.Console
                 new Apps1920CollectionPeriodsProvider.CollectionPeriodsProvider(jsonSerializationService),
             };
 
-            IProviderRepository repository = new ProviderRepository(new List<ISummarisationInputDataProvider<IList<LearningDelivery>>>
+            IProviderRepository repository = new ProviderRepository(new List<ISummarisationInputDataProvider<ILearningProvider>>
             {
                 new ESFProvider_R1(() => new ESF_DataStoreEntities(esfdbContextOptions)),
                 new ESFProvider_R2(() => new ESFR2Context(esfR2dbContextOptions)),
