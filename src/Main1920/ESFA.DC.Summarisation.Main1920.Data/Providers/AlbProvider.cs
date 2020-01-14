@@ -5,13 +5,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR1920.DataStore.EF.Interface;
 using ESFA.DC.Summarisation.Constants;
+using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Main1920.Data.Providers
 {
-    public class AlbProvider : ILearningDeliveryProvider
+    public class AlbProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider<ILearningProvider>
     {
         private readonly Func<IIlr1920RulebaseContext> _ilr;
 
@@ -24,11 +25,11 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
             _ilr = ilr;
         }
 
-        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<ILearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             using (var ilrContext = _ilr())
             {
-                return await ilrContext.ALB_LearningDeliveries
+                var learningDeliveries = await ilrContext.ALB_LearningDeliveries
                     .Where(ld => ld.UKPRN == ukprn)
                     .Select(ld => new LearningDelivery
                     {
@@ -36,7 +37,7 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
                         AimSeqNumber = ld.AimSeqNumber,
                         Fundline = ld.FundLine,
                         PeriodisedData = ld.ALB_LearningDelivery_PeriodisedValues
-                            .Where(x => (x.Period_1 != 0 || x.Period_2 != 0 || x.Period_3 != 0 || x.Period_4 != 0 
+                            .Where(x => (x.Period_1 != 0 || x.Period_2 != 0 || x.Period_3 != 0 || x.Period_4 != 0
                                             || x.Period_5 != 0 || x.Period_6 != 0 || x.Period_7 != 0 || x.Period_8 != 0
                                             || x.Period_9 != 0 || x.Period_10 != 0 || x.Period_11 != 0 || x.Period_12 != 0
                                         )
@@ -109,6 +110,8 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
                                 }
                             }).ToList()
                     }).ToListAsync(cancellationToken);
+
+                return BuildLearningProvider(ukprn, learningDeliveries);
             }
         }
 

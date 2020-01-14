@@ -8,10 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using ESFA.DC.EAS1920.EF.Interface;
 using ESFA.DC.Summarisation.Constants;
+using ESFA.DC.Summarisation.Data.Input.Interface;
 
 namespace ESFA.DC.Summarisation.Main1920.Data.Providers
 {
-    public class EasProvider : ILearningDeliveryProvider
+    public class EasProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider<ILearningProvider>
     {
         private readonly Func<IEasdbContext> _easContext;
 
@@ -24,11 +25,11 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
             _easContext = easContext;
         }
 
-        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<ILearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             using (var easContext = _easContext())
             {
-                return await easContext.EasSubmissionValues
+                var learningDeliveries = await easContext.EasSubmissionValues
                         .Where(sv => sv.EasSubmission.Ukprn == ukprn.ToString())
                         .Join(easContext.PaymentTypes, sv => sv.PaymentId, p => p.PaymentId, (value, type) => new { value.CollectionPeriod, value.PaymentValue, type.PaymentName })
                         .GroupBy(x => x.PaymentName)
@@ -61,6 +62,8 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
 
                         }
                         ).ToListAsync(cancellationToken);
+
+                return BuildLearningProvider(ukprn, learningDeliveries);
             }
         }
 

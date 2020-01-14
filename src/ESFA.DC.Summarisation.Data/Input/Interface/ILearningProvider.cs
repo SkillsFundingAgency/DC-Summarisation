@@ -3,7 +3,7 @@ using ESFA.DC.Summarisation.Data.Input.Model;
 
 namespace ESFA.DC.Summarisation.Data.Input.Interface
 {
-    public interface IProvider
+    public interface ILearningProvider
     {
         int UKPRN { get;  }
 

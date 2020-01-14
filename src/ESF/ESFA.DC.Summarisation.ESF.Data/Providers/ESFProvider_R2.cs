@@ -1,5 +1,6 @@
 ﻿using ESFA.DC.ESF.R2.Database.EF.Interfaces;
 using ESFA.DC.Summarisation.Constants;
+using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ESFA.DC.Summarisation.ESF.Data.Providers
 {
-    public class ESFProvider_R2 : ILearningDeliveryProvider
+    public class ESFProvider_R2 : AbstractLearningProviderProvider, ISummarisationInputDataProvider<ILearningProvider>
     {
         private readonly Func<IESFR2Context> _esf;
 
@@ -24,7 +25,7 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
             _esf = esf;
         }
 
-        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
+        public async Task<ILearningProvider> ProvideAsync(int ukprn, CancellationToken cancellationToken)
         {
             using (var esfr2Context = _esf())
             {
@@ -53,7 +54,7 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                     Volume = obj.Sum(p => p.CostType.Equals(ESFConstants.UnitCost, StringComparison.OrdinalIgnoreCase) ? 1 : p.CostType.Equals(ESFConstants.UnitCostDeduction, StringComparison.OrdinalIgnoreCase) ? -1 : 0),
                                 }).ToList();
 
-                return  preSummarised
+                var learningDeliveries =  preSummarised
                         .GroupBy(sd => sd.ConRefNumber)
                         .Select(ld => new LearningDelivery
                         {
@@ -71,6 +72,8 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
                                 }).ToList()
                             }).ToList()
                         }).ToList();
+
+                return BuildLearningProvider(ukprn, learningDeliveries);
             }
         }
 
@@ -84,7 +87,7 @@ namespace ESFA.DC.Summarisation.ESF.Data.Providers
             }
         }
 
-        public Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken) => ProvideAsync(ukprn, cancellationToken);
+        public Task<ILearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken) => ProvideAsync(ukprn, cancellationToken);
 
     }
 }

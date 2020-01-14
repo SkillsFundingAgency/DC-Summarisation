@@ -16,7 +16,7 @@ namespace ESFA.DC.Summarisation.Service
 
         public IEnumerable<SummarisedActual> Summarise(
             List<FundingStream> fundingStreams,
-            IProvider provider,
+            ILearningProvider provider,
             IEnumerable<IFcsContractAllocation> allocations,
             IEnumerable<CollectionPeriod> collectionPeriods,
             ISummarisationMessage summarisationMessage)
@@ -26,7 +26,7 @@ namespace ESFA.DC.Summarisation.Service
 
         public IEnumerable<SummarisedActual> Summarise(
             FundingStream fundingStream,
-            IProvider provider,
+            ILearningProvider provider,
             IEnumerable<IFcsContractAllocation> allocations,
             IEnumerable<CollectionPeriod> collectionPeriods,
             ISummarisationMessage summarisationMessage)

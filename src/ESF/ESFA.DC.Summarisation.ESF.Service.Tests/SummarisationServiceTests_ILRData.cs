@@ -117,7 +117,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                 },
             };
 
-            Provider testProvider = new Provider()
+            LearningProvider testProvider = new LearningProvider()
             {
                 UKPRN = ukprn,
                 LearningDeliveries = learningDeliveries
@@ -310,9 +310,9 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             return new FundingTypesProvider(new JsonSerializationService());
         }
 
-        private Provider GetTestProvider(int ukprn)
+        private LearningProvider GetTestProvider(int ukprn)
         {
-            return new Provider()
+            return new LearningProvider()
             {
                 UKPRN = ukprn,
                 LearningDeliveries = GetLearningDeliveries(ukprn)

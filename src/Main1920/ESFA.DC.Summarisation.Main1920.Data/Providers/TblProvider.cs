@@ -5,13 +5,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR1920.DataStore.EF.Interface;
 using ESFA.DC.Summarisation.Constants;
+using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Main1920.Data.Providers
 {
-    public class TblProvider : ILearningDeliveryProvider
+    public class TblProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider<ILearningProvider>
     {
         private readonly Func<IIlr1920RulebaseContext> _ilrContext;
 
@@ -24,11 +25,11 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
 
         public string CollectionType => CollectionTypeConstants.ILR1920;
 
-        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<ILearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             using (var ilrContext = _ilrContext())
             {
-                return await ilrContext.TBL_LearningDeliveries
+                var learningDeliveries = await ilrContext.TBL_LearningDeliveries
                     .Where(ld => ld.UKPRN == ukprn)
                     .Select(ld => new LearningDelivery
                     {
@@ -104,6 +105,8 @@ namespace ESFA.DC.Summarisation.Main1920.Data.Providers
                                 }
                             }).ToList()
                     }).ToListAsync(cancellationToken);
+
+                return BuildLearningProvider(ukprn, learningDeliveries);
             }
         }
 

@@ -10,6 +10,6 @@ namespace ESFA.DC.Summarisation.Interfaces
 {
     public interface IProviderSummarisationService
     {
-        Task<IEnumerable<SummarisedActual>> SummariseProviderData(IProvider providerData, IEnumerable<CollectionPeriod> collectionPeriods, IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken);
+        Task<IEnumerable<SummarisedActual>> SummariseProviderData(ILearningProvider providerData, IEnumerable<CollectionPeriod> collectionPeriods, IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken);
     }
 }
