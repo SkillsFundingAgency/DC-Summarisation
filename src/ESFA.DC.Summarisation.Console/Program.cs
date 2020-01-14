@@ -86,7 +86,7 @@ namespace ESFA.DC.Summarisation.Console
             DbContextOptions<DASPaymentsContext> dasdbContextOptions = new DbContextOptionsBuilder<DASPaymentsContext>().UseSqlServer(dasConnectionString).Options;
 
             IFcsRepository fcsRepository = new FcsRepository(() => new FcsContext(fcsdbContextOptions));
-            ISummarisedActualsProcessRepository saRepository
+            IExistingSummarisedActualsRepository saRepository
                 = new SummarisedActualsProcessRepository(() => new SummarisationContext(sadbContextOptions));
 
             IJsonSerializationService jsonSerializationService = new JsonSerializationService();
@@ -98,15 +98,14 @@ namespace ESFA.DC.Summarisation.Console
                 new Apps1920FundingTypesProvider.FundingTypesProvider(jsonSerializationService),
             };
 
-            List<ISummarisationConfigProvider<CollectionPeriod>> collectionPeriodsProviders
-                = new List<ISummarisationConfigProvider<CollectionPeriod>>()
+            List<ISummarisationConfigProvider<CollectionPeriod>> collectionPeriodsProviders = new List<ISummarisationConfigProvider<CollectionPeriod>>()
             {
                 new ESF.Service.CollectionPeriodsProvider(jsonSerializationService),
                 new Main1920CollectionPeriodsProvider.CollectionPeriodsProvider(jsonSerializationService),
                 new Apps1920CollectionPeriodsProvider.CollectionPeriodsProvider(jsonSerializationService),
             };
 
-            IProviderRepository repository = new ProviderRepository(new List<ISummarisationInputDataProvider<ILearningProvider>>
+            var summarisationInputDataProviders = new List<ISummarisationInputDataProvider<ILearningProvider>>
             {
                 new ESFProvider_R1(() => new ESF_DataStoreEntities(esfdbContextOptions)),
                 new ESFProvider_R2(() => new ESFR2Context(esfR2dbContextOptions)),
@@ -118,7 +117,9 @@ namespace ESFA.DC.Summarisation.Console
                 new Apps1920Providers.LevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
                 new Apps1920Providers.NonLevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
                 new Apps1920Providers.EasProvider(() => new DASPaymentsContext(dasdbContextOptions), new Apps1920CollectionPeriodsProvider.CollectionPeriodsProvider(jsonSerializationService)),
-            });
+            };
+
+            IInputDataRepository<ILearningProvider> repository = new ProviderRepository(summarisationInputDataProviders);
 
             List<ISummarisationService> summarisationServices = new List<ISummarisationService>()
             {

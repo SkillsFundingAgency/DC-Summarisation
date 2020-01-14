@@ -18,22 +18,18 @@ using ESFA.DC.Summarisation.Constants;
 
 namespace ESFA.DC.Summarisation.Service
 {
-    public class ProviderSummarisationService : IProviderSummarisationService
+    public class ProviderSummarisationService : IProviderSummarisationService<ILearningProvider>
     {
-        private readonly ISummarisedActualsProcessRepository _summarisedActualsProcessRepository;
+        private readonly IExistingSummarisedActualsRepository _summarisedActualsProcessRepository;
         private readonly IEnumerable<ISummarisationService> _summarisationServices;
         private readonly IEnumerable<ISummarisationConfigProvider<FundingType>> _fundingTypesProviders;
         private readonly ILogger _logger;
         private readonly IProviderContractsService _providerContractsService;
 
         public ProviderSummarisationService(
-            IFcsRepository fcsRepository,
-            ISummarisedActualsProcessRepository summarisedActualsProcessRepository,
+            IExistingSummarisedActualsRepository summarisedActualsProcessRepository,
             IEnumerable<ISummarisationConfigProvider<FundingType>> fundingTypesProviders,
             IEnumerable<ISummarisationService> summarisationServices,
-            IDataStorePersistenceService dataStorePersistenceService,
-            Func<IProviderRepository> repositoryFactory,
-            ISummarisationDataOptions dataOptions,
             ILogger logger,
             IProviderContractsService providerContractsService)
         {
@@ -44,11 +40,13 @@ namespace ESFA.DC.Summarisation.Service
             _providerContractsService = providerContractsService;
         }
 
-        public async Task<IEnumerable<SummarisedActual>> SummariseProviderData(ILearningProvider providerData, IEnumerable<CollectionPeriod> collectionPeriods, IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<IEnumerable<SummarisedActual>> Summarise(ILearningProvider providerData, IEnumerable<CollectionPeriod> collectionPeriods, IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             var latestCollectionReturn = await _summarisedActualsProcessRepository.GetLastCollectionReturnForCollectionTypeAsync(summarisationMessage.CollectionType, cancellationToken);
 
             var providerActuals = new List<SummarisedActual>();
+
+            var summarisationService = _summarisationServices.FirstOrDefault(x => x.ProcessType.Equals(summarisationMessage.ProcessType, StringComparison.OrdinalIgnoreCase));
 
             foreach (var summarisationType in summarisationMessage.SummarisationTypes)
             {
@@ -57,10 +55,7 @@ namespace ESFA.DC.Summarisation.Service
                     _logger.LogInfo($"Summarisation Wrapper: Summarising Data of UKPRN: {providerData.UKPRN}, Fundmodel {summarisationType} Start");
 
                     var providerfundingstreamsContracts = await _providerContractsService.GetProviderContracts(providerData.UKPRN, summarisationMessage.CollectionType, summarisationType, cancellationToken);
-
-                    var summarisationService = _summarisationServices
-                        .FirstOrDefault(x => x.ProcessType.Equals(summarisationMessage.ProcessType, StringComparison.OrdinalIgnoreCase));
-
+                    
                     if (summarisationService == null)
                     {
                         _logger.LogInfo($"Summarisation Wrapper: Summarising UKPRN: {providerData.UKPRN} End; Summarisation service found null for Process Type: {summarisationMessage.ProcessType} ");
@@ -98,8 +93,7 @@ namespace ESFA.DC.Summarisation.Service
             IEnumerable<SummarisedActual> providerActuals,
             CancellationToken cancellationToken)
         {
-            var previousActuals = await _summarisedActualsProcessRepository
-                .GetSummarisedActualsForCollectionReturnAndOrganisationAsync(collectionReturnId, organisationId, cancellationToken);
+            var previousActuals = await _summarisedActualsProcessRepository.GetSummarisedActualsForCollectionReturnAndOrganisationAsync(collectionReturnId, organisationId, cancellationToken);
 
             var comparer = new CarryOverActualsComparer();
 

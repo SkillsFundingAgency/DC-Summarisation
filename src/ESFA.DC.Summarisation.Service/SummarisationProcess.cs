@@ -19,27 +19,23 @@ namespace ESFA.DC.Summarisation.Service
     public class SummarisationProcess : ISummarisationProcess
     {
         private readonly IFcsRepository _fcsRepository;
-        private readonly ISummarisedActualsProcessRepository _summarisedActualsProcessRepository;
         private readonly IEnumerable<ISummarisationConfigProvider<CollectionPeriod>> _collectionPeriodsProviders;
         private readonly ILogger _logger;
-        private readonly Func<IProviderRepository> _repositoryFactory;
+        private readonly Func<IInputDataRepository<ILearningProvider>> _repositoryFactory;
         private readonly int _dataRetrievalMaxConcurrentCalls;
 
-        private readonly IProviderSummarisationService _providerSummarisationService;
+        private readonly IProviderSummarisationService<ILearningProvider> _providerSummarisationService;
 
         public SummarisationProcess(
             IFcsRepository fcsRepository,
-            ISummarisedActualsProcessRepository summarisedActualsProcessRepository,
             IEnumerable<ISummarisationConfigProvider<CollectionPeriod>> collectionPeriodsProviders,
-            IEnumerable<ISummarisationService> summarisationServices,
             IDataStorePersistenceService dataStorePersistenceService,
-            Func<IProviderRepository> repositoryFactory,
+            Func<IInputDataRepository<ILearningProvider>> repositoryFactory,
             ISummarisationDataOptions dataOptions,
             ILogger logger,
-            IProviderSummarisationService providerSummarisationService)
+            IProviderSummarisationService<ILearningProvider> providerSummarisationService)
         {
             _fcsRepository = fcsRepository;
-            _summarisedActualsProcessRepository = summarisedActualsProcessRepository;
             _collectionPeriodsProviders = collectionPeriodsProviders;
             _logger = logger;
             _repositoryFactory = repositoryFactory;
@@ -77,12 +73,10 @@ namespace ESFA.DC.Summarisation.Service
             }
             else
             {
-                providerIdentifiers = await _repositoryFactory.Invoke().GetAllProviderIdentifiersAsync(summarisationMessage.CollectionType, cancellationToken);
+                providerIdentifiers = await _repositoryFactory.Invoke().GetAllIdentifiersAsync(summarisationMessage.CollectionType, cancellationToken);
             }
 
             _logger.LogInfo($"Summarisation Wrapper: Providers to be summarised : {providerIdentifiers.Count}");
-
-            var latestCollectionReturn = await _summarisedActualsProcessRepository.GetLastCollectionReturnForCollectionTypeAsync(summarisationMessage.CollectionType, cancellationToken);
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving Providers Data Start");
 
@@ -101,7 +95,7 @@ namespace ESFA.DC.Summarisation.Service
 
                 var providerData = providersData[ukprn];
 
-                var providerActuals = await  _providerSummarisationService.SummariseProviderData(providerData, collectionPeriods, fcsContractAllocations, summarisationMessage, cancellationToken);
+                var providerActuals = await _providerSummarisationService.Summarise(providerData, collectionPeriods, fcsContractAllocations, summarisationMessage, cancellationToken);
 
                 summarisedActuals.AddRange(providerActuals);
 
