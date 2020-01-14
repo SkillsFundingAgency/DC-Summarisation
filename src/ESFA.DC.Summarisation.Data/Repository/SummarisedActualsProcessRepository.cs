@@ -12,7 +12,7 @@ using SummarisedActual = ESFA.DC.Summarisation.Data.Output.Model.SummarisedActua
 
 namespace ESFA.DC.Summarisation.Data.Repository
 {
-    public class SummarisedActualsProcessRepository : ISummarisedActualsProcessRepository
+    public class SummarisedActualsProcessRepository : IExistingSummarisedActualsRepository
     {
         private readonly Func<ISummarisationContext> _summarisationContext;
 

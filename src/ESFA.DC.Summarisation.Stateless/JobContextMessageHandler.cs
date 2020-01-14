@@ -32,8 +32,7 @@ namespace ESFA.DC.Summarisation.Stateless
                 using (var childLifetimeScope = this._lifetimeScope.BeginLifetimeScope(
                     c =>
                     {
-                        c.RegisterInstance(summarisationMessage).As<ISummarisationMessage>();
-                        }))
+                    }))
                 {
                     var executionContext = (ExecutionContext)childLifetimeScope.Resolve<IExecutionContext>();
                     executionContext.JobId = message.JobId.ToString();

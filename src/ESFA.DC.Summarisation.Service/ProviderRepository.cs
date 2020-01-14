@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace ESFA.DC.Summarisation.Service
 {
     //public class ProviderRepository : IProviderRepository<IProvider, int>
-    public class ProviderRepository : IProviderRepository
+    public class ProviderRepository : IInputDataRepository<ILearningProvider>
     {
         private readonly IList<ISummarisationInputDataProvider<ILearningProvider>> _providers;
 
@@ -33,7 +33,7 @@ namespace ESFA.DC.Summarisation.Service
 
         }
 
-        public async Task<IList<int>> GetAllProviderIdentifiersAsync(string collectionType, CancellationToken cancellationToken)
+        public async Task<IList<int>> GetAllIdentifiersAsync(string collectionType, CancellationToken cancellationToken)
         {
             var taskResults = await Task.WhenAll(_providers.Where(w => w.CollectionType == collectionType).Select(p => p.ProvideUkprnsAsync(cancellationToken)));
 

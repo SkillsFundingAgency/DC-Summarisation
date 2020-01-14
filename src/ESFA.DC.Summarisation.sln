@@ -77,6 +77,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.Summarisation.NCS19
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.Summarisation.NCS1920.Data", "NCS1920\ESFA.DC.Summarisation.NCS1920.Data\ESFA.DC.Summarisation.NCS1920.Data.csproj", "{A874258A-EE94-40A7-94CB-7A5D1E13E586}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{A0E479C3-4D7E-4575-8022-BA9B28195D76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

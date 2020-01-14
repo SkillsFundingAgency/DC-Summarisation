@@ -65,7 +65,7 @@ namespace ESFA.DC.Summarisation.Modules
 
             LoadNewModules(containerBuilder);
 
-            containerBuilder.RegisterType<ProviderRepository>().As<IProviderRepository>();
+            containerBuilder.RegisterType<ProviderRepository>().As<IInputDataRepository<ILearningProvider>>();
 
             containerBuilder.RegisterType<JsonSerializationService>().As<IJsonSerializationService>();
 
@@ -97,7 +97,7 @@ namespace ESFA.DC.Summarisation.Modules
         {
             containerBuilder.RegisterType<ProviderContractsService>().As<IProviderContractsService>();
             containerBuilder.RegisterType<SummarisationProcess>().As<ISummarisationProcess>();
-            containerBuilder.RegisterType<ProviderSummarisationService>().As<IProviderSummarisationService>();
+            containerBuilder.RegisterType<ProviderSummarisationService>().As<IProviderSummarisationService<ILearningProvider>>();
         }
 
         private void LoadESFModules(ContainerBuilder containerBuilder)
@@ -270,7 +270,7 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<BulkInsert>().As<IBulkInsert>();
             containerBuilder.RegisterType<SummarisedActualsPersist>().As<ISummarisedActualsPersist>();
 
-            containerBuilder.RegisterType<SummarisedActualsProcessRepository>().As<ISummarisedActualsProcessRepository>();
+            containerBuilder.RegisterType<SummarisedActualsProcessRepository>().As<IExistingSummarisedActualsRepository>();
 
             containerBuilder.RegisterType<DataStorePersistenceService>().As<IDataStorePersistenceService>();
 
