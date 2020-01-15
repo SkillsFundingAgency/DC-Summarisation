@@ -40,7 +40,7 @@ using Main1920FundingTypesProvider = ESFA.DC.Summarisation.Main1920.Service.Prov
 using Main1920Providers = ESFA.DC.Summarisation.Main1920.Service.Providers;
 using Apps1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Apps1920.Service.CollectionPeriodsProvider;
 using Apps1920FundingTypesProvider = ESFA.DC.Summarisation.Apps1920.Service.FundingTypesProvider;
-using Apps1920Providers = ESFA.DC.Summarisation.Apps1920.Service;
+using Apps1920Providers = ESFA.DC.Summarisation.Apps1920.Service.Providers;
 using ESFA.DC.ESF.FundingData.Database.EF.Interfaces;
 using ESFA.DC.ESF.FundingData.Database.EF;
 using System.Linq;

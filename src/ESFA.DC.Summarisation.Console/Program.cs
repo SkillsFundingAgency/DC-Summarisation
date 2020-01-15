@@ -38,7 +38,7 @@ using Microsoft.EntityFrameworkCore;
 using Main1920Providers = ESFA.DC.Summarisation.Main1920.Service.Providers;
 using Main1920FundingTypesProvider = ESFA.DC.Summarisation.Main1920.Service.Providers;
 using Main1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Main1920.Service.Providers;
-using Apps1920Providers = ESFA.DC.Summarisation.Apps1920.Service;
+using Apps1920Providers = ESFA.DC.Summarisation.Apps1920.Service.Providers;
 using Apps1920FundingTypesProvider = ESFA.DC.Summarisation.Apps1920.Service;
 using Apps1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Apps1920.Service;
 using ESFA.DC.ESF.FundingData.Database.EF;

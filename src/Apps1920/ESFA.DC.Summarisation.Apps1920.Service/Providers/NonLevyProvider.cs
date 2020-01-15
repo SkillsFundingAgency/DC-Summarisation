@@ -11,7 +11,7 @@ using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 
-namespace ESFA.DC.Summarisation.Apps1920.Service
+namespace ESFA.DC.Summarisation.Apps1920.Service.Providers
 {
     public class NonLevyProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider<ILearningProvider>
     {
