@@ -98,6 +98,7 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<ProviderContractsService>().As<IProviderContractsService>();
             containerBuilder.RegisterType<SummarisationProcess>().As<ISummarisationProcess>();
             containerBuilder.RegisterType<ProviderSummarisationService>().As<IProviderSummarisationService<ILearningProvider>>();
+            containerBuilder.RegisterType<ProviderFundingDataRemovedService>().As<IProviderFundingDataRemovedService>();
         }
 
         private void LoadESFModules(ContainerBuilder containerBuilder)

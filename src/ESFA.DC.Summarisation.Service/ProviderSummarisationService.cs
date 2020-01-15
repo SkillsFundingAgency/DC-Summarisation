@@ -20,30 +20,25 @@ namespace ESFA.DC.Summarisation.Service
 {
     public class ProviderSummarisationService : IProviderSummarisationService<ILearningProvider>
     {
-        private readonly IExistingSummarisedActualsRepository _summarisedActualsProcessRepository;
         private readonly IEnumerable<ISummarisationService> _summarisationServices;
-        private readonly IEnumerable<ISummarisationConfigProvider<FundingType>> _fundingTypesProviders;
         private readonly ILogger _logger;
         private readonly IProviderContractsService _providerContractsService;
+        private readonly IProviderFundingDataRemovedService _providerFundingDataRemovedService;
 
         public ProviderSummarisationService(
-            IExistingSummarisedActualsRepository summarisedActualsProcessRepository,
-            IEnumerable<ISummarisationConfigProvider<FundingType>> fundingTypesProviders,
             IEnumerable<ISummarisationService> summarisationServices,
             ILogger logger,
-            IProviderContractsService providerContractsService)
+            IProviderContractsService providerContractsService,
+            IProviderFundingDataRemovedService providerFundingDataRemovedService)
         {
-            _fundingTypesProviders = fundingTypesProviders;
-            _summarisedActualsProcessRepository = summarisedActualsProcessRepository;
             _summarisationServices = summarisationServices;
             _logger = logger;
             _providerContractsService = providerContractsService;
-        }
+            _providerFundingDataRemovedService = providerFundingDataRemovedService;
+    }
 
         public async Task<IEnumerable<SummarisedActual>> Summarise(ILearningProvider providerData, IEnumerable<CollectionPeriod> collectionPeriods, IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
-            var latestCollectionReturn = await _summarisedActualsProcessRepository.GetLastCollectionReturnForCollectionTypeAsync(summarisationMessage.CollectionType, cancellationToken);
-
             var providerActuals = new List<SummarisedActual>();
 
             var summarisationService = _summarisationServices.FirstOrDefault(x => x.ProcessType.Equals(summarisationMessage.ProcessType, StringComparison.OrdinalIgnoreCase));
@@ -71,41 +66,16 @@ namespace ESFA.DC.Summarisation.Service
 
             if (!summarisationMessage.ProcessType.Equals(ProcessTypeConstants.Payments, StringComparison.OrdinalIgnoreCase))
             {
-                var organisationId = providerActuals.Select(x => x.OrganisationId).FirstOrDefault();
+                _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed  Rule UKPRN: {providerData.UKPRN} Start");
 
-                if (latestCollectionReturn != null)
-                {
-                    _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed  Rule UKPRN: {providerData.UKPRN} Start");
+                var actualsToCarry = await _providerFundingDataRemovedService.FundingDataRemovedAsync(providerActuals, summarisationMessage, cancellationToken);
 
-                    var actualsToCarry = await GetFundingDataRemoved(latestCollectionReturn.Id, organisationId, providerActuals, cancellationToken);
-                    providerActuals.AddRange(actualsToCarry);
+                providerActuals.AddRange(actualsToCarry);
 
-                    _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed  Rule UKPRN: {providerData.UKPRN} End");
-                }
+                _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed  Rule UKPRN: {providerData.UKPRN} End");
             }
 
             return providerActuals;
-        }
-
-        public async Task<IEnumerable<SummarisedActual>> GetFundingDataRemoved(
-            int collectionReturnId,
-            string organisationId,
-            IEnumerable<SummarisedActual> providerActuals,
-            CancellationToken cancellationToken)
-        {
-            var previousActuals = await _summarisedActualsProcessRepository.GetSummarisedActualsForCollectionReturnAndOrganisationAsync(collectionReturnId, organisationId, cancellationToken);
-
-            var comparer = new CarryOverActualsComparer();
-
-            var actualsToCarry = previousActuals.Except(providerActuals, comparer);
-
-            foreach (var actuals in actualsToCarry)
-            {
-                actuals.ActualVolume = 0;
-                actuals.ActualValue = 0;
-            }
-
-            return actualsToCarry;
         }
     }
 }
