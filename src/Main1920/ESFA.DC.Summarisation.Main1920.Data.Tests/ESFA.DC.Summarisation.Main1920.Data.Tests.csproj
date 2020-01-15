@@ -161,8 +161,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FM25ProviderTests.cs" />
-    <Compile Include="TblProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -189,9 +187,9 @@
       <Project>{2710AFB6-C198-4438-B676-8AF1A0B2E272}</Project>
       <Name>ESFA.DC.Summarisation.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ESFA.DC.Summarisation.Main1920.Data\ESFA.DC.Summarisation.Main1920.Data.csproj">
-      <Project>{c1a2b011-7380-4b42-b475-9a3c4e8bd38b}</Project>
-      <Name>ESFA.DC.Summarisation.Main1920.Data</Name>
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Main1920.Service\ESFA.DC.Summarisation.Main1920.Service.csproj">
+      <Project>{beb1d086-0e2c-4bb9-b723-179674108523}</Project>
+      <Name>ESFA.DC.Summarisation.Main1920.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

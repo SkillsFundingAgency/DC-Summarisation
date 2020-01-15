@@ -168,7 +168,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ESFILRProvider_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -191,9 +190,9 @@
       <Project>{2710AFB6-C198-4438-B676-8AF1A0B2E272}</Project>
       <Name>ESFA.DC.Summarisation.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ESFA.DC.Summarisation.ESF.Data\ESFA.DC.Summarisation.ESF.Data.csproj">
-      <Project>{81abbb7c-ceb5-47f9-8e07-3197d1135ccb}</Project>
-      <Name>ESFA.DC.Summarisation.ESF.Data</Name>
+    <ProjectReference Include="..\ESFA.DC.Summarisation.ESF.Service\ESFA.DC.Summarisation.ESF.Service.csproj">
+      <Project>{5b2ffcdc-83d6-404a-97f8-8558fc4ebb7c}</Project>
+      <Name>ESFA.DC.Summarisation.ESF.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

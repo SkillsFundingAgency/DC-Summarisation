@@ -14,7 +14,7 @@ using System.Threading;
 using FluentAssertions;
 using ESFA.DC.Summarisation.Interfaces;
 
-namespace ESFA.DC.Summarisation.ESF.Data.Tests
+namespace ESFA.DC.Summarisation.ESF.Service.Tests
 {
     public class ESFILRProvider_Tests
     {

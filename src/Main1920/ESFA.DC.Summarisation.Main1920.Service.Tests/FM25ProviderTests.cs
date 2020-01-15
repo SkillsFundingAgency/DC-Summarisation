@@ -13,7 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace ESFA.DC.Summarisation.Main1920.Data.Tests
+namespace ESFA.DC.Summarisation.Main1920.Service.Tests
 {
     public class FM25ProviderTests
     {
