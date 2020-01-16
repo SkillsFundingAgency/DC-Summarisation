@@ -24,24 +24,31 @@ namespace ESFA.DC.Summarisation.Service
         private readonly ILogger _logger;
         private readonly IProviderContractsService _providerContractsService;
         private readonly IProviderFundingDataRemovedService _providerFundingDataRemovedService;
+        private readonly IEnumerable<ISummarisationConfigProvider<FundingType>> _fundingTypesProviders;
 
         public ProviderSummarisationService(
             IEnumerable<ISummarisationService> summarisationServices,
             ILogger logger,
             IProviderContractsService providerContractsService,
-            IProviderFundingDataRemovedService providerFundingDataRemovedService)
+            IProviderFundingDataRemovedService providerFundingDataRemovedService,
+            IEnumerable<ISummarisationConfigProvider<FundingType>> fundingTypesProviders)
         {
             _summarisationServices = summarisationServices;
             _logger = logger;
             _providerContractsService = providerContractsService;
             _providerFundingDataRemovedService = providerFundingDataRemovedService;
+            _fundingTypesProviders = fundingTypesProviders;
     }
 
-        public async Task<IEnumerable<SummarisedActual>> Summarise(ILearningProvider providerData, IEnumerable<CollectionPeriod> collectionPeriods, IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> fcsContractAllocations, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<ICollection<SummarisedActual>> Summarise(ILearningProvider providerData, ICollection<CollectionPeriod> collectionPeriods, IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> contractAllocations, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             var providerActuals = new List<SummarisedActual>();
 
             var summarisationService = _summarisationServices.FirstOrDefault(x => x.ProcessType.Equals(summarisationMessage.ProcessType, StringComparison.OrdinalIgnoreCase));
+
+            var fundingTypeConfiguration = _fundingTypesProviders
+                .FirstOrDefault(w => w.CollectionType.Equals(summarisationMessage.CollectionType, StringComparison.OrdinalIgnoreCase))?
+                .Provide();
 
             foreach (var summarisationType in summarisationMessage.SummarisationTypes)
             {
@@ -49,7 +56,12 @@ namespace ESFA.DC.Summarisation.Service
                 {
                     _logger.LogInfo($"Summarisation Wrapper: Summarising Data of UKPRN: {providerData.UKPRN}, Fundmodel {summarisationType} Start");
 
-                    var providerfundingstreamsContracts = await _providerContractsService.GetProviderContracts(providerData.UKPRN, summarisationMessage.CollectionType, summarisationType, cancellationToken);
+                    var fundingStreams = fundingTypeConfiguration?
+                        .Where(x => x.SummarisationType.Equals(summarisationType, StringComparison.OrdinalIgnoreCase))
+                        .SelectMany(fs => fs.FundingStreams)
+                        .ToList();
+
+                    var providerfundingstreamsContracts = await _providerContractsService.GetProviderContracts(providerData.UKPRN, fundingStreams, contractAllocations, cancellationToken);
                     
                     if (summarisationService == null)
                     {
@@ -57,11 +69,12 @@ namespace ESFA.DC.Summarisation.Service
                         continue;
                     }
 
-                    providerActuals.AddRange(summarisationService.Summarise(providerfundingstreamsContracts.FundingStreams, providerData, providerfundingstreamsContracts.FcsContractAllocations, collectionPeriods, summarisationMessage));
+                    var summarisedData = summarisationService.Summarise(providerfundingstreamsContracts.FundingStreams, providerData, providerfundingstreamsContracts.FcsContractAllocations, collectionPeriods, summarisationMessage);
+
+                    providerActuals.AddRange(summarisedData);
 
                     _logger.LogInfo($"Summarisation Wrapper: Summarising Data of UKPRN: {providerData.UKPRN}, Fundmodel {summarisationType} End");
                 }
-
             }
 
             if (!summarisationMessage.ProcessType.Equals(ProcessTypeConstants.Payments, StringComparison.OrdinalIgnoreCase))

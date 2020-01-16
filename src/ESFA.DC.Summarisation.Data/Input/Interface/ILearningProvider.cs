@@ -7,6 +7,6 @@ namespace ESFA.DC.Summarisation.Data.Input.Interface
     {
         int UKPRN { get;  }
 
-        IList<LearningDelivery> LearningDeliveries { get;  }
+        ICollection<LearningDelivery> LearningDeliveries { get;  }
     }
 }

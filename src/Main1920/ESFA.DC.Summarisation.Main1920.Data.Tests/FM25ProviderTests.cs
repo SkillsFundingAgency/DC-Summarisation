@@ -1,7 +1,7 @@
 ﻿using ESFA.DC.ILR1920.DataStore.EF;
 using ESFA.DC.ILR1920.DataStore.EF.Interface;
 using ESFA.DC.Summarisation.Constants;
-using ESFA.DC.Summarisation.Main1920.Data.Providers;
+using ESFA.DC.Summarisation.Main1920.Service.Providers;
 using FluentAssertions;
 using MockQueryable.Moq;
 using Moq;

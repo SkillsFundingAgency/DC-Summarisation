@@ -33,7 +33,7 @@ namespace ESFA.DC.Summarisation.Service
 
         }
 
-        public async Task<IList<int>> GetAllIdentifiersAsync(string collectionType, CancellationToken cancellationToken)
+        public async Task<ICollection<int>> GetAllIdentifiersAsync(string collectionType, CancellationToken cancellationToken)
         {
             var taskResults = await Task.WhenAll(_providers.Where(w => w.CollectionType == collectionType).Select(p => p.ProvideUkprnsAsync(cancellationToken)));
 

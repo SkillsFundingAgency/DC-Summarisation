@@ -7,6 +7,6 @@ namespace ESFA.DC.Summarisation.Interfaces
 {
     public interface ISummarisationWrapper
     {
-        Task<IEnumerable<SummarisedActual>> Summarise(ISummarisationMessage summarisationMessage, CancellationToken cancellationToken);
+        Task<ICollection<SummarisedActual>> Summarise(ISummarisationMessage summarisationMessage, CancellationToken cancellationToken);
     }
 }

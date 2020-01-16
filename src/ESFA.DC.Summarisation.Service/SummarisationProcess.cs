@@ -45,7 +45,7 @@ namespace ESFA.DC.Summarisation.Service
             int.TryParse(dataOptions.DataRetrievalMaxConcurrentCalls, out _dataRetrievalMaxConcurrentCalls);
         }
 
-        public async Task<IEnumerable<SummarisedActual>> CollateAndSummariseAsync(ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<ICollection<SummarisedActual>> CollateAndSummariseAsync(ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving Collection Periods Start");
@@ -65,7 +65,7 @@ namespace ESFA.DC.Summarisation.Service
             var summarisedActuals = new List<SummarisedActual>();
 
             //IList<TIdentifier> providerIdentifiers;
-            IList<int> providerIdentifiers;
+            ICollection<int> providerIdentifiers;
 
             if (summarisationMessage.Ukprn.HasValue && summarisationMessage.Ukprn > 0)
             {
@@ -80,7 +80,7 @@ namespace ESFA.DC.Summarisation.Service
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving Providers Data Start");
 
-            var providersData = await RetrieveProvidersData(providerIdentifiers, summarisationMessage, cancellationToken);
+            var providersData = await RetrieveProvidersData(providerIdentifiers.ToList(), summarisationMessage, cancellationToken);
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving Providers Data End");
 

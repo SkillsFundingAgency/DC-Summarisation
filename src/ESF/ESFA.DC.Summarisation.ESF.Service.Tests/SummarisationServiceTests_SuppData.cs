@@ -1,6 +1,8 @@
 ﻿using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.Configuration;
+using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.External.FCS.Model;
+using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Service;
@@ -134,7 +136,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             int ukprn = GetProviders().First();
 
-            List<FcsContractAllocation> fcsContractAllocations = new List<FcsContractAllocation>();
+            ICollection<IFcsContractAllocation> fcsContractAllocations = new List<IFcsContractAllocation>();
 
             for (int i = 1; i <= contracts; i++)
             {
@@ -185,7 +187,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             foreach (var ukprn in GetProviders())
             {
-                List<FcsContractAllocation> fcsContractAllocations = new List<FcsContractAllocation>();
+                ICollection<IFcsContractAllocation> fcsContractAllocations = new List<IFcsContractAllocation>();
 
                 for (int i = 1; i <= contracts; i++)
                 {
@@ -237,7 +239,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             FundLine fundLine = new FundLine() { CalculateVolume = true };
 
-            var result = task.SummarisePeriods(GetPeriodsData(1).Take(10), fundLine, GetCollectionPeriods(), GetContractAllocation(GetProviders().First()));
+            var result = task.SummarisePeriods(GetPeriodsData(1).Take(10).ToList(), fundLine, GetCollectionPeriods(), GetContractAllocation(GetProviders().First()));
 
             result.Count().Should().Be(67);
 
@@ -285,7 +287,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             HashSet<string> deliverableCodes = GetAllDeliverableCodes();
 
-            List<PeriodisedData> periodisedDatas = new List<PeriodisedData>();
+            var periodisedDatas = new List<PeriodisedData>();
 
             foreach (var deliverableCode in deliverableCodes)
             {
@@ -301,9 +303,9 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             return periodisedDatas;
         }
 
-        private List<Period> GetPeriodsData(int lotSize)
+        private List<IPeriod> GetPeriodsData(int lotSize)
         {
-            List<Period> periods = new List<Period>();
+            var periods = new List<IPeriod>();
             for (int i = 1; i <= lotSize; i++)
             {
                 foreach (var collectionPeriod in GetCollectionPeriods())

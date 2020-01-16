@@ -1,6 +1,7 @@
 ﻿using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Summarisation.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace ESFA.DC.Summarisation.Service.Providers
@@ -20,11 +21,11 @@ namespace ESFA.DC.Summarisation.Service.Providers
 
         protected internal abstract Assembly Assembly { get; }
 
-        public virtual IEnumerable<T> Provide()
+        public virtual ICollection<T> Provide()
         {
             using (var stream = Assembly.GetManifestResourceStream(ReferenceDataFileName))
             {
-                return _jsonSerializationService.Deserialize<IEnumerable<T>>(stream);
+                return _jsonSerializationService.Deserialize<T[]>(stream);
             }
         }
     }

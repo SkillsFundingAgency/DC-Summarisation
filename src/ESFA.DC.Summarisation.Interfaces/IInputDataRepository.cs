@@ -10,6 +10,6 @@ namespace ESFA.DC.Summarisation.Interface
     {
         Task<T> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken);
 
-        Task<IList<int>> GetAllIdentifiersAsync(string collectionType, CancellationToken cancellationToken);
+        Task<ICollection<int>> GetAllIdentifiersAsync(string collectionType, CancellationToken cancellationToken);
     }
 }

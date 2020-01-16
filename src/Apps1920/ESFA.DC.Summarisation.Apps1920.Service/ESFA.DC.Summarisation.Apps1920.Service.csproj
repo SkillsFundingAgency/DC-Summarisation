@@ -26,4 +26,8 @@
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Service\ESFA.DC.Summarisation.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Providers\" />
+  </ItemGroup>
+
 </Project>

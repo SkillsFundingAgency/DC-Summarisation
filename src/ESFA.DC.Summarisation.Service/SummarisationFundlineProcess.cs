@@ -14,21 +14,30 @@ namespace ESFA.DC.Summarisation.Service
     {
         public string ProcessType => ProcessTypeConstants.Fundline;
 
-        public IEnumerable<SummarisedActual> Summarise(
-            List<FundingStream> fundingStreams,
+        public ICollection<SummarisedActual> Summarise(
+            ICollection<FundingStream> fundingStreams,
             ILearningProvider provider,
-            IEnumerable<IFcsContractAllocation> allocations,
-            IEnumerable<CollectionPeriod> collectionPeriods,
+            ICollection<IFcsContractAllocation> allocations,
+            ICollection<CollectionPeriod> collectionPeriods,
             ISummarisationMessage summarisationMessage)
         {
-            return fundingStreams.SelectMany(fs => Summarise(fs, provider, allocations, collectionPeriods));
+            var summarisedActuals = new List<SummarisedActual>();
+
+            foreach (var fs in fundingStreams)
+            {
+                var fundingStreamSummarisedActuals = Summarise(fs, provider, allocations, collectionPeriods);
+
+                summarisedActuals.AddRange(fundingStreamSummarisedActuals);
+            }
+
+            return summarisedActuals;
         }
 
-        public IEnumerable<SummarisedActual> Summarise(
+        public ICollection<SummarisedActual> Summarise(
             FundingStream fundingStream,
             ILearningProvider provider,
-            IEnumerable<IFcsContractAllocation> allocations,
-            IEnumerable<CollectionPeriod> collectionPeriods)
+            ICollection<IFcsContractAllocation> allocations,
+            ICollection<CollectionPeriod> collectionPeriods)
         {
             var summarisedActuals = new List<SummarisedActual>();
 
@@ -60,20 +69,20 @@ namespace ESFA.DC.Summarisation.Service
                         ActualValue = Math.Round(g.Sum(x => x.ActualValue),2),
                         ContractAllocationNumber = fcsAllocations[fundingStream.PeriodCode].ContractAllocationNumber,
                         PeriodTypeCode = PeriodTypeCodeConstants.CalendarMonth
-                    });
+                    }).ToList();
         }
 
-        public IEnumerable<IPeriod> GetPeriodsForFundLine(IEnumerable<IPeriodisedData> periodisedData, FundLine fundLine)
+        public ICollection<IPeriod> GetPeriodsForFundLine(IEnumerable<IPeriodisedData> periodisedData, FundLine fundLine)
         {
             if (fundLine.UseAttributes)
             {
                 periodisedData = periodisedData.Where(pd => fundLine.Attributes.Contains(pd.AttributeName));
             }
 
-            return periodisedData.SelectMany(fpd => fpd.Periods);
+            return periodisedData.SelectMany(fpd => fpd.Periods).ToList();
         }
 
-        public IEnumerable<SummarisedActual> SummarisePeriods(IEnumerable<IPeriod> periods)
+        public ICollection<SummarisedActual> SummarisePeriods(ICollection<IPeriod> periods)
         {
             return periods
                 .GroupBy(pg => pg.PeriodId)
@@ -81,7 +90,7 @@ namespace ESFA.DC.Summarisation.Service
                 {
                     Period = g.Key,
                     ActualValue = g.Where(p => p.Value.HasValue).Sum(p => p.Value.Value)
-                });
+                }).ToList();
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ESFA.DC.Summarisation.ESF.Data.Providers;
+using ESFA.DC.Summarisation.ESF.Service.Providers;
 using ESFA.DC.ESF.FundingData.Database.EF.Interfaces;
 using Query = ESFA.DC.ESF.FundingData.Database.EF.Query;
 using ESFA.DC.ESF.FundingData.Database.EF;

@@ -6,6 +6,6 @@ namespace ESFA.DC.Summarisation.Interfaces
     {
         string CollectionType { get; }
 
-        IEnumerable<T> Provide();
+        ICollection<T> Provide();
     }
 }
