@@ -20,6 +20,7 @@ namespace ESFA.DC.Summarisation.Service
     {
         private readonly IFcsRepository _fcsRepository;
         private readonly IEnumerable<ISummarisationConfigProvider<CollectionPeriod>> _collectionPeriodsProviders;
+        private readonly IEnumerable<ISummarisationConfigProvider<FundingType>> _fundingTypesProviders;
         private readonly ILogger _logger;
         private readonly Func<IInputDataRepository<ILearningProvider>> _repositoryFactory;
         private readonly int _dataRetrievalMaxConcurrentCalls;
@@ -29,6 +30,7 @@ namespace ESFA.DC.Summarisation.Service
         public SummarisationProcess(
             IFcsRepository fcsRepository,
             IEnumerable<ISummarisationConfigProvider<CollectionPeriod>> collectionPeriodsProviders,
+            IEnumerable<ISummarisationConfigProvider<FundingType>> fundingTypesProviders,
             IDataStorePersistenceService dataStorePersistenceService,
             Func<IInputDataRepository<ILearningProvider>> repositoryFactory,
             ISummarisationDataOptions dataOptions,
@@ -52,7 +54,9 @@ namespace ESFA.DC.Summarisation.Service
 
             _logger.LogInfo($"Summarisation Message: CollectionType : {summarisationMessage.CollectionType}, CollectionReturnCode: {summarisationMessage.CollectionReturnCode}, ILRCollectionYear: {summarisationMessage.CollectionYear}, ILRReturnPeriod: {summarisationMessage.CollectionMonth}");
 
-            var collectionPeriods = _collectionPeriodsProviders.SingleOrDefault(w => w.CollectionType == summarisationMessage.CollectionType)?.Provide();
+            var collectionPeriods = _collectionPeriodsProviders.Single(w => w.CollectionType.Equals(summarisationMessage.CollectionType, StringComparison.OrdinalIgnoreCase)).Provide();
+
+            var fundingTypeConfiguration = _fundingTypesProviders.Single(w => w.CollectionType.Equals(summarisationMessage.CollectionType, StringComparison.OrdinalIgnoreCase)).Provide();
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving Collection Periods End");
 
@@ -95,7 +99,7 @@ namespace ESFA.DC.Summarisation.Service
 
                 var providerData = providersData[ukprn];
 
-                var providerActuals = await _providerSummarisationService.Summarise(providerData, collectionPeriods, fcsContractAllocations, summarisationMessage, cancellationToken);
+                var providerActuals = await _providerSummarisationService.Summarise(providerData, collectionPeriods, fundingTypeConfiguration, fcsContractAllocations, summarisationMessage, cancellationToken);
 
                 summarisedActuals.AddRange(providerActuals);
 
