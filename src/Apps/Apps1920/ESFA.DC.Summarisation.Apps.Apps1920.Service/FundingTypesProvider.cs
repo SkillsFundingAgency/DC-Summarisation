@@ -4,7 +4,7 @@ using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Service.Providers;
 
-namespace ESFA.DC.Summarisation.Apps1920.Service
+namespace ESFA.DC.Summarisation.Apps.Apps1920.Service
 {
     public class FundingTypesProvider : AbstractSummarisationConfigProvider<FundingType>
     {

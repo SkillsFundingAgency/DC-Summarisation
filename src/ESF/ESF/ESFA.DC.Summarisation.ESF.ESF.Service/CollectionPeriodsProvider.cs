@@ -1,10 +1,10 @@
-﻿using ESFA.DC.Serialization.Interfaces;
+﻿using System.Reflection;
+using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Service.Providers;
-using System.Reflection;
 
-namespace ESFA.DC.Summarisation.ESF.Service
+namespace ESFA.DC.Summarisation.ESF.ESF.Service
 {
     public class CollectionPeriodsProvider : AbstractSummarisationConfigProvider<CollectionPeriod>
     {

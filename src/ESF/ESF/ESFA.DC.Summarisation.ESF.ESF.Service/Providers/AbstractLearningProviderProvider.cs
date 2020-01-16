@@ -1,8 +1,8 @@
-﻿using ESFA.DC.Summarisation.Data.Input.Interface;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
 
-namespace ESFA.DC.Summarisation.ESF.Service.Providers
+namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
 {
     public abstract class AbstractLearningProviderProvider
     {

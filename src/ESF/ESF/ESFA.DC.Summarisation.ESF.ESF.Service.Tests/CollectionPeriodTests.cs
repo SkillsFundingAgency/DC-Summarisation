@@ -2,7 +2,7 @@
 using FluentAssertions;
 using Xunit;
 
-namespace ESFA.DC.Summarisation.ESF.Service.Tests
+namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 {
     public class CollectionPeriodTests
     {

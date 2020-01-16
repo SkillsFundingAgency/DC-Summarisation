@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using ESFA.DC.Logging.Interfaces;
 
-namespace ESFA.DC.Summarisation.Main1819.Service.Tests.Stubs
+namespace ESFA.DC.Summarisation.Console.Stubs
 {
     public class LoggerStub : ILogger
     {

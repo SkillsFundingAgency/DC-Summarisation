@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.Summarisation.Data.Input.Interface;
-using ESFA.DC.Summarisation.Interfaces;
 
-namespace ESFA.DC.Summarisation.Interface
+namespace ESFA.DC.Summarisation.Interfaces
 {
     public interface IInputDataRepository<T>
     {

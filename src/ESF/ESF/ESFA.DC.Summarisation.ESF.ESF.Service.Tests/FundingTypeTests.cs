@@ -1,9 +1,9 @@
-﻿using ESFA.DC.Serialization.Json;
+﻿using System.Linq;
+using ESFA.DC.Serialization.Json;
 using FluentAssertions;
-using System.Linq;
 using Xunit;
 
-namespace ESFA.DC.Summarisation.ESF.Service.Tests
+namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 {
     public class FundingTypeTests
     {

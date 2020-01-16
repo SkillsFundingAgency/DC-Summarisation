@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ESFA.DC.Summarisation.ESF.Service
+﻿namespace ESFA.DC.Summarisation.ESF.ESF.Service
 {
     public static class ESFConstants
     {

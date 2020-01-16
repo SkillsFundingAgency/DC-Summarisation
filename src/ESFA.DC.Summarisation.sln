@@ -53,19 +53,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{FBFC34A4-0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Main", "Main", "{EBEF64B9-DF6D-411C-8B64-ECC32CF5478A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.Summarisation.Apps1920.Service", "Apps\Apps1920\ESFA.DC.Summarisation.Apps.Apps1920.Service\ESFA.DC.Summarisation.Apps1920.Service.csproj", "{0E887833-4059-48B2-9D89-8E6B5955926D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.Summarisation.Apps.Apps1920.Service", "Apps\Apps1920\ESFA.DC.Summarisation.Apps.Apps1920.Service\ESFA.DC.Summarisation.Apps.Apps1920.Service.csproj", "{0E887833-4059-48B2-9D89-8E6B5955926D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.Summarisation.Apps1920.Service.Tests", "Apps\Apps1920\ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests\ESFA.DC.Summarisation.Apps1920.Service.Tests.csproj", "{7325DFAA-0951-4939-B28B-35F9CF52D705}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests", "Apps\Apps1920\ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests\ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests.csproj", "{7325DFAA-0951-4939-B28B-35F9CF52D705}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ESF", "ESF", "{4401BF13-FF7B-4577-95D1-1D38F98C9CA1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.Summarisation.ESF.Service", "ESF\ESF\ESFA.DC.Summarisation.ESF.ESF.Service\ESFA.DC.Summarisation.ESF.Service.csproj", "{F616E12A-443B-43BA-9485-8D23369B045A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.Summarisation.ESF.ESF.Service", "ESF\ESF\ESFA.DC.Summarisation.ESF.ESF.Service\ESFA.DC.Summarisation.ESF.ESF.Service.csproj", "{F616E12A-443B-43BA-9485-8D23369B045A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.Summarisation.ESF.Service.Tests", "ESF\ESF\ESFA.DC.Summarisation.ESF.ESF.Service.Tests\ESFA.DC.Summarisation.ESF.Service.Tests.csproj", "{18181B4F-2F82-4A33-BE2D-D4C2DE668C3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.Summarisation.ESF.ESF.Service.Tests", "ESF\ESF\ESFA.DC.Summarisation.ESF.ESF.Service.Tests\ESFA.DC.Summarisation.ESF.ESF.Service.Tests.csproj", "{18181B4F-2F82-4A33-BE2D-D4C2DE668C3A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.Summarisation.Main1920.Service", "Main\Main1920\ESFA.DC.Summarisation.Main.Main1920.Service\ESFA.DC.Summarisation.Main1920.Service.csproj", "{FA8A61AC-D6EA-4DC1-A868-404131355172}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.Summarisation.Main.Main1920.Service", "Main\Main1920\ESFA.DC.Summarisation.Main.Main1920.Service\ESFA.DC.Summarisation.Main.Main1920.Service.csproj", "{FA8A61AC-D6EA-4DC1-A868-404131355172}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.Summarisation.Main1920.Service.Tests", "Main\Main1920\ESFA.DC.Summarisation.Main.Main1920.Service.Tests\ESFA.DC.Summarisation.Main1920.Service.Tests.csproj", "{BF1CCA26-05D9-48AA-9720-469964C3CB4F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.Summarisation.Main.Main1920.Service.Tests", "Main\Main1920\ESFA.DC.Summarisation.Main.Main1920.Service.Tests\ESFA.DC.Summarisation.Main.Main1920.Service.Tests.csproj", "{BF1CCA26-05D9-48AA-9720-469964C3CB4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

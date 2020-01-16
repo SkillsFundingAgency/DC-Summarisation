@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.Summarisation.Data.Input.Model;
-using ESFA.DC.Summarisation.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System;
 using ESFA.DC.DASPayments.EF.Interfaces;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Data.Input.Interface;
+using ESFA.DC.Summarisation.Data.Input.Model;
+using ESFA.DC.Summarisation.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace ESFA.DC.Summarisation.Apps1920.Service.Providers
+namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
 {
     public class LevyProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider<ILearningProvider>
     {

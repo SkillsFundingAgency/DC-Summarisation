@@ -1,5 +1,4 @@
-﻿using ESFA.DC.Summarisation.Data.Output.Model;
-using ESFA.DC.Summarisation.Data.Repository.Interface;
+﻿using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Model;
 using ESFA.DC.Summarisation.Model.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using SummarisedActual = ESFA.DC.Summarisation.Data.Output.Model.SummarisedActual;
+using SummarisedActual = ESFA.DC.Summarisation.Data.output.Model.SummarisedActual;
 
 namespace ESFA.DC.Summarisation.Data.Repository
 {
@@ -33,13 +32,13 @@ namespace ESFA.DC.Summarisation.Data.Repository
             }
         }
 
-        public async Task<IEnumerable<Output.Model.SummarisedActual>> GetSummarisedActualsForCollectionReturnAndOrganisationAsync(int collectionReturnId, string organisationId, CancellationToken cancellationToken)
+        public async Task<IEnumerable<SummarisedActual>> GetSummarisedActualsForCollectionReturnAndOrganisationAsync(int collectionReturnId, string organisationId, CancellationToken cancellationToken)
         {
             using (var contextFactory = _summarisationContext())
             {
                 return await contextFactory.SummarisedActuals
                 .Where(sa => sa.CollectionReturnId == collectionReturnId && sa.OrganisationId == organisationId)
-                .Select(o => new Output.Model.SummarisedActual
+                .Select(o => new SummarisedActual
                 {
                     Period = o.Period,
                     FundingStreamPeriodCode = o.FundingStreamPeriodCode,

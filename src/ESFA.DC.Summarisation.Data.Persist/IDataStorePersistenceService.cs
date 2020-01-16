@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.Summarisation.Configuration;
-using ESFA.DC.Summarisation.Data.Output.Model;
+using ESFA.DC.Summarisation.Data.output.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Model.Interface;
 

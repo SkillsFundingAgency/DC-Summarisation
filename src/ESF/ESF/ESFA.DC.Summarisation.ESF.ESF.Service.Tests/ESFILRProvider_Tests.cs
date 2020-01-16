@@ -1,20 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ESFA.DC.Summarisation.ESF.Service.Providers;
-using ESFA.DC.ESF.FundingData.Database.EF.Interfaces;
-using Query = ESFA.DC.ESF.FundingData.Database.EF.Query;
-using ESFA.DC.ESF.FundingData.Database.EF;
-using Xunit;
-using MockQueryable.Moq;
-using Moq;
-using System.Threading;
-using FluentAssertions;
-using ESFA.DC.Summarisation.Interfaces;
-
-namespace ESFA.DC.Summarisation.ESF.Service.Tests
+﻿namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 {
     public class ESFILRProvider_Tests
     {

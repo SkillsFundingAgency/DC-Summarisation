@@ -13,7 +13,7 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
+namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
 {
     public class SummarisationServiceTests
     {

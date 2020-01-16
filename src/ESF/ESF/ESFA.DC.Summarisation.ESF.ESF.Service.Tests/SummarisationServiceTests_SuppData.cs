@@ -1,4 +1,6 @@
-﻿using ESFA.DC.Serialization.Json;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.External.FCS.Model;
@@ -8,11 +10,9 @@ using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Service;
 using FluentAssertions;
 using Moq;
-using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
-namespace ESFA.DC.Summarisation.ESF.Service.Tests
+namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 {
     public class SummarisationServiceTests_SuppData
     {
