@@ -17,6 +17,6 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service
 
         protected override Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
 
-        protected override string ReferenceDataFileName { get; } = "ESFA.DC.Summarisation.Apps1920.Service.JsonFiles.CollectionPeriods.json";
+        protected override string ReferenceDataFileName { get; } = "ESFA.DC.Summarisation.Apps.Apps1920.Service.JsonFiles.CollectionPeriods.json";
     }
 }

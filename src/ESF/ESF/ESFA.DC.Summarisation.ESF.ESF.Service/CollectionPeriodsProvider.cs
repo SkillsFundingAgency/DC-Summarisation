@@ -15,7 +15,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service
 
         public override string CollectionType => CollectionTypeConstants.ESF;
 
-        protected override string ReferenceDataFileName { get; } = "ESFA.DC.Summarisation.ESF.Service.JsonFiles.CollectionPeriods.json";
+        protected override string ReferenceDataFileName { get; } = "ESFA.DC.Summarisation.ESF.ESF.Service.JsonFiles.CollectionPeriods.json";
 
         protected override Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
     }

@@ -13,7 +13,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service
         {
         }
 
-        protected override string ReferenceDataFileName { get; } = "ESFA.DC.Summarisation.ESF.Service.JsonFiles.FundingTypes.json";
+        protected override string ReferenceDataFileName { get; } = "ESFA.DC.Summarisation.ESF.ESF.Service.JsonFiles.FundingTypes.json";
 
         protected override Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
 
