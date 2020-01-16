@@ -14,14 +14,23 @@ namespace ESFA.DC.Summarisation.Service
     {
         public string ProcessType => ProcessTypeConstants.Payments;
 
-        public IEnumerable<SummarisedActual> Summarise(
-            List<FundingStream> fundingStreams,
+        public ICollection<SummarisedActual> Summarise(
+            ICollection<FundingStream> fundingStreams,
             ILearningProvider provider,
-            IEnumerable<IFcsContractAllocation> allocations,
-            IEnumerable<CollectionPeriod> collectionPeriods,
+            ICollection<IFcsContractAllocation> allocations,
+            ICollection<CollectionPeriod> collectionPeriods,
             ISummarisationMessage summarisationMessage)
         {
-            return fundingStreams.SelectMany(fs => Summarise(fs, provider, allocations, collectionPeriods, summarisationMessage));
+            var summarisedActuals = new List<SummarisedActual>();
+
+            foreach (var fs in fundingStreams)
+            {
+                var fundingStreamSummarisedActuals = Summarise(fs, provider, allocations, collectionPeriods, summarisationMessage);
+
+                summarisedActuals.AddRange(fundingStreamSummarisedActuals);
+            }
+
+            return summarisedActuals; ;
         }
 
         public IEnumerable<SummarisedActual> Summarise(
@@ -147,7 +156,7 @@ namespace ESFA.DC.Summarisation.Service
                 return periodisedData.SelectMany(fpd => fpd.Periods);
         }
 
-        public IEnumerable<SummarisedActual> SummarisePeriods(IEnumerable<IPeriod> periods, IEnumerable<CollectionPeriod> collectionPeriods)
+        public ICollection<SummarisedActual> SummarisePeriods(IEnumerable<IPeriod> periods, IEnumerable<CollectionPeriod> collectionPeriods)
         {
             var summarisedPeriods = periods
                        .GroupBy(g => new { g.CollectionYear, g.CollectionMonth })
@@ -162,7 +171,7 @@ namespace ESFA.DC.Summarisation.Service
 
             if (!summarisedPeriods.Any())
             {
-                return Enumerable.Empty<SummarisedActual>();
+                return Array.Empty<SummarisedActual>();
             }
 
             return (collectionPeriods
@@ -182,7 +191,7 @@ namespace ESFA.DC.Summarisation.Service
               {
                   Period = g.Key,
                   ActualValue = g.Sum(sw => sw.Value),
-              });
+              }).ToList();
         }
     }
 }

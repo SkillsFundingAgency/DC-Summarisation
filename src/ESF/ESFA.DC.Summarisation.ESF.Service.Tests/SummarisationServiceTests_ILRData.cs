@@ -10,6 +10,8 @@ using Xunit;
 using System;
 using Moq;
 using ESFA.DC.Summarisation.Interfaces;
+using ESFA.DC.Summarisation.Data.External.FCS.Interface;
+using ESFA.DC.Summarisation.Data.Input.Interface;
 
 namespace ESFA.DC.Summarisation.ESF.Service.Tests
 {
@@ -76,7 +78,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             var allocation = GetContractAllocation(ukprn);
             
-            List<Period> periods = new List<Period>()
+            var periods = new List<IPeriod>()
             {
                 new Period()
                 {
@@ -205,7 +207,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             int ukprn = GetProviders().First();
 
-            List<FcsContractAllocation> fcsContractAllocations = new List<FcsContractAllocation>();
+            ICollection<IFcsContractAllocation> fcsContractAllocations = new List<IFcsContractAllocation>();
 
             for (int i = 1; i <= contracts; i++)
             {
@@ -258,7 +260,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             foreach (var ukprn in GetProviders())
             {
-                List<FcsContractAllocation> fcsContractAllocations = new List<FcsContractAllocation>();
+                ICollection<IFcsContractAllocation> fcsContractAllocations = new List<IFcsContractAllocation>();
 
                 for (int i = 1; i <= contracts; i++)
                 {
@@ -364,9 +366,9 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             return periodisedDatas;
         }
 
-        private List<Period> GetPeriodsData(int lotSize)
+        private List<IPeriod> GetPeriodsData(int lotSize)
         {
-            List<Period> periods = new List<Period>();
+            List<IPeriod> periods = new List<IPeriod>();
             for (int i = 1; i <= lotSize; i++)
             {
                 foreach (var collectionPeriod in GetCollectionPeriods())

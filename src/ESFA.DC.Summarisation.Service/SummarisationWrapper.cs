@@ -26,7 +26,7 @@ namespace ESFA.DC.Summarisation.Service
 
         }
 
-        public async Task<IEnumerable<SummarisedActual>> Summarise(ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<ICollection<SummarisedActual>> Summarise(ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             var summarisedActuals = await _summarisationProcess.CollateAndSummariseAsync(summarisationMessage, cancellationToken);
 

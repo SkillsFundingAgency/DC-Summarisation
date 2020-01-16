@@ -10,6 +10,6 @@ namespace ESFA.DC.Summarisation.Interfaces
     {
         string ProcessType { get; }
 
-        IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams, ILearningProvider provider, IEnumerable<IFcsContractAllocation> allocations, IEnumerable<CollectionPeriod> collectionPeriods, ISummarisationMessage summarisationMessage);
+        ICollection<SummarisedActual> Summarise(ICollection<FundingStream> fundingStreams, ILearningProvider provider, ICollection<IFcsContractAllocation> allocations, ICollection<CollectionPeriod> collectionPeriods, ISummarisationMessage summarisationMessage);
     }
 }

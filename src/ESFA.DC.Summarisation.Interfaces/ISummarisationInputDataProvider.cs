@@ -12,6 +12,6 @@ namespace ESFA.DC.Summarisation.Interfaces
 
         Task<T> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken);
 
-        Task<IList<int>> ProvideUkprnsAsync(CancellationToken cancellationToken);
+        Task<ICollection<int>> ProvideUkprnsAsync(CancellationToken cancellationToken);
     }
 }

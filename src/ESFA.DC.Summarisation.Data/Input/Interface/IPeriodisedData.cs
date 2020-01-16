@@ -15,6 +15,6 @@ namespace ESFA.DC.Summarisation.Data.Input.Interface
 
         int TransactionType { get; }
 
-        IList<Period> Periods { get;  }
+        IList<IPeriod> Periods { get;  }
     }
 }

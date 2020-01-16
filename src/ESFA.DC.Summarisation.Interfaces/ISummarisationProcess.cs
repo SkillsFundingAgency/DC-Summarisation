@@ -7,6 +7,6 @@ namespace ESFA.DC.Summarisation.Interfaces
 {
     public interface ISummarisationProcess
     {
-        Task<IEnumerable<SummarisedActual>> CollateAndSummariseAsync(ISummarisationMessage summarisationMessage, CancellationToken cancellationToken);
+        Task<ICollection<SummarisedActual>> CollateAndSummariseAsync(ISummarisationMessage summarisationMessage, CancellationToken cancellationToken);
     }
 }

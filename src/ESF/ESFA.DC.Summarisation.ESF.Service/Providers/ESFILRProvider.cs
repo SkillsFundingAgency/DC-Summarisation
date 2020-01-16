@@ -129,7 +129,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Providers
                                     {
                                         AttributeName = ld.AttributeName,
                                         DeliverableCode = ld.DeliverableCode,
-                                        Periods = new List<Period>
+                                        Periods = new List<IPeriod>
                                         {
                                             BuildPeriodFromLearningDelivery(1, CollectionYear, CalendarYearStart, 8, ld.AttributeName, ld.Period_1),
 
@@ -164,7 +164,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Providers
             }
         }
 
-        public async Task<IList<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
+        public async Task<ICollection<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
         {
             using (var contextFactory = _fundingDataContext())
             {

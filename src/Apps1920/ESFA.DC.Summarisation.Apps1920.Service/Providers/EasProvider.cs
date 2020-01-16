@@ -28,7 +28,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Providers
             _collectionPeriodProvider = collectionPeriodProvider;
         }
 
-        public async Task<IList<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
+        public async Task<ICollection<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
         {
             using (var easContext = _dasContext())
             {
@@ -40,13 +40,13 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Providers
         {
             int previousCollectionYear = summarisationMessage.CollectionYear - 101;
 
-            var collectionPeriods = _collectionPeriodProvider.Provide().ToList();
+            var collectionPeriods = _collectionPeriodProvider.Provide();
 
             List<int> CollectionYears = new List<int>()
             {
                 summarisationMessage.CollectionYear,
                 previousCollectionYear
-            };            
+            };
 
             string previouscollectionPeriodName = string.Empty;
             string currentcollectionPeriodName = $"{summarisationMessage.CollectionYear}-R{summarisationMessage.CollectionMonth:D2}";
@@ -104,10 +104,8 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Providers
                                 };
 
                             }).ToList();
-
-
+                
                 var eas = nonlevyEAS.Concat(levyEAS).ToList();
-
 
                 var learningDeliveries = eas
                         .GroupBy(x => x.PaymentTypeName)
@@ -118,7 +116,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Providers
                             PeriodisedData = ld.Select(pd => new PeriodisedData
                             {
                                 AttributeName = string.Empty,
-                                Periods = new List<Period>
+                                Periods = new List<IPeriod>
                                 {
                                     new Period
                                     {
@@ -132,11 +130,6 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Providers
 
                 return BuildLearningProvider(ukprn, learningDeliveries);
             }
-        }
-
-        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
         }
 
         private CollectionPeriod GetCollectionPeriodFor(IEnumerable<CollectionPeriod> collectionPeriods, int calendarYear, int calendarMonth)

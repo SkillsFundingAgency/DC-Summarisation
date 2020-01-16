@@ -14,14 +14,23 @@ namespace ESFA.DC.Summarisation.Service
     {
         public string ProcessType => ProcessTypeConstants.Fundline;
 
-        public IEnumerable<SummarisedActual> Summarise(
-            List<FundingStream> fundingStreams,
+        public ICollection<SummarisedActual> Summarise(
+            ICollection<FundingStream> fundingStreams,
             ILearningProvider provider,
-            IEnumerable<IFcsContractAllocation> allocations,
-            IEnumerable<CollectionPeriod> collectionPeriods,
+            ICollection<IFcsContractAllocation> allocations,
+            ICollection<CollectionPeriod> collectionPeriods,
             ISummarisationMessage summarisationMessage)
         {
-            return fundingStreams.SelectMany(fs => Summarise(fs, provider, allocations, collectionPeriods));
+            var summarisedActuals = new List<SummarisedActual>();
+
+            foreach (var fs in fundingStreams)
+            {
+                var fundingStreamSummarisedActuals = Summarise(fs, provider, allocations, collectionPeriods);
+
+                summarisedActuals.AddRange(fundingStreamSummarisedActuals);
+            }
+
+            return summarisedActuals;
         }
 
         public IEnumerable<SummarisedActual> Summarise(

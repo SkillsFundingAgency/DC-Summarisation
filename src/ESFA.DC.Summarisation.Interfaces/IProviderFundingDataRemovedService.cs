@@ -7,6 +7,6 @@ namespace ESFA.DC.Summarisation.Interfaces
 {
     public interface IProviderFundingDataRemovedService
     {
-        Task<IEnumerable<SummarisedActual>> FundingDataRemovedAsync(List<SummarisedActual> providerActuals, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken);
+        Task<ICollection<SummarisedActual>> FundingDataRemovedAsync(ICollection<SummarisedActual> providerActuals, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken);
     }
 }

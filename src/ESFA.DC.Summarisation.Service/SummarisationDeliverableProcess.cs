@@ -14,14 +14,34 @@ namespace ESFA.DC.Summarisation.Service
     {
         public string ProcessType => ProcessTypeConstants.Deliverable;
 
-        public IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams, ILearningProvider provider, IEnumerable<IFcsContractAllocation> allocations, IEnumerable<CollectionPeriod> collectionPeriods, ISummarisationMessage summarisationMessage)
+        public ICollection<SummarisedActual> Summarise(ICollection<FundingStream> fundingStreams, ILearningProvider provider, ICollection<IFcsContractAllocation> allocations, ICollection<CollectionPeriod> collectionPeriods, ISummarisationMessage summarisationMessage)
         {
-            return allocations.Where(w => w.FundingStreamPeriodCode.Equals("ESF1420", StringComparison.OrdinalIgnoreCase)).SelectMany(all => Summarise(fundingStreams, provider, all, collectionPeriods));
+            var esfAllocations = allocations.Where(w => w.FundingStreamPeriodCode.Equals("ESF1420", StringComparison.OrdinalIgnoreCase));
+
+            var summarisedActuals = new List<SummarisedActual>();
+
+            foreach (var allocation in esfAllocations)
+            {
+                var allocationSummarisedActuals = Summarise(fundingStreams, provider, allocation, collectionPeriods);
+
+                summarisedActuals.AddRange(allocationSummarisedActuals);
+            }
+
+            return summarisedActuals;
         }
 
-        public IEnumerable<SummarisedActual> Summarise(List<FundingStream> fundingStreams, ILearningProvider provider, IFcsContractAllocation allocation, IEnumerable<CollectionPeriod> collectionPeriods)
+        public ICollection<SummarisedActual> Summarise(ICollection<FundingStream> fundingStreams, ILearningProvider provider, IFcsContractAllocation allocation, ICollection<CollectionPeriod> collectionPeriods)
         {
-            return fundingStreams.SelectMany(fs => Summarise(fs, provider, allocation, collectionPeriods));
+            var summarisedActuals = new List<SummarisedActual>();
+
+            foreach (var fundingStream in fundingStreams)
+            {
+                var fundingStreamSummarisedActuals = Summarise(fundingStream, provider, allocation, collectionPeriods);
+
+                summarisedActuals.AddRange(fundingStreamSummarisedActuals);
+            }
+
+            return summarisedActuals;
         }
 
         public IEnumerable<SummarisedActual> Summarise(FundingStream fundingStream, ILearningProvider provider, IFcsContractAllocation allocation, IEnumerable<CollectionPeriod> collectionPeriods)
@@ -56,17 +76,17 @@ namespace ESFA.DC.Summarisation.Service
                     });
         }
 
-        public IEnumerable<IPeriod> GetPeriodsForFundLine(IEnumerable<IPeriodisedData> periodisedData, FundLine fundLine)
+        public ICollection<IPeriod> GetPeriodsForFundLine(IEnumerable<IPeriodisedData> periodisedData, FundLine fundLine)
         {
             if (fundLine.UseAttributes)
             {
                 periodisedData = periodisedData.Where(pd => fundLine.Attributes.Contains(pd.AttributeName));
             }
 
-            return periodisedData.SelectMany(fpd => fpd.Periods);
+            return periodisedData.SelectMany(fpd => fpd.Periods).ToList();
         }
 
-        public IEnumerable<SummarisedActual> SummarisePeriods(IEnumerable<IPeriod> periods, FundLine fundLine, IEnumerable<CollectionPeriod> collectionPeriods, IFcsContractAllocation allocation)
+        public ICollection<SummarisedActual> SummarisePeriods(IEnumerable<IPeriod> periods, FundLine fundLine, IEnumerable<CollectionPeriod> collectionPeriods, IFcsContractAllocation allocation)
         {
             var filteredCollectonPeriods = collectionPeriods.Where(cp => cp.ActualsSchemaPeriod >= allocation.ContractStartDate && cp.ActualsSchemaPeriod <= allocation.ContractEndDate);
 
@@ -78,11 +98,11 @@ namespace ESFA.DC.Summarisation.Service
                            CalendarMonth = pg.Key.CalendarMonth,
                            ActualValue = pg.Where(w => w.Value.HasValue).Sum(sw => sw.Value.Value),
                            ActualVolume = fundLine.CalculateVolume ? pg.Where(w => w.Volume.HasValue).Sum(sw => sw.Volume.Value) : 0
-                       });
+                       }).ToList();
 
             if (summarisedPeriods.All(w => w.ActualValue == 0 && w.ActualVolume == 0))
             {
-                return new List<SummarisedActual>();
+                return Array.Empty<SummarisedActual>();
             }
 
             return (filteredCollectonPeriods
@@ -102,7 +122,7 @@ namespace ESFA.DC.Summarisation.Service
                   Period = g.Key,
                   ActualValue = g.Sum(sw => sw.ActualValue),
                   ActualVolume = g.Sum(sw => sw.ActualVolume),
-              });
+              }).ToList();
         }
     }
 }

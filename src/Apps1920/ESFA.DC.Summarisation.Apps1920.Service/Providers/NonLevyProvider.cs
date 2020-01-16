@@ -26,12 +26,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Providers
             _dasContext = dasContext;
         }
 
-        public async Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IList<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
+        public async Task<ICollection<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
         {
             using (var contextFactory = _dasContext())
             {
@@ -91,7 +86,7 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Providers
                                     ApprenticeshipContractType = pd.ContractType,
                                     FundingSource = pd.FundingSource,
                                     TransactionType = pd.TransactionType,
-                                    Periods = new List<Period>
+                                    Periods = new List<IPeriod>
                                     {
                                         new Period
                                         {

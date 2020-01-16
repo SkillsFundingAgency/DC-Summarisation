@@ -55,8 +55,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Providers
                                                                 {
                                                                     PeriodId = x.CollectionPeriod,
                                                                     Value = y.PaymentValue
-                                                                }
-                                                                ).ToList()
+                                                                } as IPeriod).ToList()
 
                             }).ToList()
 
@@ -67,7 +66,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Providers
             }
         }
 
-        public async Task<IList<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
+        public async Task<ICollection<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
         {
             using (var easContext = _easContext())
             {

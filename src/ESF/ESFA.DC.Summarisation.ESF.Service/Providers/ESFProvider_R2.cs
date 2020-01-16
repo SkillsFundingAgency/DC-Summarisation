@@ -69,7 +69,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Providers
                                     CalendarYear = p.CalendarYear,
                                     Value = p.Value,
                                     Volume = p.Volume
-                                }).ToList()
+                                } as IPeriod).ToList()
                             }).ToList()
                         }).ToList();
 
@@ -77,7 +77,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Providers
             }
         }
 
-        public async Task<IList<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
+        public async Task<ICollection<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
         {
             using (var esfr2Context = _esf())
             {

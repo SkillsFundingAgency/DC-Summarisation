@@ -4,6 +4,7 @@ using System.Linq;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Model;
+using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Service;
@@ -413,9 +414,9 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
             return periodisedDatas;
         }
 
-        private List<Period> GetPeriodsData(int academicYear)
+        private List<IPeriod> GetPeriodsData(int academicYear)
         {
-            List<Period> periods = new List<Period>();
+            var periods = new List<IPeriod>();
 
             for (int j = 1; j <= periodsToGenerate; j++)
             {

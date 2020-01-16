@@ -46,68 +46,68 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Providers
                             .Select(pv => new PeriodisedData
                             {
                                 AttributeName = pv.AttributeName,
-                                Periods = new List<Period>
+                                Periods = new List<IPeriod>
                                 {
-                                new Period
-                                {
-                                    PeriodId = 1,
-                                    Value = pv.Period_1
-                                },
-                                new Period
-                                {
-                                    PeriodId = 2,
-                                    Value = pv.Period_2
-                                },
-                                new Period
-                                {
-                                    PeriodId = 3,
-                                    Value = pv.Period_3
-                                },
-                                new Period
-                                {
-                                    PeriodId = 4,
-                                    Value = pv.Period_4
-                                },
-                                new Period
-                                {
-                                    PeriodId = 5,
-                                    Value = pv.Period_5
-                                },
-                                new Period
-                                {
-                                    PeriodId = 6,
-                                    Value = pv.Period_6
-                                },
-                                new Period
-                                {
-                                    PeriodId = 7,
-                                    Value = pv.Period_7
-                                },
-                                new Period
-                                {
-                                    PeriodId = 8,
-                                    Value = pv.Period_8
-                                },
-                                new Period
-                                {
-                                    PeriodId = 9,
-                                    Value = pv.Period_9
-                                },
-                                new Period
-                                {
-                                    PeriodId = 10,
-                                    Value = pv.Period_10
-                                },
-                                new Period
-                                {
-                                    PeriodId = 11,
-                                    Value = pv.Period_11
-                                },
-                                new Period
-                                {
-                                    PeriodId = 12,
-                                    Value = pv.Period_12
-                                }
+                                    new Period
+                                    {
+                                        PeriodId = 1,
+                                        Value = pv.Period_1
+                                    },
+                                    new Period
+                                    {
+                                        PeriodId = 2,
+                                        Value = pv.Period_2
+                                    },
+                                    new Period
+                                    {
+                                        PeriodId = 3,
+                                        Value = pv.Period_3
+                                    },
+                                    new Period
+                                    {
+                                        PeriodId = 4,
+                                        Value = pv.Period_4
+                                    },
+                                    new Period
+                                    {
+                                        PeriodId = 5,
+                                        Value = pv.Period_5
+                                    },
+                                    new Period
+                                    {
+                                        PeriodId = 6,
+                                        Value = pv.Period_6
+                                    },
+                                    new Period
+                                    {
+                                        PeriodId = 7,
+                                        Value = pv.Period_7
+                                    },
+                                    new Period
+                                    {
+                                        PeriodId = 8,
+                                        Value = pv.Period_8
+                                    },
+                                    new Period
+                                    {
+                                        PeriodId = 9,
+                                        Value = pv.Period_9
+                                    },
+                                    new Period
+                                    {
+                                        PeriodId = 10,
+                                        Value = pv.Period_10
+                                    },
+                                    new Period
+                                    {
+                                        PeriodId = 11,
+                                        Value = pv.Period_11
+                                    },
+                                    new Period
+                                    {
+                                        PeriodId = 12,
+                                        Value = pv.Period_12
+                                    }
                                 }
                             }).ToList()
                     }).ToListAsync(cancellationToken);
@@ -116,7 +116,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Providers
             }
         }
 
-        public async Task<IList<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
+        public async Task<ICollection<int>> ProvideUkprnsAsync(CancellationToken cancellationToken)
         {
             using (var ilrContext = _ilr())
             {

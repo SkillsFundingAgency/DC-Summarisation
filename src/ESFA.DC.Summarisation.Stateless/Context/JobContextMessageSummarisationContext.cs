@@ -50,11 +50,11 @@ namespace ESFA.DC.Summarisation.Stateless.Context
             }
         }
 
-        public IEnumerable<string> SummarisationTypes
+        public ICollection<string> SummarisationTypes
         {
             get
             {
-                return _jobContextMessage.Topics[_jobContextMessage.TopicPointer].Tasks.SelectMany(t => t.Tasks);
+                return _jobContextMessage.Topics[_jobContextMessage.TopicPointer].Tasks.SelectMany(t => t.Tasks).ToList();
             }
         }
 
