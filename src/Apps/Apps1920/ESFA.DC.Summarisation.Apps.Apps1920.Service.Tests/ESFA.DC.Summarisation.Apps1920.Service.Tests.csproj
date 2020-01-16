@@ -120,7 +120,7 @@
       <Project>{79fba70b-ab9e-4b43-b850-9cf41340b638}</Project>
       <Name>ESFA.DC.Summarisation.Service</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ESFA.DC.Summarisation.Apps1920.Service\ESFA.DC.Summarisation.Apps1920.Service.csproj">
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Apps.Apps1920.Service\ESFA.DC.Summarisation.Apps1920.Service.csproj">
       <Project>{0e887833-4059-48b2-9d89-8e6b5955926d}</Project>
       <Name>ESFA.DC.Summarisation.Apps1920.Service</Name>
     </ProjectReference>

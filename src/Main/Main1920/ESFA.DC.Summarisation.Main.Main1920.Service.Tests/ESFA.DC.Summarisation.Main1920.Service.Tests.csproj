@@ -237,8 +237,8 @@
       <Project>{79fba70b-ab9e-4b43-b850-9cf41340b638}</Project>
       <Name>ESFA.DC.Summarisation.Service</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ESFA.DC.Summarisation.Main1920.Service\ESFA.DC.Summarisation.Main1920.Service.csproj">
-      <Project>{beb1d086-0e2c-4bb9-b723-179674108523}</Project>
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Main.Main1920.Service\ESFA.DC.Summarisation.Main1920.Service.csproj">
+      <Project>{fa8a61ac-d6ea-4dc1-a868-404131355172}</Project>
       <Name>ESFA.DC.Summarisation.Main1920.Service</Name>
     </ProjectReference>
   </ItemGroup>
