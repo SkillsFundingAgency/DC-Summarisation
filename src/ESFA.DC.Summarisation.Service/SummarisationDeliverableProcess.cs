@@ -44,7 +44,7 @@ namespace ESFA.DC.Summarisation.Service
             return summarisedActuals;
         }
 
-        public IEnumerable<SummarisedActual> Summarise(FundingStream fundingStream, ILearningProvider provider, IFcsContractAllocation allocation, IEnumerable<CollectionPeriod> collectionPeriods)
+        public ICollection<SummarisedActual> Summarise(FundingStream fundingStream, ILearningProvider provider, IFcsContractAllocation allocation, ICollection<CollectionPeriod> collectionPeriods)
         {
             var summarisedActuals = new List<SummarisedActual>();
 
@@ -73,7 +73,7 @@ namespace ESFA.DC.Summarisation.Service
                         ActualVolume = g.Sum(x => x.ActualVolume),
                         ContractAllocationNumber = allocation.ContractAllocationNumber,
                         PeriodTypeCode = PeriodTypeCodeConstants.CalendarMonth
-                    });
+                    }).ToList();
         }
 
         public ICollection<IPeriod> GetPeriodsForFundLine(IEnumerable<IPeriodisedData> periodisedData, FundLine fundLine)
@@ -86,7 +86,7 @@ namespace ESFA.DC.Summarisation.Service
             return periodisedData.SelectMany(fpd => fpd.Periods).ToList();
         }
 
-        public ICollection<SummarisedActual> SummarisePeriods(IEnumerable<IPeriod> periods, FundLine fundLine, IEnumerable<CollectionPeriod> collectionPeriods, IFcsContractAllocation allocation)
+        public ICollection<SummarisedActual> SummarisePeriods(ICollection<IPeriod> periods, FundLine fundLine, ICollection<CollectionPeriod> collectionPeriods, IFcsContractAllocation allocation)
         {
             var filteredCollectonPeriods = collectionPeriods.Where(cp => cp.ActualsSchemaPeriod >= allocation.ContractStartDate && cp.ActualsSchemaPeriod <= allocation.ContractEndDate);
 

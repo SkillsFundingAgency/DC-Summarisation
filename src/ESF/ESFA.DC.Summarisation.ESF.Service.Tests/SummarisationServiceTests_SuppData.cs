@@ -239,7 +239,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             FundLine fundLine = new FundLine() { CalculateVolume = true };
 
-            var result = task.SummarisePeriods(GetPeriodsData(1).Take(10), fundLine, GetCollectionPeriods(), GetContractAllocation(GetProviders().First()));
+            var result = task.SummarisePeriods(GetPeriodsData(1).Take(10).ToList(), fundLine, GetCollectionPeriods(), GetContractAllocation(GetProviders().First()));
 
             result.Count().Should().Be(67);
 
@@ -287,7 +287,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
 
             HashSet<string> deliverableCodes = GetAllDeliverableCodes();
 
-            List<PeriodisedData> periodisedDatas = new List<PeriodisedData>();
+            var periodisedDatas = new List<PeriodisedData>();
 
             foreach (var deliverableCode in deliverableCodes)
             {

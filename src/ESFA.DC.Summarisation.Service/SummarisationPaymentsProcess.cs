@@ -33,11 +33,11 @@ namespace ESFA.DC.Summarisation.Service
             return summarisedActuals; ;
         }
 
-        public IEnumerable<SummarisedActual> Summarise(
+        public ICollection<SummarisedActual> Summarise(
             FundingStream fundingStream,
             ILearningProvider provider,
-            IEnumerable<IFcsContractAllocation> allocations,
-            IEnumerable<CollectionPeriod> collectionPeriods,
+            ICollection<IFcsContractAllocation> allocations,
+            ICollection<CollectionPeriod> collectionPeriods,
             ISummarisationMessage summarisationMessage)
         {
             var summarisedActuals = new List<SummarisedActual>();
@@ -70,15 +70,15 @@ namespace ESFA.DC.Summarisation.Service
                                                                 (w.CollectionYear == summarisationMessage.CollectionYear && w.CollectionMonth == summarisationMessage.CollectionMonth)
                                                                 ||
                                                                 (w.CollectionYear == previousCollectionYear && w.CollectionMonth == previousCollectionMonth)
-                                                            );
+                                                            ).ToList();
             }
             else if (fundingStream.PeriodCode.Equals(FundingStreamConstants.NonLevy_APPS1920, StringComparison.OrdinalIgnoreCase))
             {
-                collectionPeriods = collectionPeriods.Where(w => w.CollectionYear == summarisationMessage.CollectionYear && w.CollectionMonth <= 12);
+                collectionPeriods = collectionPeriods.Where(w => w.CollectionYear == summarisationMessage.CollectionYear && w.CollectionMonth <= 12).ToList();
             }
             else if (fundingStream.PeriodCode.Equals(FundingStreamConstants.NonLevy_APPS1819, StringComparison.OrdinalIgnoreCase))
             {
-                collectionPeriods = collectionPeriods.Where(w => w.CollectionYear == previousCollectionYear && w.CollectionMonth <= 12);
+                collectionPeriods = collectionPeriods.Where(w => w.CollectionYear == previousCollectionYear && w.CollectionMonth <= 12).ToList();
             }
             else if (fundingStream.PeriodCode.Equals(FundingStreamConstants.NonLevy_ANLAP2018, StringComparison.OrdinalIgnoreCase)
                     || fundingStream.PeriodCode.Equals(FundingStreamConstants.NonLevy_1618NLAP2018, StringComparison.OrdinalIgnoreCase))
@@ -87,7 +87,7 @@ namespace ESFA.DC.Summarisation.Service
             }
             else 
             {
-                collectionPeriods = collectionPeriods.Where(w => w.CollectionYear == summarisationMessage.CollectionYear || w.CollectionYear == previousCollectionYear);
+                collectionPeriods = collectionPeriods.Where(w => w.CollectionYear == summarisationMessage.CollectionYear || w.CollectionYear == previousCollectionYear).ToList();
             }
 
             foreach (var fundLine in fundingStream.FundLines)
@@ -139,11 +139,11 @@ namespace ESFA.DC.Summarisation.Service
                         ActualValue = Math.Round(g.Sum(x => x.ActualValue), 2),
                         ContractAllocationNumber = fcsAllocations[fundingStream.PeriodCode].ContractAllocationNumber,
                         PeriodTypeCode = PeriodTypeCodeConstants.CalendarMonth
-                    });
+                    }).ToList();
 
         }
 
-        public IEnumerable<IPeriod> GetPeriodsForFundLine(IEnumerable<IPeriodisedData> periodisedData, FundLine fundLine)
+        public ICollection<IPeriod> GetPeriodsForFundLine(IEnumerable<IPeriodisedData> periodisedData, FundLine fundLine)
         {
             if (fundLine.UseAttributes)
             {
@@ -151,12 +151,12 @@ namespace ESFA.DC.Summarisation.Service
             }
 
             if (fundLine.AcademicYear.HasValue)
-                return periodisedData.SelectMany(fpd => fpd.Periods.Where(w => w.CollectionYear == fundLine.AcademicYear));
+                return periodisedData.SelectMany(fpd => fpd.Periods.Where(w => w.CollectionYear == fundLine.AcademicYear)).ToList();
             else
-                return periodisedData.SelectMany(fpd => fpd.Periods);
+                return periodisedData.SelectMany(fpd => fpd.Periods).ToList();
         }
 
-        public ICollection<SummarisedActual> SummarisePeriods(IEnumerable<IPeriod> periods, IEnumerable<CollectionPeriod> collectionPeriods)
+        public ICollection<SummarisedActual> SummarisePeriods(ICollection<IPeriod> periods, ICollection<CollectionPeriod> collectionPeriods)
         {
             var summarisedPeriods = periods
                        .GroupBy(g => new { g.CollectionYear, g.CollectionMonth })

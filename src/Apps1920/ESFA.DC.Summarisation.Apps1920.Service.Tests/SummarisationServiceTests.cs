@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.Configuration;
+using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.External.FCS.Model;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
@@ -557,9 +558,9 @@ namespace ESFA.DC.Summarisation.Apps1920.Service.Tests
             return fundLines;
         }
 
-        private IList<FcsContractAllocation> GetContractAllocation()
+        private IList<IFcsContractAllocation> GetContractAllocation()
         {
-            IList<FcsContractAllocation> fcsContractAllocations = new List<FcsContractAllocation>();
+            var fcsContractAllocations = new List<IFcsContractAllocation>();
             var fundingStreams = GetFundingTypes().SelectMany(ft => ft.FundingStreams);
 
             foreach (var item in fundingStreams)
