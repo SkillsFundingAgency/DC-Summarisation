@@ -23,30 +23,29 @@ using ESFA.DC.Summarisation.Data.Persist.Mapper;
 using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
 using ESFA.DC.Summarisation.Data.Persist.Persist;
 using ESFA.DC.Summarisation.Data.Persist.Persist.Interface;
-using ESFA.DC.Summarisation.Data.Population.Service;
 using ESFA.DC.Summarisation.Data.Repository;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
-using ESFA.DC.Summarisation.ESF.Service.Providers;
-using ESFA.DC.Summarisation.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Model;
 using ESFA.DC.Summarisation.Service;
 using Microsoft.EntityFrameworkCore;
-using ESFCollectionPeriodsProvider = ESFA.DC.Summarisation.ESF.Service.CollectionPeriodsProvider;
-using ESFFundingTypesProvider = ESFA.DC.Summarisation.ESF.Service.FundingTypesProvider;
+using ESFCollectionPeriodsProvider = ESFA.DC.Summarisation.ESF.ESF.Service.CollectionPeriodsProvider;
+using ESFFundingTypesProvider = ESFA.DC.Summarisation.ESF.ESF.Service.FundingTypesProvider;
 using ISummarisationContext = ESFA.DC.Summarisation.Model.Interface.ISummarisationContext;
 using Main1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Main1920.Service.Providers.CollectionPeriodsProvider;
 using Main1920FundingTypesProvider = ESFA.DC.Summarisation.Main1920.Service.Providers.FundingTypesProvider;
 using Main1920Providers = ESFA.DC.Summarisation.Main1920.Service.Providers;
-using Apps1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Apps1920.Service.CollectionPeriodsProvider;
-using Apps1920FundingTypesProvider = ESFA.DC.Summarisation.Apps1920.Service.FundingTypesProvider;
-using Apps1920Providers = ESFA.DC.Summarisation.Apps1920.Service.Providers;
+using Apps1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Apps.Apps1920.Service.CollectionPeriodsProvider;
+using Apps1920FundingTypesProvider = ESFA.DC.Summarisation.Apps.Apps1920.Service.FundingTypesProvider;
 using ESFA.DC.ESF.FundingData.Database.EF.Interfaces;
 using ESFA.DC.ESF.FundingData.Database.EF;
 using System.Linq;
+using ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Data.Input.Interface;
+using ESFA.DC.Summarisation.Data.Persist.BulkInsert.Interface;
+using ESFA.DC.Summarisation.ESF.ESF.Service.Providers;
 
 namespace ESFA.DC.Summarisation.Modules
 {
@@ -213,15 +212,15 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<Apps1920FundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();
             containerBuilder.RegisterType<Apps1920CollectionPeriodsProvider>().As<ISummarisationConfigProvider<CollectionPeriod>>();
 
-            containerBuilder.RegisterType<Apps1920Providers.LevyProvider>().As<ISummarisationInputDataProvider<ILearningProvider>>();
-            containerBuilder.RegisterType<Apps1920Providers.NonLevyProvider>().As<ISummarisationInputDataProvider<ILearningProvider>>();
+            containerBuilder.RegisterType<LevyProvider>().As<ISummarisationInputDataProvider<ILearningProvider>>();
+            containerBuilder.RegisterType<NonLevyProvider>().As<ISummarisationInputDataProvider<ILearningProvider>>();
             containerBuilder.Register(c =>
             {
                 var factory = c.Resolve<Func<IDASPaymentsContext>>();
 
                 var provider = c.Resolve<IEnumerable<ISummarisationConfigProvider<CollectionPeriod>>>().FirstOrDefault(p => p.CollectionType == "APPS");
 
-                return new Apps1920Providers.EasProvider(factory, provider);
+                return new EasProvider(factory, provider);
             }).As<ISummarisationInputDataProvider<ILearningProvider>>();
 
             containerBuilder.RegisterType<DASPaymentsContext>().As<IDASPaymentsContext>().ExternallyOwned();

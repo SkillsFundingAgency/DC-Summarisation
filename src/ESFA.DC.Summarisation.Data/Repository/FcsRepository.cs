@@ -10,7 +10,7 @@ using ESFA.DC.Summarisation.Data.External.FCS.Model;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 
-namespace ESFA.DC.Summarisation.Data.Population.Service
+namespace ESFA.DC.Summarisation.Data.Repository
 {
     public class FcsRepository : IFcsRepository
     {

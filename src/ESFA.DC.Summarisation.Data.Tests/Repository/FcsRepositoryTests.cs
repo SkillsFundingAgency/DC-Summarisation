@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ReferenceData.FCS.Model;
 using ESFA.DC.ReferenceData.FCS.Model.Interface;
-using ESFA.DC.Summarisation.Data.Population.Service;
+using ESFA.DC.Summarisation.Data.Repository;
 using FluentAssertions;
 using MockQueryable.Moq;
 using Moq;

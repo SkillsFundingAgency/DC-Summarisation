@@ -4,7 +4,6 @@ using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.Persist;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
-using ESFA.DC.Summarisation.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +12,7 @@ using System.Threading.Tasks;
 using ESFA.DC.Summarisation.Configuration.Interface;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Service.EqualityComparer;
-using SummarisedActual = ESFA.DC.Summarisation.Data.Output.Model.SummarisedActual;
+using SummarisedActual = ESFA.DC.Summarisation.Data.output.Model.SummarisedActual;
 using ESFA.DC.Summarisation.Constants;
 
 namespace ESFA.DC.Summarisation.Service
@@ -23,40 +22,33 @@ namespace ESFA.DC.Summarisation.Service
         private readonly IEnumerable<ISummarisationService> _summarisationServices;
         private readonly ILogger _logger;
         private readonly IProviderContractsService _providerContractsService;
-        private readonly IProviderFundingDataRemovedService _providerFundingDataRemovedService;
-        private readonly IEnumerable<ISummarisationConfigProvider<FundingType>> _fundingTypesProviders;
+        private readonly IProviderFundingDataRemovedService _providerFundingDataRemovedService;        
 
         public ProviderSummarisationService(
             IEnumerable<ISummarisationService> summarisationServices,
             ILogger logger,
             IProviderContractsService providerContractsService,
-            IProviderFundingDataRemovedService providerFundingDataRemovedService,
-            IEnumerable<ISummarisationConfigProvider<FundingType>> fundingTypesProviders)
+            IProviderFundingDataRemovedService providerFundingDataRemovedService)
         {
             _summarisationServices = summarisationServices;
             _logger = logger;
             _providerContractsService = providerContractsService;
             _providerFundingDataRemovedService = providerFundingDataRemovedService;
-            _fundingTypesProviders = fundingTypesProviders;
-    }
+        }
 
-        public async Task<ICollection<SummarisedActual>> Summarise(ILearningProvider providerData, ICollection<CollectionPeriod> collectionPeriods, IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> contractAllocations, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<ICollection<SummarisedActual>> Summarise(ILearningProvider providerData, ICollection<CollectionPeriod> collectionPeriods, ICollection<FundingType> fundingTypes,  IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> contractAllocations, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             var providerActuals = new List<SummarisedActual>();
 
             var summarisationService = _summarisationServices.FirstOrDefault(x => x.ProcessType.Equals(summarisationMessage.ProcessType, StringComparison.OrdinalIgnoreCase));
-
-            var fundingTypeConfiguration = _fundingTypesProviders
-                .FirstOrDefault(w => w.CollectionType.Equals(summarisationMessage.CollectionType, StringComparison.OrdinalIgnoreCase))?
-                .Provide();
-
+            
             foreach (var summarisationType in summarisationMessage.SummarisationTypes)
             {
                 if (!summarisationType.Equals(ConstantKeys.ReRunSummarisation, StringComparison.OrdinalIgnoreCase))
                 {
                     _logger.LogInfo($"Summarisation Wrapper: Summarising Data of UKPRN: {providerData.UKPRN}, Fundmodel {summarisationType} Start");
 
-                    var fundingStreams = fundingTypeConfiguration?
+                    var fundingStreams = fundingTypes?
                         .Where(x => x.SummarisationType.Equals(summarisationType, StringComparison.OrdinalIgnoreCase))
                         .SelectMany(fs => fs.FundingStreams)
                         .ToList();

@@ -25,25 +25,22 @@ using ESFA.DC.Summarisation.Data.Persist.Mapper;
 using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
 using ESFA.DC.Summarisation.Data.Persist.Persist;
 using ESFA.DC.Summarisation.Data.Persist.Persist.Interface;
-using ESFA.DC.Summarisation.Data.Population.Service;
 using ESFA.DC.Summarisation.Data.Repository;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
-using ESFA.DC.Summarisation.ESF.Service.Providers;
-using ESFA.DC.Summarisation.Interface;
 using ESFA.DC.Summarisation.Interfaces;
-using ESFA.DC.Summarisation.Main1819.Service.Tests.Stubs;
 using ESFA.DC.Summarisation.Model;
 using ESFA.DC.Summarisation.Service;
 using Microsoft.EntityFrameworkCore;
 using Main1920Providers = ESFA.DC.Summarisation.Main1920.Service.Providers;
 using Main1920FundingTypesProvider = ESFA.DC.Summarisation.Main1920.Service.Providers;
 using Main1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Main1920.Service.Providers;
-using Apps1920Providers = ESFA.DC.Summarisation.Apps1920.Service.Providers;
-using Apps1920FundingTypesProvider = ESFA.DC.Summarisation.Apps1920.Service;
-using Apps1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Apps1920.Service;
 using ESFA.DC.ESF.FundingData.Database.EF;
+using ESFA.DC.Summarisation.Apps.Apps1920.Service;
+using ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Data.Input.Interface;
+using ESFA.DC.Summarisation.Data.Persist.BulkInsert.Interface;
+using ESFA.DC.Summarisation.ESF.ESF.Service.Providers;
 
 namespace ESFA.DC.Summarisation.Console
 {
@@ -93,16 +90,16 @@ namespace ESFA.DC.Summarisation.Console
 
             List<ISummarisationConfigProvider<FundingType>> fundingTypesProviders = new List<ISummarisationConfigProvider<FundingType>>()
             {
-                new ESF.Service.FundingTypesProvider(jsonSerializationService),
+                new ESF.ESF.Service.FundingTypesProvider(jsonSerializationService),
                 new Main1920FundingTypesProvider.FundingTypesProvider(jsonSerializationService),
-                new Apps1920FundingTypesProvider.FundingTypesProvider(jsonSerializationService),
+                new FundingTypesProvider(jsonSerializationService),
             };
 
             List<ISummarisationConfigProvider<CollectionPeriod>> collectionPeriodsProviders = new List<ISummarisationConfigProvider<CollectionPeriod>>()
             {
-                new ESF.Service.CollectionPeriodsProvider(jsonSerializationService),
+                new ESF.ESF.Service.CollectionPeriodsProvider(jsonSerializationService),
                 new Main1920CollectionPeriodsProvider.CollectionPeriodsProvider(jsonSerializationService),
-                new Apps1920CollectionPeriodsProvider.CollectionPeriodsProvider(jsonSerializationService),
+                new CollectionPeriodsProvider(jsonSerializationService),
             };
 
             var summarisationInputDataProviders = new List<ISummarisationInputDataProvider<ILearningProvider>>
@@ -114,9 +111,9 @@ namespace ESFA.DC.Summarisation.Console
                 new Main1920Providers.Fm35Provider(() => new ILR1920_DataStoreEntities(ilr1920dbContextOptions)),
                 new Main1920Providers.EasProvider(() => new EAS1920.EF.EasContext(eas1920dbContextOptions)),
 
-                new Apps1920Providers.LevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
-                new Apps1920Providers.NonLevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
-                new Apps1920Providers.EasProvider(() => new DASPaymentsContext(dasdbContextOptions), new Apps1920CollectionPeriodsProvider.CollectionPeriodsProvider(jsonSerializationService)),
+                new LevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
+                new NonLevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
+                new EasProvider(() => new DASPaymentsContext(dasdbContextOptions), new CollectionPeriodsProvider(jsonSerializationService)),
             };
 
             IInputDataRepository<ILearningProvider> repository = new ProviderRepository(summarisationInputDataProviders);

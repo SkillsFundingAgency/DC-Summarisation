@@ -4,7 +4,6 @@ using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.Persist;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
-using ESFA.DC.Summarisation.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.Summarisation.Configuration.Interface;
 using ESFA.DC.Summarisation.Data.Input.Interface;
-using SummarisedActual = ESFA.DC.Summarisation.Data.Output.Model.SummarisedActual;
+using SummarisedActual = ESFA.DC.Summarisation.Data.output.Model.SummarisedActual;
 
 namespace ESFA.DC.Summarisation.Service
 {
@@ -20,6 +19,7 @@ namespace ESFA.DC.Summarisation.Service
     {
         private readonly IFcsRepository _fcsRepository;
         private readonly IEnumerable<ISummarisationConfigProvider<CollectionPeriod>> _collectionPeriodsProviders;
+        private readonly IEnumerable<ISummarisationConfigProvider<FundingType>> _fundingTypesProviders;
         private readonly ILogger _logger;
         private readonly Func<IInputDataRepository<ILearningProvider>> _repositoryFactory;
         private readonly int _dataRetrievalMaxConcurrentCalls;
@@ -29,6 +29,7 @@ namespace ESFA.DC.Summarisation.Service
         public SummarisationProcess(
             IFcsRepository fcsRepository,
             IEnumerable<ISummarisationConfigProvider<CollectionPeriod>> collectionPeriodsProviders,
+            IEnumerable<ISummarisationConfigProvider<FundingType>> fundingTypesProviders,
             IDataStorePersistenceService dataStorePersistenceService,
             Func<IInputDataRepository<ILearningProvider>> repositoryFactory,
             ISummarisationDataOptions dataOptions,
@@ -37,6 +38,7 @@ namespace ESFA.DC.Summarisation.Service
         {
             _fcsRepository = fcsRepository;
             _collectionPeriodsProviders = collectionPeriodsProviders;
+            _fundingTypesProviders = fundingTypesProviders;
             _logger = logger;
             _repositoryFactory = repositoryFactory;
             _providerSummarisationService = providerSummarisationService;
@@ -52,7 +54,9 @@ namespace ESFA.DC.Summarisation.Service
 
             _logger.LogInfo($"Summarisation Message: CollectionType : {summarisationMessage.CollectionType}, CollectionReturnCode: {summarisationMessage.CollectionReturnCode}, ILRCollectionYear: {summarisationMessage.CollectionYear}, ILRReturnPeriod: {summarisationMessage.CollectionMonth}");
 
-            var collectionPeriods = _collectionPeriodsProviders.SingleOrDefault(w => w.CollectionType == summarisationMessage.CollectionType)?.Provide();
+            var collectionPeriods = _collectionPeriodsProviders.Single(w => w.CollectionType.Equals(summarisationMessage.CollectionType, StringComparison.OrdinalIgnoreCase)).Provide();
+
+            var fundingTypeConfiguration = _fundingTypesProviders.Single(w => w.CollectionType.Equals(summarisationMessage.CollectionType, StringComparison.OrdinalIgnoreCase)).Provide();
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving Collection Periods End");
 
@@ -95,7 +99,7 @@ namespace ESFA.DC.Summarisation.Service
 
                 var providerData = providersData[ukprn];
 
-                var providerActuals = await _providerSummarisationService.Summarise(providerData, collectionPeriods, fcsContractAllocations, summarisationMessage, cancellationToken);
+                var providerActuals = await _providerSummarisationService.Summarise(providerData, collectionPeriods, fundingTypeConfiguration, fcsContractAllocations, summarisationMessage, cancellationToken);
 
                 summarisedActuals.AddRange(providerActuals);
 
