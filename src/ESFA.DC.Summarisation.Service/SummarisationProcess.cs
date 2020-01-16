@@ -39,6 +39,7 @@ namespace ESFA.DC.Summarisation.Service
         {
             _fcsRepository = fcsRepository;
             _collectionPeriodsProviders = collectionPeriodsProviders;
+            _fundingTypesProviders = fundingTypesProviders;
             _logger = logger;
             _repositoryFactory = repositoryFactory;
             _providerSummarisationService = providerSummarisationService;
