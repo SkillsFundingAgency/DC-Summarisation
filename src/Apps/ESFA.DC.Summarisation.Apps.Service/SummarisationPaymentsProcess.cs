@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.Summarisation.Data.output.Model;
 
-namespace ESFA.DC.Summarisation.Service
+namespace ESFA.DC.Summarisation.Apps.Service
 {
     public class SummarisationPaymentsProcess : ISummarisationService
     {
