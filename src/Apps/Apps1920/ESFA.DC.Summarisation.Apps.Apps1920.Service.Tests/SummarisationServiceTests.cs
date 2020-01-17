@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.Serialization.Json;
+using ESFA.DC.Summarisation.Apps.Service;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.External.FCS.Model;

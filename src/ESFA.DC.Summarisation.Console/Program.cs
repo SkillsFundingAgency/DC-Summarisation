@@ -120,9 +120,9 @@ namespace ESFA.DC.Summarisation.Console
 
             List<ISummarisationService> summarisationServices = new List<ISummarisationService>()
             {
-                new SummarisationFundlineProcess(),
-                new SummarisationDeliverableProcess(),
-                new SummarisationPaymentsProcess(),
+                //new SummarisationFundlineProcess(),
+                //new SummarisationDeliverableProcess(),
+                //new SummarisationPaymentsProcess(),
             };
 
             IBulkInsert bulkInsert = new BulkInsert();

@@ -46,6 +46,9 @@ using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Persist.BulkInsert.Interface;
 using ESFA.DC.Summarisation.ESF.ESF.Service.Providers;
+using ESFA.DC.Summarisation.Main.Service;
+using ESFA.DC.Summarisation.ESF.Service;
+using ESFA.DC.Summarisation.Apps.Service;
 
 namespace ESFA.DC.Summarisation.Modules
 {

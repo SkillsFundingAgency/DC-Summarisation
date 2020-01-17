@@ -6,6 +6,7 @@ using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.External.FCS.Model;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
+using ESFA.DC.Summarisation.ESF.Service;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Service;
 using FluentAssertions;
