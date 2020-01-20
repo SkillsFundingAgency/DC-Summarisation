@@ -1,6 +1,7 @@
 ﻿using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Summarisation.Data.Persist;
 using ESFA.DC.Summarisation.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -13,22 +14,24 @@ namespace ESFA.DC.Summarisation.Service
     {
         private readonly IDataStorePersistenceService _dataStorePersistenceService;
         private readonly ILogger _logger;
-        private readonly ISummarisationProcess _summarisationProcess;
+        private readonly IEnumerable<ISummarisationProcess> _summarisationProcesses;
 
         public SummarisationWrapper(
             IDataStorePersistenceService dataStorePersistenceService,
             ILogger logger,
-            ISummarisationProcess summarisationProcess)
+            IEnumerable<ISummarisationProcess> summarisationProcesses)
         {
             _dataStorePersistenceService = dataStorePersistenceService;
             _logger = logger;
-            _summarisationProcess = summarisationProcess;
+            _summarisationProcesses = summarisationProcesses;
 
         }
 
         public async Task<ICollection<SummarisedActual>> Summarise(ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
-            var summarisedActuals = await _summarisationProcess.CollateAndSummariseAsync(summarisationMessage, cancellationToken);
+            var summarisationProcess = _summarisationProcesses.Single(p => p.ProcessType.Equals(summarisationMessage.ProcessType, StringComparison.OrdinalIgnoreCase));
+
+            var summarisedActuals = await summarisationProcess.CollateAndSummariseAsync(summarisationMessage, cancellationToken);
 
             _logger.LogInfo($"Summarisation Wrapper: Storing data to Summarised Actuals Start");
 

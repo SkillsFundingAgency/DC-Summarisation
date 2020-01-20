@@ -7,6 +7,8 @@ namespace ESFA.DC.Summarisation.Interfaces
 {
     public interface ISummarisationProcess
     {
+        string ProcessType { get; }
+
         Task<ICollection<SummarisedActual>> CollateAndSummariseAsync(ISummarisationMessage summarisationMessage, CancellationToken cancellationToken);
     }
 }

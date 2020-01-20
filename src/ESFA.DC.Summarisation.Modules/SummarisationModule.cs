@@ -90,15 +90,15 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterType<SummarisationDeliverableProcess>().As<ISummarisationService>();
             containerBuilder.RegisterType<SummarisationPaymentsProcess>().As<ISummarisationService>();
 
-            //containerBuilder.RegisterType<SummarisationFundlineProcess>().Keyed<ISummarisationService>(ProcessTypeConstants.Fundline);
-            //containerBuilder.RegisterType<SummarisationDeliverableProcess>().Keyed<ISummarisationService>(ProcessTypeConstants.Deliverable);
-            //containerBuilder.RegisterType<SummarisationPaymentsProcess>().Keyed<ISummarisationService>(ProcessTypeConstants.Payments);
+            containerBuilder.RegisterType<Main.Service.SummarisationProcess>().As<ISummarisationProcess>().Keyed<ISummarisationProcess>(ProcessTypeConstants.Fundline);
+            containerBuilder.RegisterType<ESF.Service.SummarisationProcess>().As<ISummarisationProcess>().Keyed<ISummarisationProcess>(ProcessTypeConstants.Deliverable);
+            containerBuilder.RegisterType<Apps.Service.SummarisationProcess>().As<ISummarisationProcess>().Keyed<ISummarisationProcess>(ProcessTypeConstants.Payments);
         }
 
         private void LoadNewModules(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterType<ProviderContractsService>().As<IProviderContractsService>();
-            containerBuilder.RegisterType<SummarisationProcess>().As<ISummarisationProcess>();
+            //containerBuilder.RegisterType<SummarisationProcess>().As<ISummarisationProcess>();
             containerBuilder.RegisterType<ProviderSummarisationService>().As<IProviderSummarisationService<ILearningProvider>>();
             containerBuilder.RegisterType<ProviderFundingDataRemovedService>().As<IProviderFundingDataRemovedService>();
         }

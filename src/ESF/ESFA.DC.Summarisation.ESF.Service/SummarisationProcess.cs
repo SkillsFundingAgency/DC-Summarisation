@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Summarisation.Configuration;
-using ESFA.DC.Summarisation.Data.Persist;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using System.Collections.Generic;
@@ -12,11 +11,14 @@ using System.Threading.Tasks;
 using ESFA.DC.Summarisation.Configuration.Interface;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using SummarisedActual = ESFA.DC.Summarisation.Data.output.Model.SummarisedActual;
+using ESFA.DC.Summarisation.Constants;
 
-namespace ESFA.DC.Summarisation.Service
+namespace ESFA.DC.Summarisation.ESF.Service
 {
     public class SummarisationProcess : ISummarisationProcess
     {
+        public string ProcessType => ProcessTypeConstants.Deliverable;
+
         private readonly IFcsRepository _fcsRepository;
         private readonly IEnumerable<ISummarisationConfigProvider<CollectionPeriod>> _collectionPeriodsProviders;
         private readonly IEnumerable<ISummarisationConfigProvider<FundingType>> _fundingTypesProviders;
@@ -30,7 +32,6 @@ namespace ESFA.DC.Summarisation.Service
             IFcsRepository fcsRepository,
             IEnumerable<ISummarisationConfigProvider<CollectionPeriod>> collectionPeriodsProviders,
             IEnumerable<ISummarisationConfigProvider<FundingType>> fundingTypesProviders,
-            IDataStorePersistenceService dataStorePersistenceService,
             Func<IInputDataRepository<ILearningProvider>> repositoryFactory,
             ISummarisationDataOptions dataOptions,
             ILogger logger,
@@ -68,7 +69,6 @@ namespace ESFA.DC.Summarisation.Service
 
             var summarisedActuals = new List<SummarisedActual>();
 
-            //IList<TIdentifier> providerIdentifiers;
             ICollection<int> providerIdentifiers;
 
             if (summarisationMessage.Ukprn.HasValue && summarisationMessage.Ukprn > 0)
@@ -144,6 +144,5 @@ namespace ESFA.DC.Summarisation.Service
 
             return await repo.ProvideAsync(identifier, summarisationMessage, cancellationToken);
         }
-       
     }
 }
