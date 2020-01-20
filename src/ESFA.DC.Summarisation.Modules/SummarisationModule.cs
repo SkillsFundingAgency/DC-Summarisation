@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using Autofac;
 using ESFA.DC.DASPayments.EF;
 using ESFA.DC.DASPayments.EF.Interfaces;
@@ -16,7 +15,6 @@ using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.ServiceFabric.Helpers;
 using ESFA.DC.Summarisation.Configuration;
-using ESFA.DC.Summarisation.Configuration.Interface;
 using ESFA.DC.Summarisation.Data.Persist;
 using ESFA.DC.Summarisation.Data.Persist.BulkInsert;
 using ESFA.DC.Summarisation.Data.Persist.Mapper;
@@ -41,14 +39,9 @@ using ESFA.DC.ESF.FundingData.Database.EF.Interfaces;
 using ESFA.DC.ESF.FundingData.Database.EF;
 using System.Linq;
 using ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers;
-using ESFA.DC.Summarisation.Data.Input.Model;
-using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Persist.BulkInsert.Interface;
 using ESFA.DC.Summarisation.ESF.ESF.Service.Providers;
-using ESFA.DC.Summarisation.Main.Service;
-using ESFA.DC.Summarisation.ESF.Service;
-using ESFA.DC.Summarisation.Apps.Service;
 using ESFA.DC.Summarisation.Main.Modules;
 using ESFA.DC.Summarisation.ESF.Modules;
 using ESFA.DC.Summarisation.Apps.Modules;
@@ -57,12 +50,18 @@ namespace ESFA.DC.Summarisation.Modules
 {
     public class SummarisationModule : Module
     {
+        private readonly ISummarisationDataOptions _summarisationDataOptions;
+
+        public SummarisationModule(ISummarisationDataOptions summarisationDataOptions)
+        {
+            _summarisationDataOptions = summarisationDataOptions;
+        }
+
         protected override void Load(ContainerBuilder containerBuilder)
         {
             var configHelper = new ConfigurationHelper();
 
-            var referenceDataOptions = configHelper.GetSectionValues<SummarisationDataOptions>("ReferenceDataSection");
-            containerBuilder.RegisterInstance(referenceDataOptions).As<ISummarisationDataOptions>().SingleInstance();
+            containerBuilder.RegisterInstance(_summarisationDataOptions).As<ISummarisationDataOptions>().SingleInstance();
 
             containerBuilder.RegisterType<SummarisationWrapper>().As<ISummarisationWrapper>();
 
@@ -89,22 +88,16 @@ namespace ESFA.DC.Summarisation.Modules
 
         private void LoadSummarisationProcessModules(ContainerBuilder containerBuilder)
         {
-            containerBuilder.RegisterType<SummarisationFundlineProcess>().As<ISummarisationService>();
-            containerBuilder.RegisterType<SummarisationDeliverableProcess>().As<ISummarisationService>();
-            containerBuilder.RegisterType<SummarisationPaymentsProcess>().As<ISummarisationService>();
-
             containerBuilder.RegisterModule<MainModule>();
 
             containerBuilder.RegisterModule<ESFModule>();
 
             containerBuilder.RegisterModule<AppsModule>();
-
         }
 
         private void LoadNewModules(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterType<ProviderContractsService>().As<IProviderContractsService>();
-            containerBuilder.RegisterType<ProviderSummarisationService>().As<IProviderSummarisationService<ILearningProvider>>();
             containerBuilder.RegisterType<ProviderFundingDataRemovedService>().As<IProviderFundingDataRemovedService>();
         }
 
@@ -282,9 +275,8 @@ namespace ESFA.DC.Summarisation.Modules
 
             containerBuilder.RegisterType<DataStorePersistenceService>().As<IDataStorePersistenceService>();
 
-            containerBuilder.Register(c => new SqlConnection(c.Resolve<ISummarisationDataOptions>().SummarisedActualsConnectionString)).As<SqlConnection>();
-
             containerBuilder.RegisterType<SummarisationContext>().As<ISummarisationContext>().ExternallyOwned();
+
             containerBuilder.Register(context =>
             {
                 var summarisationSettings = context.Resolve<ISummarisationDataOptions>();

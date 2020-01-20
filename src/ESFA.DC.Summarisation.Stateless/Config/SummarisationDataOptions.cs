@@ -1,6 +1,6 @@
-﻿using ESFA.DC.Summarisation.Configuration.Interface;
+﻿using ESFA.DC.Summarisation.Interfaces;
 
-namespace ESFA.DC.Summarisation.Configuration
+namespace ESFA.DC.Summarisation.Stateless.Config
 {
     public class SummarisationDataOptions : ISummarisationDataOptions
     {

@@ -7,13 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.Summarisation.Data.output.Model;
+using ESFA.DC.Summarisation.ESF.Interfaces;
 
 namespace ESFA.DC.Summarisation.ESF.Service
 {
     public class SummarisationDeliverableProcess : ISummarisationService
     {
-        public string ProcessType => ProcessTypeConstants.Deliverable;
-
         public ICollection<SummarisedActual> Summarise(ICollection<FundingStream> fundingStreams, ILearningProvider provider, ICollection<IFcsContractAllocation> allocations, ICollection<CollectionPeriod> collectionPeriods, ISummarisationMessage summarisationMessage)
         {
             var esfAllocations = allocations.Where(w => w.FundingStreamPeriodCode.Equals("ESF1420", StringComparison.OrdinalIgnoreCase));

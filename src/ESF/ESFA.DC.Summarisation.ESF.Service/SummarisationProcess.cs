@@ -8,10 +8,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.Summarisation.Configuration.Interface;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using SummarisedActual = ESFA.DC.Summarisation.Data.output.Model.SummarisedActual;
 using ESFA.DC.Summarisation.Constants;
+using ESFA.DC.Summarisation.ESF.Interfaces;
 
 namespace ESFA.DC.Summarisation.ESF.Service
 {
