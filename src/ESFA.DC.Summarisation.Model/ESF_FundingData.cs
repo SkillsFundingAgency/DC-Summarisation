@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ESFA.DC.Summarisation.Model
+﻿namespace ESFA.DC.Summarisation.Model
 {
     public partial class ESF_FundingData
     {

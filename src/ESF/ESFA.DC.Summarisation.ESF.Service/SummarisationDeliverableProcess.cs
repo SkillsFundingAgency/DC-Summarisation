@@ -1,19 +1,19 @@
 ﻿using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
-using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.Summarisation.Data.output.Model;
 using ESFA.DC.Summarisation.ESF.Interfaces;
+using ESFA.DC.Summarisation.Data.Input.Model;
 
 namespace ESFA.DC.Summarisation.ESF.Service
 {
     public class SummarisationDeliverableProcess : ISummarisationService
     {
-        public ICollection<SummarisedActual> Summarise(ICollection<FundingStream> fundingStreams, ILearningProvider provider, ICollection<IFcsContractAllocation> allocations, ICollection<CollectionPeriod> collectionPeriods, ISummarisationMessage summarisationMessage)
+        public ICollection<SummarisedActual> Summarise(ICollection<FundingStream> fundingStreams, LearningProvider provider, ICollection<IFcsContractAllocation> allocations, ICollection<CollectionPeriod> collectionPeriods, ISummarisationMessage summarisationMessage)
         {
             var esfAllocations = allocations.Where(w => w.FundingStreamPeriodCode.Equals("ESF1420", StringComparison.OrdinalIgnoreCase));
 
@@ -29,7 +29,7 @@ namespace ESFA.DC.Summarisation.ESF.Service
             return summarisedActuals;
         }
 
-        public ICollection<SummarisedActual> Summarise(ICollection<FundingStream> fundingStreams, ILearningProvider provider, IFcsContractAllocation allocation, ICollection<CollectionPeriod> collectionPeriods)
+        public ICollection<SummarisedActual> Summarise(ICollection<FundingStream> fundingStreams, LearningProvider provider, IFcsContractAllocation allocation, ICollection<CollectionPeriod> collectionPeriods)
         {
             var summarisedActuals = new List<SummarisedActual>();
 
@@ -43,7 +43,7 @@ namespace ESFA.DC.Summarisation.ESF.Service
             return summarisedActuals;
         }
 
-        public ICollection<SummarisedActual> Summarise(FundingStream fundingStream, ILearningProvider provider, IFcsContractAllocation allocation, ICollection<CollectionPeriod> collectionPeriods)
+        public ICollection<SummarisedActual> Summarise(FundingStream fundingStream, LearningProvider provider, IFcsContractAllocation allocation, ICollection<CollectionPeriod> collectionPeriods)
         {
             var summarisedActuals = new List<SummarisedActual>();
 
@@ -75,7 +75,7 @@ namespace ESFA.DC.Summarisation.ESF.Service
                     }).ToList();
         }
 
-        public ICollection<IPeriod> GetPeriodsForFundLine(IEnumerable<IPeriodisedData> periodisedData, FundLine fundLine)
+        public ICollection<Period> GetPeriodsForFundLine(IEnumerable<PeriodisedData> periodisedData, FundLine fundLine)
         {
             if (fundLine.UseAttributes)
             {
@@ -85,7 +85,7 @@ namespace ESFA.DC.Summarisation.ESF.Service
             return periodisedData.SelectMany(fpd => fpd.Periods).ToList();
         }
 
-        public ICollection<SummarisedActual> SummarisePeriods(ICollection<IPeriod> periods, FundLine fundLine, ICollection<CollectionPeriod> collectionPeriods, IFcsContractAllocation allocation)
+        public ICollection<SummarisedActual> SummarisePeriods(ICollection<Period> periods, FundLine fundLine, ICollection<CollectionPeriod> collectionPeriods, IFcsContractAllocation allocation)
         {
             var filteredCollectonPeriods = collectionPeriods.Where(cp => cp.ActualsSchemaPeriod >= allocation.ContractStartDate && cp.ActualsSchemaPeriod <= allocation.ContractEndDate);
 

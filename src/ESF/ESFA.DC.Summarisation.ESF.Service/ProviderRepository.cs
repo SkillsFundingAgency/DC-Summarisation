@@ -1,5 +1,4 @@
-﻿using ESFA.DC.Summarisation.Data.Input.Interface;
-using ESFA.DC.Summarisation.Data.Input.Model;
+﻿using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.ESF.Interfaces;
 using ESFA.DC.Summarisation.Interfaces;
 using System.Collections.Generic;
@@ -9,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace ESFA.DC.Summarisation.ESF.Service
 {
-    public class ProviderRepository : IInputDataRepository<ILearningProvider>
+    public class ProviderRepository : IInputDataRepository<LearningProvider>
     {
-        private readonly IList<ISummarisationInputDataProvider<ILearningProvider>> _providers;
+        private readonly IList<ISummarisationInputDataProvider<LearningProvider>> _providers;
 
-        public ProviderRepository(IList<ISummarisationInputDataProvider<ILearningProvider>> providers)
+        public ProviderRepository(IList<ISummarisationInputDataProvider<LearningProvider>> providers)
         {
             _providers = providers;
         }
 
-        public async Task<ILearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<LearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             var taskResults = await Task.WhenAll(_providers.Where(w => w.CollectionType == summarisationMessage.CollectionType).Select(p => p.ProvideAsync(ukprn, summarisationMessage, cancellationToken)));
 

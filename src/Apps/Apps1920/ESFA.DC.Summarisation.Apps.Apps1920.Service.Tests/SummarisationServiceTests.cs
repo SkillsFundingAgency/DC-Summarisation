@@ -6,10 +6,8 @@ using ESFA.DC.Summarisation.Apps.Service;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.External.FCS.Model;
-using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Interfaces;
-using ESFA.DC.Summarisation.Service;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -416,9 +414,9 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
             return periodisedDatas;
         }
 
-        private List<IPeriod> GetPeriodsData(int academicYear)
+        private List<Period> GetPeriodsData(int academicYear)
         {
-            var periods = new List<IPeriod>();
+            var periods = new List<Period>();
 
             for (int j = 1; j <= periodsToGenerate; j++)
             {

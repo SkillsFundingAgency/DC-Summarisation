@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using ESFA.DC.JobContextManager.Interface;
 using ESFA.DC.JobContextManager.Model;
-using ESFA.DC.JobContextManager.Model.Interface;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Stateless.Context;

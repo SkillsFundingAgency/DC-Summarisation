@@ -1,8 +1,6 @@
-﻿using ESFA.DC.Summarisation.Data.Input.Interface;
-
-namespace ESFA.DC.Summarisation.Data.Input.Model
+﻿namespace ESFA.DC.Summarisation.Data.Input.Model
 {
-    public class Period : IPeriod
+    public class Period
     {
         public int PeriodId { get; set; }
 

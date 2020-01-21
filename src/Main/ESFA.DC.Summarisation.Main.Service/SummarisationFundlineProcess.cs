@@ -1,13 +1,13 @@
 ﻿using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
-using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.Summarisation.Data.output.Model;
 using ESFA.DC.Summarisation.Main.Interfaces;
+using ESFA.DC.Summarisation.Data.Input.Model;
 
 namespace ESFA.DC.Summarisation.Main.Service
 {
@@ -15,7 +15,7 @@ namespace ESFA.DC.Summarisation.Main.Service
     {
         public ICollection<SummarisedActual> Summarise(
             ICollection<FundingStream> fundingStreams,
-            ILearningProvider provider,
+            LearningProvider provider,
             ICollection<IFcsContractAllocation> allocations,
             ICollection<CollectionPeriod> collectionPeriods,
             ISummarisationMessage summarisationMessage)
@@ -34,7 +34,7 @@ namespace ESFA.DC.Summarisation.Main.Service
 
         public ICollection<SummarisedActual> Summarise(
             FundingStream fundingStream,
-            ILearningProvider provider,
+            LearningProvider provider,
             ICollection<IFcsContractAllocation> allocations,
             ICollection<CollectionPeriod> collectionPeriods)
         {
@@ -42,9 +42,7 @@ namespace ESFA.DC.Summarisation.Main.Service
 
             foreach (var fundLine in fundingStream.FundLines)
             {
-                IEnumerable<IPeriodisedData> periodisedData;
-               
-                periodisedData = provider
+                var periodisedData = provider
                     .LearningDeliveries
                     .Where(ld => ld.Fundline.Equals(fundLine.Fundline, StringComparison.OrdinalIgnoreCase))
                     .SelectMany(x => x.PeriodisedData);
@@ -71,7 +69,7 @@ namespace ESFA.DC.Summarisation.Main.Service
                     }).ToList();
         }
 
-        public ICollection<IPeriod> GetPeriodsForFundLine(IEnumerable<IPeriodisedData> periodisedData, FundLine fundLine)
+        public ICollection<Period> GetPeriodsForFundLine(IEnumerable<PeriodisedData> periodisedData, FundLine fundLine)
         {
             if (fundLine.UseAttributes)
             {
@@ -81,7 +79,7 @@ namespace ESFA.DC.Summarisation.Main.Service
             return periodisedData.SelectMany(fpd => fpd.Periods).ToList();
         }
 
-        public ICollection<SummarisedActual> SummarisePeriods(ICollection<IPeriod> periods)
+        public ICollection<SummarisedActual> SummarisePeriods(ICollection<Period> periods)
         {
             return periods
                 .GroupBy(pg => pg.PeriodId)

@@ -5,14 +5,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.DASPayments.EF.Interfaces;
 using ESFA.DC.Summarisation.Constants;
-using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
 {
-    public class NonLevyProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider<ILearningProvider>
+    public class NonLevyProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider<LearningProvider>
     {
         private readonly Func<IDASPaymentsContext> _dasContext;
 
@@ -31,7 +30,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
             }
         }
 
-        public async Task<ILearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<LearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             List<int> CollectionYears = new List<int>
             {
@@ -83,7 +82,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
                                     ApprenticeshipContractType = pd.ContractType,
                                     FundingSource = pd.FundingSource,
                                     TransactionType = pd.TransactionType,
-                                    Periods = new List<IPeriod>
+                                    Periods = new List<Period>
                                     {
                                         new Period
                                         {

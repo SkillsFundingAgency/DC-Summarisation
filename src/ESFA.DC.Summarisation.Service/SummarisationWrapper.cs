@@ -1,5 +1,4 @@
 ﻿using ESFA.DC.Logging.Interfaces;
-using ESFA.DC.Summarisation.Data.Persist;
 using ESFA.DC.Summarisation.Interfaces;
 using System;
 using System.Collections.Generic;

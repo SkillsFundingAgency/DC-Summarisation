@@ -29,7 +29,6 @@ using Main1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Main1920.Service
 using ESFA.DC.ESF.FundingData.Database.EF;
 using ESFA.DC.Summarisation.Apps.Apps1920.Service;
 using ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers;
-using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.ESF.ESF.Service.Providers;
 using ESFA.DC.Summarisation.Stateless.Config;
 
@@ -95,7 +94,7 @@ namespace ESFA.DC.Summarisation.Console
                 new CollectionPeriodsProvider(jsonSerializationService),
             };
 
-            var summarisationInputDataProviders = new List<ISummarisationInputDataProvider<ILearningProvider>>
+            var summarisationInputDataProviders = new List<ISummarisationInputDataProvider<Data.Input.Model.LearningProvider>>
             {
                 new ESFProvider_R1(() => new ESF_DataStoreEntities(esfdbContextOptions)),
                 new ESFProvider_R2(() => new ESFR2Context(esfR2dbContextOptions)),
@@ -109,7 +108,7 @@ namespace ESFA.DC.Summarisation.Console
                 new EasProvider(() => new DASPaymentsContext(dasdbContextOptions), new CollectionPeriodsProvider(jsonSerializationService)),
             };
 
-            //IInputDataRepository<ILearningProvider> repository = new ProviderRepository(summarisationInputDataProviders);
+            //IInputDataRepository<LearningProvider> repository = new ProviderRepository(summarisationInputDataProviders);
 
             IBulkInsert bulkInsert = new BulkInsert();
 

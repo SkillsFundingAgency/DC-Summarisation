@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using ESFA.DC.Summarisation.Data.Input.Interface;
 
 namespace ESFA.DC.Summarisation.Data.Input.Model
 {
-    public class LearningDelivery : ILearningDelivery
+    public class LearningDelivery 
     {
         public string LearnRefNumber { get; set; }
 

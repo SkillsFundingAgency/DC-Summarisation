@@ -1,6 +1,4 @@
-﻿using System;
-using ESFA.DC.Logging.Interfaces;
-using ESFA.DC.Summarisation.Data.Repository.Interface;
+﻿using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.Summarisation.Service.EqualityComparer;
 using SummarisedActual = ESFA.DC.Summarisation.Data.output.Model.SummarisedActual;
-using ESFA.DC.Summarisation.Constants;
 
 namespace ESFA.DC.Summarisation.Service
 {
