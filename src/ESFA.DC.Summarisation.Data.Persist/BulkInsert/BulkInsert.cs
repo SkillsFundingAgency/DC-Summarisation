@@ -4,13 +4,12 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.Summarisation.Data.Persist.BulkInsert.Interface;
-using ESFA.DC.Summarisation.Data.Repository.Interface;
+using ESFA.DC.Summarisation.Interfaces;
 using FastMember;
 
 namespace ESFA.DC.Summarisation.Data.Persist.BulkInsert
 {
-   public class BulkInsert : IBulkInsert
+    public class BulkInsert : IBulkInsert
     {
         public async Task Insert<T>(string table, IEnumerable<T> source, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {

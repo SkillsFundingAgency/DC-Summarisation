@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ESFA.DC.Summarisation.Data.Persist.BulkInsert.Interface
+namespace ESFA.DC.Summarisation.Interfaces
 {
     public interface IBulkInsert
     {

@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Threading;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using ESFA.DC.DASPayments.EF;
-using ESFA.DC.DASPayments.EF.Interfaces;
 using ESFA.DC.ESF.Database.EF;
-using ESFA.DC.ESF.Database.EF.Interfaces;
 using ESFA.DC.ESF.R2.Database.EF;
-using ESFA.DC.ESF.R2.Database.EF.Interfaces;
 using ESFA.DC.ILR1819.DataStore.EF;
-using ESFA.DC.ILR1819.DataStore.EF.Interface;
 using ESFA.DC.ILR1920.DataStore.EF;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.ReferenceData.FCS.Model;
-using ESFA.DC.ReferenceData.FCS.Model.Interface;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.Configuration;
@@ -37,9 +29,7 @@ using Main1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Main1920.Service
 using ESFA.DC.ESF.FundingData.Database.EF;
 using ESFA.DC.Summarisation.Apps.Apps1920.Service;
 using ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers;
-using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Data.Input.Interface;
-using ESFA.DC.Summarisation.Data.Persist.BulkInsert.Interface;
 using ESFA.DC.Summarisation.ESF.ESF.Service.Providers;
 using ESFA.DC.Summarisation.Stateless.Config;
 
@@ -119,7 +109,7 @@ namespace ESFA.DC.Summarisation.Console
                 new EasProvider(() => new DASPaymentsContext(dasdbContextOptions), new CollectionPeriodsProvider(jsonSerializationService)),
             };
 
-            IInputDataRepository<ILearningProvider> repository = new ProviderRepository(summarisationInputDataProviders);
+            //IInputDataRepository<ILearningProvider> repository = new ProviderRepository(summarisationInputDataProviders);
 
             IBulkInsert bulkInsert = new BulkInsert();
 

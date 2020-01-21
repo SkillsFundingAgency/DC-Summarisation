@@ -28,4 +28,8 @@
     <ProjectReference Include="..\ESFA.DC.Summarisation.Model\ESFA.DC.Summarisation.Model.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BulkInsert\Interface\" />
+  </ItemGroup>
+
 </Project>

@@ -21,8 +21,6 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Providers
             _ilrContext = ilrContext;
         }
 
-        public string SummarisationType => SummarisationTypeConstants.Main1920_TBL;
-
         public string CollectionType => CollectionTypeConstants.ILR1920;
 
         public async Task<ILearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)

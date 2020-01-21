@@ -18,18 +18,6 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
     public class FM25ProviderTests
     {
         [Fact]
-        public void SummarisationType_Check()
-        {
-            NewProvider().SummarisationType.Should().Be("Main1920_FM25");
-        }
-
-        [Fact]
-        public void SummarisationType_CheckWithConstantValue()
-        {
-            NewProvider().SummarisationType.Should().Be(SummarisationTypeConstants.Main1920_FM25);
-        }
-
-        [Fact]
         public void CollectionType_Check()
         {
             NewProvider().CollectionType.Should().Be("ILR1920");

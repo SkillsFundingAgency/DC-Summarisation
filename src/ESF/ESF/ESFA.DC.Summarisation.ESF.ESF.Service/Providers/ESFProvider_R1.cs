@@ -17,8 +17,6 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
         private readonly Func<IESF_DataStoreEntities> _esf;
         private Func<IESF_DataStoreEntities> esf;
 
-        public string SummarisationType => SummarisationTypeConstants.ESF_SuppData;
-
         public string CollectionType => CollectionTypeConstants.ESF;
 
         public ESFProvider_R1(Func<IESF_DataStoreEntities> esf)
