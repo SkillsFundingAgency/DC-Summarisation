@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Config\Interfaces\IServiceBusConfig.cs" />
     <Compile Include="Config\ServiceBusConfig.cs" />
+    <Compile Include="Config\SummarisationDataOptions.cs" />
     <Compile Include="Context\JobContextMessageSummarisationContext.cs" />
     <Compile Include="JobContextMessageHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

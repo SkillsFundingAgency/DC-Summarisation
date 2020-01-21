@@ -7,13 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.Summarisation.Data.output.Model;
+using ESFA.DC.Summarisation.Apps.Interfaces;
 
 namespace ESFA.DC.Summarisation.Apps.Service
 {
     public class SummarisationPaymentsProcess : ISummarisationService
     {
-        public string ProcessType => ProcessTypeConstants.Payments;
-
         public ICollection<SummarisedActual> Summarise(
             ICollection<FundingStream> fundingStreams,
             ILearningProvider provider,

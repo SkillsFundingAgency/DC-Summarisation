@@ -91,6 +91,10 @@
       <Project>{79FBA70B-AB9E-4B43-B850-9CF41340B638}</Project>
       <Name>ESFA.DC.Summarisation.Service</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Stateless\ESFA.DC.Summarisation.Stateless.csproj">
+      <Project>{8DEA5200-6C7A-412B-A9F7-A3C521CB800A}</Project>
+      <Name>ESFA.DC.Summarisation.Stateless</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ESF\ESF\ESFA.DC.Summarisation.ESF.ESF.Service\ESFA.DC.Summarisation.ESF.ESF.Service.csproj">
       <Project>{f616e12a-443b-43ba-9485-8d23369b045a}</Project>
       <Name>ESFA.DC.Summarisation.ESF.ESF.Service</Name>

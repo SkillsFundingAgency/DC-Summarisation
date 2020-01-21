@@ -12,7 +12,6 @@ using ESFA.DC.Queueing;
 using ESFA.DC.ServiceFabric.Helpers;
 using ESFA.DC.Summarisation.Stateless.Config;
 using ESFA.DC.Summarisation.Stateless.Config.Interfaces;
-using ESFA.DC.JobContext.Interface;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Queueing.Interface;
@@ -89,7 +88,9 @@ namespace ESFA.DC.Summarisation.Stateless
             containerBuilder.RegisterModule<SerializationModule>();
             containerBuilder.RegisterType<JobContextMessageHandler>().As<IMessageHandler<JobContextMessage>>();
 
-            containerBuilder.RegisterModule<SummarisationModule>();
+            var summarisationDataOptions = serviceFabricConfigurationService.GetConfigSectionAs<SummarisationDataOptions>("ReferenceDataSection");
+
+            containerBuilder.RegisterModule(new SummarisationModule(summarisationDataOptions));
 
             return containerBuilder;
         }

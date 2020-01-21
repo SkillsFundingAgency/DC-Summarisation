@@ -2,35 +2,32 @@
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
-using ESFA.DC.Summarisation.Data.Persist;
-using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.Summarisation.Configuration.Interface;
 using ESFA.DC.Summarisation.Data.Input.Interface;
-using ESFA.DC.Summarisation.Service.EqualityComparer;
 using SummarisedActual = ESFA.DC.Summarisation.Data.output.Model.SummarisedActual;
 using ESFA.DC.Summarisation.Constants;
+using ESFA.DC.Summarisation.Apps.Interfaces;
 
-namespace ESFA.DC.Summarisation.Service
+namespace ESFA.DC.Summarisation.Apps.Service
 {
     public class ProviderSummarisationService : IProviderSummarisationService<ILearningProvider>
     {
-        private readonly IEnumerable<ISummarisationService> _summarisationServices;
+        private readonly ISummarisationService _summarisationService;
         private readonly ILogger _logger;
         private readonly IProviderContractsService _providerContractsService;
         private readonly IProviderFundingDataRemovedService _providerFundingDataRemovedService;        
 
         public ProviderSummarisationService(
-            IEnumerable<ISummarisationService> summarisationServices,
+            ISummarisationService summarisationService,
             ILogger logger,
             IProviderContractsService providerContractsService,
             IProviderFundingDataRemovedService providerFundingDataRemovedService)
         {
-            _summarisationServices = summarisationServices;
+            _summarisationService = summarisationService;
             _logger = logger;
             _providerContractsService = providerContractsService;
             _providerFundingDataRemovedService = providerFundingDataRemovedService;
@@ -40,8 +37,6 @@ namespace ESFA.DC.Summarisation.Service
         {
             var providerActuals = new List<SummarisedActual>();
 
-            var summarisationService = _summarisationServices.FirstOrDefault(x => x.ProcessType.Equals(summarisationMessage.ProcessType, StringComparison.OrdinalIgnoreCase));
-            
             foreach (var summarisationType in summarisationMessage.SummarisationTypes)
             {
                 if (!summarisationType.Equals(ConstantKeys.ReRunSummarisation, StringComparison.OrdinalIgnoreCase))
@@ -55,13 +50,7 @@ namespace ESFA.DC.Summarisation.Service
 
                     var providerfundingstreamsContracts = await _providerContractsService.GetProviderContracts(providerData.UKPRN, fundingStreams, contractAllocations, cancellationToken);
                     
-                    if (summarisationService == null)
-                    {
-                        _logger.LogInfo($"Summarisation Wrapper: Summarising UKPRN: {providerData.UKPRN} End; Summarisation service found null for Process Type: {summarisationMessage.ProcessType} ");
-                        continue;
-                    }
-
-                    var summarisedData = summarisationService.Summarise(providerfundingstreamsContracts.FundingStreams, providerData, providerfundingstreamsContracts.FcsContractAllocations, collectionPeriods, summarisationMessage);
+                    var summarisedData = _summarisationService.Summarise(providerfundingstreamsContracts.FundingStreams, providerData, providerfundingstreamsContracts.FcsContractAllocations, collectionPeriods, summarisationMessage);
 
                     providerActuals.AddRange(summarisedData);
 

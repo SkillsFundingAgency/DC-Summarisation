@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Interfaces\ESFA.DC.Summarisation.Interfaces.csproj" />
+    <ProjectReference Include="..\ESFA.DC.Summarisation.ESF.Interfaces\ESFA.DC.Summarisation.ESF.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

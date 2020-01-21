@@ -22,16 +22,16 @@ namespace ESFA.DC.Summarisation.Data.Persist
 
         private readonly ICollectionReturnMapper _collectionReturnMapper;
         private readonly ISummarisedActualsPersist _summarisedActualsPersist;
-        private readonly Func<SqlConnection> _sqlConnectionFactory;
+        private readonly ISummarisationDataOptions _summarisationDataOptions;
 
         public DataStorePersistenceService(
             ISummarisedActualsPersist summarisedActualsPersist,
             ICollectionReturnMapper collectionReturnMapper,
-            Func<SqlConnection> sqlConnectionFactory)
+            ISummarisationDataOptions summarisationDataOptions)
         {
             _summarisedActualsPersist = summarisedActualsPersist;
-            _sqlConnectionFactory = sqlConnectionFactory;
             _collectionReturnMapper = collectionReturnMapper;
+            _summarisationDataOptions = summarisationDataOptions;
         }
 
         public async Task StoreSummarisedActualsDataAsync(
@@ -39,7 +39,7 @@ namespace ESFA.DC.Summarisation.Data.Persist
             ISummarisationMessage summarisationMessage,
             CancellationToken cancellationToken)
         {
-            using (var sqlConnection = this._sqlConnectionFactory.Invoke())
+            using (var sqlConnection = new SqlConnection(_summarisationDataOptions.SummarisedActualsConnectionString))
             {
                 await sqlConnection.OpenAsync(cancellationToken);
 

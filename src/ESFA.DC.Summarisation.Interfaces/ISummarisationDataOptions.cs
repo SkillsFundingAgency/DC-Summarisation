@@ -1,4 +1,4 @@
-﻿namespace ESFA.DC.Summarisation.Configuration.Interface
+﻿namespace ESFA.DC.Summarisation.Interfaces
 {
     public interface ISummarisationDataOptions
     {

@@ -41,6 +41,7 @@ using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Persist.BulkInsert.Interface;
 using ESFA.DC.Summarisation.ESF.ESF.Service.Providers;
+using ESFA.DC.Summarisation.Stateless.Config;
 
 namespace ESFA.DC.Summarisation.Console
 {
@@ -67,6 +68,8 @@ namespace ESFA.DC.Summarisation.Console
             string dasConnectionString = @"Server=(local);Database=DASPayments;Trusted_Connection=True;";
 
             string esfFundingDataConnectionString = @"Server=(local);Database=ESFFundingData;Trusted_Connection=True;";
+
+            var summarisationDataOptions = new SummarisationDataOptions() { SummarisedActualsConnectionString = summarisedActualsConnectionString };
 
             DbContextOptions<FcsContext> fcsdbContextOptions = new DbContextOptionsBuilder<FcsContext>().UseSqlServer(fcsConnectionString).Options;
             DbContextOptions<ILR1819_DataStoreEntities> ilr1819dbContextOptions = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>().UseSqlServer(ilr1819ConnectionString).Options;
@@ -118,20 +121,13 @@ namespace ESFA.DC.Summarisation.Console
 
             IInputDataRepository<ILearningProvider> repository = new ProviderRepository(summarisationInputDataProviders);
 
-            List<ISummarisationService> summarisationServices = new List<ISummarisationService>()
-            {
-                //new SummarisationFundlineProcess(),
-                //new SummarisationDeliverableProcess(),
-                //new SummarisationPaymentsProcess(),
-            };
-
             IBulkInsert bulkInsert = new BulkInsert();
 
             ISummarisedActualsPersist summarisedActualsPersist = new SummarisedActualsPersist(bulkInsert);
 
             ICollectionReturnMapper collectionReturnMapper = new CollectionReturnMapper();
 
-            IDataStorePersistenceService dataStorePersistenceService = new DataStorePersistenceService(summarisedActualsPersist, collectionReturnMapper, () => new SqlConnection(summarisedActualsConnectionString));
+            IDataStorePersistenceService dataStorePersistenceService = new DataStorePersistenceService(summarisedActualsPersist, collectionReturnMapper, summarisationDataOptions);
 
             ILogger logger = new LoggerStub();
 
