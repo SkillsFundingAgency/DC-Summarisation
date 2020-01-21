@@ -6,8 +6,6 @@ namespace ESFA.DC.Summarisation.Interfaces
 {
     public interface ISummarisationInputDataProvider<T>
     {
-        string SummarisationType { get; }
-
         string CollectionType { get; }
 
         Task<T> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken);

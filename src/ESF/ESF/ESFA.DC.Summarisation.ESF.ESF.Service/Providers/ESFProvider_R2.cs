@@ -16,8 +16,6 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
     {
         private readonly Func<IESFR2Context> _esf;
 
-        public string SummarisationType => SummarisationTypeConstants.ESF_SuppData;
-
         public string CollectionType => CollectionTypeConstants.ESF;
 
         public ESFProvider_R2(Func<IESFR2Context> esf)

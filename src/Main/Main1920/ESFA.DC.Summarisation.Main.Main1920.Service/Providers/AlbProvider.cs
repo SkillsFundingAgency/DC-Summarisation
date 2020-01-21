@@ -16,8 +16,6 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Providers
     {
         private readonly Func<IIlr1920RulebaseContext> _ilr;
 
-        public string SummarisationType => SummarisationTypeConstants.Main1920_ALB;
-
         public string CollectionType => CollectionTypeConstants.ILR1920;
 
         public AlbProvider(Func<IIlr1920RulebaseContext> ilr)

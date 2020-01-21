@@ -16,8 +16,6 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
     {
         private readonly Func<IDASPaymentsContext> _dasContext;
 
-        public string SummarisationType => SummarisationTypeConstants.Apps1920_NonLevy;
-
         public string CollectionType => CollectionTypeConstants.APPS;
 
         public NonLevyProvider(Func<IDASPaymentsContext> dasContext)
