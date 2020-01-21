@@ -3,10 +3,9 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.Summarisation.Data.output.Model;
-using ESFA.DC.Summarisation.Data.Persist.BulkInsert.Interface;
 using ESFA.DC.Summarisation.Data.Persist.Constants;
 using ESFA.DC.Summarisation.Data.Persist.Persist.Interface;
-using ESFA.DC.Summarisation.Data.Repository.Interface;
+using ESFA.DC.Summarisation.Interfaces;
 
 namespace ESFA.DC.Summarisation.Data.Persist.Persist
 {

@@ -14,7 +14,7 @@ namespace ESFA.DC.Summarisation.Main.Modules
             containerBuilder.RegisterType<SummarisationProcess>().As<ISummarisationProcess>().Keyed<ISummarisationProcess>(ProcessTypeConstants.Fundline);
             containerBuilder.RegisterType<ProviderSummarisationService>().As<IProviderSummarisationService<ILearningProvider>>();
             containerBuilder.RegisterType<SummarisationFundlineProcess>().As<ISummarisationService>();
-            
+            containerBuilder.RegisterType<ProviderRepository>().As<IInputDataRepository<ILearningProvider>>();
         }
     }
 }

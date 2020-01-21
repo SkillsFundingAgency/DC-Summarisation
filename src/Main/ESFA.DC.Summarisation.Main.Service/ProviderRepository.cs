@@ -1,16 +1,14 @@
 ﻿using ESFA.DC.Summarisation.Data.Input.Interface;
 using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Interfaces;
-using System;
+using ESFA.DC.Summarisation.Main.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ESFA.DC.Summarisation.Service
+namespace ESFA.DC.Summarisation.Main.Service
 {
-    //public class ProviderRepository : IProviderRepository<IProvider, int>
     public class ProviderRepository : IInputDataRepository<ILearningProvider>
     {
         private readonly IList<ISummarisationInputDataProvider<ILearningProvider>> _providers;

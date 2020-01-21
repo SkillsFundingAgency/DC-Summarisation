@@ -15,12 +15,8 @@ using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.ServiceFabric.Helpers;
 using ESFA.DC.Summarisation.Configuration;
-using ESFA.DC.Summarisation.Data.Persist;
-using ESFA.DC.Summarisation.Data.Persist.BulkInsert;
 using ESFA.DC.Summarisation.Data.Persist.Mapper;
 using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
-using ESFA.DC.Summarisation.Data.Persist.Persist;
-using ESFA.DC.Summarisation.Data.Persist.Persist.Interface;
 using ESFA.DC.Summarisation.Data.Repository;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
@@ -40,7 +36,6 @@ using ESFA.DC.ESF.FundingData.Database.EF;
 using System.Linq;
 using ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers;
 using ESFA.DC.Summarisation.Data.Input.Interface;
-using ESFA.DC.Summarisation.Data.Persist.BulkInsert.Interface;
 using ESFA.DC.Summarisation.ESF.ESF.Service.Providers;
 using ESFA.DC.Summarisation.Main.Modules;
 using ESFA.DC.Summarisation.ESF.Modules;
@@ -69,8 +64,6 @@ namespace ESFA.DC.Summarisation.Modules
 
             LoadNewModules(containerBuilder);
 
-            containerBuilder.RegisterType<ProviderRepository>().As<IInputDataRepository<ILearningProvider>>();
-
             containerBuilder.RegisterType<JsonSerializationService>().As<IJsonSerializationService>();
 
             containerBuilder.RegisterType<CollectionReturnMapper>().As<ICollectionReturnMapper>();
@@ -93,6 +86,8 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterModule<ESFModule>();
 
             containerBuilder.RegisterModule<AppsModule>();
+
+            containerBuilder.RegisterModule<PersistenceModule>();
         }
 
         private void LoadNewModules(ContainerBuilder containerBuilder)
@@ -268,12 +263,7 @@ namespace ESFA.DC.Summarisation.Modules
 
         private void LoadSummarisedActualsModules(ContainerBuilder containerBuilder)
         {
-            containerBuilder.RegisterType<BulkInsert>().As<IBulkInsert>();
-            containerBuilder.RegisterType<SummarisedActualsPersist>().As<ISummarisedActualsPersist>();
-
             containerBuilder.RegisterType<SummarisedActualsProcessRepository>().As<IExistingSummarisedActualsRepository>();
-
-            containerBuilder.RegisterType<DataStorePersistenceService>().As<IDataStorePersistenceService>();
 
             containerBuilder.RegisterType<SummarisationContext>().As<ISummarisationContext>().ExternallyOwned();
 
