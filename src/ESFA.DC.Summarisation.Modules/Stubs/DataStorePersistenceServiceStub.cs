@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Model;
-using SummarisedActual = ESFA.DC.Summarisation.Data.output.Model.SummarisedActual;
 
 namespace ESFA.DC.Summarisation.Modules.Stubs
 {
@@ -14,7 +13,7 @@ namespace ESFA.DC.Summarisation.Modules.Stubs
             return Task.FromResult(new CollectionReturn());
         }
 
-        public Task StoreSummarisedActualsDataAsync(IList<SummarisedActual> summarisedActuals, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public Task StoreSummarisedActualsDataAsync(IList<Service.Model.SummarisedActual> summarisedActuals, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }

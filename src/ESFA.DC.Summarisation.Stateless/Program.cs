@@ -9,7 +9,6 @@ using ESFA.DC.Summarisation.Modules;
 using ESFA.DC.ServiceFabric.Common.Config;
 using ESFA.DC.ServiceFabric.Common.Modules;
 using ESFA.DC.Queueing;
-using ESFA.DC.ServiceFabric.Helpers;
 using ESFA.DC.Summarisation.Stateless.Config;
 using ESFA.DC.Summarisation.Stateless.Config.Interfaces;
 using ESFA.DC.Serialization.Interfaces;
@@ -57,14 +56,13 @@ namespace ESFA.DC.Summarisation.Stateless
         private static ContainerBuilder BuildContainerBuilder()
         {
             var containerBuilder = new ContainerBuilder();
-            var configHelper = new ConfigurationHelper();
 
             var serviceFabricConfigurationService = new ServiceFabricConfigurationService();
 
             var statelessServiceConfiguration = serviceFabricConfigurationService.GetConfigSectionAsStatelessServiceConfiguration();
 
             // get ServiceBus, Azurestorage config values and register container
-            var serviceBusOptions = configHelper.GetSectionValues<ServiceBusConfig>("StatelessServiceConfiguration");
+            var serviceBusOptions = serviceFabricConfigurationService.GetConfigSectionAs<ServiceBusConfig>("StatelessServiceConfiguration");
             containerBuilder.RegisterInstance(serviceBusOptions).As<IServiceBusConfig>().SingleInstance();
 
             var topicSubscribeConfig = new TopicConfiguration(

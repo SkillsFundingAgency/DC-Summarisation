@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using ESFA.DC.Serialization.Interfaces;
-using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Constants;
+using ESFA.DC.Summarisation.Service.Model.Config;
 using ESFA.DC.Summarisation.Service.Providers;
 
 namespace ESFA.DC.Summarisation.Main1920.Service.Providers

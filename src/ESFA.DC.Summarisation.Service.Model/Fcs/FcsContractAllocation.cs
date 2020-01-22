@@ -1,8 +1,6 @@
-﻿using ESFA.DC.Summarisation.Data.External.FCS.Interface;
-
-namespace ESFA.DC.Summarisation.Data.External.FCS.Model
+﻿namespace ESFA.DC.Summarisation.Service.Model.Fcs
 {
-    public class FcsContractAllocation : IFcsContractAllocation
+    public class FcsContractAllocation
     {
         public int Id { get; set; }
 

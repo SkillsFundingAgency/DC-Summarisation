@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ESFA.DC.Summarisation.Data.output.Model;
+using ESFA.DC.Summarisation.Service.Model;
 
 namespace ESFA.DC.Summarisation.Service.EqualityComparer
 {

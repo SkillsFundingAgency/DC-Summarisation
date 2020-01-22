@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.Summarisation.Service.EqualityComparer;
-using SummarisedActual = ESFA.DC.Summarisation.Data.output.Model.SummarisedActual;
+using ESFA.DC.Summarisation.Service.Model;
 
 namespace ESFA.DC.Summarisation.Service
 {

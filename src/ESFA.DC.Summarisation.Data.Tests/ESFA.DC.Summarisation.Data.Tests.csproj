@@ -58,13 +58,13 @@
     <None Include="ESFA.DC.Summarisation.Data.Tests.ruleset" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ESFA.DC.Summarisation.Configuration\ESFA.DC.Summarisation.Configuration.csproj">
-      <Project>{6b10f154-0c66-49c8-befb-646a8c8909da}</Project>
-      <Name>ESFA.DC.Summarisation.Configuration</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.Summarisation.Data\ESFA.DC.Summarisation.Data.csproj">
       <Project>{6ac3b17b-49a6-4ece-8962-c45f67384054}</Project>
       <Name>ESFA.DC.Summarisation.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Service.Model\ESFA.DC.Summarisation.Service.Model.csproj">
+      <Project>{C1CB3ABE-1DA4-45A1-AD7A-01802F5A6AB2}</Project>
+      <Name>ESFA.DC.Summarisation.Service.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
