@@ -20,12 +20,14 @@ namespace ESFA.DC.Summarisation.Data.Repository
             _fcs = fcs;
         }
 
-        public async Task<ICollection<FcsContractAllocation>> RetrieveAsync(CancellationToken cancellationToken)
+        public async Task<ICollection<FcsContractAllocation>> RetrieveAsync(IEnumerable<string> fundingStreamPeriodCodes,  CancellationToken cancellationToken)
         {
+            var fspCodes = fundingStreamPeriodCodes.ToList();
+
             using (var fcsContext = _fcs())
             {
                 var contractAllocations = await fcsContext.ContractAllocations
-                    .Where(w => FundingStreamConstants.FundingStreams.Contains(w.FundingStreamPeriodCode))
+                    .Where(w => fspCodes.Contains(w.FundingStreamPeriodCode))
                     .Select(ca => new
                     {
                         ca.ContractAllocationNumber,

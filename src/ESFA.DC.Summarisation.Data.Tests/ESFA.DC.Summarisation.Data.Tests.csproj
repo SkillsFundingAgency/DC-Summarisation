@@ -58,6 +58,10 @@
     <None Include="ESFA.DC.Summarisation.Data.Tests.ruleset" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Constants\ESFA.DC.Summarisation.Constants.csproj">
+      <Project>{799CCC9B-2AB7-46C5-8902-43DF0920FB87}</Project>
+      <Name>ESFA.DC.Summarisation.Constants</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.Summarisation.Data\ESFA.DC.Summarisation.Data.csproj">
       <Project>{6ac3b17b-49a6-4ece-8962-c45f67384054}</Project>
       <Name>ESFA.DC.Summarisation.Data</Name>

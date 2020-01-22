@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ReferenceData.FCS.Model;
 using ESFA.DC.ReferenceData.FCS.Model.Interface;
+using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Data.Repository;
 using FluentAssertions;
 using MockQueryable.Moq;
@@ -76,7 +77,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
 
             var service = new FcsRepository(() => fcsMock.Object);
 
-            var fcsa = await service.RetrieveAsync(CancellationToken.None);
+            var fcsa = await service.RetrieveAsync(FundingStreamConstants.FundingStreams, CancellationToken.None);
 
             fcsa.Count(a => a.FundingStreamPeriodCode.Equals("APPS1819", System.StringComparison.OrdinalIgnoreCase)).Should().Be(2);
             fcsa.Count(a => a.FundingStreamPeriodCode.Equals("APPS1920", System.StringComparison.OrdinalIgnoreCase)).Should().Be(2);
