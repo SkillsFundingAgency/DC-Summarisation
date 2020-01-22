@@ -1,5 +1,5 @@
-﻿using ESFA.DC.Summarisation.Data.Input.Model;
-using ESFA.DC.Summarisation.ESF.Interfaces;
+﻿using ESFA.DC.Summarisation.ESF.Interfaces;
+using ESFA.DC.Summarisation.ESF.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using System.Collections.Generic;
 using System.Linq;

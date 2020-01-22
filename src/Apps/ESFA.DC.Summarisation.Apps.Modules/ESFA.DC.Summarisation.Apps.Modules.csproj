@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Apps1920\ESFA.DC.Summarisation.Apps.Apps1920.Modules\ESFA.DC.Summarisation.Apps.Apps1920.Modules.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.Apps.Service\ESFA.DC.Summarisation.Apps.Service.csproj" />
   </ItemGroup>
 

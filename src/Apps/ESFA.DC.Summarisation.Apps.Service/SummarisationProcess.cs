@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using SummarisedActual = ESFA.DC.Summarisation.Data.output.Model.SummarisedActual;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Apps.Interfaces;
-using ESFA.DC.Summarisation.Data.Input.Model;
+using ESFA.DC.Summarisation.Apps.Model;
 
 namespace ESFA.DC.Summarisation.Apps.Service
 {

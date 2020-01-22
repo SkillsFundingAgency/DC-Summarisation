@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ESFA.DC.Summarisation.Data.Input.Model
+namespace ESFA.DC.Summarisation.ESF.Model
 {
     public class LearningProvider
     {

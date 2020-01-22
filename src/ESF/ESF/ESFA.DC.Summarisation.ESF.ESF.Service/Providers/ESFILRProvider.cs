@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 using ESFA.DC.ESF.FundingData.Database.EF.Interfaces;
 using ESFA.DC.ESF.FundingData.Database.EF.Query;
 using ESFA.DC.Summarisation.Constants;
-using ESFA.DC.Summarisation.Data.Input.Model;
+using ESFA.DC.Summarisation.ESF.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using LearningDelivery = ESFA.DC.Summarisation.Data.Input.Model.LearningDelivery;
 
 namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
 {

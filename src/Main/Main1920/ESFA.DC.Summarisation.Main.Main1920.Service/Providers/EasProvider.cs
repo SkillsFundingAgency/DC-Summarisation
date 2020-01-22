@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using ESFA.DC.EAS1920.EF.Interface;
 using ESFA.DC.Summarisation.Constants;
+using ESFA.DC.Summarisation.Main.Model;
 
 namespace ESFA.DC.Summarisation.Main1920.Service.Providers
 {

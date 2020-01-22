@@ -8,4 +8,9 @@
     <PackageReference Include="Autofac" Version="4.9.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ESFA.DC.Summarisation.Interfaces\ESFA.DC.Summarisation.Interfaces.csproj" />
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Apps.Apps1920.Service\ESFA.DC.Summarisation.Apps.Apps1920.Service.csproj" />
+  </ItemGroup>
+
 </Project>

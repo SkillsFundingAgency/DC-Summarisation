@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using SummarisedActual = ESFA.DC.Summarisation.Data.output.Model.SummarisedActual;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.ESF.Interfaces;
-using ESFA.DC.Summarisation.Data.Input.Model;
+using ESFA.DC.Summarisation.ESF.Model;
 
 namespace ESFA.DC.Summarisation.ESF.Service
 {

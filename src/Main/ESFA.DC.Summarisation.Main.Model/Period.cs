@@ -1,4 +1,4 @@
-﻿namespace ESFA.DC.Summarisation.Data.Input.Model
+﻿namespace ESFA.DC.Summarisation.Main.Model
 {
     public class Period
     {

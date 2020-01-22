@@ -28,12 +28,14 @@ namespace ESFA.DC.Summarisation.Service
                         if (!allocations.Any(
                             w => w.ContractAllocationNumber.Equals(allocation.ContractAllocationNumber, StringComparison.OrdinalIgnoreCase)
                                 && w.FundingStreamPeriodCode.Equals(fs.PeriodCode, StringComparison.OrdinalIgnoreCase)))
+                        {
                             allocations.Add(allocation);
+                        }
                     }
                 }
             }
-            
-            return  new ProviderFundingStreamsAllocations() { FcsContractAllocations =  allocations, FundingStreams = providerFundingStreams };
+
+            return new ProviderFundingStreamsAllocations() { FcsContractAllocations = allocations, FundingStreams = providerFundingStreams };
         }
     }
 }

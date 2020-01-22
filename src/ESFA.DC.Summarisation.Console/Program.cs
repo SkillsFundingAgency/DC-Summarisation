@@ -23,13 +23,10 @@ using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Model;
 using ESFA.DC.Summarisation.Service;
 using Microsoft.EntityFrameworkCore;
-using Main1920Providers = ESFA.DC.Summarisation.Main1920.Service.Providers;
 using Main1920FundingTypesProvider = ESFA.DC.Summarisation.Main1920.Service.Providers;
 using Main1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Main1920.Service.Providers;
 using ESFA.DC.ESF.FundingData.Database.EF;
 using ESFA.DC.Summarisation.Apps.Apps1920.Service;
-using ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers;
-using ESFA.DC.Summarisation.ESF.ESF.Service.Providers;
 using ESFA.DC.Summarisation.Stateless.Config;
 
 namespace ESFA.DC.Summarisation.Console
@@ -94,6 +91,7 @@ namespace ESFA.DC.Summarisation.Console
                 new CollectionPeriodsProvider(jsonSerializationService),
             };
 
+            /*
             var summarisationInputDataProviders = new List<ISummarisationInputDataProvider<Data.Input.Model.LearningProvider>>
             {
                 new ESFProvider_R1(() => new ESF_DataStoreEntities(esfdbContextOptions)),
@@ -107,7 +105,7 @@ namespace ESFA.DC.Summarisation.Console
                 new NonLevyProvider(() => new DASPaymentsContext(dasdbContextOptions)),
                 new EasProvider(() => new DASPaymentsContext(dasdbContextOptions), new CollectionPeriodsProvider(jsonSerializationService)),
             };
-
+            */
             //IInputDataRepository<LearningProvider> repository = new ProviderRepository(summarisationInputDataProviders);
 
             IBulkInsert bulkInsert = new BulkInsert();

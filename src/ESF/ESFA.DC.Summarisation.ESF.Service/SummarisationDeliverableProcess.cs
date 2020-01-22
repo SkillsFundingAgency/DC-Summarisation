@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.Summarisation.Data.output.Model;
 using ESFA.DC.Summarisation.ESF.Interfaces;
-using ESFA.DC.Summarisation.Data.Input.Model;
+using ESFA.DC.Summarisation.ESF.Model;
 
 namespace ESFA.DC.Summarisation.ESF.Service
 {

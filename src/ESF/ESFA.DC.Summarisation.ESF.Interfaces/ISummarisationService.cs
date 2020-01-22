@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
-using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Data.output.Model;
+using ESFA.DC.Summarisation.ESF.Model;
 using ESFA.DC.Summarisation.Interfaces;
 
 namespace ESFA.DC.Summarisation.ESF.Interfaces

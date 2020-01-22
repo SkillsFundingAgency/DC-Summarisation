@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ESFA.DC.Summarisation.ESF.Service\ESFA.DC.Summarisation.ESF.Service.csproj" />
+    <ProjectReference Include="..\ESF\ESFA.DC.Summarisation.ESF.ESF.Modules\ESFA.DC.Summarisation.ESF.ESF.Modules.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using ESFA.DC.Summarisation.Data.Input.Model;
+﻿using ESFA.DC.Summarisation.ESF.Model;
+using System.Collections.Generic;
 
 namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
 {
