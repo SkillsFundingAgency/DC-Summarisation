@@ -66,7 +66,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
                                     CalendarYear = p.CalendarYear,
                                     Value = p.Value,
                                     Volume = p.Volume
-                                } as Period).ToList()
+                                }).ToList()
                             }).ToList()
                         }).ToList();
 
