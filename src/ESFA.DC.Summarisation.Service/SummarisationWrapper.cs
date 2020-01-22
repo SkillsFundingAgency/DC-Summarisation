@@ -1,11 +1,11 @@
 ﻿using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Summarisation.Interfaces;
+using ESFA.DC.Summarisation.Service.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using SummarisedActual = ESFA.DC.Summarisation.Data.output.Model.SummarisedActual;
 
 namespace ESFA.DC.Summarisation.Service
 {

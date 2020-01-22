@@ -5,9 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.DASPayments.EF.Interfaces;
 using ESFA.DC.Summarisation.Apps.Model;
-using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Interfaces;
+using ESFA.DC.Summarisation.Service.Model.Config;
 using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers

@@ -30,9 +30,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ESFA.DC.Summarisation.Configuration\ESFA.DC.Summarisation.Configuration.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.Constants\ESFA.DC.Summarisation.Constants.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.Model\ESFA.DC.Summarisation.Model.csproj" />
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Service.Model\ESFA.DC.Summarisation.Service.Model.csproj" />
   </ItemGroup>
 
 </Project>

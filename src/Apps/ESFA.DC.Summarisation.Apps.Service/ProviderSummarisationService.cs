@@ -1,16 +1,16 @@
 ﻿using System;
 using ESFA.DC.Logging.Interfaces;
-using ESFA.DC.Summarisation.Configuration;
-using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using SummarisedActual = ESFA.DC.Summarisation.Data.output.Model.SummarisedActual;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Apps.Interfaces;
 using ESFA.DC.Summarisation.Apps.Model;
+using ESFA.DC.Summarisation.Service.Model;
+using ESFA.DC.Summarisation.Service.Model.Fcs;
+using ESFA.DC.Summarisation.Service.Model.Config;
 
 namespace ESFA.DC.Summarisation.Apps.Service
 {
@@ -33,7 +33,7 @@ namespace ESFA.DC.Summarisation.Apps.Service
             _providerFundingDataRemovedService = providerFundingDataRemovedService;
         }
 
-        public async Task<ICollection<SummarisedActual>> Summarise(LearningProvider providerData, ICollection<CollectionPeriod> collectionPeriods, ICollection<FundingType> fundingTypes,  IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> contractAllocations, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<ICollection<SummarisedActual>> Summarise(LearningProvider providerData, ICollection<CollectionPeriod> collectionPeriods, ICollection<FundingType> fundingTypes,  ICollection<FcsContractAllocation> contractAllocations, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             var providerActuals = new List<SummarisedActual>();
 

@@ -69,10 +69,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ESFA.DC.Summarisation.Configuration\ESFA.DC.Summarisation.Configuration.csproj">
-      <Project>{6b10f154-0c66-49c8-befb-646a8c8909da}</Project>
-      <Name>ESFA.DC.Summarisation.Configuration</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.Summarisation.Constants\ESFA.DC.Summarisation.Constants.csproj">
       <Project>{799CCC9B-2AB7-46C5-8902-43DF0920FB87}</Project>
       <Name>ESFA.DC.Summarisation.Constants</Name>
@@ -88,6 +84,10 @@
     <ProjectReference Include="..\ESFA.DC.Summarisation.Modules\ESFA.DC.Summarisation.Modules.csproj">
       <Project>{E90DB834-3D93-4976-9B2B-38E0455AF3FC}</Project>
       <Name>ESFA.DC.Summarisation.Modules</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Service.Model\ESFA.DC.Summarisation.Service.Model.csproj">
+      <Project>{c1cb3abe-1da4-45a1-ad7a-01802f5a6ab2}</Project>
+      <Name>ESFA.DC.Summarisation.Service.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

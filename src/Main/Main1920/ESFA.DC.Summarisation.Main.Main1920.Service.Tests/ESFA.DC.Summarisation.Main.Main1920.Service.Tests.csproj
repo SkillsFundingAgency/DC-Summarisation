@@ -211,10 +211,6 @@
     <Analyzer Include="..\..\..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ESFA.DC.Summarisation.Configuration\ESFA.DC.Summarisation.Configuration.csproj">
-      <Project>{6B10F154-0C66-49C8-BEFB-646A8C8909DA}</Project>
-      <Name>ESFA.DC.Summarisation.Configuration</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\ESFA.DC.Summarisation.Constants\ESFA.DC.Summarisation.Constants.csproj">
       <Project>{799ccc9b-2ab7-46c5-8902-43df0920fb87}</Project>
       <Name>ESFA.DC.Summarisation.Constants</Name>
@@ -234,6 +230,10 @@
     <ProjectReference Include="..\..\..\ESFA.DC.Summarisation.Model\ESFA.DC.Summarisation.Model.csproj">
       <Project>{b0ff12a8-3050-453e-b2c2-76e197977f8a}</Project>
       <Name>ESFA.DC.Summarisation.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ESFA.DC.Summarisation.Service.Model\ESFA.DC.Summarisation.Service.Model.csproj">
+      <Project>{c1cb3abe-1da4-45a1-ad7a-01802f5a6ab2}</Project>
+      <Name>ESFA.DC.Summarisation.Service.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\ESFA.DC.Summarisation.Service\ESFA.DC.Summarisation.Service.csproj">
       <Project>{79fba70b-ab9e-4b43-b850-9cf41340b638}</Project>

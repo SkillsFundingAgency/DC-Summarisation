@@ -8,7 +8,6 @@ using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
 using ESFA.DC.Summarisation.Data.Persist.Persist.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Model;
-using SummarisedActual = ESFA.DC.Summarisation.Data.output.Model.SummarisedActual;
 
 namespace ESFA.DC.Summarisation.Data.Persist
 {
@@ -34,7 +33,7 @@ namespace ESFA.DC.Summarisation.Data.Persist
         }
 
         public async Task StoreSummarisedActualsDataAsync(
-            IList<SummarisedActual> summarisedActuals,
+            IList<Service.Model.SummarisedActual> summarisedActuals,
             ISummarisationMessage summarisationMessage,
             CancellationToken cancellationToken)
         {

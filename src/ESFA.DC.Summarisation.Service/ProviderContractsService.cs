@@ -1,7 +1,7 @@
-﻿using ESFA.DC.Summarisation.Configuration;
-using ESFA.DC.Summarisation.Data.External.FCS.Interface;
-using ESFA.DC.Summarisation.Interfaces;
+﻿using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Service.Model;
+using ESFA.DC.Summarisation.Service.Model.Config;
+using ESFA.DC.Summarisation.Service.Model.Fcs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,18 +12,25 @@ namespace ESFA.DC.Summarisation.Service
 {
     public class ProviderContractsService : IProviderContractsService
     {
-        public async Task<IProviderFundingStreamsAllocations> GetProviderContracts(int UKPRN, ICollection<FundingStream> fundingStreams, IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> contractAllocations, CancellationToken cancellationToken)
+        public async Task<ProviderFundingStreamsAllocations> GetProviderContracts(int UKPRN, ICollection<FundingStream> fundingStreams, ICollection<FcsContractAllocation> contractAllocations, CancellationToken cancellationToken)
         {
             var providerFundingStreams = new List<FundingStream>();
-            var allocations = new List<IFcsContractAllocation>();
+            var allocations = new List<FcsContractAllocation>();
+
+            var contractAllocationsDictionary = contractAllocations
+                .GroupBy(ca => ca.FundingStreamPeriodCode)
+                .ToDictionary(
+                    gca => gca.Key,
+                    gca => gca.ToList(),
+                    StringComparer.OrdinalIgnoreCase);
 
             foreach (var fs in fundingStreams)
             {
-                if (contractAllocations.ContainsKey(fs.PeriodCode) && contractAllocations[fs.PeriodCode].Any(x => x.DeliveryUkprn == UKPRN))
+                if (contractAllocationsDictionary.ContainsKey(fs.PeriodCode) && contractAllocationsDictionary[fs.PeriodCode].Any(x => x.DeliveryUkprn == UKPRN))
                 {
                     providerFundingStreams.Add(fs);
 
-                    foreach (var allocation in contractAllocations[fs.PeriodCode].Where(x => x.DeliveryUkprn == UKPRN))
+                    foreach (var allocation in contractAllocationsDictionary[fs.PeriodCode].Where(x => x.DeliveryUkprn == UKPRN))
                     {
                         if (!allocations.Any(
                             w => w.ContractAllocationNumber.Equals(allocation.ContractAllocationNumber, StringComparison.OrdinalIgnoreCase)

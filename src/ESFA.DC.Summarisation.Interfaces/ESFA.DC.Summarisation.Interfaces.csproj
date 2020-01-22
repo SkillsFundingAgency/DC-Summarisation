@@ -25,8 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ESFA.DC.Summarisation.Configuration\ESFA.DC.Summarisation.Configuration.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.Data\ESFA.DC.Summarisation.Data.csproj" />
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Service.Model\ESFA.DC.Summarisation.Service.Model.csproj" />
   </ItemGroup>
 
 </Project>

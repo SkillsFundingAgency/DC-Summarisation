@@ -1,5 +1,6 @@
-﻿using ESFA.DC.Summarisation.Configuration;
-using ESFA.DC.Summarisation.Data.External.FCS.Interface;
+﻿using ESFA.DC.Summarisation.Service.Model;
+using ESFA.DC.Summarisation.Service.Model.Config;
+using ESFA.DC.Summarisation.Service.Model.Fcs;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,6 +9,6 @@ namespace ESFA.DC.Summarisation.Interfaces
 {
     public interface IProviderContractsService
     {
-        Task<IProviderFundingStreamsAllocations> GetProviderContracts(int UKPRN, ICollection<FundingStream> fundingStreams, IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> contractAllocations, CancellationToken cancellationToken);        
+        Task<ProviderFundingStreamsAllocations> GetProviderContracts(int UKPRN, ICollection<FundingStream> fundingStreams, ICollection<FcsContractAllocation> contractAllocations, CancellationToken cancellationToken);
     }
 }

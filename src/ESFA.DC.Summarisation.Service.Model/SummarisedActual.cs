@@ -1,4 +1,4 @@
-﻿namespace ESFA.DC.Summarisation.Data.output.Model
+﻿namespace ESFA.DC.Summarisation.Service.Model
 {
     public class SummarisedActual
     {

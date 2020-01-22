@@ -78,10 +78,10 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
 
             var fcsa = await service.RetrieveAsync(CancellationToken.None);
 
-            fcsa["APPS1819"].Count.Should().Be(2);
-            fcsa["APPS1920"].Count.Should().Be(2);
-            fcsa["ESF1420"].Count.Should().Be(1);
-            fcsa["LEVY1799"].Count.Should().Be(1);
+            fcsa.Count(a => a.FundingStreamPeriodCode.Equals("APPS1819", System.StringComparison.OrdinalIgnoreCase)).Should().Be(2);
+            fcsa.Count(a => a.FundingStreamPeriodCode.Equals("APPS1920", System.StringComparison.OrdinalIgnoreCase)).Should().Be(2);
+            fcsa.Count(a => a.FundingStreamPeriodCode.Equals("ESF1420", System.StringComparison.OrdinalIgnoreCase)).Should().Be(1);
+            fcsa.Count(a => a.FundingStreamPeriodCode.Equals("LEVY1799", System.StringComparison.OrdinalIgnoreCase)).Should().Be(1);
         }
     }
 }

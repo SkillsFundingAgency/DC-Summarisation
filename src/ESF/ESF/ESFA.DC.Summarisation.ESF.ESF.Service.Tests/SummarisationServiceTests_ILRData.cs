@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.Serialization.Json;
-using ESFA.DC.Summarisation.Configuration;
-using ESFA.DC.Summarisation.Data.External.FCS.Interface;
-using ESFA.DC.Summarisation.Data.External.FCS.Model;
 using ESFA.DC.Summarisation.ESF.Model;
 using ESFA.DC.Summarisation.ESF.Service;
 using ESFA.DC.Summarisation.Interfaces;
+using ESFA.DC.Summarisation.Service.Model.Config;
+using ESFA.DC.Summarisation.Service.Model.Fcs;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -205,7 +204,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
             int ukprn = GetProviders().First();
 
-            ICollection<IFcsContractAllocation> fcsContractAllocations = new List<IFcsContractAllocation>();
+            ICollection<FcsContractAllocation> fcsContractAllocations = new List<FcsContractAllocation>();
 
             for (int i = 1; i <= contracts; i++)
             {
@@ -258,7 +257,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
             foreach (var ukprn in GetProviders())
             {
-                ICollection<IFcsContractAllocation> fcsContractAllocations = new List<IFcsContractAllocation>();
+                ICollection<FcsContractAllocation> fcsContractAllocations = new List<FcsContractAllocation>();
 
                 for (int i = 1; i <= contracts; i++)
                 {

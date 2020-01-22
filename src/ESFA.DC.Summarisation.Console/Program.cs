@@ -9,7 +9,6 @@ using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.ReferenceData.FCS.Model;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
-using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Console.Stubs;
 using ESFA.DC.Summarisation.Data.Persist;
 using ESFA.DC.Summarisation.Data.Persist.BulkInsert;
@@ -28,6 +27,7 @@ using Main1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Main1920.Service
 using ESFA.DC.ESF.FundingData.Database.EF;
 using ESFA.DC.Summarisation.Apps.Apps1920.Service;
 using ESFA.DC.Summarisation.Stateless.Config;
+using ESFA.DC.Summarisation.Service.Model.Config;
 
 namespace ESFA.DC.Summarisation.Console
 {

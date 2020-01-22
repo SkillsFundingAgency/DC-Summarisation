@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using ESFA.DC.Logging.Interfaces;
-using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using SummarisedActual = ESFA.DC.Summarisation.Data.output.Model.SummarisedActual;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.ESF.Interfaces;
 using ESFA.DC.Summarisation.ESF.Model;
+using ESFA.DC.Summarisation.Service.Model.Config;
+using ESFA.DC.Summarisation.Service.Model;
 
 namespace ESFA.DC.Summarisation.ESF.Service
 {

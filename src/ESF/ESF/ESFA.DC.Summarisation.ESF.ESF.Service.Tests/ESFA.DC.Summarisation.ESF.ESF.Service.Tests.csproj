@@ -207,10 +207,6 @@
     <Compile Include="SummarisationServiceTests_ILRData.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ESFA.DC.Summarisation.Configuration\ESFA.DC.Summarisation.Configuration.csproj">
-      <Project>{6B10F154-0C66-49C8-BEFB-646A8C8909DA}</Project>
-      <Name>ESFA.DC.Summarisation.Configuration</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\ESFA.DC.Summarisation.Constants\ESFA.DC.Summarisation.Constants.csproj">
       <Project>{799ccc9b-2ab7-46c5-8902-43df0920fb87}</Project>
       <Name>ESFA.DC.Summarisation.Constants</Name>
@@ -230,6 +226,10 @@
     <ProjectReference Include="..\..\..\ESFA.DC.Summarisation.Model\ESFA.DC.Summarisation.Model.csproj">
       <Project>{B0FF12A8-3050-453E-B2C2-76E197977F8A}</Project>
       <Name>ESFA.DC.Summarisation.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ESFA.DC.Summarisation.Service.Model\ESFA.DC.Summarisation.Service.Model.csproj">
+      <Project>{C1CB3ABE-1DA4-45A1-AD7A-01802F5A6AB2}</Project>
+      <Name>ESFA.DC.Summarisation.Service.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\ESFA.DC.Summarisation.Service\ESFA.DC.Summarisation.Service.csproj">
       <Project>{79FBA70B-AB9E-4B43-B850-9CF41340B638}</Project>

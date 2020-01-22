@@ -4,10 +4,9 @@ using System.Linq;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.Apps.Model;
 using ESFA.DC.Summarisation.Apps.Service;
-using ESFA.DC.Summarisation.Configuration;
-using ESFA.DC.Summarisation.Data.External.FCS.Interface;
-using ESFA.DC.Summarisation.Data.External.FCS.Model;
 using ESFA.DC.Summarisation.Interfaces;
+using ESFA.DC.Summarisation.Service.Model.Config;
+using ESFA.DC.Summarisation.Service.Model.Fcs;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -557,9 +556,9 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
             return fundLines;
         }
 
-        private IList<IFcsContractAllocation> GetContractAllocation()
+        private IList<FcsContractAllocation> GetContractAllocation()
         {
-            var fcsContractAllocations = new List<IFcsContractAllocation>();
+            var fcsContractAllocations = new List<FcsContractAllocation>();
             var fundingStreams = GetFundingTypes().SelectMany(ft => ft.FundingStreams);
 
             foreach (var item in fundingStreams)

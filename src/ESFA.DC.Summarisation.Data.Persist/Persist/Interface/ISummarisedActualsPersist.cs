@@ -2,7 +2,7 @@
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.Summarisation.Data.output.Model;
+using ESFA.DC.Summarisation.Service.Model;
 
 namespace ESFA.DC.Summarisation.Data.Persist.Persist.Interface
 {
