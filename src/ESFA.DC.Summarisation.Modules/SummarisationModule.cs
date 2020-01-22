@@ -5,7 +5,6 @@ using ESFA.DC.ReferenceData.FCS.Model;
 using ESFA.DC.ReferenceData.FCS.Model.Interface;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
-using ESFA.DC.ServiceFabric.Helpers;
 using ESFA.DC.Summarisation.Data.Persist.Mapper;
 using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
 using ESFA.DC.Summarisation.Data.Repository;
@@ -32,8 +31,6 @@ namespace ESFA.DC.Summarisation.Modules
 
         protected override void Load(ContainerBuilder containerBuilder)
         {
-            var configHelper = new ConfigurationHelper();
-
             containerBuilder.RegisterInstance(_summarisationDataOptions).As<ISummarisationDataOptions>().SingleInstance();
 
             containerBuilder.RegisterType<SummarisationWrapper>().As<ISummarisationWrapper>();

@@ -106,9 +106,6 @@
     <PackageReference Include="ESFA.DC.ServiceFabric.Common">
       <Version>0.1.0-beta0001</Version>
     </PackageReference>
-    <PackageReference Include="ESFA.DC.ServiceFabric.Helpers">
-      <Version>0.1.3-beta0001</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.ServiceFabric.Diagnostics.Internal">
       <Version>3.4.641</Version>
     </PackageReference>
