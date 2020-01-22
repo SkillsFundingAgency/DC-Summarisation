@@ -1,7 +1,6 @@
 ﻿using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Summarisation.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace ESFA.DC.Summarisation.Service.Providers

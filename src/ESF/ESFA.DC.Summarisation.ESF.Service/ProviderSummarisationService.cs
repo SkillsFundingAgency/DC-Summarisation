@@ -7,14 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.Summarisation.Data.Input.Interface;
 using SummarisedActual = ESFA.DC.Summarisation.Data.output.Model.SummarisedActual;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.ESF.Interfaces;
+using ESFA.DC.Summarisation.ESF.Model;
 
 namespace ESFA.DC.Summarisation.ESF.Service
 {
-    public class ProviderSummarisationService : IProviderSummarisationService<ILearningProvider>
+    public class ProviderSummarisationService : IProviderSummarisationService<LearningProvider>
     {
         private readonly ISummarisationService _summarisationService;
         private readonly ILogger _logger;
@@ -33,7 +33,7 @@ namespace ESFA.DC.Summarisation.ESF.Service
             _providerFundingDataRemovedService = providerFundingDataRemovedService;
         }
 
-        public async Task<ICollection<SummarisedActual>> Summarise(ILearningProvider providerData, ICollection<CollectionPeriod> collectionPeriods, ICollection<FundingType> fundingTypes,  IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> contractAllocations, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<ICollection<SummarisedActual>> Summarise(LearningProvider providerData, ICollection<CollectionPeriod> collectionPeriods, ICollection<FundingType> fundingTypes,  IReadOnlyDictionary<string, IReadOnlyCollection<IFcsContractAllocation>> contractAllocations, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             var providerActuals = new List<SummarisedActual>();            
             

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using ESFA.DC.Summarisation.Data.output.Model;
 
 namespace ESFA.DC.Summarisation.Service.EqualityComparer

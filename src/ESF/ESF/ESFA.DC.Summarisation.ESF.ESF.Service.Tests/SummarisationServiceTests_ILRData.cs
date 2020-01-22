@@ -4,11 +4,9 @@ using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.External.FCS.Model;
-using ESFA.DC.Summarisation.Data.Input.Interface;
-using ESFA.DC.Summarisation.Data.Input.Model;
+using ESFA.DC.Summarisation.ESF.Model;
 using ESFA.DC.Summarisation.ESF.Service;
 using ESFA.DC.Summarisation.Interfaces;
-using ESFA.DC.Summarisation.Service;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -78,7 +76,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
             var allocation = GetContractAllocation(ukprn);
             
-            var periods = new List<IPeriod>()
+            var periods = new List<Period>()
             {
                 new Period()
                 {
@@ -366,9 +364,10 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             return periodisedDatas;
         }
 
-        private List<IPeriod> GetPeriodsData(int lotSize)
+        private List<Period> GetPeriodsData(int lotSize)
         {
-            List<IPeriod> periods = new List<IPeriod>();
+            var periods = new List<Period>();
+
             for (int i = 1; i <= lotSize; i++)
             {
                 foreach (var collectionPeriod in GetCollectionPeriods())

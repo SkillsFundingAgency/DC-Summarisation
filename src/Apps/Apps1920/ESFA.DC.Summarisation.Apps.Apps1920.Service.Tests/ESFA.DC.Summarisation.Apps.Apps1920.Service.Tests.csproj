@@ -120,6 +120,10 @@
       <Project>{79fba70b-ab9e-4b43-b850-9cf41340b638}</Project>
       <Name>ESFA.DC.Summarisation.Service</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ESFA.DC.Summarisation.Apps.Model\ESFA.DC.Summarisation.Apps.Model.csproj">
+      <Project>{94969EEF-9359-4E2A-946E-A10A39A21FD3}</Project>
+      <Name>ESFA.DC.Summarisation.Apps.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Apps.Service\ESFA.DC.Summarisation.Apps.Service.csproj">
       <Project>{C689298D-2732-42F2-A881-76F14D18B67A}</Project>
       <Name>ESFA.DC.Summarisation.Apps.Service</Name>

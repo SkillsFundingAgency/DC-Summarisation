@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using ESFA.DC.Summarisation.Data.Input.Interface;
-using ESFA.DC.Summarisation.Data.Input.Model;
+﻿using ESFA.DC.Summarisation.Apps.Model;
+using System.Collections.Generic;
 
 namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
 {
     public abstract class AbstractLearningProviderProvider
     {
-        protected ILearningProvider BuildLearningProvider(int ukprn, IList<LearningDelivery> learningDeliveries)
+        protected LearningProvider BuildLearningProvider(int ukprn, IList<LearningDelivery> learningDeliveries)
         {
             return new LearningProvider()
             {

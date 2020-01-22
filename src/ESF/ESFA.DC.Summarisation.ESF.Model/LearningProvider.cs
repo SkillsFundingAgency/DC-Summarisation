@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using ESFA.DC.Summarisation.Data.Input.Interface;
 
-namespace ESFA.DC.Summarisation.Data.Input.Model
+namespace ESFA.DC.Summarisation.ESF.Model
 {
-    public class LearningProvider : ILearningProvider
+    public class LearningProvider
     {
         public int UKPRN { get; set; }
 

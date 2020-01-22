@@ -4,8 +4,7 @@ using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
 using ESFA.DC.Summarisation.Data.External.FCS.Model;
-using ESFA.DC.Summarisation.Data.Input.Interface;
-using ESFA.DC.Summarisation.Data.Input.Model;
+using ESFA.DC.Summarisation.ESF.Model;
 using ESFA.DC.Summarisation.ESF.Service;
 using ESFA.DC.Summarisation.Interfaces;
 using FluentAssertions;
@@ -303,9 +302,9 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             return periodisedDatas;
         }
 
-        private List<IPeriod> GetPeriodsData(int lotSize)
+        private List<Period> GetPeriodsData(int lotSize)
         {
-            var periods = new List<IPeriod>();
+            var periods = new List<Period>();
             for (int i = 1; i <= lotSize; i++)
             {
                 foreach (var collectionPeriod in GetCollectionPeriods())

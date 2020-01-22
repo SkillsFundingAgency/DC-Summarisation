@@ -2,17 +2,16 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using ESFA.DC.EAS1920.EF.Interface;
 using ESFA.DC.Summarisation.Constants;
-using ESFA.DC.Summarisation.Data.Input.Interface;
+using ESFA.DC.Summarisation.Main.Model;
 
 namespace ESFA.DC.Summarisation.Main1920.Service.Providers
 {
-    public class EasProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider<ILearningProvider>
+    public class EasProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider<LearningProvider>
     {
         private readonly Func<IEasdbContext> _easContext;
 
@@ -23,7 +22,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Providers
             _easContext = easContext;
         }
 
-        public async Task<ILearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<LearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             using (var easContext = _easContext())
             {
@@ -53,7 +52,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Providers
                                                                 {
                                                                     PeriodId = x.CollectionPeriod,
                                                                     Value = y.PaymentValue
-                                                                } as IPeriod).ToList()
+                                                                }).ToList()
 
                             }).ToList()
 

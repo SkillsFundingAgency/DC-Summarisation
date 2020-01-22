@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.ILR1920.DataStore.EF;
 using ESFA.DC.ILR1920.DataStore.EF.Interface;
 using ESFA.DC.Summarisation.Constants;
-using ESFA.DC.Summarisation.Data.Input.Interface;
-using ESFA.DC.Summarisation.Data.Input.Model;
 using ESFA.DC.Summarisation.Interfaces;
+using ESFA.DC.Summarisation.Main.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Main1920.Service.Providers
 {
-    public class Fm35Provider : AbstractLearningProviderProvider, ISummarisationInputDataProvider<ILearningProvider>
+    public class Fm35Provider : AbstractLearningProviderProvider, ISummarisationInputDataProvider<LearningProvider>
     {
         private readonly Func<IIlr1920RulebaseContext> _ilr;
 
@@ -24,7 +22,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Providers
             _ilr = ilr;
         }
 
-        public async Task<ILearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<LearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             using (var ilrContext = _ilr())
             {
@@ -44,7 +42,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Providers
                             .Select(pv => new PeriodisedData
                             {
                                 AttributeName = pv.AttributeName,
-                                Periods = new List<IPeriod>
+                                Periods = new List<Period>
                                 {
                                     new Period
                                     {

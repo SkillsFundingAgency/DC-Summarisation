@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.Summarisation.Configuration;
-using ESFA.DC.Summarisation.Data.Persist;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Model;
-using ESFA.DC.Summarisation.Model.Interface;
 using SummarisedActual = ESFA.DC.Summarisation.Data.output.Model.SummarisedActual;
 
 namespace ESFA.DC.Summarisation.Modules.Stubs

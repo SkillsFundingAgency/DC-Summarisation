@@ -5,14 +5,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ESF.R2.Database.EF.Interfaces;
 using ESFA.DC.Summarisation.Constants;
-using ESFA.DC.Summarisation.Data.Input.Interface;
-using ESFA.DC.Summarisation.Data.Input.Model;
+using ESFA.DC.Summarisation.ESF.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
 {
-    public class ESFProvider_R2 : AbstractLearningProviderProvider, ISummarisationInputDataProvider<ILearningProvider>
+    public class ESFProvider_R2 : AbstractLearningProviderProvider, ISummarisationInputDataProvider<LearningProvider>
     {
         private readonly Func<IESFR2Context> _esf;
 
@@ -23,7 +22,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
             _esf = esf;
         }
 
-        public async Task<ILearningProvider> ProvideAsync(int ukprn, CancellationToken cancellationToken)
+        public async Task<LearningProvider> ProvideAsync(int ukprn, CancellationToken cancellationToken)
         {
             using (var esfr2Context = _esf())
             {
@@ -67,7 +66,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
                                     CalendarYear = p.CalendarYear,
                                     Value = p.Value,
                                     Volume = p.Volume
-                                } as IPeriod).ToList()
+                                }).ToList()
                             }).ToList()
                         }).ToList();
 
@@ -85,7 +84,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
             }
         }
 
-        public Task<ILearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken) => ProvideAsync(ukprn, cancellationToken);
+        public Task<LearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken) => ProvideAsync(ukprn, cancellationToken);
 
     }
 }

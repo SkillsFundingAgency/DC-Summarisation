@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ESFA.DC.Summarisation.Constants
+﻿namespace ESFA.DC.Summarisation.Constants
 {
     public static class ProcessTypeConstants
     {

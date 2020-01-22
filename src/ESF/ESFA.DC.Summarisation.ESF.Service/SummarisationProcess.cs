@@ -8,10 +8,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.Summarisation.Data.Input.Interface;
 using SummarisedActual = ESFA.DC.Summarisation.Data.output.Model.SummarisedActual;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.ESF.Interfaces;
+using ESFA.DC.Summarisation.ESF.Model;
 
 namespace ESFA.DC.Summarisation.ESF.Service
 {
@@ -23,19 +23,19 @@ namespace ESFA.DC.Summarisation.ESF.Service
         private readonly IEnumerable<ISummarisationConfigProvider<CollectionPeriod>> _collectionPeriodsProviders;
         private readonly IEnumerable<ISummarisationConfigProvider<FundingType>> _fundingTypesProviders;
         private readonly ILogger _logger;
-        private readonly Func<IInputDataRepository<ILearningProvider>> _repositoryFactory;
+        private readonly Func<IInputDataRepository<LearningProvider>> _repositoryFactory;
         private readonly int _dataRetrievalMaxConcurrentCalls;
 
-        private readonly IProviderSummarisationService<ILearningProvider> _providerSummarisationService;
+        private readonly IProviderSummarisationService<LearningProvider> _providerSummarisationService;
 
         public SummarisationProcess(
             IFcsRepository fcsRepository,
             IEnumerable<ISummarisationConfigProvider<CollectionPeriod>> collectionPeriodsProviders,
             IEnumerable<ISummarisationConfigProvider<FundingType>> fundingTypesProviders,
-            Func<IInputDataRepository<ILearningProvider>> repositoryFactory,
+            Func<IInputDataRepository<LearningProvider>> repositoryFactory,
             ISummarisationDataOptions dataOptions,
             ILogger logger,
-            IProviderSummarisationService<ILearningProvider> providerSummarisationService)
+            IProviderSummarisationService<LearningProvider> providerSummarisationService)
         {
             _fcsRepository = fcsRepository;
             _collectionPeriodsProviders = collectionPeriodsProviders;
@@ -111,13 +111,13 @@ namespace ESFA.DC.Summarisation.ESF.Service
             return summarisedActuals;
         }
 
-        private async Task<IDictionary<int, ILearningProvider>> RetrieveProvidersData(IList<int> providerIdentifiers, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        private async Task<IDictionary<int, LearningProvider>> RetrieveProvidersData(IList<int> providerIdentifiers, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             var identifiers = new ConcurrentQueue<int>(providerIdentifiers);
 
             var tasks = Enumerable.Range(1, _dataRetrievalMaxConcurrentCalls).Select(async _ =>
             {
-                var dictionary = new Dictionary<int, ILearningProvider>();
+                var dictionary = new Dictionary<int, LearningProvider>();
 
                 int totalCount = providerIdentifiers.Count;
 
@@ -138,7 +138,7 @@ namespace ESFA.DC.Summarisation.ESF.Service
             return tasks.SelectMany(t => t.Result).ToDictionary(p => p.Key, p => p.Value);
         }
 
-        private async Task<ILearningProvider> RetrieveProviderData(int identifier, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        private async Task<LearningProvider> RetrieveProviderData(int identifier, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             var repo = _repositoryFactory();
 

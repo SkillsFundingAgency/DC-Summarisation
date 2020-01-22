@@ -6,15 +6,13 @@ using System.Threading.Tasks;
 using ESFA.DC.ESF.FundingData.Database.EF.Interfaces;
 using ESFA.DC.ESF.FundingData.Database.EF.Query;
 using ESFA.DC.Summarisation.Constants;
-using ESFA.DC.Summarisation.Data.Input.Interface;
-using ESFA.DC.Summarisation.Data.Input.Model;
+using ESFA.DC.Summarisation.ESF.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using LearningDelivery = ESFA.DC.Summarisation.Data.Input.Model.LearningDelivery;
 
 namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
 {
-    public class ESFILRProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider<ILearningProvider>
+    public class ESFILRProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider<LearningProvider>
     {
         private readonly Func<IESFFundingDataContext> _fundingDataContext;
 
@@ -25,7 +23,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
             _fundingDataContext = fundingDataContext;
         }
 
-        public async Task<ILearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<LearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             int previousCollectionYear = summarisationMessage.CollectionYear - 101;
             int previousCollectionMonth = 0;
@@ -127,7 +125,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
                                     {
                                         AttributeName = ld.AttributeName,
                                         DeliverableCode = ld.DeliverableCode,
-                                        Periods = new List<IPeriod>
+                                        Periods = new List<Period>
                                         {
                                             BuildPeriodFromLearningDelivery(1, CollectionYear, CalendarYearStart, 8, ld.AttributeName, ld.Period_1),
 

@@ -1,13 +1,10 @@
-﻿using ESFA.DC.Logging.Interfaces;
-using ESFA.DC.Summarisation.Configuration;
+﻿using ESFA.DC.Summarisation.Configuration;
 using ESFA.DC.Summarisation.Data.External.FCS.Interface;
-using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Service.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,12 +28,14 @@ namespace ESFA.DC.Summarisation.Service
                         if (!allocations.Any(
                             w => w.ContractAllocationNumber.Equals(allocation.ContractAllocationNumber, StringComparison.OrdinalIgnoreCase)
                                 && w.FundingStreamPeriodCode.Equals(fs.PeriodCode, StringComparison.OrdinalIgnoreCase)))
+                        {
                             allocations.Add(allocation);
+                        }
                     }
                 }
             }
-            
-            return  new ProviderFundingStreamsAllocations() { FcsContractAllocations =  allocations, FundingStreams = providerFundingStreams };
+
+            return new ProviderFundingStreamsAllocations() { FcsContractAllocations = allocations, FundingStreams = providerFundingStreams };
         }
     }
 }
