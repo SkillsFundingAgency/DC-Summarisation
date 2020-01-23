@@ -28,11 +28,11 @@ namespace ESFA.DC.Summarisation.Main.Main1920.Modules
             containerBuilder.RegisterType<FundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();
             containerBuilder.RegisterType<CollectionPeriodsProvider>().As<ISummarisationConfigProvider<CollectionPeriod>>();
 
-            containerBuilder.RegisterType<Fm35Provider>().As<ISummarisationInputDataProvider<LearningProvider>>();
-            containerBuilder.RegisterType<EasProvider>().As<ISummarisationInputDataProvider<LearningProvider>>();
-            containerBuilder.RegisterType<Fm25Provider>().As<ISummarisationInputDataProvider<LearningProvider>>();
-            containerBuilder.RegisterType<AlbProvider>().As<ISummarisationInputDataProvider<LearningProvider>>();
-            containerBuilder.RegisterType<TblProvider>().As<ISummarisationInputDataProvider<LearningProvider>>();
+            containerBuilder.RegisterType<Fm35Provider>().As<ISummarisationInputDataProvider>();
+            containerBuilder.RegisterType<EasProvider>().As<ISummarisationInputDataProvider>();
+            containerBuilder.RegisterType<Fm25Provider>().As<ISummarisationInputDataProvider>();
+            containerBuilder.RegisterType<AlbProvider>().As<ISummarisationInputDataProvider>();
+            containerBuilder.RegisterType<TblProvider>().As<ISummarisationInputDataProvider>();
 
             var ILRDataStoreEntitiesConfig = BuildDbContextOptions<ILR1920_DataStoreEntities>(_summarisationDataOptions.ILR1920ConnectionString, _summarisationDataOptions.SqlCommandTimeoutSeconds);
 

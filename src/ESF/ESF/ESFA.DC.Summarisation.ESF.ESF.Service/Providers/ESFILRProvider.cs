@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
 {
-    public class ESFILRProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider<LearningProvider>
+    public class ESFILRProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider
     {
         private readonly Func<IESFFundingDataContext> _fundingDataContext;
 
@@ -24,7 +24,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
             _fundingDataContext = fundingDataContext;
         }
 
-        public async Task<LearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<ICollection<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             int previousCollectionYear = summarisationMessage.CollectionYear - 101;
             int previousCollectionMonth = 0;
@@ -157,7 +157,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
                             };
                         }).ToList();
 
-                return BuildLearningProvider(ukprn, learningDeliveries);
+                return learningDeliveries;
             }
         }
 

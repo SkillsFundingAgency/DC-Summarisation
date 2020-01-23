@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
 {
-    public class NonLevyProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider<LearningProvider>
+    public class NonLevyProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider
     {
         private readonly Func<IDASPaymentsContext> _dasContext;
 
@@ -31,7 +31,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
             }
         }
 
-        public async Task<LearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<ICollection<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             List<int> CollectionYears = new List<int>
             {
@@ -95,7 +95,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
                                 }).ToList()
                             }).ToList();
 
-                return BuildLearningProvider(ukprn, learningDeliveries);
+                return learningDeliveries;
             }
         }
     }

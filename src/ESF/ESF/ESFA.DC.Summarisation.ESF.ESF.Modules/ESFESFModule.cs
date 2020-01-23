@@ -31,9 +31,9 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Modules
             containerBuilder.RegisterType<FundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();
             containerBuilder.RegisterType<CollectionPeriodsProvider>().As<ISummarisationConfigProvider<CollectionPeriod>>();
 
-            containerBuilder.RegisterType<ESFProvider_R1>().As<ISummarisationInputDataProvider<LearningProvider>>();
-            containerBuilder.RegisterType<ESFProvider_R2>().As<ISummarisationInputDataProvider<LearningProvider>>();
-            containerBuilder.RegisterType<ESFILRProvider>().As<ISummarisationInputDataProvider<LearningProvider>>();
+            containerBuilder.RegisterType<ESFProvider_R1>().As<ISummarisationInputDataProvider>();
+            containerBuilder.RegisterType<ESFProvider_R2>().As<ISummarisationInputDataProvider>();
+            containerBuilder.RegisterType<ESFILRProvider>().As<ISummarisationInputDataProvider>();
             
             var esfDataStoreEntitiesConfig = BuildDbContextOptions<ESF_DataStoreEntities>(_summarisationDataOptions.ESFNonEFConnectionString, _summarisationDataOptions.SqlCommandTimeoutSeconds);
 

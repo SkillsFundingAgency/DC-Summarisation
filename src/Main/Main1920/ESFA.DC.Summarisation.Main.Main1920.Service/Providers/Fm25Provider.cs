@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Main1920.Service.Providers
 {
-    public class Fm25Provider : AbstractLearningProviderProvider, ISummarisationInputDataProvider<LearningProvider>
+    public class Fm25Provider : AbstractLearningProviderProvider, ISummarisationInputDataProvider
     {
         public string CollectionType => CollectionTypeConstants.ILR1920;
 
@@ -23,7 +23,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Providers
             _ilr = ilr;
         }
 
-        public async Task<LearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<ICollection<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             using (var ilrContext = _ilr())
             {
@@ -108,7 +108,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Providers
                             }).ToList()
                     }).ToListAsync(cancellationToken);
 
-                return BuildLearningProvider(ukprn, learningDeliveries);
+                return learningDeliveries;
             }
         }
 

@@ -10,9 +10,9 @@ namespace ESFA.DC.Summarisation.Main.Service
 {
     public class ProviderRepository : IInputDataRepository<LearningProvider>
     {
-        private readonly IList<ISummarisationInputDataProvider<LearningProvider>> _providers;
+        private readonly IList<ISummarisationInputDataProvider> _providers;
 
-        public ProviderRepository(IList<ISummarisationInputDataProvider<LearningProvider>> providers)
+        public ProviderRepository(IList<ISummarisationInputDataProvider> providers)
         {
             _providers = providers;
         }
@@ -26,7 +26,7 @@ namespace ESFA.DC.Summarisation.Main.Service
             return new LearningProvider
             {
                 UKPRN = ukprn,
-                LearningDeliveries = taskResults.SelectMany(x => x.LearningDeliveries).ToList()
+                LearningDeliveries = taskResults.SelectMany(x => x).ToList()
             };
         }
 

@@ -133,8 +133,8 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
 
             var result = await NewProvider(() => ilr1920ContextMock.Object)
                 .ProvideAsync(ukprn, null, CancellationToken.None);
-            result.LearningDeliveries.Count().Should().Be(1);
-            result.LearningDeliveries.Should().NotBeNullOrEmpty();
+            result.Count().Should().Be(1);
+            result.Should().NotBeNullOrEmpty();
         }
 
         [Fact]
@@ -180,8 +180,8 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
 
             var result = await NewProvider(() => ilr1920ContextMock.Object)
                 .ProvideAsync(ukprn,null, CancellationToken.None);
-            result.LearningDeliveries.Count().Should().Be(0);
-            result.LearningDeliveries.Should().BeNullOrEmpty();
+            result.Count().Should().Be(0);
+            result.Should().BeNullOrEmpty();
         }
 
         [Fact]
@@ -200,8 +200,8 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
             var result = await NewProvider(() => ilrContextMock.Object)
                 .ProvideAsync(ukprn, null, CancellationToken.None);
 
-            result.LearningDeliveries.Count().Should().Be(0);
-            result.LearningDeliveries.Should().BeNullOrEmpty();
+            result.Count().Should().Be(0);
+            result.Should().BeNullOrEmpty();
         }
 
         private Fm25Provider NewProvider(Func<IIlr1920RulebaseContext> ilrRulebaseContext = null)

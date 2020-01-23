@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
 {
-    public class ESFProvider_R2 : AbstractLearningProviderProvider, ISummarisationInputDataProvider<LearningProvider>
+    public class ESFProvider_R2 : AbstractLearningProviderProvider, ISummarisationInputDataProvider
     {
         private readonly Func<IESFR2Context> _esf;
 
@@ -23,7 +23,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
             _esf = esf;
         }
 
-        public async Task<LearningProvider> ProvideAsync(int ukprn, CancellationToken cancellationToken)
+        public async Task<ICollection<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
         {
             using (var esfr2Context = _esf())
             {
@@ -71,7 +71,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
                             }).ToList()
                         }).ToList();
 
-                return BuildLearningProvider(ukprn, learningDeliveries);
+                return learningDeliveries;
             }
         }
 
@@ -85,7 +85,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
             }
         }
 
-        public Task<LearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken) => ProvideAsync(ukprn, cancellationToken);
+        public Task<ICollection<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken) => ProvideAsync(ukprn, cancellationToken);
 
     }
 }
