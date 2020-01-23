@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ESFA.DC.Summarisation.Constants\ESFA.DC.Summarisation.Constants.csproj" />
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Interfaces\ESFA.DC.Summarisation.Interfaces.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.Apps.Interfaces\ESFA.DC.Summarisation.Apps.Interfaces.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.Apps.Model\ESFA.DC.Summarisation.Apps.Model.csproj" />

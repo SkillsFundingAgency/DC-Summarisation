@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Main1920.Service.Providers
 {
-    public class Fm25Provider : AbstractLearningProviderProvider, ISummarisationInputDataProvider
+    public class Fm25Provider : ISummarisationInputDataProvider
     {
         public string CollectionType => CollectionTypeConstants.ILR1920;
 

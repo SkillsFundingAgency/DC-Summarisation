@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
 {
-    public class LevyProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider
+    public class LevyProvider : ISummarisationInputDataProvider
     {
         private readonly Func<IDASPaymentsContext> _dasContext;
 

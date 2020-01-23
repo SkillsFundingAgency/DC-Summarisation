@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ReferenceData.FCS.Model.Interface;
-using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Service.Model.Fcs;
 using Microsoft.EntityFrameworkCore;

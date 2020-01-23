@@ -12,7 +12,7 @@ using ESFA.DC.Summarisation.Main.Interfaces;
 
 namespace ESFA.DC.Summarisation.Main1920.Service.Providers
 {
-    public class EasProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider
+    public class EasProvider : ISummarisationInputDataProvider
     {
         private readonly Func<IEasdbContext> _easContext;
 

@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
-using ESFA.DC.Summarisation.Data.Persist.Persist.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Model;
 

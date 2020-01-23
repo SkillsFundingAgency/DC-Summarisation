@@ -24,16 +24,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Apps\Apps1920\ESFA.DC.Summarisation.Apps.Apps1920.Service\ESFA.DC.Summarisation.Apps.Apps1920.Service.csproj" />
     <ProjectReference Include="..\Apps\ESFA.DC.Summarisation.Apps.Modules\ESFA.DC.Summarisation.Apps.Modules.csproj" />
-    <ProjectReference Include="..\Apps\ESFA.DC.Summarisation.Apps.Service\ESFA.DC.Summarisation.Apps.Service.csproj" />
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Data.Persist\ESFA.DC.Summarisation.Data.Persist.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.Service\ESFA.DC.Summarisation.Service.csproj" />
     <ProjectReference Include="..\ESF\ESFA.DC.Summarisation.ESF.Modules\ESFA.DC.Summarisation.ESF.Modules.csproj" />
-    <ProjectReference Include="..\ESF\ESFA.DC.Summarisation.ESF.Service\ESFA.DC.Summarisation.ESF.Service.csproj" />
     <ProjectReference Include="..\ESF\ESF\ESFA.DC.Summarisation.ESF.ESF.Service\ESFA.DC.Summarisation.ESF.ESF.Service.csproj" />
     <ProjectReference Include="..\Main\ESFA.DC.Summarisation.Main.Modules\ESFA.DC.Summarisation.Main.Modules.csproj" />
-    <ProjectReference Include="..\Main\ESFA.DC.Summarisation.Main.Service\ESFA.DC.Summarisation.Main.Service.csproj" />
-    <ProjectReference Include="..\Main\Main1920\ESFA.DC.Summarisation.Main.Main1920.Service\ESFA.DC.Summarisation.Main.Main1920.Service.csproj" />
   </ItemGroup>
 
 </Project>

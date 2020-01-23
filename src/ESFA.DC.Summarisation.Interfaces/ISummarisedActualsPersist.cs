@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.Summarisation.Service.Model;
 
-namespace ESFA.DC.Summarisation.Data.Persist.Persist.Interface
+namespace ESFA.DC.Summarisation.Interfaces
 {
     public interface ISummarisedActualsPersist
     {

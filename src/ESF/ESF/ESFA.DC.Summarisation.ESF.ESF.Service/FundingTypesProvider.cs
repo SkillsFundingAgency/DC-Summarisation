@@ -2,7 +2,6 @@
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Service.Model.Config;
-using ESFA.DC.Summarisation.Service.Providers;
 
 namespace ESFA.DC.Summarisation.ESF.ESF.Service
 {
@@ -13,9 +12,9 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service
         {
         }
 
-        protected override string ReferenceDataFileName { get; } = "ESFA.DC.Summarisation.ESF.ESF.Service.JsonFiles.FundingTypes.json";
+        protected internal override string ReferenceDataFileName { get; } = "ESFA.DC.Summarisation.ESF.ESF.Service.JsonFiles.FundingTypes.json";
 
-        protected override Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
+        protected internal override Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
 
         public override string CollectionType => CollectionTypeConstants.ESF;
     }
