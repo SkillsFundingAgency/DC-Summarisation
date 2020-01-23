@@ -7,6 +7,6 @@ namespace ESFA.DC.Summarisation.Data.Repository.Interface
 {
     public interface IFcsRepository
     {
-        Task<ICollection<FcsContractAllocation>> RetrieveAsync(CancellationToken cancellationToken);
+        Task<ICollection<FcsContractAllocation>> RetrieveAsync(IEnumerable<string> fundingStreamPeriodCodes, CancellationToken cancellationToken);
     }
 }

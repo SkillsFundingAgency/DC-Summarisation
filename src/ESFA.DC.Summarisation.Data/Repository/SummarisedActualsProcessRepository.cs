@@ -1,4 +1,4 @@
-﻿using ESFA.DC.Summarisation.Data.Repository.Interface;
+﻿using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Model;
 using ESFA.DC.Summarisation.Model.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -19,14 +19,14 @@ namespace ESFA.DC.Summarisation.Data.Repository
             _summarisationContext = summarisationContext;
         }
 
-        public async Task<CollectionReturn> GetLastCollectionReturnForCollectionTypeAsync(string collectionType, CancellationToken cancellationToken)
+        public async Task<Service.Model.CollectionReturn> GetLastCollectionReturnForCollectionTypeAsync(string collectionType, CancellationToken cancellationToken)
         {
             using (var contextFactory = _summarisationContext())
             {
                 return await contextFactory.CollectionReturns
                                     .Where(cr => cr.CollectionType == collectionType)
                                     .OrderByDescending(o => o.Id)
-                                    .Select(s => new CollectionReturn { Id = s.Id, CollectionReturnCode = s.CollectionReturnCode, CollectionType = s.CollectionType })
+                                    .Select(s => new Service.Model.CollectionReturn { Id = s.Id, CollectionReturnCode = s.CollectionReturnCode, CollectionType = s.CollectionType })
                                     .FirstOrDefaultAsync(cancellationToken);
             }
         }

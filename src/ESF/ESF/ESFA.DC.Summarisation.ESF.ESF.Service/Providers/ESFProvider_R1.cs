@@ -5,13 +5,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ESF.Database.EF.Interfaces;
 using ESFA.DC.Summarisation.Constants;
+using ESFA.DC.Summarisation.ESF.Interfaces;
 using ESFA.DC.Summarisation.ESF.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
 {
-    public class ESFProvider_R1 : AbstractLearningProviderProvider, ISummarisationInputDataProvider<LearningProvider>
+    public class ESFProvider_R1 : AbstractLearningProviderProvider, ISummarisationInputDataProvider
     {
         private readonly Func<IESF_DataStoreEntities> _esf;
         private Func<IESF_DataStoreEntities> esf;
@@ -23,7 +24,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
             _esf = esf;
         }
 
-        public async Task<LearningProvider> ProvideAsync(int ukprn, CancellationToken cancellationToken)
+        public async Task<ICollection<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
         {
             var ukprnString = ukprn.ToString();
 
@@ -74,7 +75,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
                                     }).ToList()
                                 }).ToList();
 
-                return BuildLearningProvider(ukprn, learningDeliveries);
+                return learningDeliveries;
             }
         }
 
@@ -87,6 +88,6 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
             
         }
 
-        public Task<LearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken) => ProvideAsync(ukprn, cancellationToken);
+        public Task<ICollection<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken) => ProvideAsync(ukprn, cancellationToken);
     }
 }

@@ -90,7 +90,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
                 .Returns(learningDeliveries.Object);
 
             var result = await NewProvider(() => mockILRContext.Object).ProvideAsync(ukprn, null, CancellationToken.None);
-            result.LearningDeliveries.Count().Should().Be(1);
+            result.Count().Should().Be(1);
             //result.LearningDeliveries[0].PeriodisedData.Count().Should().Be(1);
             //result.Should().NotBeNullOrEmpty();
         }
@@ -225,8 +225,8 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
                 .Returns(learningDeliveries.Object);
 
             var result = await NewProvider(() => mockILRContext.Object).ProvideAsync(ukprn, null, CancellationToken.None);
-            result.LearningDeliveries.Count().Should().Be(1);
-            result.LearningDeliveries.Should().NotBeNullOrEmpty();
+            result.Count().Should().Be(1);
+            result.Should().NotBeNullOrEmpty();
         }
 
         [Fact]
@@ -272,8 +272,8 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
                 .Returns(learningDeliveries.Object);
 
             var result = await this.NewProvider(() => mockILRContext.Object).ProvideAsync(ukprn, null, CancellationToken.None);
-            result.LearningDeliveries.Count().Should().Be(0);
-            result.LearningDeliveries.Should().BeNullOrEmpty();
+            result.Count().Should().Be(0);
+            result.Should().BeNullOrEmpty();
         }
 
         [Fact]
@@ -290,7 +290,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
                 .Returns(learningDeliveries.Object);
 
             var result = await this.NewProvider(() => mockILRContext.Object).ProvideAsync(ukprn, null, CancellationToken.None);
-            result.LearningDeliveries.Count().Should().Be(0);
+            result.Count().Should().Be(0);
             //result.Should().BeNullOrEmpty();
         }
     }

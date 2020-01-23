@@ -3,6 +3,7 @@ using ESFA.DC.DASPayments.EF;
 using ESFA.DC.DASPayments.EF.Interfaces;
 using ESFA.DC.Summarisation.Apps.Apps1920.Service;
 using ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers;
+using ESFA.DC.Summarisation.Apps.Interfaces;
 using ESFA.DC.Summarisation.Apps.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Service.Model.Config;
@@ -26,8 +27,8 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Modules
             containerBuilder.RegisterType<FundingTypesProvider>().As<ISummarisationConfigProvider<FundingType>>();
             containerBuilder.RegisterType<CollectionPeriodsProvider>().As<ISummarisationConfigProvider<CollectionPeriod>>();
 
-            containerBuilder.RegisterType<LevyProvider>().As<ISummarisationInputDataProvider<LearningProvider>>();
-            containerBuilder.RegisterType<NonLevyProvider>().As<ISummarisationInputDataProvider<LearningProvider>>();
+            containerBuilder.RegisterType<LevyProvider>().As<ISummarisationInputDataProvider>();
+            containerBuilder.RegisterType<NonLevyProvider>().As<ISummarisationInputDataProvider>();
 
             var AppsDataStoreEntitiesConfig = BuildDbContextOptions<DASPaymentsContext>(_summarisationDataOptions.DASPaymentsConnectionString, _summarisationDataOptions.SqlCommandTimeoutSeconds);
 

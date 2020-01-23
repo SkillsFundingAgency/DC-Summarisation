@@ -15,7 +15,6 @@
   <ItemGroup>
     <Compile Remove="Repository\AlbRepository.cs" />
     <Compile Remove="Repository\Fm35Repository.cs" />
-    <Compile Remove="Repository\Interface\IProviderRepository.cs" />
     <Compile Remove="Repository\SummarisedActualsPersist.cs" />
   </ItemGroup>
 
@@ -31,6 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ESFA.DC.Summarisation.Constants\ESFA.DC.Summarisation.Constants.csproj" />
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Interfaces\ESFA.DC.Summarisation.Interfaces.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.Model\ESFA.DC.Summarisation.Model.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.Service.Model\ESFA.DC.Summarisation.Service.Model.csproj" />
   </ItemGroup>

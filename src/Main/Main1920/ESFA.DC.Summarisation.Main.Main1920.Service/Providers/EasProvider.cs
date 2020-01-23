@@ -8,10 +8,11 @@ using System;
 using ESFA.DC.EAS1920.EF.Interface;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Main.Model;
+using ESFA.DC.Summarisation.Main.Interfaces;
 
 namespace ESFA.DC.Summarisation.Main1920.Service.Providers
 {
-    public class EasProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider<LearningProvider>
+    public class EasProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider
     {
         private readonly Func<IEasdbContext> _easContext;
 
@@ -22,7 +23,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Providers
             _easContext = easContext;
         }
 
-        public async Task<LearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<ICollection<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             using (var easContext = _easContext())
             {
@@ -59,7 +60,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Providers
                         }
                         ).ToListAsync(cancellationToken);
 
-                return BuildLearningProvider(ukprn, learningDeliveries);
+                return learningDeliveries;
             }
         }
 

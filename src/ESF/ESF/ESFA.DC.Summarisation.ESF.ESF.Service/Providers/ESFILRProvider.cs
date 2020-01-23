@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using ESFA.DC.ESF.FundingData.Database.EF.Interfaces;
 using ESFA.DC.ESF.FundingData.Database.EF.Query;
 using ESFA.DC.Summarisation.Constants;
+using ESFA.DC.Summarisation.ESF.Interfaces;
 using ESFA.DC.Summarisation.ESF.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
 {
-    public class ESFILRProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider<LearningProvider>
+    public class ESFILRProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider
     {
         private readonly Func<IESFFundingDataContext> _fundingDataContext;
 
@@ -23,7 +24,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
             _fundingDataContext = fundingDataContext;
         }
 
-        public async Task<LearningProvider> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<ICollection<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             int previousCollectionYear = summarisationMessage.CollectionYear - 101;
             int previousCollectionMonth = 0;
@@ -156,7 +157,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
                             };
                         }).ToList();
 
-                return BuildLearningProvider(ukprn, learningDeliveries);
+                return learningDeliveries;
             }
         }
 
