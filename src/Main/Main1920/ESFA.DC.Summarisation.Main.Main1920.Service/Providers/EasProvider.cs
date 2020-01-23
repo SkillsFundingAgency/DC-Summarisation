@@ -8,6 +8,7 @@ using System;
 using ESFA.DC.EAS1920.EF.Interface;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Main.Model;
+using ESFA.DC.Summarisation.Main.Interfaces;
 
 namespace ESFA.DC.Summarisation.Main1920.Service.Providers
 {

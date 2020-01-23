@@ -7,6 +7,7 @@ using ESFA.DC.ESF.R2.Database.EF;
 using ESFA.DC.ESF.R2.Database.EF.Interfaces;
 using ESFA.DC.Summarisation.ESF.ESF.Service;
 using ESFA.DC.Summarisation.ESF.ESF.Service.Providers;
+using ESFA.DC.Summarisation.ESF.Interfaces;
 using ESFA.DC.Summarisation.ESF.Model;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Service.Model.Config;

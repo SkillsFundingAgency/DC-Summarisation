@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.DASPayments.EF.Interfaces;
+using ESFA.DC.Summarisation.Apps.Interfaces;
 using ESFA.DC.Summarisation.Apps.Model;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Interfaces;

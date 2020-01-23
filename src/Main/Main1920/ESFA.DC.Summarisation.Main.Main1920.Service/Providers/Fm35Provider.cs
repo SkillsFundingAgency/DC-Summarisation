@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ESFA.DC.ILR1920.DataStore.EF.Interface;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Interfaces;
+using ESFA.DC.Summarisation.Main.Interfaces;
 using ESFA.DC.Summarisation.Main.Model;
 using Microsoft.EntityFrameworkCore;
 
