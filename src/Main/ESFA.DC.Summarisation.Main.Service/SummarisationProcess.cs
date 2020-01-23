@@ -77,33 +77,31 @@ namespace ESFA.DC.Summarisation.Main.Service
             }
             else
             {
-                providerIdentifiers = await _repositoryFactory.Invoke().GetAllIdentifiersAsync(summarisationMessage.CollectionType, cancellationToken);
+                providerIdentifiers = await _repositoryFactory().GetAllIdentifiersAsync(summarisationMessage.CollectionType, cancellationToken);
             }
 
             _logger.LogInfo($"Summarisation Wrapper: Providers to be summarised : {providerIdentifiers.Count}");
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving Providers Data Start");
 
-            var providersData = await RetrieveProvidersData(providerIdentifiers.ToList(), summarisationMessage, cancellationToken);
+            var providersData = await RetrieveProvidersData(providerIdentifiers, summarisationMessage, cancellationToken);
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving Providers Data End");
 
             _logger.LogInfo($"Summarisation Wrapper: Summarisation Start");
 
             int runningCount = 1;
-            int totalProviderCount = providerIdentifiers.Count;
+            int totalProviderCount = providersData.Count;
 
-            foreach (var ukprn in providerIdentifiers)
+            foreach (var provider in providersData)
             {
-                _logger.LogInfo($"Summarisation Wrapper: Summarising Data of UKPRN: {ukprn} Start, {runningCount} / {totalProviderCount}");
-
-                var providerData = providersData[ukprn];
-
-                var providerActuals = await _providerSummarisationService.Summarise(providerData, collectionPeriods, fundingTypeConfiguration, fcsContractAllocations, summarisationMessage, cancellationToken);
+                _logger.LogInfo($"Summarisation Wrapper: Summarising Data of UKPRN: {provider.UKPRN} Start, {runningCount} / {totalProviderCount}");
+                
+                var providerActuals = await _providerSummarisationService.Summarise(provider, collectionPeriods, fundingTypeConfiguration, fcsContractAllocations, summarisationMessage, cancellationToken);
 
                 summarisedActuals.AddRange(providerActuals);
 
-                _logger.LogInfo($"Summarisation Wrapper: Summarising Data of UKPRN: {ukprn} End, {runningCount++} / {totalProviderCount}");
+                _logger.LogInfo($"Summarisation Wrapper: Summarising Data of UKPRN: {provider.UKPRN} End, {runningCount++} / {totalProviderCount}");
             }
 
             _logger.LogInfo($"Summarisation Wrapper: Summarisation End");
@@ -111,31 +109,35 @@ namespace ESFA.DC.Summarisation.Main.Service
             return summarisedActuals;
         }
 
-        private async Task<IDictionary<int, LearningProvider>> RetrieveProvidersData(IList<int> providerIdentifiers, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        private async Task<IReadOnlyCollection<LearningProvider>> RetrieveProvidersData(ICollection<int> providerIdentifiers, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             var identifiers = new ConcurrentQueue<int>(providerIdentifiers);
 
+            var concurrentBag = new ConcurrentBag<LearningProvider>();
+
+            var providerIdentifiersList = providerIdentifiers.ToList();
+
             var tasks = Enumerable.Range(1, _dataRetrievalMaxConcurrentCalls).Select(async _ =>
             {
-                var dictionary = new Dictionary<int, LearningProvider>();
-
                 int totalCount = providerIdentifiers.Count;
 
                 while (identifiers.TryDequeue(out int identifier))
                 {
-                    _logger.LogInfo($"Summarisation Wrapper: Retrieving Data for UKPRN: {identifier} Start, {providerIdentifiers.IndexOf(identifier) + 1} / {totalCount}");
+                    var index = providerIdentifiersList.IndexOf(identifier) + 1;
 
-                    dictionary.Add(identifier, await RetrieveProviderData(identifier, summarisationMessage, cancellationToken));
+                    _logger.LogInfo($"Summarisation Wrapper: Retrieving Data for UKPRN: {identifier} Start, {index} / {totalCount}");
 
-                    _logger.LogInfo($"Summarisation Wrapper: Retrieving Data for UKPRN: {identifier} End, {providerIdentifiers.IndexOf(identifier) + 1} / {totalCount}");
+                    var learningProvider = await RetrieveProviderData(identifier, summarisationMessage, cancellationToken);
+
+                    concurrentBag.Add(learningProvider);
+
+                    _logger.LogInfo($"Summarisation Wrapper: Retrieving Data for UKPRN: {identifier} End, {index} / {totalCount}");
                 }
-
-                return dictionary;
             }).ToList();
 
             await Task.WhenAll(tasks);
 
-            return tasks.SelectMany(t => t.Result).ToDictionary(p => p.Key, p => p.Value);
+            return concurrentBag;
         }
 
         private async Task<LearningProvider> RetrieveProviderData(int identifier, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
