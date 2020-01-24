@@ -15,17 +15,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ESFA.DC.Summarisation.Service\ESFA.DC.Summarisation.Service.csproj" />
+    <ProjectReference Include="..\..\..\ESFA.DC.Summarisation.Constants\ESFA.DC.Summarisation.Constants.csproj" />
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Apps.Interfaces\ESFA.DC.Summarisation.Apps.Interfaces.csproj" />
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Apps.Model\ESFA.DC.Summarisation.Apps.Model.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Providers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="ESFA.DC.DASPayments.EF" Version="0.1.83" />
+    <PackageReference Include="ESFA.DC.Serialization.Interfaces" Version="0.1.6-beta0001" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>

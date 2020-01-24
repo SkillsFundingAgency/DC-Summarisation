@@ -3,7 +3,7 @@ using ESFA.DC.Summarisation.Interfaces;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace ESFA.DC.Summarisation.Service.Providers
+namespace ESFA.DC.Summarisation.Apps.Apps1920.Service
 {
     public abstract class AbstractSummarisationConfigProvider<T> : ISummarisationConfigProvider<T>
     {

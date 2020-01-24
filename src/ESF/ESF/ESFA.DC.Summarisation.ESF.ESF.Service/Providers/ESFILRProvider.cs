@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
 {
-    public class ESFILRProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider
+    public class ESFILRProvider : ISummarisationInputDataProvider
     {
         private readonly Func<IESFFundingDataContext> _fundingDataContext;
 

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Main1920.Service.Providers
 {
-    public class AlbProvider : AbstractLearningProviderProvider, ISummarisationInputDataProvider
+    public class AlbProvider : ISummarisationInputDataProvider
     {
         private readonly Func<IIlr1920RulebaseContext> _ilr;
 

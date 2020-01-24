@@ -5,22 +5,14 @@ using ESFA.DC.ESF.Database.EF;
 using ESFA.DC.ESF.R2.Database.EF;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1920.DataStore.EF;
-using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.ReferenceData.FCS.Model;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.Console.Stubs;
-using ESFA.DC.Summarisation.Data.Persist;
-using ESFA.DC.Summarisation.Data.Persist.BulkInsert;
-using ESFA.DC.Summarisation.Data.Persist.Mapper;
-using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
-using ESFA.DC.Summarisation.Data.Persist.Persist;
-using ESFA.DC.Summarisation.Data.Persist.Persist.Interface;
 using ESFA.DC.Summarisation.Data.Repository;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Model;
-using ESFA.DC.Summarisation.Service;
 using Microsoft.EntityFrameworkCore;
 using Main1920FundingTypesProvider = ESFA.DC.Summarisation.Main1920.Service.Providers;
 using Main1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Main1920.Service.Providers;
@@ -77,19 +69,19 @@ namespace ESFA.DC.Summarisation.Console
 
             IJsonSerializationService jsonSerializationService = new JsonSerializationService();
 
-            List<ISummarisationConfigProvider<FundingType>> fundingTypesProviders = new List<ISummarisationConfigProvider<FundingType>>()
-            {
-                new ESF.ESF.Service.FundingTypesProvider(jsonSerializationService),
-                new Main1920FundingTypesProvider.FundingTypesProvider(jsonSerializationService),
-                new FundingTypesProvider(jsonSerializationService),
-            };
+            //List<ISummarisationConfigProvider<FundingType>> fundingTypesProviders = new List<ISummarisationConfigProvider<FundingType>>()
+            //{
+            //    new ESF.ESF.Service.FundingTypesProvider(jsonSerializationService),
+            //    new Main1920FundingTypesProvider.FundingTypesProvider(jsonSerializationService),
+            //    new FundingTypesProvider(jsonSerializationService),
+            //};
 
-            List<ISummarisationConfigProvider<CollectionPeriod>> collectionPeriodsProviders = new List<ISummarisationConfigProvider<CollectionPeriod>>()
-            {
-                new ESF.ESF.Service.CollectionPeriodsProvider(jsonSerializationService),
-                new Main1920CollectionPeriodsProvider.CollectionPeriodsProvider(jsonSerializationService),
-                new CollectionPeriodsProvider(jsonSerializationService),
-            };
+            //List<ISummarisationConfigProvider<CollectionPeriod>> collectionPeriodsProviders = new List<ISummarisationConfigProvider<CollectionPeriod>>()
+            //{
+            //    new ESF.ESF.Service.CollectionPeriodsProvider(jsonSerializationService),
+            //    new Main1920CollectionPeriodsProvider.CollectionPeriodsProvider(jsonSerializationService),
+            //    new CollectionPeriodsProvider(jsonSerializationService),
+            //};
 
             /*
             var summarisationInputDataProviders = new List<ISummarisationInputDataProvider<Data.Input.Model.LearningProvider>>
@@ -108,6 +100,7 @@ namespace ESFA.DC.Summarisation.Console
             */
             //IInputDataRepository<LearningProvider> repository = new ProviderRepository(summarisationInputDataProviders);
 
+            /*
             IBulkInsert bulkInsert = new BulkInsert();
 
             ISummarisedActualsPersist summarisedActualsPersist = new SummarisedActualsPersist(bulkInsert);
@@ -121,6 +114,7 @@ namespace ESFA.DC.Summarisation.Console
             ISummarisationMessage summarisationMessage;
 
             SummarisationWrapper wrapper;
+            */
 
             /* summarisationMessage = new SummarisationContextStub();
 
@@ -167,7 +161,7 @@ namespace ESFA.DC.Summarisation.Console
 
             await wrapper.Summarise(CancellationToken.None);*/
 
-            summarisationMessage = new Apps1920SummarisationContextStub();
+            //summarisationMessage = new Apps1920SummarisationContextStub();
 
             //wrapper = new SummarisationWrapper(
             //    fcsRepository,

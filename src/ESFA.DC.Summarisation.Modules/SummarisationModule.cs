@@ -5,8 +5,6 @@ using ESFA.DC.ReferenceData.FCS.Model;
 using ESFA.DC.ReferenceData.FCS.Model.Interface;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
-using ESFA.DC.Summarisation.Data.Persist.Mapper;
-using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
 using ESFA.DC.Summarisation.Data.Repository;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
@@ -40,8 +38,6 @@ namespace ESFA.DC.Summarisation.Modules
             LoadNewModules(containerBuilder);
 
             containerBuilder.RegisterType<JsonSerializationService>().As<IJsonSerializationService>();
-
-            containerBuilder.RegisterType<CollectionReturnMapper>().As<ICollectionReturnMapper>();
 
             LoadFCSModule(containerBuilder);
 
