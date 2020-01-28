@@ -1,5 +1,5 @@
-﻿using ESFA.DC.Summarisation.Interfaces;
-using ESFA.DC.Summarisation.Service.Model;
+﻿using ESFA.DC.Summarisation.Main.Interfaces;
+using ESFA.DC.Summarisation.Main.Model;
 using ESFA.DC.Summarisation.Service.Model.Config;
 using ESFA.DC.Summarisation.Service.Model.Fcs;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ESFA.DC.Summarisation.Service
+namespace ESFA.DC.Summarisation.Main.Service
 {
     public class ProviderContractsService : IProviderContractsService
     {

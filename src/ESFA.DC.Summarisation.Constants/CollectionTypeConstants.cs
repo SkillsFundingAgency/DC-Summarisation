@@ -7,6 +7,6 @@
         public const string ESF = "ESF";
         public const string Apps1819 = "Apps1819";
         public const string APPS = "APPS";
-        public const string NCS = "NCS";
+        public const string NCS1920 = "NCS1920";
     }
 }

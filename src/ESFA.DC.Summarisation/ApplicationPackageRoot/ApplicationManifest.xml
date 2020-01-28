@@ -25,6 +25,7 @@
     <Parameter Name="ESFR2ConnectionString" DefaultValue="" />
     <Parameter Name="DASPaymentsConnectionString" DefaultValue="" />
     <Parameter Name="ESFFundingDataConnectionString" DefaultValue="" />
+    <Parameter Name="NcsDbConnectionString" DefaultValue="" />
     <Parameter Name="DataRetrievalMaxConcurrentCalls" DefaultValue="" />
     <Parameter Name="SqlCommandTimeoutSeconds" DefaultValue="" />
   </Parameters>
@@ -59,6 +60,7 @@
             <Parameter Name="ESFR2ConnectionString" Value="[ESFR2ConnectionString]" />
             <Parameter Name="DASPaymentsConnectionString" Value="[DASPaymentsConnectionString]" />
             <Parameter Name="ESFFundingDataConnectionString" Value="[ESFFundingDataConnectionString]" />
+            <Parameter Name="NcsDbConnectionString" Value="[NcsDbConnectionString]" />
             <Parameter Name="DataRetrievalMaxConcurrentCalls" Value="[DataRetrievalMaxConcurrentCalls]" />
             <Parameter Name="SqlCommandTimeoutSeconds" Value="[SqlCommandTimeoutSeconds]" />
           </Section>

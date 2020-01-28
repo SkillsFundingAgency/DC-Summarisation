@@ -25,5 +25,7 @@
         string DataRetrievalMaxConcurrentCalls { get; }
 
         string SqlCommandTimeoutSeconds { get; }
+
+        string NcsDbConnectionString { get; }
     }
 }

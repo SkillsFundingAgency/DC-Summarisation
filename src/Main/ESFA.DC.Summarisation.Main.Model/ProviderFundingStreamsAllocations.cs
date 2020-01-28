@@ -2,7 +2,7 @@
 using ESFA.DC.Summarisation.Service.Model.Fcs;
 using System.Collections.Generic;
 
-namespace ESFA.DC.Summarisation.Service.Model
+namespace ESFA.DC.Summarisation.Main.Model
 {
     public class ProviderFundingStreamsAllocations 
     {

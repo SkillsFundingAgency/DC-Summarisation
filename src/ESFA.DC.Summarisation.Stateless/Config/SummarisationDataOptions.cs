@@ -26,6 +26,8 @@ namespace ESFA.DC.Summarisation.Stateless.Config
 
         public string ESFFundingDataConnectionString { get; set; }
 
+        public string NcsDbConnectionString { get; set; }
+
         public string SqlCommandTimeoutSeconds { get; set; }
     }
 }
