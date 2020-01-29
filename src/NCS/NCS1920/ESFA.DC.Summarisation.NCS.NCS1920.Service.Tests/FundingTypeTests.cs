@@ -15,9 +15,9 @@ namespace ESFA.DC.Summarisation.NCS.NCS1920.Service.Tests
         }
 
         [Theory]
-        [InlineData("NCS1920", "NCS-C1920", 2)]
-        [InlineData("NCS1920", "NCS-C1920", 4)]
-        [InlineData("NCS1920", "NCS-C1920", 5)]
+        [InlineData("NCS1920_C", "NCS-C1920", 2)]
+        [InlineData("NCS1920_C", "NCS-C1920", 4)]
+        [InlineData("NCS1920_C", "NCS-C1920", 5)]
         public void FundLineConfiguration(string summarisationType, string fspCode, int dlc)
         {
             FundingTypesProvider fundingTypesProvider = NewProvider();
