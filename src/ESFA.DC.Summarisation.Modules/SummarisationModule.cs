@@ -15,6 +15,8 @@ using ISummarisationContext = ESFA.DC.Summarisation.Model.Interface.ISummarisati
 using ESFA.DC.Summarisation.Main.Modules;
 using ESFA.DC.Summarisation.ESF.Modules;
 using ESFA.DC.Summarisation.Apps.Modules;
+using ESFA.DC.GenericCollection.EF;
+using ESFA.DC.GenericCollection.EF.Interface;
 using ESFA.DC.Summarisation.NCS.Modules;
 
 namespace ESFA.DC.Summarisation.Modules
@@ -42,6 +44,8 @@ namespace ESFA.DC.Summarisation.Modules
 
             LoadFCSModule(containerBuilder);
 
+            LoadGenericCollectionModule(containerBuilder);
+
             LoadSummarisedActualsModules(containerBuilder);
 
         }
@@ -53,6 +57,8 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterModule(new ESFModule(_summarisationDataOptions));
 
             containerBuilder.RegisterModule(new AppsModule(_summarisationDataOptions));
+
+            containerBuilder.RegisterModule(new GenericCollectionModule(_summarisationDataOptions));
 
             containerBuilder.RegisterModule(new NCSModule(_summarisationDataOptions));
 
@@ -84,6 +90,29 @@ namespace ESFA.DC.Summarisation.Modules
                 return optionsBuilder.Options;
             })
             .As<DbContextOptions<FcsContext>>()
+            .SingleInstance();
+        }
+
+        private void LoadGenericCollectionModule(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterType<GenericCollectionRepository>().As<IGenericCollectionRepository>();
+
+            containerBuilder.RegisterType<GenericCollectionContext>().As<IGenericCollectionContext>().ExternallyOwned();
+            containerBuilder.Register(context =>
+            {
+                var summarisationSettings = context.Resolve<ISummarisationDataOptions>();
+                var optionsBuilder = new DbContextOptionsBuilder<GenericCollectionContext>();
+                optionsBuilder.UseSqlServer(
+                    summarisationSettings.GenericCollectionConnectionString,
+                    options =>
+                    {
+                        options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>());
+                        options.CommandTimeout(int.Parse(summarisationSettings.SqlCommandTimeoutSeconds));
+                    });
+
+                return optionsBuilder.Options;
+            })
+            .As<DbContextOptions<GenericCollectionContext>>()
             .SingleInstance();
         }
 
