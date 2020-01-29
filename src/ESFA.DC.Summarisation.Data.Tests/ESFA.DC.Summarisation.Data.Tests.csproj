@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repository\GenericColletionRepositoryTests.cs" />
     <Compile Include="Repository\FcsRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -72,6 +73,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="ESFA.DC.GenericCollection.EF">
+      <Version>0.0.59</Version>
+    </PackageReference>
+    <PackageReference Include="ESFA.DC.ILR1819.Database.EF">
+      <Version>0.1.381</Version>
+    </PackageReference>
     <PackageReference Include="ESFA.DC.ReferenceData.FCS.Model">
       <Version>0.1.218</Version>
     </PackageReference>

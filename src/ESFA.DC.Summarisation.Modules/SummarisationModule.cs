@@ -56,6 +56,8 @@ namespace ESFA.DC.Summarisation.Modules
 
             containerBuilder.RegisterModule(new NCSModule(_summarisationDataOptions));
 
+            containerBuilder.RegisterModule(new GenericCollectionModule(_summarisationDataOptions));
+
             containerBuilder.RegisterModule<PersistenceModule>();
         }
 
