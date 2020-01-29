@@ -64,7 +64,9 @@ namespace ESFA.DC.Summarisation.NCS.Service
             {
                 _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed  Rule UKPRN: {provider.UKPRN} Start");
 
-                var actualsToCarry = await _providerFundingDataRemovedService.FundingDataRemovedAsync(providerActuals, summarisationMessage, cancellationToken);
+                var organisationId = providerActuals.Select(x => x.OrganisationId).FirstOrDefault();
+
+                var actualsToCarry = await _providerFundingDataRemovedService.FundingDataRemovedAsync(organisationId, providerData.Provider.TouchpointId, providerActuals, summarisationMessage, cancellationToken);
 
                 providerActuals.AddRange(actualsToCarry);
 

@@ -1,25 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ESFA.DC.DASPayments.EF;
 using ESFA.DC.ESF.Database.EF;
 using ESFA.DC.ESF.R2.Database.EF;
-using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1920.DataStore.EF;
 using ESFA.DC.ReferenceData.FCS.Model;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
-using ESFA.DC.Summarisation.Console.Stubs;
 using ESFA.DC.Summarisation.Data.Repository;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Model;
 using Microsoft.EntityFrameworkCore;
-using Main1920FundingTypesProvider = ESFA.DC.Summarisation.Main1920.Service.Providers;
-using Main1920CollectionPeriodsProvider = ESFA.DC.Summarisation.Main1920.Service.Providers;
 using ESFA.DC.ESF.FundingData.Database.EF;
-using ESFA.DC.Summarisation.Apps.Apps1920.Service;
 using ESFA.DC.Summarisation.Stateless.Config;
-using ESFA.DC.Summarisation.Service.Model.Config;
 
 namespace ESFA.DC.Summarisation.Console
 {
@@ -50,7 +43,7 @@ namespace ESFA.DC.Summarisation.Console
             var summarisationDataOptions = new SummarisationDataOptions() { SummarisedActualsConnectionString = summarisedActualsConnectionString };
 
             DbContextOptions<FcsContext> fcsdbContextOptions = new DbContextOptionsBuilder<FcsContext>().UseSqlServer(fcsConnectionString).Options;
-            DbContextOptions<ILR1819_DataStoreEntities> ilr1819dbContextOptions = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>().UseSqlServer(ilr1819ConnectionString).Options;
+            //DbContextOptions<ILR1819_DataStoreEntities> ilr1819dbContextOptions = new DbContextOptionsBuilder<ILR1819_DataStoreEntities>().UseSqlServer(ilr1819ConnectionString).Options;
             DbContextOptions<ILR1920_DataStoreEntities> ilr1920dbContextOptions = new DbContextOptionsBuilder<ILR1920_DataStoreEntities>().UseSqlServer(ilr1920ConnectionString).Options;
 
             DbContextOptions<EAS1819.EF.EasContext> eas1819dbContextOptions = new DbContextOptionsBuilder<EAS1819.EF.EasContext>().UseSqlServer(eas1819ConnectionString).Options;

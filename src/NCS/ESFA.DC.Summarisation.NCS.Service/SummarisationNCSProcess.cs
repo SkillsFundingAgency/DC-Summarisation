@@ -62,7 +62,7 @@ namespace ESFA.DC.Summarisation.NCS.Service
                         UoPCode = fcsAllocation.UoPcode,
                         DeliverableCode = fundingStream.DeliverableLineCode,
                         FundingStreamPeriodCode = fundingStream.PeriodCode,
-                        Period = collectionPeriods.First(cp => cp.Period == g.Key).ActualsSchemaPeriod,
+                        Period = g.Key,
                         ActualValue = Math.Round(g.Sum(x => x.ActualValue),2),
                         ContractAllocationNumber = fcsAllocation.ContractAllocationNumber,
                         PeriodTypeCode = PeriodTypeCodeConstants.CalendarMonth

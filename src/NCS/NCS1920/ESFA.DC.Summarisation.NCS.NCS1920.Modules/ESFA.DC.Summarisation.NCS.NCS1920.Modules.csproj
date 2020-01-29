@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.4" />
-    <PackageReference Include="ESFA.DC.NCS.EF" Version="0.0.1234" />
+    <PackageReference Include="ESFA.DC.NCS.EF" Version="0.0.61" />
   </ItemGroup>
 
   <ItemGroup>

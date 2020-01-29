@@ -18,17 +18,15 @@ namespace ESFA.DC.Summarisation.Service
             _summarisedActualsProcessRepository = summarisedActualsProcessRepository;
         }
 
-        public async Task<ICollection<SummarisedActual>> FundingDataRemovedAsync(ICollection<SummarisedActual> providerActuals, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<ICollection<SummarisedActual>> FundingDataRemovedAsync(string organisationId, ICollection<SummarisedActual> providerActuals, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             var latestCollectionReturn = await _summarisedActualsProcessRepository.GetLastCollectionReturnForCollectionTypeAsync(summarisationMessage.CollectionType, cancellationToken);
-
-            var organisationId = providerActuals.Select(x => x.OrganisationId).FirstOrDefault();
-
+            
             var actualsToCarry = new List<SummarisedActual>();
 
             if (latestCollectionReturn != null)
             {
-                var previousActuals = await _summarisedActualsProcessRepository.GetSummarisedActualsForCollectionReturnAndOrganisationAsync(latestCollectionReturn.Id, organisationId, cancellationToken);
+                var previousActuals = await _summarisedActualsProcessRepository.GetSummarisedActualsAsync(latestCollectionReturn.Id, organisationId, cancellationToken);
 
                 var comparer = new CarryOverActualsComparer();
 
@@ -39,11 +37,33 @@ namespace ESFA.DC.Summarisation.Service
                     actuals.ActualVolume = 0;
                     actuals.ActualValue = 0;
                 }
-
             }
 
             return actualsToCarry;
         }
 
+        public async Task<ICollection<SummarisedActual>> FundingDataRemovedAsync(string organisationId, string uopCode, ICollection<SummarisedActual> providerActuals, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        {
+            var latestCollectionReturn = await _summarisedActualsProcessRepository.GetLastCollectionReturnForCollectionTypeAsync(summarisationMessage.CollectionType, cancellationToken);
+
+            var actualsToCarry = new List<SummarisedActual>();
+
+            if (latestCollectionReturn != null)
+            {
+                var previousActuals = await _summarisedActualsProcessRepository.GetSummarisedActualsAsync(latestCollectionReturn.Id, organisationId, uopCode, cancellationToken);
+
+                var comparer = new CarryOverActualsComparer();
+
+                actualsToCarry = previousActuals.Except(providerActuals, comparer).ToList();
+
+                foreach (var actuals in actualsToCarry)
+                {
+                    actuals.ActualVolume = 0;
+                    actuals.ActualValue = 0;
+                }
+            }
+
+            return actualsToCarry;
+        }
     }
 }
