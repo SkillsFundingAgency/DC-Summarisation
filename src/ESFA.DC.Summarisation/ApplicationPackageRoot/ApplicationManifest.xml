@@ -28,6 +28,7 @@
     <Parameter Name="NcsDbConnectionString" DefaultValue="" />
     <Parameter Name="DataRetrievalMaxConcurrentCalls" DefaultValue="" />
     <Parameter Name="SqlCommandTimeoutSeconds" DefaultValue="" />
+    <Parameter Name="GenericCollectionsConnectionString" DefaultValue="" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
@@ -63,6 +64,7 @@
             <Parameter Name="NcsDbConnectionString" Value="[NcsDbConnectionString]" />
             <Parameter Name="DataRetrievalMaxConcurrentCalls" Value="[DataRetrievalMaxConcurrentCalls]" />
             <Parameter Name="SqlCommandTimeoutSeconds" Value="[SqlCommandTimeoutSeconds]" />
+            <Parameter Name="GenericCollectionsConnectionString" Value="[GenericCollectionsConnectionString]" />
           </Section>
         </Settings>
       </ConfigOverride>
