@@ -26,5 +26,6 @@
     <Parameter Name="NcsDbConnectionString"  Value=""/>
     <Parameter Name="DataRetrievalMaxConcurrentCalls" Value=""/>
     <Parameter Name="SqlCommandTimeoutSeconds" Value="" />
+    <Parameter Name="GenericCollectionsConnectionString" Value="" />
   </Section>
 </Settings>
