@@ -44,8 +44,6 @@ namespace ESFA.DC.Summarisation.Modules
 
             LoadFCSModule(containerBuilder);
 
-            LoadGenericCollectionModule(containerBuilder);
-
             LoadSummarisedActualsModules(containerBuilder);
 
         }
