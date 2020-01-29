@@ -23,8 +23,7 @@ namespace ESFA.DC.Summarisation.Data.Repository
             using (var context = _genericCollection())
             {
                 var summarisedActuals = await context.SummarisedActuals
-                    .Where(w => 
-                    string.Equals(w.CollectionType, collectionType, StringComparison.OrdinalIgnoreCase))
+                    .Where(w => w.CollectionType == collectionType)
                     .ToListAsync(cancellationToken);
 
                 return summarisedActuals

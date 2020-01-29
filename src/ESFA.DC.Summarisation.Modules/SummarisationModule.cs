@@ -89,29 +89,6 @@ namespace ESFA.DC.Summarisation.Modules
             .SingleInstance();
         }
 
-        private void LoadGenericCollectionModule(ContainerBuilder containerBuilder)
-        {
-            containerBuilder.RegisterType<GenericCollectionRepository>().As<IGenericCollectionRepository>();
-
-            containerBuilder.RegisterType<GenericCollectionContext>().As<IGenericCollectionContext>().ExternallyOwned();
-            containerBuilder.Register(context =>
-            {
-                var summarisationSettings = context.Resolve<ISummarisationDataOptions>();
-                var optionsBuilder = new DbContextOptionsBuilder<GenericCollectionContext>();
-                optionsBuilder.UseSqlServer(
-                    summarisationSettings.GenericCollectionsConnectionString,
-                    options =>
-                    {
-                        options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>());
-                        options.CommandTimeout(int.Parse(summarisationSettings.SqlCommandTimeoutSeconds));
-                    });
-
-                return optionsBuilder.Options;
-            })
-            .As<DbContextOptions<GenericCollectionContext>>()
-            .SingleInstance();
-        }
-
         private void LoadSummarisedActualsModules(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterType<SummarisedActualsProcessRepository>().As<IExistingSummarisedActualsRepository>();
