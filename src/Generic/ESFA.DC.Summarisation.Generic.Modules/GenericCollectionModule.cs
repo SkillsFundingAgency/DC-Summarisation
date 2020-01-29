@@ -1,9 +1,12 @@
 ﻿using Autofac;
+using ESFA.DC.GenericCollection.EF;
+using ESFA.DC.GenericCollection.EF.Interface;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Generic.Interfaces;
 using ESFA.DC.Summarisation.Generic.Service;
 using ESFA.DC.Summarisation.Interfaces;
-using ESFA.DC.Summarisation.Service.Model;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 
 namespace ESFA.DC.Summarisation.Apps.Modules
@@ -20,7 +23,26 @@ namespace ESFA.DC.Summarisation.Apps.Modules
         protected override void Load(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterType<SummarisationProcess>().As<ISummarisationProcess>().Keyed<ISummarisationProcess>(ProcessTypeConstants.Generic);
-            containerBuilder.RegisterType<ProviderSummarisationService>().As<IProviderSummarisationService<IEnumerable<SummarisedActual>>>();
+            containerBuilder.RegisterType<ProviderSummarisationService>().As<IProviderSummarisationService<IEnumerable<Service.Model.SummarisedActual>>>();
+
+            var dataStoreEntitiesConfig = BuildDbContextOptions<GenericCollectionContext>(_summarisationDataOptions.GenericCollectionsConnectionString, _summarisationDataOptions.SqlCommandTimeoutSeconds);
+
+            containerBuilder.Register(c => new GenericCollectionContext(dataStoreEntitiesConfig)).As<IGenericCollectionContext>().ExternallyOwned();
+        }
+
+        private DbContextOptions<T> BuildDbContextOptions<T>(string connectionString, string sqlCommandTimeOut) where T : DbContext
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<T>();
+
+            optionsBuilder.UseSqlServer(
+                connectionString,
+                options =>
+                {
+                    options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>());
+                    options.CommandTimeout(int.Parse(sqlCommandTimeOut));
+                });
+
+            return optionsBuilder.Options;
         }
     }
 }

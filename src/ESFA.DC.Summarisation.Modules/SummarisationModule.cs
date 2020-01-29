@@ -101,7 +101,7 @@ namespace ESFA.DC.Summarisation.Modules
                 var summarisationSettings = context.Resolve<ISummarisationDataOptions>();
                 var optionsBuilder = new DbContextOptionsBuilder<GenericCollectionContext>();
                 optionsBuilder.UseSqlServer(
-                    summarisationSettings.GenericCollectionConnectionString,
+                    summarisationSettings.GenericCollectionsConnectionString,
                     options =>
                     {
                         options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>());

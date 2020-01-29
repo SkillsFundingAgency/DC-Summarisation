@@ -104,6 +104,10 @@ namespace ESFA.DC.Summarisation.Stateless.Context
             {
                 returnValue = _jobContextMessage.KeyValuePairs[$"{key}App"].ToString();
             }
+            else if (SummarisationTypes.Any(item => item.Equals(SummarisationTypeConstants.Generic, StringComparison.OrdinalIgnoreCase)))
+            {
+                returnValue = _jobContextMessage.KeyValuePairs[$"{key}GC"].ToString();
+            }
 
             return returnValue;
         }

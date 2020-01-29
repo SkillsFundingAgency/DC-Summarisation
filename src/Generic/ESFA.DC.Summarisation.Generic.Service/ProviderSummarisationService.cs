@@ -25,7 +25,7 @@ namespace ESFA.DC.Summarisation.Generic.Service
 
         public async Task<ICollection<SummarisedActual>> Summarise(IEnumerable<SummarisedActual> inputSummarisedActuals, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
-            var providerActuals = new List<SummarisedActual>();
+            var providerActuals = inputSummarisedActuals.ToList();
 
             var groupedActuals = inputSummarisedActuals?
                 .GroupBy(x => x.OrganisationId, StringComparer.OrdinalIgnoreCase)
