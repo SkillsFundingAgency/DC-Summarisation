@@ -15,6 +15,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.4" />
     <PackageReference Include="ESFA.DC.EAS1920.EF" Version="0.0.25" />
+    <PackageReference Include="ESFA.DC.GenericCollection.EF" Version="0.0.59" />
     <PackageReference Include="ESFA.DC.ReferenceData.FCS.Model" Version="0.1.218" />
     <PackageReference Include="ESFA.DC.Serialization.Json" Version="0.1.6-beta0001" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
@@ -29,6 +30,7 @@
     <ProjectReference Include="..\ESFA.DC.Summarisation.Service\ESFA.DC.Summarisation.Service.csproj" />
     <ProjectReference Include="..\ESF\ESFA.DC.Summarisation.ESF.Modules\ESFA.DC.Summarisation.ESF.Modules.csproj" />
     <ProjectReference Include="..\ESF\ESF\ESFA.DC.Summarisation.ESF.ESF.Service\ESFA.DC.Summarisation.ESF.ESF.Service.csproj" />
+    <ProjectReference Include="..\Generic\ESFA.DC.Summarisation.Generic.Modules\ESFA.DC.Summarisation.Generic.Modules.csproj" />
     <ProjectReference Include="..\Main\ESFA.DC.Summarisation.Main.Modules\ESFA.DC.Summarisation.Main.Modules.csproj" />
   </ItemGroup>
 

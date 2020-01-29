@@ -2,6 +2,8 @@
 {
     public interface ISummarisationDataOptions
     {
+        string GenericCollectionConnectionString { get; }
+
         string FCSConnectionString { get; }
 
         string ILR1819ConnectionString { get; }
