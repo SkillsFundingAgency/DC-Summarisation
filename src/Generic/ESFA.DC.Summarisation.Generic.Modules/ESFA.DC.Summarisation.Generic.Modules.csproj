@@ -1,20 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <ProjectGuid>{F5A815AD-166C-46BB-BCC9-DB01BA7272B2}</ProjectGuid>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.4" />
     <PackageReference Include="ESFA.DC.GenericCollection.EF" Version="0.0.59" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\..\ESFA.DC.Summarisation.Constants\ESFA.DC.Summarisation.Constants.csproj" />
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Data\ESFA.DC.Summarisation.Data.csproj" />
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Interfaces\ESFA.DC.Summarisation.Interfaces.csproj" />
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Generic.Interfaces\ESFA.DC.Summarisation.Generic.Interfaces.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.Generic.Service\ESFA.DC.Summarisation.Generic.Service.csproj" />
   </ItemGroup>
-
 </Project>

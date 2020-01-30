@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Summarisation.Interfaces;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ namespace ESFA.DC.Summarisation.Generic.Service
     public class ProviderSummarisationService : IProviderSummarisationService<IEnumerable<SummarisedActual>>
     {
         private readonly ILogger _logger;
-        private readonly IProviderFundingDataRemovedService _providerFundingDataRemovedService;        
+        private readonly IProviderFundingDataRemovedService _providerFundingDataRemovedService;
 
         public ProviderSummarisationService(
             ILogger logger,
@@ -39,7 +39,7 @@ namespace ESFA.DC.Summarisation.Generic.Service
             {
                 _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed Rule OrgId: {group.OrganisationId} Start");
 
-                var actualsToCarry = await _providerFundingDataRemovedService.FundingDataRemovedAsync(group.SummarisedActuals, summarisationMessage, cancellationToken);
+                var actualsToCarry = await _providerFundingDataRemovedService.FundingDataRemovedAsync(group.OrganisationId, group.SummarisedActuals, summarisationMessage, cancellationToken);
 
                 providerActuals.AddRange(actualsToCarry);
 

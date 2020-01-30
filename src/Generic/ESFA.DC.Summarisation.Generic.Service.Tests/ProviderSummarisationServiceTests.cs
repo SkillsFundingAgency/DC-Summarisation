@@ -25,7 +25,7 @@ namespace ESFA.DC.Summarisation.Generic.Service.Tests
 
             var providerFundingDataRemovedServiceMock = new Mock<IProviderFundingDataRemovedService>();
             providerFundingDataRemovedServiceMock
-                .SetupSequence(x => x.FundingDataRemovedAsync(It.IsAny<ICollection<SummarisedActual>>(), summarisationMessage, cancellationToken))
+                .SetupSequence(x => x.FundingDataRemovedAsync(It.IsAny<string>(), It.IsAny<ICollection<SummarisedActual>>(), summarisationMessage, cancellationToken))
                 .ReturnsAsync(mockReturnOne).ReturnsAsync(mockReturnTwo);
 
             var result = await NewService().Summarise(inputActuals, summarisationMessage, cancellationToken);
