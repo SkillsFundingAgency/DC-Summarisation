@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 
-namespace ESFA.DC.Summarisation.Apps.Modules
+namespace ESFA.DC.Summarisation.Generic.Modules
 {
     public class GenericCollectionModule : Module
     {
@@ -24,7 +24,7 @@ namespace ESFA.DC.Summarisation.Apps.Modules
         protected override void Load(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterType<SummarisationProcess>().As<ISummarisationProcess>().Keyed<ISummarisationProcess>(ProcessTypeConstants.Generic);
-            containerBuilder.RegisterType<ProviderSummarisationService>().As<IProviderSummarisationService<IEnumerable<Service.Model.SummarisedActual>>>();
+            containerBuilder.RegisterType<ProviderSummarisationService>().As<IProviderSummarisationService<IEnumerable<Summarisation.Service.Model.SummarisedActual>>>();
 
             var dataStoreEntitiesConfig = BuildDbContextOptions<GenericCollectionContext>(_summarisationDataOptions.GenericCollectionsConnectionString, _summarisationDataOptions.SqlCommandTimeoutSeconds);
 
