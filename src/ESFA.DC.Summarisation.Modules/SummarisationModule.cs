@@ -15,8 +15,6 @@ using ISummarisationContext = ESFA.DC.Summarisation.Model.Interface.ISummarisati
 using ESFA.DC.Summarisation.Main.Modules;
 using ESFA.DC.Summarisation.ESF.Modules;
 using ESFA.DC.Summarisation.Apps.Modules;
-using ESFA.DC.GenericCollection.EF;
-using ESFA.DC.GenericCollection.EF.Interface;
 using ESFA.DC.Summarisation.NCS.Modules;
 
 namespace ESFA.DC.Summarisation.Modules

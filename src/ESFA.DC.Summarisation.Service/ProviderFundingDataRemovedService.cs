@@ -21,7 +21,7 @@ namespace ESFA.DC.Summarisation.Service
         public async Task<ICollection<SummarisedActual>> FundingDataRemovedAsync(string organisationId, ICollection<SummarisedActual> providerActuals, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             var latestCollectionReturn = await _summarisedActualsProcessRepository.GetLastCollectionReturnForCollectionTypeAsync(summarisationMessage.CollectionType, cancellationToken);
-            
+
             var actualsToCarry = new List<SummarisedActual>();
 
             if (latestCollectionReturn != null)
