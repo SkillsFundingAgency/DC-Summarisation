@@ -23,7 +23,9 @@
     <Parameter Name="ESFR2ConnectionString" Value="" />
     <Parameter Name="DASPaymentsConnectionString"  Value=""/>
     <Parameter Name="ESFFundingDataConnectionString"  Value=""/>
+    <Parameter Name="NcsDbConnectionString"  Value=""/>
     <Parameter Name="DataRetrievalMaxConcurrentCalls" Value=""/>
     <Parameter Name="SqlCommandTimeoutSeconds" Value="" />
+    <Parameter Name="GenericCollectionsConnectionString" Value="" />
   </Section>
 </Settings>

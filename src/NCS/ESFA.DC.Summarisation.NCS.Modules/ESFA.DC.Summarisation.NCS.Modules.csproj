@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ESFA.DC.Summarisation.Constants\ESFA.DC.Summarisation.Constants.csproj" />
+    <ProjectReference Include="..\..\ESFA.DC.Summarisation.Interfaces\ESFA.DC.Summarisation.Interfaces.csproj" />
+    <ProjectReference Include="..\ESFA.DC.Summarisation.NCS.Service\ESFA.DC.Summarisation.NCS.Service.csproj" />
+    <ProjectReference Include="..\NCS1920\ESFA.DC.Summarisation.NCS.NCS1920.Modules\ESFA.DC.Summarisation.NCS.NCS1920.Modules.csproj" />
+  </ItemGroup>
+
+</Project>

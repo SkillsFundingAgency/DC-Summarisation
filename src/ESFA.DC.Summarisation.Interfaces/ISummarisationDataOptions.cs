@@ -2,6 +2,8 @@
 {
     public interface ISummarisationDataOptions
     {
+        string GenericCollectionsConnectionString { get; }
+
         string FCSConnectionString { get; }
 
         string ILR1819ConnectionString { get; }
@@ -25,5 +27,7 @@
         string DataRetrievalMaxConcurrentCalls { get; }
 
         string SqlCommandTimeoutSeconds { get; }
+
+        string NcsDbConnectionString { get; }
     }
 }

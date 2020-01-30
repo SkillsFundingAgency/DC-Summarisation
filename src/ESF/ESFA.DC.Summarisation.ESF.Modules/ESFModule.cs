@@ -23,6 +23,7 @@ namespace ESFA.DC.Summarisation.ESF.Modules
             containerBuilder.RegisterType<ProviderSummarisationService>().As<IProviderSummarisationService<LearningProvider>>();
             containerBuilder.RegisterType<SummarisationDeliverableProcess>().As<ISummarisationService>();
             containerBuilder.RegisterType<ProviderRepository>().As<IInputDataRepository<LearningProvider>>();
+            containerBuilder.RegisterType<ProviderContractsService>().As<IProviderContractsService>();
 
             containerBuilder.RegisterModule(new ESFESFModule(_summarisationDataOptions));
         }

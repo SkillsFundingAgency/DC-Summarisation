@@ -1,0 +1,22 @@
+[
+  {
+    "SummarisationType": "NCS1920_C",
+    "FundingStreams": [
+      {
+        "PeriodCode": "NCS-C1920",
+        "DeliverableLineCode": 2,
+        "OutcomeTypes": [ 1 ]
+      },
+      {
+        "PeriodCode": "NCS-C1920",
+        "DeliverableLineCode": 4,
+        "OutcomeTypes": [ 2 ]
+      },
+      {
+        "PeriodCode": "NCS-C1920",
+        "DeliverableLineCode": 5,
+        "OutcomeTypes": [ 3, 4, 5 ]
+      }
+    ]
+  }
+]

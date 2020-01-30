@@ -4,6 +4,8 @@ namespace ESFA.DC.Summarisation.Stateless.Config
 {
     public class SummarisationDataOptions : ISummarisationDataOptions
     {
+        public string GenericCollectionsConnectionString { get; set; }
+
         public string FCSConnectionString { get; set; }
 
         public string ILR1819ConnectionString { get; set; }
@@ -25,6 +27,8 @@ namespace ESFA.DC.Summarisation.Stateless.Config
         public string EAS1920ConnectionString { get; set; }
 
         public string ESFFundingDataConnectionString { get; set; }
+
+        public string NcsDbConnectionString { get; set; }
 
         public string SqlCommandTimeoutSeconds { get; set; }
     }
