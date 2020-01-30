@@ -4,6 +4,8 @@ namespace ESFA.DC.Summarisation.Stateless.Config
 {
     public class SummarisationDataOptions : ISummarisationDataOptions
     {
+        public string GenericCollectionsConnectionString { get; set; }
+
         public string FCSConnectionString { get; set; }
 
         public string ILR1819ConnectionString { get; set; }

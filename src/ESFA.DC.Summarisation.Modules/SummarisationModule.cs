@@ -16,6 +16,7 @@ using ESFA.DC.Summarisation.Main.Modules;
 using ESFA.DC.Summarisation.ESF.Modules;
 using ESFA.DC.Summarisation.Apps.Modules;
 using ESFA.DC.Summarisation.NCS.Modules;
+using ESFA.DC.Summarisation.Generic.Modules;
 
 namespace ESFA.DC.Summarisation.Modules
 {
@@ -53,6 +54,8 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterModule(new ESFModule(_summarisationDataOptions));
 
             containerBuilder.RegisterModule(new AppsModule(_summarisationDataOptions));
+
+            containerBuilder.RegisterModule(new GenericCollectionModule(_summarisationDataOptions));
 
             containerBuilder.RegisterModule(new NCSModule(_summarisationDataOptions));
 
