@@ -52,7 +52,7 @@ namespace ESFA.DC.Summarisation.NCS.Service
 
                     var providerfundingstreamsContracts = await _providerContractsService.GetProviderContracts(provider.UKPRN, fundingStreams, contractAllocations, cancellationToken);
                     
-                    var summarisedData = _summarisationService.Summarise(providerfundingstreamsContracts.FundingStreams, providerData, providerfundingstreamsContracts.FcsContractAllocations, collectionPeriods, summarisationMessage);
+                    var summarisedData = _summarisationService.Summarise(providerfundingstreamsContracts.FundingStreams, providerData, providerfundingstreamsContracts.FcsContractAllocations, collectionPeriods);
 
                     providerActuals.AddRange(summarisedData);
 

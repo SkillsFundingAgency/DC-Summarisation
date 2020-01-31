@@ -17,8 +17,7 @@ namespace ESFA.DC.Summarisation.NCS.Service
             ICollection<FundingStream> fundingStreams,
             TouchpointProviderFundingData provider,
             ICollection<FcsContractAllocation> allocations,
-            ICollection<CollectionPeriod> collectionPeriods,
-            ISummarisationMessage summarisationMessage)
+            ICollection<CollectionPeriod> collectionPeriods)
         {
             var summarisedActuals = new List<SummarisedActual>();
 
