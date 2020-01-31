@@ -19,7 +19,7 @@ namespace ESFA.DC.Summarisation.Data.Repository
             _fcs = fcs;
         }
 
-        public async Task<ICollection<FcsContractAllocation>> RetrieveAsync(IEnumerable<string> fundingStreamPeriodCodes,  CancellationToken cancellationToken)
+        public async Task<ICollection<FcsContractAllocation>> RetrieveContractAllocationsAsync(IEnumerable<string> fundingStreamPeriodCodes,  CancellationToken cancellationToken)
         {
             var fspCodes = fundingStreamPeriodCodes.ToList();
 
@@ -48,6 +48,30 @@ namespace ESFA.DC.Summarisation.Data.Repository
                         DeliveryOrganisation = ca.DeliveryOrganisation,
                         ContractStartDate = BuildFormattedDate(ca.StartDate),
                         ContractEndDate = BuildFormattedDate(ca.EndDate),
+                    }).ToList();
+            }
+        }
+
+        public async Task<ICollection<FcsContractor>> RetrieveContractorForUkprnAsync(IEnumerable<int> ukprns, CancellationToken cancellationToken)
+        {
+            var inputUkprns = ukprns.ToList();
+
+            using (var fcsContext = _fcs())
+            {
+                var contractors = await fcsContext.Contractors
+                    .Where(w => inputUkprns.Contains(w.Ukprn.Value))
+                    .Select(c => new
+                    {
+                        c.Ukprn,
+                        c.OrganisationIdentifier,
+                    })
+                    .Distinct().ToListAsync(cancellationToken);
+
+                return contractors
+                    .Select(c => new FcsContractor
+                    {
+                        Ukprn = c.Ukprn.Value,
+                        OrganisationIdentifier = c.OrganisationIdentifier,
                     }).ToList();
             }
         }

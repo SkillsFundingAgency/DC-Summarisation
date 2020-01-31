@@ -1,11 +1,13 @@
 ﻿using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Summarisation.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Service.Model;
 using ESFA.DC.Summarisation.Generic.Interfaces;
+using ESFA.DC.Summarisation.Data.Repository.Interface;
 
 namespace ESFA.DC.Summarisation.Generic.Service
 {
@@ -16,6 +18,7 @@ namespace ESFA.DC.Summarisation.Generic.Service
         
         private readonly IGenericCollectionRepository _genericCollectionRepository;
         private readonly IProviderSummarisationService<IEnumerable<SummarisedActual>> _providerSummarisationService;
+        private readonly IFcsRepository _fcsRepository;
         private readonly ILogger _logger;
         
 
@@ -23,11 +26,13 @@ namespace ESFA.DC.Summarisation.Generic.Service
             IGenericCollectionRepository genericCollectionRepository,
             IProviderSummarisationService<IEnumerable<SummarisedActual>> providerSummarisationService,
             ISummarisationDataOptions dataOptions,
+            IFcsRepository fcsRepository,
             ILogger logger)
         {
             _logger = logger;
             _genericCollectionRepository = genericCollectionRepository;
             _providerSummarisationService = providerSummarisationService;
+            _fcsRepository = fcsRepository;
             _dataRetrievalMaxConcurrentCalls = 4;
             int.TryParse(dataOptions.DataRetrievalMaxConcurrentCalls, out _dataRetrievalMaxConcurrentCalls);
         }
@@ -40,7 +45,11 @@ namespace ESFA.DC.Summarisation.Generic.Service
 
             var genericCollectionData = await _genericCollectionRepository.RetrieveAsync(summarisationMessage.CollectionType, cancellationToken);
 
-            var summarisedActuals = await _providerSummarisationService.Summarise(genericCollectionData, summarisationMessage, cancellationToken);
+            var ukprns = genericCollectionData.Select(gc => int.Parse(gc.OrganisationId)).Distinct().ToList();
+
+            var fcsContractors = await _fcsRepository.RetrieveContractorForUkprnAsync(ukprns, cancellationToken);
+
+            var summarisedActuals = await _providerSummarisationService.Summarise(genericCollectionData, summarisationMessage, fcsContractors, cancellationToken);
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving Retrieving Generic Collection Data End");
 
