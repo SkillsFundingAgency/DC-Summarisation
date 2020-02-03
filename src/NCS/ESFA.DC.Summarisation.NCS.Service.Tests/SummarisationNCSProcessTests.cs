@@ -206,48 +206,5 @@ namespace ESFA.DC.Summarisation.NCS.Service.Tests
             };
 
         }
-
-        private ICollection<SummarisedActual> TestSummarisedActuals()
-        {
-            return new List<SummarisedActual>
-            {
-                 new SummarisedActual
-                 {
-                     CollectionReturnId = 101,
-                     ContractAllocationNumber = "Contract1",
-                     FundingStreamPeriodCode = "FSPCode1",
-                     DeliverableCode = 1,
-                     Period = 1,
-                     PeriodTypeCode = "PType1",
-                     OrganisationId = "Org1",
-                     ActualValue = 1,
-                     ActualVolume = 1,
-                 },
-                 new SummarisedActual
-                 {
-                     CollectionReturnId = 101,
-                     ContractAllocationNumber = "Contract1",
-                     FundingStreamPeriodCode = "FSPCode1",
-                     DeliverableCode = 1,
-                     Period = 1,
-                     PeriodTypeCode = "PType1",
-                     OrganisationId = "Org1",
-                     ActualValue = 1,
-                     ActualVolume = 1,
-                 },
-                 new SummarisedActual
-                 {
-                     CollectionReturnId = 101,
-                     ContractAllocationNumber = "Contract2",
-                     FundingStreamPeriodCode = "FSPCode2",
-                     DeliverableCode = 2,
-                     Period = 2,
-                     PeriodTypeCode = "PType2",
-                     OrganisationId = "Org2",
-                     ActualValue = 2,
-                     ActualVolume = 2,
-                 },
-            };
-        }
     }
 }

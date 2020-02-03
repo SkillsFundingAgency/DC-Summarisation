@@ -9,6 +9,6 @@ namespace ESFA.DC.Summarisation.NCS.Interfaces
 {
     public interface IProviderContractsService
     {
-        Task<ProviderFundingStreamsAllocations> GetProviderContracts(int UKPRN, ICollection<FundingStream> fundingStreams, ICollection<FcsContractAllocation> contractAllocations, CancellationToken cancellationToken);
+        ProviderFundingStreamsAllocations GetProviderContracts(int UKPRN, ICollection<FundingStream> fundingStreams, ICollection<FcsContractAllocation> contractAllocations, CancellationToken cancellationToken);
     }
 }

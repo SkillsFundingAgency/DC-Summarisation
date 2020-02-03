@@ -12,7 +12,7 @@ namespace ESFA.DC.Summarisation.NCS.Service
 {
     public class ProviderContractsService : IProviderContractsService
     {
-        public async Task<ProviderFundingStreamsAllocations> GetProviderContracts(int UKPRN, ICollection<FundingStream> fundingStreams, ICollection<FcsContractAllocation> contractAllocations, CancellationToken cancellationToken)
+        public ProviderFundingStreamsAllocations GetProviderContracts(int UKPRN, ICollection<FundingStream> fundingStreams, ICollection<FcsContractAllocation> contractAllocations, CancellationToken cancellationToken)
         {
             var providerFundingStreams = new List<FundingStream>();
             var allocations = new List<FcsContractAllocation>();

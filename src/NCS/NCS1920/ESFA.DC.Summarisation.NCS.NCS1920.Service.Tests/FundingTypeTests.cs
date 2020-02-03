@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using ESFA.DC.Serialization.Json;
+using ESFA.DC.Summarisation.NCS.Model.Config;
 using ESFA.DC.Summarisation.NCS.NCS1920.Service.Providers;
 using FluentAssertions;
 using Xunit;
@@ -11,29 +13,35 @@ namespace ESFA.DC.Summarisation.NCS.NCS1920.Service.Tests
         [Fact]
         public void FundingTypesCount()
         {
-            NewProvider().Provide().Should().HaveCount(1);
+            var fundingTypes = FundingTypesConfigured();
+
+            fundingTypes.Count.Should().Be(1);
+
+            fundingTypes.First().SummarisationType.Should().Be("NCS1920_C");
         }
 
         [Theory]
-        [InlineData("NCS1920_C", "NCS-C1920", 2)]
-        [InlineData("NCS1920_C", "NCS-C1920", 4)]
-        [InlineData("NCS1920_C", "NCS-C1920", 5)]
-        public void FundLineConfiguration(string summarisationType, string fspCode, int dlc)
+        [InlineData("NCS-C1920", 2, "1")]
+        [InlineData("NCS-C1920", 4, "2")]
+        [InlineData("NCS-C1920", 5, "3,4,5")]
+        public void FundLineConfiguration(string fspCode, int dlc, string outcomes)
         {
-            FundingTypesProvider fundingTypesProvider = NewProvider();
 
-            var fundingTypes = fundingTypesProvider.Provide();
+            var fundingStreams = FundingTypesConfigured().SelectMany(x => x.FundingStreams);
 
-            fundingTypes.Should().Contain(ft => ft.SummarisationType == summarisationType);
+            var fudningStream = fundingStreams.First(w => w.PeriodCode == fspCode && w.DeliverableLineCode == dlc);
 
-            var fundingStreams = fundingTypes.First(ft => ft.SummarisationType == summarisationType).FundingStreams;
+            List<int> outcomeTypes = outcomes.Split(',').Select(int.Parse).ToList();
 
-            fundingStreams.Should().Contain(fs => fs.PeriodCode == fspCode && fs.DeliverableLineCode == dlc);
+            fudningStream.OutcomeTypes.Should().BeEquivalentTo(outcomeTypes);
         }
 
-        private FundingTypesProvider NewProvider()
+        private ICollection<FundingType> FundingTypesConfigured()
         {
-            return new FundingTypesProvider(new JsonSerializationService());
+           var FundingTypesProvider =  new FundingTypesProvider(new JsonSerializationService());
+
+           return FundingTypesProvider.Provide();
+
         }
     }
 }
