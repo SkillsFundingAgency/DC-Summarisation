@@ -17,17 +17,24 @@ namespace ESFA.DC.Summarisation.Generic.Service
             _logger = logger;
         }
 
-        public ICollection<SummarisedActual> Summarise(ICollection<FcsContractor> fcsContractors, ICollection<SummarisedActual> summarisedActuals)
+        public ICollection<SummarisedActual> Summarise(ICollection<FcsContractAllocation> fcsContractAllocations, ICollection<SummarisedActual> summarisedActuals)
         {
             _logger.LogInfo($"Summarisation Wrapper: Summarising Generic Collection Data Start");
 
-            var contractorsDictionary = fcsContractors?.ToDictionary(u => u.Ukprn, o => o.OrganisationIdentifier);
+            var contractAllocationaDictionary = fcsContractAllocations?
+                .Select(f => new
+                {
+                    ukprn = f.DeliveryUkprn,
+                    organisation = f.DeliveryOrganisation
+                })
+                .Distinct()
+                .ToDictionary(u => u.ukprn, o => o.organisation);
 
             _logger.LogInfo($"Summarisation Wrapper: Mapping Generic Collection Ukprns to OrgIds");
 
             foreach (var summarisedActual in summarisedActuals)
             {
-                summarisedActual.OrganisationId = contractorsDictionary.GetValueOrDefault(int.Parse(summarisedActual.OrganisationId));
+                summarisedActual.OrganisationId = contractAllocationaDictionary.GetValueOrDefault(int.Parse(summarisedActual.OrganisationId));
             }
 
             _logger.LogInfo($"Summarisation Wrapper: Summarising Generic Collection Data End");

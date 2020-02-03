@@ -21,22 +21,25 @@ namespace ESFA.DC.Summarisation.Generic.Service.Tests
             var cancellationToken = CancellationToken.None;
             var summarisationMessage = Mock.Of<ISummarisationMessage>();
             var inputActuals = TestSummarisedActuals();
-            var contractors = new List<FcsContractor>
+            var contractAllocations = new List<FcsContractAllocation>
             {
-                new FcsContractor
+                new FcsContractAllocation
                 {
-                    Ukprn = 1,
-                    OrganisationIdentifier = "Org1",
+                    DeliveryUkprn = 1,
+                    DeliveryOrganisation = "Org1",
+                    FundingStreamPeriodCode = "FSPCode1",
                 },
-                new FcsContractor
+                new FcsContractAllocation
                 {
-                    Ukprn = 2,
-                    OrganisationIdentifier = "Org2",
+                    DeliveryUkprn = 2,
+                    DeliveryOrganisation = "Org2",
+                    FundingStreamPeriodCode = "FSPCode2",
                 },
-                new FcsContractor
+                new FcsContractAllocation
                 {
-                    Ukprn = 3,
-                    OrganisationIdentifier = "Org3",
+                    DeliveryUkprn = 3,
+                    DeliveryOrganisation = "Org3",
+                    FundingStreamPeriodCode = "FSPCode3",
                 },
             };
 
@@ -45,7 +48,7 @@ namespace ESFA.DC.Summarisation.Generic.Service.Tests
 
             var summarisationServiceMock = new Mock<ISummarisationService>();
             summarisationServiceMock
-                .Setup(x => x.Summarise(contractors, It.IsAny<ICollection<SummarisedActual>>()))
+                .Setup(x => x.Summarise(contractAllocations, It.IsAny<ICollection<SummarisedActual>>()))
                 .Returns(inputActuals);
 
             var providerFundingDataRemovedServiceMock = new Mock<IProviderFundingDataRemovedService>();
@@ -53,7 +56,7 @@ namespace ESFA.DC.Summarisation.Generic.Service.Tests
                 .Setup(x => x.FundingDataRemovedAsync(It.IsAny<string>(), It.IsAny<ICollection<SummarisedActual>>(), summarisationMessage, cancellationToken))
                 .ReturnsAsync(new List<SummarisedActual>());
 
-            var result = await NewService(summarisationServiceMock.Object, providerFundingDataRemovedServiceMock.Object).Summarise(inputActuals, summarisationMessage, contractors, cancellationToken);
+            var result = await NewService(summarisationServiceMock.Object, providerFundingDataRemovedServiceMock.Object).Summarise(inputActuals, summarisationMessage, contractAllocations, cancellationToken);
 
             result.Should().BeEquivalentTo(inputActuals);
 

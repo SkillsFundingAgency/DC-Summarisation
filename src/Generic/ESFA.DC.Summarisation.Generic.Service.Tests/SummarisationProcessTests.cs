@@ -20,24 +20,27 @@ namespace ESFA.DC.Summarisation.Generic.Service.Tests
         {
             var cancellationToken = CancellationToken.None;
             var collectionType = "ALLF";
-            var ukprns = new List<int> { 1, 2 };
+            var fspCodes = new List<string> { "FSPCode1", "FSPCode2" };
             var inputActuals = TestSummarisedActuals();
-            var contractors = new List<FcsContractor>
+            var contractAllocationsMock = new List<FcsContractAllocation>
             {
-                new FcsContractor
+                new FcsContractAllocation
                 {
-                    Ukprn = 1,
-                    OrganisationIdentifier = "Org1",
+                    DeliveryUkprn = 1,
+                    DeliveryOrganisation = "1",
+                    FundingStreamPeriodCode = "FSPCode1",
                 },
-                new FcsContractor
+                new FcsContractAllocation
                 {
-                    Ukprn = 2,
-                    OrganisationIdentifier = "Org2",
+                    DeliveryUkprn = 2,
+                    DeliveryOrganisation = "2",
+                    FundingStreamPeriodCode = "FSPCode2",
                 },
-                new FcsContractor
+                new FcsContractAllocation
                 {
-                    Ukprn = 3,
-                    OrganisationIdentifier = "Org3",
+                    DeliveryUkprn = 3,
+                    DeliveryOrganisation = "3",
+                    FundingStreamPeriodCode = "FSPCode3",
                 },
             };
 
@@ -48,11 +51,11 @@ namespace ESFA.DC.Summarisation.Generic.Service.Tests
             genericCollectionRepositoryMock.Setup(x => x.RetrieveAsync(collectionType, cancellationToken)).ReturnsAsync(inputActuals);
 
             var fcsMock = new Mock<IFcsRepository>();
-            fcsMock.Setup(x => x.RetrieveContractorForUkprnAsync(ukprns, cancellationToken)).ReturnsAsync(contractors);
+            fcsMock.Setup(x => x.RetrieveContractAllocationsAsync(fspCodes, cancellationToken)).ReturnsAsync(contractAllocationsMock);
 
             var providerSummarisationServiceMock = new Mock<IProviderSummarisationService<IEnumerable<SummarisedActual>>>();
             providerSummarisationServiceMock
-                .Setup(x => x.Summarise(It.IsAny<ICollection<SummarisedActual>>(), summarisationMessageMock.Object, contractors, cancellationToken))
+                .Setup(x => x.Summarise(It.IsAny<ICollection<SummarisedActual>>(), summarisationMessageMock.Object, It.IsAny<ICollection<FcsContractAllocation>>(), cancellationToken))
                 .ReturnsAsync(inputActuals);
 
             var result = await NewService(

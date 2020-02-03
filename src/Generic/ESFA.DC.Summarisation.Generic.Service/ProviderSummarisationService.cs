@@ -30,10 +30,10 @@ namespace ESFA.DC.Summarisation.Generic.Service
         public async Task<ICollection<SummarisedActual>> Summarise(
             IEnumerable<SummarisedActual> inputSummarisedActuals,
             ISummarisationMessage summarisationMessage,
-            ICollection<FcsContractor> fcsContractors,
+            ICollection<FcsContractAllocation> fcsContractAllocations,
             CancellationToken cancellationToken)
         {
-            var providerActuals = _summarisationService.Summarise(fcsContractors, inputSummarisedActuals.ToList()).ToList();
+            var providerActuals = _summarisationService.Summarise(fcsContractAllocations, inputSummarisedActuals.ToList()).ToList();
 
             var groupedActuals = inputSummarisedActuals?
                 .GroupBy(x => x.OrganisationId, StringComparer.OrdinalIgnoreCase)

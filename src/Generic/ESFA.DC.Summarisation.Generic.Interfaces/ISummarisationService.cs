@@ -6,6 +6,6 @@ namespace ESFA.DC.Summarisation.Generic.Interfaces
 {
     public interface ISummarisationService
     {
-       ICollection<SummarisedActual> Summarise(ICollection<FcsContractor> fcsContractors, ICollection<SummarisedActual> summarisedActuals);
+       ICollection<SummarisedActual> Summarise(ICollection<FcsContractAllocation> fcsContractAllocations, ICollection<SummarisedActual> summarisedActuals);
     }
 }

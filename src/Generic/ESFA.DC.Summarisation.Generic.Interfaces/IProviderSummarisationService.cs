@@ -9,6 +9,6 @@ namespace ESFA.DC.Summarisation.Generic.Interfaces
 {
     public interface IProviderSummarisationService<T>
     {
-        Task<ICollection<SummarisedActual>> Summarise(T inputData, ISummarisationMessage summarisationMessage, ICollection<FcsContractor> fcsContractors, CancellationToken cancellationToken);
+        Task<ICollection<SummarisedActual>> Summarise(T inputData, ISummarisationMessage summarisationMessage, ICollection<FcsContractAllocation> fcsContractAllocations, CancellationToken cancellationToken);
     }
 }

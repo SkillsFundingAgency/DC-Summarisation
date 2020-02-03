@@ -52,30 +52,6 @@ namespace ESFA.DC.Summarisation.Data.Repository
             }
         }
 
-        public async Task<ICollection<FcsContractor>> RetrieveContractorForUkprnAsync(IEnumerable<int> ukprns, CancellationToken cancellationToken)
-        {
-            var inputUkprns = ukprns.ToList();
-
-            using (var fcsContext = _fcs())
-            {
-                var contractors = await fcsContext.Contractors
-                    .Where(w => inputUkprns.Contains(w.Ukprn.Value))
-                    .Select(c => new
-                    {
-                        c.Ukprn,
-                        c.OrganisationIdentifier,
-                    })
-                    .Distinct().ToListAsync(cancellationToken);
-
-                return contractors
-                    .Select(c => new FcsContractor
-                    {
-                        Ukprn = c.Ukprn.Value,
-                        OrganisationIdentifier = c.OrganisationIdentifier,
-                    }).ToList();
-            }
-        }
-
         private int BuildFormattedDate(DateTime? dateTime)
         {
             return dateTime.HasValue ? Convert.ToInt32(dateTime.Value.ToString("yyyyMM")) : 0;

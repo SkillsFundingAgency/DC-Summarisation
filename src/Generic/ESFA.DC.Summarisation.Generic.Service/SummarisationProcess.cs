@@ -46,10 +46,12 @@ namespace ESFA.DC.Summarisation.Generic.Service
             var genericCollectionData = await _genericCollectionRepository.RetrieveAsync(summarisationMessage.CollectionType, cancellationToken);
 
             var ukprns = genericCollectionData.Select(gc => int.Parse(gc.OrganisationId)).Distinct().ToList();
+            var fundingStreamPeriodCodes = genericCollectionData.Select(gc => gc.FundingStreamPeriodCode).Distinct().ToList();
 
-            var fcsContractors = await _fcsRepository.RetrieveContractorForUkprnAsync(ukprns, cancellationToken);
+            var fcsContractAllocations = await _fcsRepository.RetrieveContractAllocationsAsync(fundingStreamPeriodCodes, cancellationToken);
+            var genericCollectionContracts = fcsContractAllocations.Where(u => ukprns.Contains(u.DeliveryUkprn.Value)).Distinct().ToList();
 
-            var summarisedActuals = await _providerSummarisationService.Summarise(genericCollectionData, summarisationMessage, fcsContractors, cancellationToken);
+            var summarisedActuals = await _providerSummarisationService.Summarise(genericCollectionData, summarisationMessage, genericCollectionContracts, cancellationToken);
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving Retrieving Generic Collection Data End");
 
