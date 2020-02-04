@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ESFA.DC.Logging.Interfaces" Version="0.1.10-beta0001" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Constants\ESFA.DC.Summarisation.Constants.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.NCS.Interfaces\ESFA.DC.Summarisation.NCS.Interfaces.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.NCS.Model\ESFA.DC.Summarisation.NCS.Model.csproj" />
