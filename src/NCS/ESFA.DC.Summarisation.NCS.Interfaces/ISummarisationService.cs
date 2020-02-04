@@ -9,6 +9,6 @@ namespace ESFA.DC.Summarisation.NCS.Interfaces
 {
     public interface ISummarisationService
     {
-       ICollection<SummarisedActual> Summarise(ICollection<FundingStream> fundingStreams, TouchpointProviderFundingData provider, ICollection<FcsContractAllocation> allocations, ICollection<CollectionPeriod> collectionPeriods, ISummarisationMessage summarisationMessage);
+       ICollection<SummarisedActual> Summarise(ICollection<FundingStream> fundingStreams, TouchpointProviderFundingData provider, ICollection<FcsContractAllocation> allocations, ICollection<CollectionPeriod> collectionPeriods);
     }
 }

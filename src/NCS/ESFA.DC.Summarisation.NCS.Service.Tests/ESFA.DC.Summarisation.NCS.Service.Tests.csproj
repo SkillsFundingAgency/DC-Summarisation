@@ -6,11 +6,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FC1B7EE3-51CE-46F9-BEA4-69512A1D364A}</ProjectGuid>
+    <ProjectGuid>{7F3FF735-831D-41E0-9DCF-27D5CFF3D65F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ESFA.GC.Summarisation.Generic.Service.Tests</RootNamespace>
-    <AssemblyName>ESFA.GC.Summarisation.Generic.Service.Tests</AssemblyName>
+    <RootNamespace>ESFA.DC.Summarisation.NCS.Service.Tests</RootNamespace>
+    <AssemblyName>ESFA.DC.Summarisation.NCS.Service.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,11 +41,20 @@
     <Reference Include="ESFA.DC.Logging.Interfaces, Version=0.1.10.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ESFA.DC.Logging.Interfaces.0.1.10-beta0001\lib\netstandard2.0\ESFA.DC.Logging.Interfaces.dll</HintPath>
     </Reference>
+    <Reference Include="ESFA.DC.Serialization.Interfaces, Version=0.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ESFA.DC.Serialization.Interfaces.0.1.4-beta0001\lib\netstandard2.0\ESFA.DC.Serialization.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ESFA.DC.Serialization.Json, Version=0.1.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ESFA.DC.Serialization.Json.0.1.6-beta0001\lib\netstandard2.0\ESFA.DC.Serialization.Json.dll</HintPath>
+    </Reference>
     <Reference Include="FluentAssertions, Version=5.7.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\FluentAssertions.5.7.0\lib\net45\FluentAssertions.dll</HintPath>
     </Reference>
     <Reference Include="Moq, Version=4.13.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Moq.4.13.1\lib\net45\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Serilog.2.6.0\lib\net46\Serilog.dll</HintPath>
@@ -79,8 +88,6 @@
     </Reference>
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -103,8 +110,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProviderRepositoryTests.cs" />
     <Compile Include="ProviderSummarisationServiceTests.cs" />
+    <Compile Include="SummarisationNCSProcessTests.cs" />
     <Compile Include="SummarisationProcessTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Interfaces\ESFA.DC.Summarisation.Interfaces.csproj">
@@ -115,22 +132,22 @@
       <Project>{C1CB3ABE-1DA4-45A1-AD7A-01802F5A6AB2}</Project>
       <Name>ESFA.DC.Summarisation.Service.Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ESFA.DC.Summarisation.Generic.Interfaces\ESFA.DC.Summarisation.Generic.Interfaces.csproj">
-      <Project>{35df8506-f766-484c-9b7f-0c661fcd4825}</Project>
-      <Name>ESFA.DC.Summarisation.Generic.Interfaces</Name>
+    <ProjectReference Include="..\ESFA.DC.Summarisation.NCS.Interfaces\ESFA.DC.Summarisation.NCS.Interfaces.csproj">
+      <Project>{BEB80E11-5079-431B-967F-45C86AB1A2B7}</Project>
+      <Name>ESFA.DC.Summarisation.NCS.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ESFA.DC.Summarisation.Generic.Service\ESFA.DC.Summarisation.Generic.Service.csproj">
-      <Project>{45bda50f-68ac-4c41-8b86-3408944fef32}</Project>
-      <Name>ESFA.DC.Summarisation.Generic.Service</Name>
+    <ProjectReference Include="..\ESFA.DC.Summarisation.NCS.Model\ESFA.DC.Summarisation.NCS.Model.csproj">
+      <Project>{B4DF491C-09B4-47E9-9096-19124CD92116}</Project>
+      <Name>ESFA.DC.Summarisation.NCS.Model</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
+    <ProjectReference Include="..\ESFA.DC.Summarisation.NCS.Service\ESFA.DC.Summarisation.NCS.Service.csproj">
+      <Project>{f0a9ecdc-eeaa-4523-9dea-20403de182d6}</Project>
+      <Name>ESFA.DC.Summarisation.NCS.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NCS1920\ESFA.DC.Summarisation.NCS.NCS1920.Service\ESFA.DC.Summarisation.NCS.NCS1920.Service.csproj">
+      <Project>{7952e124-a097-4da2-b78b-f0ba318c4f80}</Project>
+      <Name>ESFA.DC.Summarisation.NCS.NCS1920.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

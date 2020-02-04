@@ -8,6 +8,7 @@ using ESFA.DC.Summarisation.Service.Model.Fcs;
 using ESFA.DC.Summarisation.NCS.Interfaces;
 using ESFA.DC.Summarisation.NCS.Model.Config;
 using ESFA.DC.Summarisation.NCS.Model;
+using ESFA.DC.Summarisation.NCS.Service.Extensions;
 
 namespace ESFA.DC.Summarisation.NCS.Service
 {
@@ -17,8 +18,7 @@ namespace ESFA.DC.Summarisation.NCS.Service
             ICollection<FundingStream> fundingStreams,
             TouchpointProviderFundingData provider,
             ICollection<FcsContractAllocation> allocations,
-            ICollection<CollectionPeriod> collectionPeriods,
-            ISummarisationMessage summarisationMessage)
+            ICollection<CollectionPeriod> collectionPeriods)
         {
             var summarisedActuals = new List<SummarisedActual>();
 
@@ -71,33 +71,22 @@ namespace ESFA.DC.Summarisation.NCS.Service
 
         public ICollection<SummarisedActual> SummarisePeriods(ICollection<FundingValue> fundingValues, ICollection<CollectionPeriod> collectionPeriods)
         {
-            var aggregatedFundingValues = fundingValues
-                .GroupBy(g => new { g.CollectionYear, g.CalendarMonth })
-                .Select(s => new 
-                {
-                    s.Key.CollectionYear,
-                    s.Key.CalendarMonth,
-                    Value = s.Sum(p => p.Value)
-                });
+            var groupedFundingValues = fundingValues
+                .GroupBy(fv => fv.CollectionYear)
+                .ToDictionary(
+                g => g.Key,
+                g => g.GroupBy(h => h.CalendarMonth)
+                .ToDictionary(
+                    i => i.Key,
+                    i => i.Sum(p => p.Value)));
 
-            return (collectionPeriods
-              .GroupJoin(aggregatedFundingValues,
-                       cp => new { cp.CollectionYear, cp.CalendarMonth },
-                       p => new { p.CollectionYear, p.CalendarMonth },
-                       (cp, p) => new { Period = p, CollectionPeriod = cp }
-                   )).SelectMany(grp => grp.Period.DefaultIfEmpty(), (outGrp, outPeriod) => new
-                   {
-                       CollectionYear = outGrp.CollectionPeriod.CollectionYear,
-                       CollectionMonth = outGrp.CollectionPeriod.CollectionMonth,
-                       ActualsSchemaPeriod = outGrp.CollectionPeriod.ActualsSchemaPeriod,
-                       Value = outPeriod == null ? decimal.Zero : outPeriod.Value,
-                   })
-              .GroupBy(pg => pg.ActualsSchemaPeriod)
-              .Select(g => new SummarisedActual
-              {
-                  Period = g.Key,
-                  ActualValue = g.Sum(sw => sw.Value),
-              }).ToList();
+            return collectionPeriods
+                .Select(cp => new SummarisedActual()
+                {
+                    Period = cp.ActualsSchemaPeriod,
+                    ActualValue = groupedFundingValues.GetValueOrDefault(cp.CollectionYear).GetValueOrDefault(cp.CalendarMonth, 0)
+                }).ToList();
+
         }
     }
 }
