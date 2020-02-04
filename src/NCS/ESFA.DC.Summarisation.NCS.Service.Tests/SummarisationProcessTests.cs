@@ -57,7 +57,7 @@ namespace ESFA.DC.Summarisation.NCS.Service.Tests
             var contractAllocations = new List<FcsContractAllocation>();
             var fcsRepositoryMock = new Mock<IFcsRepository>();
             fcsRepositoryMock
-                .Setup(x => x.RetrieveAsync(It.IsAny<IEnumerable<string>>(), cancellationToken))
+                .Setup(x => x.RetrieveContractAllocationsAsync(It.IsAny<IEnumerable<string>>(), cancellationToken))
                 .ReturnsAsync(contractAllocations);
 
             var providerSummarisationServiceMock = new Mock<IProviderSummarisationService<TouchpointProviderFundingData>>();
