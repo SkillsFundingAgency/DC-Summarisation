@@ -16,7 +16,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
     public class FcsRepositoryTests
     {
         [Fact]
-        public async Task RetrieveAsyncTest()
+        public async Task RetrieveContractAllocationsAsync()
         {
             var allocations = new List<ContractAllocation>
             {
@@ -77,7 +77,7 @@ namespace ESFA.DC.Summarisation.Data.Tests.Repository
 
             var service = new FcsRepository(() => fcsMock.Object);
 
-            var fcsa = await service.RetrieveAsync(FundingStreamConstants.FundingStreams, CancellationToken.None);
+            var fcsa = await service.RetrieveContractAllocationsAsync(FundingStreamConstants.FundingStreams, CancellationToken.None);
 
             fcsa.Count(a => a.FundingStreamPeriodCode.Equals("APPS1819", System.StringComparison.OrdinalIgnoreCase)).Should().Be(2);
             fcsa.Count(a => a.FundingStreamPeriodCode.Equals("APPS1920", System.StringComparison.OrdinalIgnoreCase)).Should().Be(2);

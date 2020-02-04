@@ -25,12 +25,12 @@ namespace ESFA.DC.Summarisation.Generic.Modules
         {
             containerBuilder.RegisterType<SummarisationProcess>().As<ISummarisationProcess>().Keyed<ISummarisationProcess>(ProcessTypeConstants.Generic);
             containerBuilder.RegisterType<ProviderSummarisationService>().As<IProviderSummarisationService<IEnumerable<Summarisation.Service.Model.SummarisedActual>>>();
+            containerBuilder.RegisterType<SummarisationService>().As<ISummarisationService>();
+            containerBuilder.RegisterType<GenericCollectionRepository>().As<IGenericCollectionRepository>();
 
             var dataStoreEntitiesConfig = BuildDbContextOptions<GenericCollectionContext>(_summarisationDataOptions.GenericCollectionsConnectionString, _summarisationDataOptions.SqlCommandTimeoutSeconds);
 
             containerBuilder.Register(c => new GenericCollectionContext(dataStoreEntitiesConfig)).As<IGenericCollectionContext>().ExternallyOwned();
-
-            containerBuilder.RegisterType<GenericCollectionRepository>().As<IGenericCollectionRepository>();
         }
 
         private DbContextOptions<T> BuildDbContextOptions<T>(string connectionString, string sqlCommandTimeOut) where T : DbContext
