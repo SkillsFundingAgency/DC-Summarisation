@@ -2,20 +2,14 @@
 
 namespace ESFA.DC.Summarisation.ESF.Model.Config
 {
-    public class FundLine
+    public class DeliverableLine
     {
-        public string Fundline { get; set; }
-
         public string DeliverableCode { get; set; }
-
-        public string LineType { get; set; }
 
         public bool UseAttributes { get; set; }
 
         public List<string> Attributes { get; set; }
 
         public bool CalculateVolume { get; set; }
-
-        public int? AcademicYear { get; set; }
     }
 }

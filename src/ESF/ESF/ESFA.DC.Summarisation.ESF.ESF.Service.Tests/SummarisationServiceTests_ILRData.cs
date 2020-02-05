@@ -27,7 +27,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
         {
             var task = new SummarisationDeliverableProcess();
 
-            FundLine fundLine = new FundLine() { CalculateVolume = true };
+            DeliverableLine fundLine = new DeliverableLine() { CalculateVolume = true };
 
             var result = task.SummarisePeriods(GetPeriodsData(5), fundLine, GetCollectionPeriods(), GetContractAllocation(GetProviders().First()));
 
@@ -46,7 +46,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
         {
             var task = new SummarisationDeliverableProcess();
 
-            FundLine fundLine = new FundLine() { CalculateVolume = false };
+            DeliverableLine fundLine = new DeliverableLine() { CalculateVolume = false };
 
             var result = task.SummarisePeriods(GetPeriodsData(5), fundLine, GetCollectionPeriods(), GetContractAllocation(GetProviders().First()));
 
@@ -147,7 +147,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             {
                 item.ActualValue.Should().Be(100);
 
-                var fl = fundingStream.FundLines.FirstOrDefault();
+                var fl = fundingStream.DeliverableLines.FirstOrDefault();
 
                 if (fl.CalculateVolume == true)
                     item.ActualVolume.Should().Be(100);
@@ -182,7 +182,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             {
                 item.ActualValue.Should().Be(100);
 
-                var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.FundLines).FirstOrDefault();
+                var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.DeliverableLines).FirstOrDefault();
 
                 if (fl.FirstOrDefault().CalculateVolume == true)
                     item.ActualVolume.Should().Be(100);
@@ -234,7 +234,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                 {
                     item.ActualValue.Should().Be(100);
 
-                    var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.FundLines).FirstOrDefault();
+                    var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.DeliverableLines).FirstOrDefault();
 
                     if (fl.FirstOrDefault().CalculateVolume == true)
                         item.ActualVolume.Should().Be(100);
@@ -288,7 +288,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                     {
                         item.ActualValue.Should().Be(100);
 
-                        var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.FundLines).FirstOrDefault();
+                        var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.DeliverableLines).FirstOrDefault();
 
                         if (fl.FirstOrDefault().CalculateVolume == true)
                             item.ActualVolume.Should().Be(100);
