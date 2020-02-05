@@ -8,12 +8,6 @@ namespace ESFA.DC.Summarisation.ESF.Model
 
         public string DeliverableCode { get; set; }
 
-        public int ApprenticeshipContractType { get; set; }
-
-        public int FundingSource { get; set; }
-
-        public int TransactionType { get; set; }
-
         public IList<Period> Periods { get; set; }
     }
 }

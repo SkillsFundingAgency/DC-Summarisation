@@ -2,9 +2,9 @@
 using System.Linq;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.ESF.Model;
+using ESFA.DC.Summarisation.ESF.Model.Config;
 using ESFA.DC.Summarisation.ESF.Service;
 using ESFA.DC.Summarisation.Interfaces;
-using ESFA.DC.Summarisation.Service.Model.Config;
 using ESFA.DC.Summarisation.Service.Model.Fcs;
 using FluentAssertions;
 using Moq;
@@ -107,11 +107,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             {
                 new LearningDelivery()
                 {
-                        LearnRefNumber = "100000425",
                         ConRefNumber = "All10000001-1",
-                        AimSeqNumber = 10001,
-                        Fundline = "16-18 Apprenticeship",
-                        DeliverableCode = "ST01",
                         PeriodisedData = periodisedDatas
                 },
             };

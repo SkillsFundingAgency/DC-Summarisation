@@ -151,9 +151,9 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
                                             BuildPeriodFromLearningDelivery(11, CollectionYear, CalendarYearEnd, 6, ld.AttributeName, ld.Period_11),
 
                                             BuildPeriodFromLearningDelivery(12, CollectionYear, CalendarYearEnd, 7, ld.AttributeName, ld.Period_12),
-                                        }
-                                    }
-                                }
+                                        },
+                                    },
+                                },
                             };
                         }).ToList();
 
@@ -180,7 +180,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
                 CalendarYear = calendarYear,
                 CalendarMonth = calendarMonth,
                 Value = !isDeliverableVolume ? periodValue : 0,
-                Volume = isDeliverableVolume ? Convert.ToInt32(periodValue) : 0
+                Volume = isDeliverableVolume ? Convert.ToInt32(periodValue) : 0,
             };
         }
     }

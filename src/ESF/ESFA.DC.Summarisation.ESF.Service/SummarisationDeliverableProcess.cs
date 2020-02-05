@@ -7,15 +7,17 @@ using ESFA.DC.Summarisation.ESF.Interfaces;
 using ESFA.DC.Summarisation.ESF.Model;
 using ESFA.DC.Summarisation.Service.Model;
 using ESFA.DC.Summarisation.Service.Model.Fcs;
-using ESFA.DC.Summarisation.Service.Model.Config;
+using ESFA.DC.Summarisation.ESF.Model.Config;
 
 namespace ESFA.DC.Summarisation.ESF.Service
 {
     public class SummarisationDeliverableProcess : ISummarisationService
     {
+        private const string FSPcode = "ESF1420";
+
         public ICollection<SummarisedActual> Summarise(ICollection<FundingStream> fundingStreams, LearningProvider provider, ICollection<FcsContractAllocation> allocations, ICollection<CollectionPeriod> collectionPeriods, ISummarisationMessage summarisationMessage)
         {
-            var esfAllocations = allocations.Where(w => w.FundingStreamPeriodCode.Equals("ESF1420", StringComparison.OrdinalIgnoreCase));
+            var esfAllocations = allocations.Where(w => w.FundingStreamPeriodCode.Equals(FSPcode, StringComparison.OrdinalIgnoreCase));
 
             var summarisedActuals = new List<SummarisedActual>();
 
