@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
-using ESFA.DC.Summarisation.Data.Persist.Persist.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Model;
 
@@ -21,24 +19,24 @@ namespace ESFA.DC.Summarisation.Data.Persist
 
         private readonly ICollectionReturnMapper _collectionReturnMapper;
         private readonly ISummarisedActualsPersist _summarisedActualsPersist;
-        private readonly Func<SqlConnection> _sqlConnectionFactory;
+        private readonly ISummarisationDataOptions _summarisationDataOptions;
 
         public DataStorePersistenceService(
             ISummarisedActualsPersist summarisedActualsPersist,
             ICollectionReturnMapper collectionReturnMapper,
-            Func<SqlConnection> sqlConnectionFactory)
+            ISummarisationDataOptions summarisationDataOptions)
         {
             _summarisedActualsPersist = summarisedActualsPersist;
-            _sqlConnectionFactory = sqlConnectionFactory;
             _collectionReturnMapper = collectionReturnMapper;
+            _summarisationDataOptions = summarisationDataOptions;
         }
 
         public async Task StoreSummarisedActualsDataAsync(
-            IList<Output.Model.SummarisedActual> summarisedActuals,
+            IList<Service.Model.SummarisedActual> summarisedActuals,
             ISummarisationMessage summarisationMessage,
             CancellationToken cancellationToken)
         {
-            using (var sqlConnection = this._sqlConnectionFactory.Invoke())
+            using (var sqlConnection = new SqlConnection(_summarisationDataOptions.SummarisedActualsConnectionString))
             {
                 await sqlConnection.OpenAsync(cancellationToken);
 

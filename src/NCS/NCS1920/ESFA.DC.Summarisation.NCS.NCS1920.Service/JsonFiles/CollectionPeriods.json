@@ -1,0 +1,98 @@
+[
+    {
+    "Period": 1,
+    "CalendarMonth": 4,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201904,
+    "CollectionMonth": 1,
+    "CollectionYear": 1920
+  },
+  {
+    "Period": 2,
+    "CalendarMonth": 5,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201905,
+    "CollectionMonth": 2,
+    "CollectionYear": 1920
+  },
+  {
+    "Period": 3,
+    "CalendarMonth": 6,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201906,
+    "CollectionMonth": 3,
+    "CollectionYear": 1920
+  },
+  {
+    "Period": 4,
+    "CalendarMonth": 7,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201907,
+    "CollectionMonth": 4,
+    "CollectionYear": 1920
+  },
+  {
+    "Period": 5,
+    "CalendarMonth": 8,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201908,
+    "CollectionMonth": 5,
+    "CollectionYear": 1920
+  },
+  {
+    "Period": 6,
+    "CalendarMonth": 9,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201909,
+    "CollectionMonth": 6,
+    "CollectionYear": 1920
+  },
+  {
+    "Period": 7,
+    "CalendarMonth": 10,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201910,
+    "CollectionMonth": 7,
+    "CollectionYear": 1920
+  },
+  {
+    "Period": 8,
+    "CalendarMonth": 11,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201911,
+    "CollectionMonth": 8,
+    "CollectionYear": 1920
+  },
+  {
+    "Period": 9,
+    "CalendarMonth": 12,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201912,
+    "CollectionMonth": 9,
+    "CollectionYear": 1920
+  },
+  {
+    "Period": 10,
+    "CalendarMonth": 1,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202001,
+    "CollectionMonth": 10,
+    "CollectionYear": 1920
+  },
+  {
+    "Period": 11,
+    "CalendarMonth": 2,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202002,
+    "CollectionMonth": 11,
+    "CollectionYear": 1920
+  },
+  {
+    "Period": 12,
+    "CalendarMonth": 3,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202003,
+    "CollectionMonth": 12,
+    "CollectionYear": 1920
+  }
+]

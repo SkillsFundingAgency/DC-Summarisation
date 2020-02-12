@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -13,8 +13,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.9.2" />
+    <PackageReference Include="Autofac" Version="4.9.4" />
     <PackageReference Include="ESFA.DC.EAS1920.EF" Version="0.0.25" />
+    <PackageReference Include="ESFA.DC.GenericCollection.EF" Version="0.0.59" />
     <PackageReference Include="ESFA.DC.ReferenceData.FCS.Model" Version="0.1.218" />
     <PackageReference Include="ESFA.DC.Serialization.Json" Version="0.1.6-beta0001" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
@@ -24,13 +25,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Apps1920\ESFA.DC.Summarisation.Apps1920.Data\ESFA.DC.Summarisation.Apps1920.Data.csproj" />
-    <ProjectReference Include="..\Apps1920\ESFA.DC.Summarisation.Apps1920.Service\ESFA.DC.Summarisation.Apps1920.Service.csproj" />
-    <ProjectReference Include="..\ESF\ESFA.DC.Summarisation.ESF.Data\ESFA.DC.Summarisation.ESF.Data.csproj" />
-    <ProjectReference Include="..\ESF\ESFA.DC.Summarisation.ESF.Service\ESFA.DC.Summarisation.ESF.Service.csproj" />
+    <ProjectReference Include="..\Apps\ESFA.DC.Summarisation.Apps.Modules\ESFA.DC.Summarisation.Apps.Modules.csproj" />
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Data.Persist\ESFA.DC.Summarisation.Data.Persist.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.Service\ESFA.DC.Summarisation.Service.csproj" />
-    <ProjectReference Include="..\Main1920\ESFA.DC.Summarisation.Main1920.Data\ESFA.DC.Summarisation.Main1920.Data.csproj" />
-    <ProjectReference Include="..\Main1920\ESFA.DC.Summarisation.Main1920.Service\ESFA.DC.Summarisation.Main1920.Service.csproj" />
+    <ProjectReference Include="..\ESF\ESFA.DC.Summarisation.ESF.Modules\ESFA.DC.Summarisation.ESF.Modules.csproj" />
+    <ProjectReference Include="..\ESF\ESF\ESFA.DC.Summarisation.ESF.ESF.Service\ESFA.DC.Summarisation.ESF.ESF.Service.csproj" />
+    <ProjectReference Include="..\Generic\ESFA.DC.Summarisation.Generic.Modules\ESFA.DC.Summarisation.Generic.Modules.csproj" />
+    <ProjectReference Include="..\Main\ESFA.DC.Summarisation.Main.Modules\ESFA.DC.Summarisation.Main.Modules.csproj" />
+    <ProjectReference Include="..\NCS\ESFA.DC.Summarisation.NCS.Modules\ESFA.DC.Summarisation.NCS.Modules.csproj" />
   </ItemGroup>
 
 </Project>

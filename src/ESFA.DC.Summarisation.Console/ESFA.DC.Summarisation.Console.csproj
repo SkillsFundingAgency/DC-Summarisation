@@ -63,25 +63,9 @@
     <None Include="ESFA.DC.Summarisation.Console.ruleset" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Apps1920\ESFA.DC.Summarisation.Apps1920.Data\ESFA.DC.Summarisation.Apps1920.Data.csproj">
-      <Project>{292e9dce-55c1-492a-a42d-ae450f30b2fa}</Project>
-      <Name>ESFA.DC.Summarisation.Apps1920.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Apps1920\ESFA.DC.Summarisation.Apps1920.Service\ESFA.DC.Summarisation.Apps1920.Service.csproj">
-      <Project>{f0ad1b8d-5771-452c-a1f8-cdaecb529282}</Project>
-      <Name>ESFA.DC.Summarisation.Apps1920.Service</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ESF\ESFA.DC.Summarisation.ESF.Data\ESFA.DC.Summarisation.ESF.Data.csproj">
-      <Project>{81ABBB7C-CEB5-47F9-8E07-3197D1135CCB}</Project>
-      <Name>ESFA.DC.Summarisation.ESF.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ESF\ESFA.DC.Summarisation.ESF.Service\ESFA.DC.Summarisation.ESF.Service.csproj">
-      <Project>{5b2ffcdc-83d6-404a-97f8-8558fc4ebb7c}</Project>
-      <Name>ESFA.DC.Summarisation.ESF.Service</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ESFA.DC.Summarisation.Configuration\ESFA.DC.Summarisation.Configuration.csproj">
-      <Project>{6B10F154-0C66-49C8-BEFB-646A8C8909DA}</Project>
-      <Name>ESFA.DC.Summarisation.Configuration</Name>
+    <ProjectReference Include="..\Apps\Apps1920\ESFA.DC.Summarisation.Apps.Apps1920.Service\ESFA.DC.Summarisation.Apps.Apps1920.Service.csproj">
+      <Project>{0e887833-4059-48b2-9d89-8e6b5955926d}</Project>
+      <Name>ESFA.DC.Summarisation.Apps.Apps1920.Service</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.Summarisation.Data.Persist\ESFA.DC.Summarisation.Data.Persist.csproj">
       <Project>{147D4B0C-4706-4DC9-A844-3F89E107C572}</Project>
@@ -99,17 +83,25 @@
       <Project>{B0FF12A8-3050-453E-B2C2-76E197977F8A}</Project>
       <Name>ESFA.DC.Summarisation.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Service.Model\ESFA.DC.Summarisation.Service.Model.csproj">
+      <Project>{C1CB3ABE-1DA4-45A1-AD7A-01802F5A6AB2}</Project>
+      <Name>ESFA.DC.Summarisation.Service.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.Summarisation.Service\ESFA.DC.Summarisation.Service.csproj">
       <Project>{79FBA70B-AB9E-4B43-B850-9CF41340B638}</Project>
       <Name>ESFA.DC.Summarisation.Service</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Main1920\ESFA.DC.Summarisation.Main1920.Data\ESFA.DC.Summarisation.Main1920.Data.csproj">
-      <Project>{c1a2b011-7380-4b42-b475-9a3c4e8bd38b}</Project>
-      <Name>ESFA.DC.Summarisation.Main1920.Data</Name>
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Stateless\ESFA.DC.Summarisation.Stateless.csproj">
+      <Project>{8DEA5200-6C7A-412B-A9F7-A3C521CB800A}</Project>
+      <Name>ESFA.DC.Summarisation.Stateless</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Main1920\ESFA.DC.Summarisation.Main1920.Service\ESFA.DC.Summarisation.Main1920.Service.csproj">
-      <Project>{beb1d086-0e2c-4bb9-b723-179674108523}</Project>
-      <Name>ESFA.DC.Summarisation.Main1920.Service</Name>
+    <ProjectReference Include="..\ESF\ESF\ESFA.DC.Summarisation.ESF.ESF.Service\ESFA.DC.Summarisation.ESF.ESF.Service.csproj">
+      <Project>{f616e12a-443b-43ba-9485-8d23369b045a}</Project>
+      <Name>ESFA.DC.Summarisation.ESF.ESF.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Main\Main1920\ESFA.DC.Summarisation.Main.Main1920.Service\ESFA.DC.Summarisation.Main.Main1920.Service.csproj">
+      <Project>{fa8a61ac-d6ea-4dc1-a868-404131355172}</Project>
+      <Name>ESFA.DC.Summarisation.Main.Main1920.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -118,9 +110,6 @@
     </PackageReference>
     <PackageReference Include="ESFA.DC.EAS1920.EF">
       <Version>0.0.25</Version>
-    </PackageReference>
-    <PackageReference Include="ESFA.DC.ILR1819.Database.EF">
-      <Version>0.1.381</Version>
     </PackageReference>
     <PackageReference Include="ESFA.DC.ILR1920.Database.EF">
       <Version>0.0.237</Version>

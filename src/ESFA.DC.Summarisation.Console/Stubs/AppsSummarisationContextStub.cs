@@ -1,9 +1,5 @@
 ﻿using ESFA.DC.Summarisation.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ESFA.DC.Summarisation.Console.Stubs
 {
@@ -15,7 +11,7 @@ namespace ESFA.DC.Summarisation.Console.Stubs
 
         public string CollectionReturnCode => "R01";
 
-        public IEnumerable<string> SummarisationTypes => new List<string> { "Apps1819_Levy", "Apps1819_NonLevy" };
+        public ICollection<string> SummarisationTypes => new List<string> { "Apps1819_Levy", "Apps1819_NonLevy" };
 
         public int? Ukprn => 0;
 

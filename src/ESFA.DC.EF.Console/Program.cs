@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ESFA.DC.EF.Console
+﻿namespace ESFA.DC.EF.Console
 {
     class Program
     {

@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Scaffolding.Internal;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ESFA.DC.EF.Console.DesignTime
 {

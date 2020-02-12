@@ -5,21 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="JsonFiles\CollectionPeriods.json" />
-    <None Remove="JsonFiles\FundingTypes.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="JsonFiles\CollectionPeriods.json" />
-    <EmbeddedResource Include="JsonFiles\FundingTypes.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="ESFA.DC.Serialization.Interfaces" Version="0.1.6-beta0001" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\ESFA.DC.Summarisation.Service\ESFA.DC.Summarisation.Service.csproj" />
+    <ProjectReference Include="..\..\ESFA.DC.Summarisation.Constants\ESFA.DC.Summarisation.Constants.csproj" />
+    <ProjectReference Include="..\..\ESFA.DC.Summarisation.Interfaces\ESFA.DC.Summarisation.Interfaces.csproj" />
+    <ProjectReference Include="..\ESFA.DC.Summarisation.ESF.Interfaces\ESFA.DC.Summarisation.ESF.Interfaces.csproj" />
+    <ProjectReference Include="..\ESFA.DC.Summarisation.ESF.Model\ESFA.DC.Summarisation.ESF.Model.csproj" />
   </ItemGroup>
 
 </Project>

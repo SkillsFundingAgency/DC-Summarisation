@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using ESFA.DC.JobContextManager.Interface;
 using ESFA.DC.JobContextManager.Model;
-using ESFA.DC.JobContextManager.Model.Interface;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Stateless.Context;
@@ -32,8 +31,7 @@ namespace ESFA.DC.Summarisation.Stateless
                 using (var childLifetimeScope = this._lifetimeScope.BeginLifetimeScope(
                     c =>
                     {
-                        c.RegisterInstance(summarisationMessage).As<ISummarisationMessage>();
-                        }))
+                    }))
                 {
                     var executionContext = (ExecutionContext)childLifetimeScope.Resolve<IExecutionContext>();
                     executionContext.JobId = message.JobId.ToString();

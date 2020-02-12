@@ -12,7 +12,7 @@ namespace ESFA.DC.Summarisation.Interfaces
 
         int? Ukprn { get; }
 
-        IEnumerable<string> SummarisationTypes { get; }
+        ICollection<string> SummarisationTypes { get; }
 
         int CollectionYear { get; }
 
