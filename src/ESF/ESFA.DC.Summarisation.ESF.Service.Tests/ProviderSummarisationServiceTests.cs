@@ -21,7 +21,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
         {
             var cancellationToken = CancellationToken.None;
 
-            var summarisationTypes = new List<string> { "ESF_ILRData", "ESF_SuppData", "ESF_ILR_And_Supp" };
+            var summarisationTypes = new List<string> { "ESF_ILRData"};
             var processType = "Deliverable";
             var collectionType = "ESF";
 
