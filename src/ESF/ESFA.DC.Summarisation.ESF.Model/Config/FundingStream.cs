@@ -8,8 +8,6 @@ namespace ESFA.DC.Summarisation.ESF.Model.Config
 
         public int DeliverableLineCode { get; set; }
 
-        //public FundModel FundModel { get; set; }
-
         public List<DeliverableLine> DeliverableLines { get; set; }
     }
 }
