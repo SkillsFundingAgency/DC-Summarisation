@@ -1,6 +1,6 @@
 ﻿using ESFA.DC.Summarisation.ESF.Interfaces;
 using ESFA.DC.Summarisation.ESF.Model;
-using ESFA.DC.Summarisation.Service.Model.Config;
+using ESFA.DC.Summarisation.ESF.Model.Config;
 using ESFA.DC.Summarisation.Service.Model.Fcs;
 using System;
 using System.Collections.Generic;

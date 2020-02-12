@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.ESF.Interfaces;
 using ESFA.DC.Summarisation.ESF.Model;
-using ESFA.DC.Summarisation.Service.Model.Config;
 using ESFA.DC.Summarisation.Service.Model;
+using ESFA.DC.Summarisation.ESF.Model.Config;
 
 namespace ESFA.DC.Summarisation.ESF.Service
 {
@@ -25,7 +25,6 @@ namespace ESFA.DC.Summarisation.ESF.Service
         private readonly ILogger _logger;
         private readonly Func<IInputDataRepository<LearningProvider>> _repositoryFactory;
         private readonly int _dataRetrievalMaxConcurrentCalls;
-
         private readonly IProviderSummarisationService<LearningProvider> _providerSummarisationService;
 
         public SummarisationProcess(
@@ -63,7 +62,7 @@ namespace ESFA.DC.Summarisation.ESF.Service
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving FCS Contracts Start");
 
-            var fcsContractAllocations = await _fcsRepository.RetrieveContractAllocationsAsync(FundingStreamConstants.FundingStreams, cancellationToken);
+            var fcsContractAllocations = await _fcsRepository.RetrieveContractAllocationsAsync(FundingStreamConstants.ESFFundingStreams, cancellationToken);
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving FCS Contracts End");
 

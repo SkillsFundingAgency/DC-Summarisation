@@ -2,9 +2,9 @@
 using System.Linq;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.ESF.Model;
+using ESFA.DC.Summarisation.ESF.Model.Config;
 using ESFA.DC.Summarisation.ESF.Service;
 using ESFA.DC.Summarisation.Interfaces;
-using ESFA.DC.Summarisation.Service.Model.Config;
 using ESFA.DC.Summarisation.Service.Model.Fcs;
 using FluentAssertions;
 using Moq;
@@ -27,7 +27,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
         {
             var task = new SummarisationDeliverableProcess();
 
-            FundLine fundLine = new FundLine() { CalculateVolume = true };
+            DeliverableLine fundLine = new DeliverableLine() { CalculateVolume = true };
 
             var result = task.SummarisePeriods(GetPeriodsData(5), fundLine, GetCollectionPeriods(), GetContractAllocation(GetProviders().First()));
 
@@ -46,7 +46,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
         {
             var task = new SummarisationDeliverableProcess();
 
-            FundLine fundLine = new FundLine() { CalculateVolume = false };
+            DeliverableLine fundLine = new DeliverableLine() { CalculateVolume = false };
 
             var result = task.SummarisePeriods(GetPeriodsData(5), fundLine, GetCollectionPeriods(), GetContractAllocation(GetProviders().First()));
 
@@ -107,11 +107,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             {
                 new LearningDelivery()
                 {
-                        LearnRefNumber = "100000425",
                         ConRefNumber = "All10000001-1",
-                        AimSeqNumber = 10001,
-                        Fundline = "16-18 Apprenticeship",
-                        DeliverableCode = "ST01",
                         PeriodisedData = periodisedDatas
                 },
             };
@@ -151,7 +147,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             {
                 item.ActualValue.Should().Be(100);
 
-                var fl = fundingStream.FundLines.FirstOrDefault();
+                var fl = fundingStream.DeliverableLines.FirstOrDefault();
 
                 if (fl.CalculateVolume == true)
                     item.ActualVolume.Should().Be(100);
@@ -186,7 +182,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             {
                 item.ActualValue.Should().Be(100);
 
-                var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.FundLines).FirstOrDefault();
+                var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.DeliverableLines).FirstOrDefault();
 
                 if (fl.FirstOrDefault().CalculateVolume == true)
                     item.ActualVolume.Should().Be(100);
@@ -238,7 +234,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                 {
                     item.ActualValue.Should().Be(100);
 
-                    var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.FundLines).FirstOrDefault();
+                    var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.DeliverableLines).FirstOrDefault();
 
                     if (fl.FirstOrDefault().CalculateVolume == true)
                         item.ActualVolume.Should().Be(100);
@@ -292,7 +288,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                     {
                         item.ActualValue.Should().Be(100);
 
-                        var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.FundLines).FirstOrDefault();
+                        var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.DeliverableLines).FirstOrDefault();
 
                         if (fl.FirstOrDefault().CalculateVolume == true)
                             item.ActualVolume.Should().Be(100);

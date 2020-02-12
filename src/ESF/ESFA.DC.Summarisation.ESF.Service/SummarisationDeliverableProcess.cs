@@ -7,15 +7,17 @@ using ESFA.DC.Summarisation.ESF.Interfaces;
 using ESFA.DC.Summarisation.ESF.Model;
 using ESFA.DC.Summarisation.Service.Model;
 using ESFA.DC.Summarisation.Service.Model.Fcs;
-using ESFA.DC.Summarisation.Service.Model.Config;
+using ESFA.DC.Summarisation.ESF.Model.Config;
 
 namespace ESFA.DC.Summarisation.ESF.Service
 {
     public class SummarisationDeliverableProcess : ISummarisationService
     {
+        private const string FSPcode = "ESF1420";
+
         public ICollection<SummarisedActual> Summarise(ICollection<FundingStream> fundingStreams, LearningProvider provider, ICollection<FcsContractAllocation> allocations, ICollection<CollectionPeriod> collectionPeriods, ISummarisationMessage summarisationMessage)
         {
-            var esfAllocations = allocations.Where(w => w.FundingStreamPeriodCode.Equals("ESF1420", StringComparison.OrdinalIgnoreCase));
+            var esfAllocations = allocations.Where(w => w.FundingStreamPeriodCode.Equals(FSPcode, StringComparison.OrdinalIgnoreCase));
 
             var summarisedActuals = new List<SummarisedActual>();
 
@@ -47,7 +49,7 @@ namespace ESFA.DC.Summarisation.ESF.Service
         {
             var summarisedActuals = new List<SummarisedActual>();
 
-            foreach (var fundLine in fundingStream.FundLines)
+            foreach (var fundLine in fundingStream.DeliverableLines)
             {
                 var periodisedData = provider
                     .LearningDeliveries
@@ -75,7 +77,7 @@ namespace ESFA.DC.Summarisation.ESF.Service
                     }).ToList();
         }
 
-        public ICollection<Period> GetPeriodsForFundLine(IEnumerable<PeriodisedData> periodisedData, FundLine fundLine)
+        public ICollection<Period> GetPeriodsForFundLine(IEnumerable<PeriodisedData> periodisedData, DeliverableLine fundLine)
         {
             if (fundLine.UseAttributes)
             {
@@ -85,7 +87,7 @@ namespace ESFA.DC.Summarisation.ESF.Service
             return periodisedData.SelectMany(fpd => fpd.Periods).ToList();
         }
 
-        public ICollection<SummarisedActual> SummarisePeriods(ICollection<Period> periods, FundLine fundLine, ICollection<CollectionPeriod> collectionPeriods, FcsContractAllocation allocation)
+        public ICollection<SummarisedActual> SummarisePeriods(ICollection<Period> periods, DeliverableLine fundLine, ICollection<CollectionPeriod> collectionPeriods, FcsContractAllocation allocation)
         {
             var filteredCollectonPeriods = collectionPeriods.Where(cp => cp.ActualsSchemaPeriod >= allocation.ContractStartDate && cp.ActualsSchemaPeriod <= allocation.ContractEndDate);
 

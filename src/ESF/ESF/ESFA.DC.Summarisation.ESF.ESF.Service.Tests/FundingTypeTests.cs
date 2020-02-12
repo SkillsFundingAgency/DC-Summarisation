@@ -68,7 +68,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
             fundingStreams.Should().Contain(fs => fs.PeriodCode == fspCode && fs.DeliverableLineCode == dlc);
 
-            var fundLines = fundingStreams.First(fs => fs.PeriodCode == fspCode && fs.DeliverableLineCode == dlc).FundLines;
+            var fundLines = fundingStreams.First(fs => fs.PeriodCode == fspCode && fs.DeliverableLineCode == dlc).DeliverableLines;
 
             fundLines.Should().Contain(fl => fl.DeliverableCode == deliverableCode );
 

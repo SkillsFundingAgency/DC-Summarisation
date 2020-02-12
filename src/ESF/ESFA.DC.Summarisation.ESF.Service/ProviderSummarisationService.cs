@@ -10,7 +10,7 @@ using ESFA.DC.Summarisation.ESF.Interfaces;
 using ESFA.DC.Summarisation.ESF.Model;
 using ESFA.DC.Summarisation.Service.Model;
 using ESFA.DC.Summarisation.Service.Model.Fcs;
-using ESFA.DC.Summarisation.Service.Model.Config;
+using ESFA.DC.Summarisation.ESF.Model.Config;
 
 namespace ESFA.DC.Summarisation.ESF.Service
 {

@@ -1,4 +1,4 @@
-﻿using ESFA.DC.Summarisation.Service.Model.Config;
+﻿using ESFA.DC.Summarisation.ESF.Model.Config;
 using ESFA.DC.Summarisation.Service.Model.Fcs;
 using System.Collections.Generic;
 

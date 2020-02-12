@@ -70,9 +70,9 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
                                             CalendarMonth = p.CalendarMonth,
                                             CalendarYear = p.CalendarYear,
                                             Value = p.Value,
-                                            Volume = p.Volume
-                                        }).ToList()
-                                    }).ToList()
+                                            Volume = p.Volume,
+                                        }).ToList(),
+                                    }).ToList(),
                                 }).ToList();
 
                 return learningDeliveries;
@@ -85,7 +85,6 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
             {
                 return await esfContext.SupplementaryDatas.Select(s => Convert.ToInt32(s.SourceFile.UKPRN)).Distinct().ToListAsync(cancellationToken);
             }
-            
         }
 
         public Task<ICollection<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken) => ProvideAsync(ukprn, cancellationToken);
