@@ -20,12 +20,12 @@ namespace ESFA.DC.Summarisation.Data.Repository
             _summarisationContext = summarisationContext;
         }
 
-        public async Task<Service.Model.CollectionReturn> GetLastCollectionReturnForCollectionTypeAsync(string collectionType, CancellationToken cancellationToken)
+        public async Task<Service.Model.CollectionReturn> GetLastCollectionReturnForCollectionTypeAsync(string collectionType, string collectionReturnCode, CancellationToken cancellationToken)
         {
             using (var contextFactory = _summarisationContext())
             {
                 return await contextFactory.CollectionReturns
-                                    .Where(cr => cr.CollectionType == collectionType)
+                                    .Where(cr => cr.CollectionType == collectionType && cr.CollectionReturnCode != collectionReturnCode)
                                     .OrderByDescending(o => o.Id)
                                     .Select(s => new Service.Model.CollectionReturn { Id = s.Id, CollectionReturnCode = s.CollectionReturnCode, CollectionType = s.CollectionType })
                                     .FirstOrDefaultAsync(cancellationToken);

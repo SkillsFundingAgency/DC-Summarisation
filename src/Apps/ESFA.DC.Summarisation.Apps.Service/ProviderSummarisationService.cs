@@ -10,7 +10,7 @@ using ESFA.DC.Summarisation.Apps.Interfaces;
 using ESFA.DC.Summarisation.Apps.Model;
 using ESFA.DC.Summarisation.Service.Model;
 using ESFA.DC.Summarisation.Service.Model.Fcs;
-using ESFA.DC.Summarisation.Service.Model.Config;
+using ESFA.DC.Summarisation.Apps.Model.Config;
 
 namespace ESFA.DC.Summarisation.Apps.Service
 {
@@ -58,18 +58,16 @@ namespace ESFA.DC.Summarisation.Apps.Service
                 }
             }
 
-            if (!summarisationMessage.ProcessType.Equals(ProcessTypeConstants.Payments, StringComparison.OrdinalIgnoreCase))
-            {
-                _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed  Rule UKPRN: {providerData.UKPRN} Start");
+            _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed  Rule UKPRN: {providerData.UKPRN} Start");
 
-                var organisationId = providerActuals.Select(x => x.OrganisationId).FirstOrDefault();
+            var organisationId = contractAllocations.Where(w => w.DeliveryUkprn == providerData.UKPRN).Select(s => s.DeliveryOrganisation).FirstOrDefault();
 
-                var actualsToCarry = await _providerFundingDataRemovedService.FundingDataRemovedAsync(organisationId, providerActuals, summarisationMessage, cancellationToken);
+            var actualsToCarry = await _providerFundingDataRemovedService.FundingDataRemovedAsync(organisationId, providerActuals, summarisationMessage, cancellationToken);
 
-                providerActuals.AddRange(actualsToCarry);
+            providerActuals.AddRange(actualsToCarry);
 
-                _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed  Rule UKPRN: {providerData.UKPRN} End");
-            }
+            _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed  Rule UKPRN: {providerData.UKPRN} End");
+            
 
             return providerActuals;
         }

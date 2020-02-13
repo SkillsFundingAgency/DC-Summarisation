@@ -20,7 +20,7 @@ namespace ESFA.DC.Summarisation.Service
 
         public async Task<ICollection<SummarisedActual>> FundingDataRemovedAsync(string organisationId, ICollection<SummarisedActual> providerActuals, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
-            var latestCollectionReturn = await _summarisedActualsProcessRepository.GetLastCollectionReturnForCollectionTypeAsync(summarisationMessage.CollectionType, cancellationToken);
+            var latestCollectionReturn = await _summarisedActualsProcessRepository.GetLastCollectionReturnForCollectionTypeAsync(summarisationMessage.CollectionType, summarisationMessage.CollectionReturnCode, cancellationToken);
 
             var actualsToCarry = new List<SummarisedActual>();
 
@@ -44,7 +44,7 @@ namespace ESFA.DC.Summarisation.Service
 
         public async Task<ICollection<SummarisedActual>> FundingDataRemovedAsync(string organisationId, string uopCode, ICollection<SummarisedActual> providerActuals, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
-            var latestCollectionReturn = await _summarisedActualsProcessRepository.GetLastCollectionReturnForCollectionTypeAsync(summarisationMessage.CollectionType, cancellationToken);
+            var latestCollectionReturn = await _summarisedActualsProcessRepository.GetLastCollectionReturnForCollectionTypeAsync(summarisationMessage.CollectionType, summarisationMessage.CollectionReturnCode, cancellationToken);
 
             var actualsToCarry = new List<SummarisedActual>();
 

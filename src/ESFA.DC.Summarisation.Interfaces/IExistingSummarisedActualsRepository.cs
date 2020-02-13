@@ -7,7 +7,7 @@ namespace ESFA.DC.Summarisation.Interfaces
 {
     public interface IExistingSummarisedActualsRepository
     {
-        Task<CollectionReturn> GetLastCollectionReturnForCollectionTypeAsync(string collectionType, CancellationToken cancellationToken);
+        Task<CollectionReturn> GetLastCollectionReturnForCollectionTypeAsync(string collectionType, string collectionReturnCode, CancellationToken cancellationToken);
 
         Task<IEnumerable<SummarisedActual>> GetSummarisedActualsAsync(int collectionReturnId, string organisationId, CancellationToken cancellationToken);
 

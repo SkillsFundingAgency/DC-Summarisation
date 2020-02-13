@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using ESFA.DC.DASPayments.EF.Interfaces;
 using ESFA.DC.Summarisation.Apps.Interfaces;
 using ESFA.DC.Summarisation.Apps.Model;
+using ESFA.DC.Summarisation.Apps.Model.Config;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Interfaces;
-using ESFA.DC.Summarisation.Service.Model.Config;
 using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
@@ -43,7 +43,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
             List<int> CollectionYears = new List<int>()
             {
                 summarisationMessage.CollectionYear,
-                previousCollectionYear
+                previousCollectionYear,
             };
 
             string previouscollectionPeriodName = string.Empty;
@@ -65,14 +65,13 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
             List<string> CollectionPeriodNames = new List<string>()
             {
                 currentcollectionPeriodName,
-                previouscollectionPeriodName
+                previouscollectionPeriodName,
             };
 
             using (var easContext = _dasContext())
             {
                 var nonlevyEAS = await easContext.ProviderAdjustmentPayments
                             .Where(sv => sv.Ukprn == ukprn
-                              //&& CollectionYears.Contains(sv.SubmissionAcademicYear)
                                 && !FundlineConstants.Levy1799_EASlines.Contains(sv.PaymentTypeName)
                             ).
                             Select(q1 => new
@@ -80,7 +79,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
                                        q1.PaymentTypeName,
                                        CollectionMonth = q1.SubmissionCollectionPeriod,
                                        CollectionYear = q1.SubmissionAcademicYear,
-                                       Value = q1.Amount
+                                       Value = q1.Amount,
                                 }
                             ).ToListAsync(cancellationToken);
 
@@ -98,32 +97,30 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
                                     p.PaymentTypeName,
                                     CollectionMonth = collectionPeriod?.CollectionMonth ?? 0,
                                     CollectionYear = collectionPeriod?.CollectionYear ?? 0,
-                                    Value = p.Amount
+                                    Value = p.Amount,
                                 };
 
                             }).ToList();
-                
+
                 var eas = nonlevyEAS.Concat(levyEAS).ToList();
 
                 var learningDeliveries = eas
                         .GroupBy(x => x.PaymentTypeName)
                         .Select(ld => new LearningDelivery
                         {
-                            AimSeqNumber = 0,
                             Fundline = ld.Key,
                             PeriodisedData = ld.Select(pd => new PeriodisedData
                             {
-                                AttributeName = string.Empty,
                                 Periods = new List<Period>
                                 {
                                     new Period
                                     {
                                         CollectionMonth = pd.CollectionMonth,
                                         CollectionYear = pd.CollectionYear,
-                                        Value = pd.Value
-                                    }
-                                }
-                            }).ToList()
+                                        Value = pd.Value,
+                                    },
+                                },
+                            }).ToList(),
                         }).ToList();
 
                 return learningDeliveries;

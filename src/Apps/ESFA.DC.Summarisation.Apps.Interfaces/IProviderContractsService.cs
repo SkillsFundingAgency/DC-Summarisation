@@ -1,5 +1,5 @@
 ﻿using ESFA.DC.Summarisation.Apps.Model;
-using ESFA.DC.Summarisation.Service.Model.Config;
+using ESFA.DC.Summarisation.Apps.Model.Config;
 using ESFA.DC.Summarisation.Service.Model.Fcs;
 using System.Collections.Generic;
 using System.Threading;
