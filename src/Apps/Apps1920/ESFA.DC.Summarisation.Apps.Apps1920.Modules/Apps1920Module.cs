@@ -28,6 +28,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Modules
 
             containerBuilder.RegisterType<LevyProvider>().As<ISummarisationInputDataProvider>();
             containerBuilder.RegisterType<NonLevyProvider>().As<ISummarisationInputDataProvider>();
+            containerBuilder.RegisterType<EasProvider>().As<ISummarisationInputDataProvider>();
 
             var AppsDataStoreEntitiesConfig = BuildDbContextOptions<DASPaymentsContext>(_summarisationDataOptions.DASPaymentsConnectionString, _summarisationDataOptions.SqlCommandTimeoutSeconds);
 
