@@ -41,11 +41,20 @@
     <Reference Include="ESFA.DC.Logging.Interfaces, Version=0.1.10.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ESFA.DC.Logging.Interfaces.0.1.10-beta0001\lib\netstandard2.0\ESFA.DC.Logging.Interfaces.dll</HintPath>
     </Reference>
+    <Reference Include="ESFA.DC.Serialization.Interfaces, Version=0.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ESFA.DC.Serialization.Interfaces.0.1.4-beta0001\lib\netstandard2.0\ESFA.DC.Serialization.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ESFA.DC.Serialization.Json, Version=0.1.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ESFA.DC.Serialization.Json.0.1.6-beta0001\lib\netstandard2.0\ESFA.DC.Serialization.Json.dll</HintPath>
+    </Reference>
     <Reference Include="FluentAssertions, Version=5.7.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\FluentAssertions.5.7.0\lib\net45\FluentAssertions.dll</HintPath>
     </Reference>
     <Reference Include="Moq, Version=4.13.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Moq.4.13.1\lib\net45\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -82,6 +91,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProviderRepositoryTests.cs" />
     <Compile Include="ProviderSummarisationServiceTests.cs" />
+    <Compile Include="SummarisationPaymentsProcessTests.cs" />
     <Compile Include="SummarisationProcessTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -98,6 +108,10 @@
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Service.Model\ESFA.DC.Summarisation.Service.Model.csproj">
       <Project>{C1CB3ABE-1DA4-45A1-AD7A-01802F5A6AB2}</Project>
       <Name>ESFA.DC.Summarisation.Service.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Apps1920\ESFA.DC.Summarisation.Apps.Apps1920.Service\ESFA.DC.Summarisation.Apps.Apps1920.Service.csproj">
+      <Project>{0e887833-4059-48b2-9d89-8e6b5955926d}</Project>
+      <Name>ESFA.DC.Summarisation.Apps.Apps1920.Service</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.Summarisation.Apps.Interfaces\ESFA.DC.Summarisation.Apps.Interfaces.csproj">
       <Project>{2c50c386-5aa9-4c09-8c57-a035c16702b1}</Project>
