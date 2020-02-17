@@ -145,9 +145,13 @@ namespace ESFA.DC.Summarisation.Apps.Service
         public ICollection<Period> GetPeriodsForFundLine(IEnumerable<PeriodisedData> periodisedData, FundLine fundLine)
         {
             if (fundLine.AcademicYear.HasValue)
+            {
                 return periodisedData.SelectMany(fpd => fpd.Periods.Where(w => w.CollectionYear == fundLine.AcademicYear)).ToList();
+            }
             else
+            {
                 return periodisedData.SelectMany(fpd => fpd.Periods).ToList();
+            }
         }
 
         public ICollection<SummarisedActual> SummarisePeriods(ICollection<Period> periods, ICollection<CollectionPeriod> collectionPeriods)
