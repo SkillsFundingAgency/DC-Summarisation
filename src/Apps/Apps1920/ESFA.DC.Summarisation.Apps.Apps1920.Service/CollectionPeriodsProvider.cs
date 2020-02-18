@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using ESFA.DC.Serialization.Interfaces;
+using ESFA.DC.Summarisation.Apps.Model.Config;
 using ESFA.DC.Summarisation.Constants;
-using ESFA.DC.Summarisation.Service.Model.Config;
 
 namespace ESFA.DC.Summarisation.Apps.Apps1920.Service
 {

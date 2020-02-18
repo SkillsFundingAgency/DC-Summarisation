@@ -4,10 +4,6 @@ namespace ESFA.DC.Summarisation.Apps.Model
 {
     public class PeriodisedData
     {
-        public string AttributeName { get; set; }
-
-        public string DeliverableCode { get; set; }
-
         public int ApprenticeshipContractType { get; set; }
 
         public int FundingSource { get; set; }

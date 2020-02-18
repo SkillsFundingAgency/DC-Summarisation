@@ -4,9 +4,8 @@ using ESFA.DC.DASPayments.EF.Interfaces;
 using ESFA.DC.Summarisation.Apps.Apps1920.Service;
 using ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers;
 using ESFA.DC.Summarisation.Apps.Interfaces;
-using ESFA.DC.Summarisation.Apps.Model;
+using ESFA.DC.Summarisation.Apps.Model.Config;
 using ESFA.DC.Summarisation.Interfaces;
-using ESFA.DC.Summarisation.Service.Model.Config;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -29,6 +28,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Modules
 
             containerBuilder.RegisterType<LevyProvider>().As<ISummarisationInputDataProvider>();
             containerBuilder.RegisterType<NonLevyProvider>().As<ISummarisationInputDataProvider>();
+            containerBuilder.RegisterType<EasProvider>().As<ISummarisationInputDataProvider>();
 
             var AppsDataStoreEntitiesConfig = BuildDbContextOptions<DASPaymentsContext>(_summarisationDataOptions.DASPaymentsConnectionString, _summarisationDataOptions.SqlCommandTimeoutSeconds);
 

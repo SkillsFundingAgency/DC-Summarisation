@@ -7,7 +7,7 @@ using ESFA.DC.Summarisation.Apps.Interfaces;
 using ESFA.DC.Summarisation.Apps.Model;
 using ESFA.DC.Summarisation.Service.Model;
 using ESFA.DC.Summarisation.Service.Model.Fcs;
-using ESFA.DC.Summarisation.Service.Model.Config;
+using ESFA.DC.Summarisation.Apps.Model.Config;
 
 namespace ESFA.DC.Summarisation.Apps.Service
 {
@@ -29,7 +29,7 @@ namespace ESFA.DC.Summarisation.Apps.Service
                 summarisedActuals.AddRange(fundingStreamSummarisedActuals);
             }
 
-            return summarisedActuals; ;
+            return summarisedActuals; 
         }
 
         public ICollection<SummarisedActual> Summarise(
@@ -144,15 +144,14 @@ namespace ESFA.DC.Summarisation.Apps.Service
 
         public ICollection<Period> GetPeriodsForFundLine(IEnumerable<PeriodisedData> periodisedData, FundLine fundLine)
         {
-            if (fundLine.UseAttributes)
-            {
-                periodisedData = periodisedData.Where(pd => fundLine.Attributes.Contains(pd.AttributeName));
-            }
-
             if (fundLine.AcademicYear.HasValue)
+            {
                 return periodisedData.SelectMany(fpd => fpd.Periods.Where(w => w.CollectionYear == fundLine.AcademicYear)).ToList();
+            }
             else
+            {
                 return periodisedData.SelectMany(fpd => fpd.Periods).ToList();
+            }
         }
 
         public ICollection<SummarisedActual> SummarisePeriods(ICollection<Period> periods, ICollection<CollectionPeriod> collectionPeriods)

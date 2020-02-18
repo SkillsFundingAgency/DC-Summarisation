@@ -58,7 +58,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
                                        q1.AcademicYear,
                                        q1.DeliveryPeriod,
                                        FundingLineType = q1.AcademicYear == summarisationMessage.CollectionYear ? q1.ReportingAimFundingLineType : q1.LearningAimFundingLineType,
-                                       q1.Amount
+                                       q1.Amount,
                                    }
                                    )
                            .GroupBy(x => new { x.ContractType, x.FundingSource, x.TransactionType, x.AcademicYear, x.DeliveryPeriod, x.FundingLineType})
@@ -70,7 +70,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
                                AcademicYear = obj.Key.AcademicYear,
                                DeliveryPeriod = obj.Key.DeliveryPeriod,
                                FundingLineType = obj.Key.FundingLineType,
-                               Amount = obj.Sum(s => s.Amount)
+                               Amount = obj.Sum(s => s.Amount),
                            }).ToListAsync(cancellationToken);
 
                 var learningDeliveries = preSummarisedData
@@ -89,10 +89,10 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
                                         {
                                             CollectionMonth = pd.DeliveryPeriod,
                                             CollectionYear = pd.AcademicYear,
-                                            Value = pd.Amount
-                                        }
-                                    }
-                                }).ToList()
+                                            Value = pd.Amount,
+                                        },
+                                    },
+                                }).ToList(),
                             }).ToList();
 
                 return learningDeliveries;

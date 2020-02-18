@@ -72,7 +72,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
                                 AcademicYear = obj.Key.AcademicYear,
                                 CollectionPeriod = obj.Key.CollectionPeriod,
                                 ReportingAimFundingLineType = obj.Key.AcademicYear == previousCollectionYear ? obj.Key.LearningAimFundingLineType : obj.Key.ReportingAimFundingLineType,
-                                Amount = obj.Sum(s => s.Amount)
+                                Amount = obj.Sum(s => s.Amount),
                             }).ToListAsync(cancellationToken);
 
 
@@ -92,19 +92,14 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
                                         {
                                             CollectionMonth = pd.CollectionPeriod,
                                             CollectionYear = pd.AcademicYear,
-                                            Value = pd.Amount
-                                        }
-                                     }
-                                 }).ToList()
+                                            Value = pd.Amount,
+                                        },
+                                     },
+                                 }).ToList(),
                              }).ToList();
 
                 return learningDeliveries;
             }
-        }
-
-        public Task<IList<LearningDelivery>> ProvideAsync(int ukprn, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ESFA.DC.Serialization.Json;
+﻿using ESFA.DC.Serialization.Json;
+using ESFA.DC.Summarisation.Apps.Apps1920.Service;
 using ESFA.DC.Summarisation.Apps.Model;
 using ESFA.DC.Summarisation.Apps.Model.Config;
-using ESFA.DC.Summarisation.Apps.Service;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Service.Model.Fcs;
 using FluentAssertions;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
-namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
+namespace ESFA.DC.Summarisation.Apps.Service.Tests
 {
-    public class SummarisationServiceTests
+    public class SummarisationPaymentsProcessTests
     {
         private const int periodsToGenerate = 5;
         private const decimal amount = 10m;
@@ -36,7 +36,6 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
                 item.ActualValue.Should().Be(periodsToGenerate * amount);
             }
         }
-
         [Theory]
         [InlineData(1, "LEVY1799", 2, "1,5", "1,2,3", 1920)]
         [InlineData(1, "LEVY1799", 3, "2", "1,2,3", 1920)]
@@ -415,7 +414,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
 
         private List<Period> GetPeriodsData(int academicYear)
         {
-            var periods = new List<Period>();
+            List<Period> periods = new List<Period>();
 
             for (int j = 1; j <= periodsToGenerate; j++)
             {
@@ -558,7 +557,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
 
         private IList<FcsContractAllocation> GetContractAllocation()
         {
-            var fcsContractAllocations = new List<FcsContractAllocation>();
+            IList<FcsContractAllocation> fcsContractAllocations = new List<FcsContractAllocation>();
             var fundingStreams = GetFundingTypes().SelectMany(ft => ft.FundingStreams);
 
             foreach (var item in fundingStreams)

@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Apps.Interfaces;
 using ESFA.DC.Summarisation.Apps.Model;
-using ESFA.DC.Summarisation.Service.Model.Config;
 using ESFA.DC.Summarisation.Service.Model;
+using ESFA.DC.Summarisation.Apps.Model.Config;
 
 namespace ESFA.DC.Summarisation.Apps.Service
 {
