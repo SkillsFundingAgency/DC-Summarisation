@@ -17,7 +17,8 @@ using ESFA.DC.Summarisation.ESF.Modules;
 using ESFA.DC.Summarisation.Apps.Modules;
 using ESFA.DC.Summarisation.NCS.Modules;
 using ESFA.DC.Summarisation.Generic.Modules;
-using ESFA.DC.Summarisation.BulkCopy;
+using ESFA.DC.BulkCopy;
+using ESFA.DC.BulkCopy.Interfaces;
 
 namespace ESFA.DC.Summarisation.Modules
 {

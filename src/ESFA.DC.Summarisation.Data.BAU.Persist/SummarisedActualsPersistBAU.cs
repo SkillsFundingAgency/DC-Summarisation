@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.Summarisation.Constants;
-using ESFA.DC.Summarisation.Interfaces;
+using ESFA.DC.BulkCopy.Interfaces;
 
 namespace ESFA.DC.Summarisation.Data.BAU.Persist
 {

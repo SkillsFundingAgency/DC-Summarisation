@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.BulkCopy.Interfaces;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Service.Model;

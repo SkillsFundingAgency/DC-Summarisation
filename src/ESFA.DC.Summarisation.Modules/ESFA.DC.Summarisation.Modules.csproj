@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.4" />
+    <PackageReference Include="ESFA.DC.BulkCopy" Version="0.1.32-beta0001" />
     <PackageReference Include="ESFA.DC.EAS1920.EF" Version="0.0.25" />
     <PackageReference Include="ESFA.DC.GenericCollection.EF" Version="0.0.59" />
     <PackageReference Include="ESFA.DC.ReferenceData.FCS.Model" Version="0.1.218" />
@@ -26,7 +27,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Apps\ESFA.DC.Summarisation.Apps.Modules\ESFA.DC.Summarisation.Apps.Modules.csproj" />
-    <ProjectReference Include="..\ESFA.DC.Summarisation.BulkCopy\ESFA.DC.Summarisation.BulkCopy.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.Data.Persist\ESFA.DC.Summarisation.Data.Persist.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.Service\ESFA.DC.Summarisation.Service.csproj" />
     <ProjectReference Include="..\ESF\ESFA.DC.Summarisation.ESF.Modules\ESFA.DC.Summarisation.ESF.Modules.csproj" />
