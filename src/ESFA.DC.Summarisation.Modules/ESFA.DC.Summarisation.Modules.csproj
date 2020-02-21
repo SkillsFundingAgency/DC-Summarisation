@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.4" />
+    <PackageReference Include="ESFA.DC.BulkCopy" Version="0.1.32-beta0001" />
     <PackageReference Include="ESFA.DC.EAS1920.EF" Version="0.0.25" />
     <PackageReference Include="ESFA.DC.GenericCollection.EF" Version="0.0.59" />
     <PackageReference Include="ESFA.DC.ReferenceData.FCS.Model" Version="0.1.218" />

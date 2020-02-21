@@ -42,28 +42,30 @@ namespace ESFA.DC.Summarisation.Data.Persist
 
                 using (var transaction = sqlConnection.BeginTransaction())
                 {
-                    var collectionReturn = this._collectionReturnMapper.MapCollectionReturn(summarisationMessage);
-
-                    if (summarisationMessage.RerunSummarisation)
+                    try
                     {
+                        var collectionReturn = this._collectionReturnMapper.MapCollectionReturn(summarisationMessage);
+
+                        // Remove Existing Summarised Actuals for the given CollectionReturnCode
                         collectionReturn.Id = sqlConnection.ExecuteScalar<int>(GetCollectionReturnSql, collectionReturn, transaction);
 
                         sqlConnection.Execute(DeleteSummarisedActualsSql, collectionReturn, transaction);
 
                         sqlConnection.Execute(DeleteCollectionReturnSql, collectionReturn, transaction);
+
+                        // Persist new set of Summarised Actuals
+                        var collectionReturnId = await this.InsertCollectionReturnAsync(collectionReturn, sqlConnection, transaction);
+
+                        await this._summarisedActualsPersist.Save(summarisedActuals, collectionReturnId, sqlConnection, transaction, cancellationToken);
+
+                        cancellationToken.ThrowIfCancellationRequested();
+
+                        transaction.Commit();
                     }
-
-                    var collectionReturnId = await this.InsertCollectionReturnAsync(collectionReturn, sqlConnection, transaction);
-
-                    await this._summarisedActualsPersist.Save(summarisedActuals, collectionReturnId, sqlConnection, transaction, cancellationToken);
-
-                    if (cancellationToken.IsCancellationRequested)
+                    catch
                     {
                         transaction.Rollback();
-                    }
-                    else
-                    {
-                        transaction.Commit();
+                        throw;
                     }
                 }
             }

@@ -14,21 +14,19 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.60.6" />
+    <PackageReference Include="ESFA.DC.BulkCopy" Version="0.1.32-beta0001" />
     <PackageReference Include="FastMember" Version="1.5.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Constants\ESFA.DC.Summarisation.Constants.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.Interfaces\ESFA.DC.Summarisation.Interfaces.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.Model\ESFA.DC.Summarisation.Model.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="BulkInsert\Interface\" />
   </ItemGroup>
 
 </Project>

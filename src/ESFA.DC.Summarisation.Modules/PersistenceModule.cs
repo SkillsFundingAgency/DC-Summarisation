@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using ESFA.DC.Summarisation.Data.Persist;
-using ESFA.DC.Summarisation.Data.Persist.BulkInsert;
 using ESFA.DC.Summarisation.Data.Persist.Mapper;
 using ESFA.DC.Summarisation.Data.Persist.Mapper.Interface;
 using ESFA.DC.Summarisation.Data.Persist.Persist;
@@ -12,7 +11,6 @@ namespace ESFA.DC.Summarisation.Modules
     {
         protected override void Load(ContainerBuilder containerBuilder)
         {
-            containerBuilder.RegisterType<BulkInsert>().As<IBulkInsert>();
             containerBuilder.RegisterType<SummarisedActualsPersist>().As<ISummarisedActualsPersist>();
             containerBuilder.RegisterType<DataStorePersistenceService>().As<IDataStorePersistenceService>();
             containerBuilder.RegisterType<CollectionReturnMapper>().As<ICollectionReturnMapper>();

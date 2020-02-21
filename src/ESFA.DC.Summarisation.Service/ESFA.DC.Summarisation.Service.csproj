@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ESFA.DC.Summarisation.Constants\ESFA.DC.Summarisation.Constants.csproj" />
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Data.BAU.Persist\ESFA.DC.Summarisation.Data.BAU.Persist.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.Interfaces\ESFA.DC.Summarisation.Interfaces.csproj" />
   </ItemGroup>
 

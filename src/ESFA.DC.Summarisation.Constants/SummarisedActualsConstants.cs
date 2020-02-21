@@ -1,4 +1,4 @@
-﻿namespace ESFA.DC.Summarisation.Data.Persist.Constants
+﻿namespace ESFA.DC.Summarisation.Constants
 {
     public static class SummarisedActualsConstants
     {

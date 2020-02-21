@@ -20,5 +20,7 @@ namespace ESFA.DC.Summarisation.Console.Stubs
         public int CollectionMonth => 2;
 
         public bool RerunSummarisation => true;
+
+        public bool PublishToBAU => false;
     }
 }

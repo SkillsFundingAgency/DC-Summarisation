@@ -21,9 +21,9 @@ namespace ESFA.DC.Summarisation.Stateless.Context
 
         private const string _collectionMonth = "ReturnPeriod";
 
-        private const string _reRunSummarisation = "Re-Run";
-
         private readonly JobContextMessage _jobContextMessage;
+
+        private List<string> _excludeTasks = new List<string> { ConstantKeys.ReRunSummarisation, ConstantKeys.PublishToBAU };
 
         public JobContextMessageSummarisationContext(JobContextMessage jobContextMessage)
         {
@@ -50,11 +50,19 @@ namespace ESFA.DC.Summarisation.Stateless.Context
             }
         }
 
-        public ICollection<string> SummarisationTypes
+        private ICollection<string> SummarisationTasks
         {
             get
             {
                 return _jobContextMessage.Topics[_jobContextMessage.TopicPointer].Tasks.SelectMany(t => t.Tasks).ToList();
+            }
+        }
+
+        public ICollection<string> SummarisationTypes
+        {
+            get
+            {
+                return SummarisationTasks.Where(w => !_excludeTasks.Any(e => w.Equals(e, StringComparison.OrdinalIgnoreCase))).ToList();
             }
         }
 
@@ -73,11 +81,11 @@ namespace ESFA.DC.Summarisation.Stateless.Context
             get => int.Parse(_jobContextMessage.KeyValuePairs[_collectionMonth].ToString());
         }
 
-        public bool RerunSummarisation
+        public bool PublishToBAU
         {
             get
             {
-                return SummarisationTypes.Any(x => x.Equals(_reRunSummarisation, StringComparison.OrdinalIgnoreCase));
+                return SummarisationTasks.Any(x => x.Equals(ConstantKeys.PublishToBAU, StringComparison.OrdinalIgnoreCase));
             }
         }
 

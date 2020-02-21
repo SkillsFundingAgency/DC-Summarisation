@@ -36,13 +36,26 @@ namespace ESFA.DC.Summarisation.Stateless
                     var executionContext = (ExecutionContext)childLifetimeScope.Resolve<IExecutionContext>();
                     executionContext.JobId = message.JobId.ToString();
 
-                    _logger.LogInfo($"Summarisation Task Starting");
+                    if (!summarisationMessage.PublishToBAU)
+                    {
+                        _logger.LogInfo($"Summarisation Task Starting");
 
-                    var summarisationWrapper = childLifetimeScope.Resolve<ISummarisationWrapper>();
+                        var summarisationWrapper = childLifetimeScope.Resolve<ISummarisationWrapper>();
 
-                    await summarisationWrapper.Summarise(summarisationMessage, cancellationToken);
+                        await summarisationWrapper.Summarise(summarisationMessage, cancellationToken);
 
-                    _logger.LogInfo($"Summarisation Task Finished");
+                        _logger.LogInfo($"Summarisation Task Finished");
+                    }
+                    else
+                    {
+                        _logger.LogInfo($"Publish to BAU Task Starting");
+
+                        var publishToBAU = childLifetimeScope.Resolve<IPublishToBAU>();
+
+                        await publishToBAU.PublishAsync(summarisationMessage, cancellationToken);
+
+                        _logger.LogInfo($"Publish to BAU Task Finished");
+                    }
 
                     return true;
                 }

@@ -18,6 +18,6 @@ namespace ESFA.DC.Summarisation.Interfaces
 
         int CollectionMonth { get; }
 
-        bool RerunSummarisation { get; }
+        bool PublishToBAU { get; }
     }
 }

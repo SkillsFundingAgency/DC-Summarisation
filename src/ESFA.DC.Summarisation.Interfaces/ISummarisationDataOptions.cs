@@ -29,5 +29,7 @@
         string SqlCommandTimeoutSeconds { get; }
 
         string NcsDbConnectionString { get; }
+
+        string SummarisedActualsBAUConnectionString { get; }
     }
 }

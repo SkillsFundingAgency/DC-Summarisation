@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using ESFA.DC.Summarisation.Interfaces;
 using FastMember;
 
-namespace ESFA.DC.Summarisation.Data.Persist.BulkInsert
+namespace ESFA.DC.Summarisation.BulkCopy
 {
     public class BulkInsert : IBulkInsert
     {
