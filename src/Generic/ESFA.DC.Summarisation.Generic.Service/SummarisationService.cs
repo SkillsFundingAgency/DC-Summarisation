@@ -21,6 +21,9 @@ namespace ESFA.DC.Summarisation.Generic.Service
         {
             _logger.LogInfo($"Summarisation Wrapper: Summarising Generic Collection Data Start");
 
+            var deliveryUkprns = fcsContractAllocations.Select(u => u.DeliveryUkprn.Value).ToList();
+            var validSummarisedActuals = summarisedActuals.Where(u => deliveryUkprns.Contains(int.Parse(u.OrganisationId))).ToList();
+
             var contractAllocationaDictionary = fcsContractAllocations?
                 .Select(f => new
                 {
@@ -32,14 +35,14 @@ namespace ESFA.DC.Summarisation.Generic.Service
 
             _logger.LogInfo($"Summarisation Wrapper: Mapping Generic Collection Ukprns to OrgIds");
 
-            foreach (var summarisedActual in summarisedActuals)
+            foreach (var summarisedActual in validSummarisedActuals)
             {
                 summarisedActual.OrganisationId = contractAllocationaDictionary.GetValueOrDefault(int.Parse(summarisedActual.OrganisationId));
             }
 
             _logger.LogInfo($"Summarisation Wrapper: Summarising Generic Collection Data End");
 
-            return summarisedActuals;
+            return validSummarisedActuals;
         }
     }
 }
