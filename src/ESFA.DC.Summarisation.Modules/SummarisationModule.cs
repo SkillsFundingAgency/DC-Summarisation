@@ -64,7 +64,7 @@ namespace ESFA.DC.Summarisation.Modules
 
             containerBuilder.RegisterModule<PersistenceModule>();
 
-            //containerBuilder.RegisterModule<PersistenceBAUModule>();
+            containerBuilder.RegisterModule<PersistenceBAUModule>();
         }
 
         private void LoadNewModules(ContainerBuilder containerBuilder)
