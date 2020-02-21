@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ESFA.DC.Summarisation.Console.Stubs
 {
-    public class AppsSummarisationContextStub //: ISummarisationMessage
+    public class AppsSummarisationContextStub : ISummarisationMessage
     {
         public string ProcessType => "Fundline";
 
@@ -20,5 +20,7 @@ namespace ESFA.DC.Summarisation.Console.Stubs
         public int CollectionMonth => 1;
 
         public bool RerunSummarisation => true;
+
+        public bool PublishToBAU => false;
     }
 }

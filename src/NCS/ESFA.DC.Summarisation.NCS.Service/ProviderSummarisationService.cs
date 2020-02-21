@@ -41,23 +41,20 @@ namespace ESFA.DC.Summarisation.NCS.Service
                                     
             foreach (var summarisationType in summarisationMessage.SummarisationTypes)
             {
-                if (!summarisationType.Equals(ConstantKeys.ReRunSummarisation, StringComparison.OrdinalIgnoreCase))
-                {
-                    _logger.LogInfo($"Summarisation Wrapper: Summarising Data of UKPRN: {providerData.Provider.UKPRN}, Fundmodel {summarisationType} Start");
+                _logger.LogInfo($"Summarisation Wrapper: Summarising Data of UKPRN: {providerData.Provider.UKPRN}, Fundmodel {summarisationType} Start");
 
-                    var fundingStreams = fundingTypes?
-                        .Where(x => x.SummarisationType.Equals(summarisationType, StringComparison.OrdinalIgnoreCase))
-                        .SelectMany(fs => fs.FundingStreams)
-                        .ToList();
+                var fundingStreams = fundingTypes?
+                    .Where(x => x.SummarisationType.Equals(summarisationType, StringComparison.OrdinalIgnoreCase))
+                    .SelectMany(fs => fs.FundingStreams)
+                    .ToList();
 
-                    var providerfundingstreamsContracts = _providerContractsService.GetProviderContracts(provider.UKPRN, fundingStreams, contractAllocations, cancellationToken);
+                var providerfundingstreamsContracts = _providerContractsService.GetProviderContracts(provider.UKPRN, fundingStreams, contractAllocations, cancellationToken);
                     
-                    var summarisedData = _summarisationService.Summarise(providerfundingstreamsContracts.FundingStreams, providerData, providerfundingstreamsContracts.FcsContractAllocations, collectionPeriods);
+                var summarisedData = _summarisationService.Summarise(providerfundingstreamsContracts.FundingStreams, providerData, providerfundingstreamsContracts.FcsContractAllocations, collectionPeriods);
 
-                    providerActuals.AddRange(summarisedData);
+                providerActuals.AddRange(summarisedData);
 
-                    _logger.LogInfo($"Summarisation Wrapper: Summarising Data of UKPRN: {provider.UKPRN}, Fundmodel {summarisationType} End");
-                }
+                _logger.LogInfo($"Summarisation Wrapper: Summarising Data of UKPRN: {provider.UKPRN}, Fundmodel {summarisationType} End");
             }
 
             if (!summarisationMessage.ProcessType.Equals(ProcessTypeConstants.Payments, StringComparison.OrdinalIgnoreCase))

@@ -8,6 +8,6 @@ namespace ESFA.DC.Summarisation.Data.BAU.Persist.Interfaces
 {
     public interface ISummarisedActualsPersistBAU
     {
-        Task Save(IEnumerable<SummarisedActualBAU> summarisedActuals, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken);
+        Task SaveAsync(IEnumerable<SummarisedActualBAU> summarisedActuals, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken);
     }
 }

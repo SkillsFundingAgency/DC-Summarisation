@@ -37,14 +37,14 @@ namespace ESFA.DC.Summarisation.Data.BAU.Persist
                     try
                     {
                         // Remove Existing Summarised Actuals for the given CollectionReturnCode
-                        sqlConnection.Execute(DeleteSummarisedActualsSql, eventLog, transaction);
+                        await sqlConnection.ExecuteAsync(DeleteSummarisedActualsSql, eventLog, transaction);
 
-                        sqlConnection.Execute(DeleteEventLogSql, eventLog, transaction);
+                        await sqlConnection.ExecuteAsync(DeleteEventLogSql, eventLog, transaction);
 
                         // Persist new set of Summarised Actuals
                         await sqlConnection.ExecuteAsync(InsertEventlogSql, eventLog, transaction);
 
-                        await this._summarisedActualsPersist.Save(summarisedActuals, sqlConnection, transaction, cancellationToken);
+                        await this._summarisedActualsPersist.SaveAsync(summarisedActuals, sqlConnection, transaction, cancellationToken);
 
                         cancellationToken.ThrowIfCancellationRequested();
 

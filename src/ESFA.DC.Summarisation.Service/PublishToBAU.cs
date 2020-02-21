@@ -30,7 +30,7 @@ namespace ESFA.DC.Summarisation.Service
 
         }
 
-        public async Task Publish(ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task PublishAsync(ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             var collectionReturn = await _summarisedActualsRepository.GetLastCollectionReturnAsync(summarisationMessage.CollectionType, summarisationMessage.CollectionReturnCode, cancellationToken);
 

@@ -5,6 +5,6 @@ namespace ESFA.DC.Summarisation.Interfaces
 {
     public interface IPublishToBAU
     {
-       Task Publish(ISummarisationMessage summarisationMessage, CancellationToken cancellationToken);
+       Task PublishAsync(ISummarisationMessage summarisationMessage, CancellationToken cancellationToken);
     }
 }

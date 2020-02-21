@@ -52,7 +52,7 @@ namespace ESFA.DC.Summarisation.Stateless
 
                         var publishToBAU = childLifetimeScope.Resolve<IPublishToBAU>();
 
-                        await publishToBAU.Publish(summarisationMessage, cancellationToken);
+                        await publishToBAU.PublishAsync(summarisationMessage, cancellationToken);
 
                         _logger.LogInfo($"Publish to BAU Task Finished");
                     }

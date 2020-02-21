@@ -42,28 +42,30 @@ namespace ESFA.DC.Summarisation.Data.Persist
 
                 using (var transaction = sqlConnection.BeginTransaction())
                 {
-                    var collectionReturn = this._collectionReturnMapper.MapCollectionReturn(summarisationMessage);
+                    try
+                    {
+                        var collectionReturn = this._collectionReturnMapper.MapCollectionReturn(summarisationMessage);
 
-                    //if (summarisationMessage.RerunSummarisation)
-                    //{
+                        // Remove Existing Summarised Actuals for the given CollectionReturnCode
                         collectionReturn.Id = sqlConnection.ExecuteScalar<int>(GetCollectionReturnSql, collectionReturn, transaction);
 
                         sqlConnection.Execute(DeleteSummarisedActualsSql, collectionReturn, transaction);
 
                         sqlConnection.Execute(DeleteCollectionReturnSql, collectionReturn, transaction);
-                    //}
 
-                    var collectionReturnId = await this.InsertCollectionReturnAsync(collectionReturn, sqlConnection, transaction);
+                        // Persist new set of Summarised Actuals
+                        var collectionReturnId = await this.InsertCollectionReturnAsync(collectionReturn, sqlConnection, transaction);
 
-                    await this._summarisedActualsPersist.Save(summarisedActuals, collectionReturnId, sqlConnection, transaction, cancellationToken);
+                        await this._summarisedActualsPersist.Save(summarisedActuals, collectionReturnId, sqlConnection, transaction, cancellationToken);
 
-                    if (cancellationToken.IsCancellationRequested)
+                        cancellationToken.ThrowIfCancellationRequested();
+
+                        transaction.Commit();
+                    }
+                    catch
                     {
                         transaction.Rollback();
-                    }
-                    else
-                    {
-                        transaction.Commit();
+                        throw;
                     }
                 }
             }

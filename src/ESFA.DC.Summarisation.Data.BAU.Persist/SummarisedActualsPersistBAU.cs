@@ -19,7 +19,7 @@ namespace ESFA.DC.Summarisation.Data.BAU.Persist
             _bulkInsert = bulkInsert;
         }
 
-        public async Task Save(IEnumerable<SummarisedActualBAU> summarisedActuals, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
+        public async Task SaveAsync(IEnumerable<SummarisedActualBAU> summarisedActuals, SqlConnection sqlConnection, SqlTransaction sqlTransaction, CancellationToken cancellationToken)
         {
             await _bulkInsert.Insert(SummarisedActualsConstants.SummarisedActuals, summarisedActuals, sqlConnection, sqlTransaction, cancellationToken);
         }

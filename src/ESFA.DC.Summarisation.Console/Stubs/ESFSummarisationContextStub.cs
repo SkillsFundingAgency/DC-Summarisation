@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ESFA.DC.Summarisation.Console.Stubs
 {
-    public class ESFSummarisationContextStub //: ISummarisationMessage
+    public class ESFSummarisationContextStub : ISummarisationMessage
     {
         public string ProcessType => "Deliverable";
 
@@ -20,5 +20,7 @@ namespace ESFA.DC.Summarisation.Console.Stubs
         public int CollectionMonth => 4;
 
         public bool RerunSummarisation => true;
+
+        public bool PublishToBAU => false;
     }
 }
