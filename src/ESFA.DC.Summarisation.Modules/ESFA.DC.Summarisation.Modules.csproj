@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Apps\ESFA.DC.Summarisation.Apps.Modules\ESFA.DC.Summarisation.Apps.Modules.csproj" />
+    <ProjectReference Include="..\ESFA.DC.Summarisation.BulkCopy\ESFA.DC.Summarisation.BulkCopy.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.Data.Persist\ESFA.DC.Summarisation.Data.Persist.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.Service\ESFA.DC.Summarisation.Service.csproj" />
     <ProjectReference Include="..\ESF\ESFA.DC.Summarisation.ESF.Modules\ESFA.DC.Summarisation.ESF.Modules.csproj" />

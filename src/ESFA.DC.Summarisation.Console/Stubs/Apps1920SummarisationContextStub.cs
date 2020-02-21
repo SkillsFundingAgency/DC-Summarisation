@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ESFA.DC.Summarisation.Console.Stubs
 {
-    public class Apps1920SummarisationContextStub : ISummarisationMessage
+    public class Apps1920SummarisationContextStub //: ISummarisationMessage
     {
         public string ProcessType => "Payments";
 

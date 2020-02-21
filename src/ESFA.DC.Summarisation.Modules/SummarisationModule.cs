@@ -17,6 +17,7 @@ using ESFA.DC.Summarisation.ESF.Modules;
 using ESFA.DC.Summarisation.Apps.Modules;
 using ESFA.DC.Summarisation.NCS.Modules;
 using ESFA.DC.Summarisation.Generic.Modules;
+using ESFA.DC.Summarisation.BulkCopy;
 
 namespace ESFA.DC.Summarisation.Modules
 {
@@ -34,6 +35,8 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterInstance(_summarisationDataOptions).As<ISummarisationDataOptions>().SingleInstance();
 
             containerBuilder.RegisterType<SummarisationWrapper>().As<ISummarisationWrapper>();
+
+            containerBuilder.RegisterType<BulkInsert>().As<IBulkInsert>();
 
             LoadSummarisationProcessModules(containerBuilder);
 
@@ -60,6 +63,8 @@ namespace ESFA.DC.Summarisation.Modules
             containerBuilder.RegisterModule(new NCSModule(_summarisationDataOptions));
 
             containerBuilder.RegisterModule<PersistenceModule>();
+
+            //containerBuilder.RegisterModule<PersistenceBAUModule>();
         }
 
         private void LoadNewModules(ContainerBuilder containerBuilder)

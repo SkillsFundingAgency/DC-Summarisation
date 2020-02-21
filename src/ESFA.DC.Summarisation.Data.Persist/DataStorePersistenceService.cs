@@ -44,14 +44,14 @@ namespace ESFA.DC.Summarisation.Data.Persist
                 {
                     var collectionReturn = this._collectionReturnMapper.MapCollectionReturn(summarisationMessage);
 
-                    if (summarisationMessage.RerunSummarisation)
-                    {
+                    //if (summarisationMessage.RerunSummarisation)
+                    //{
                         collectionReturn.Id = sqlConnection.ExecuteScalar<int>(GetCollectionReturnSql, collectionReturn, transaction);
 
                         sqlConnection.Execute(DeleteSummarisedActualsSql, collectionReturn, transaction);
 
                         sqlConnection.Execute(DeleteCollectionReturnSql, collectionReturn, transaction);
-                    }
+                    //}
 
                     var collectionReturnId = await this.InsertCollectionReturnAsync(collectionReturn, sqlConnection, transaction);
 

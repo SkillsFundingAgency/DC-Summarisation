@@ -20,7 +20,7 @@ namespace ESFA.DC.Summarisation.Data.Repository
             _summarisationContext = summarisationContext;
         }
 
-        public async Task<Service.Model.CollectionReturn> GetLastCollectionReturnForCollectionTypeAsync(string collectionType, string collectionReturnCode, CancellationToken cancellationToken)
+        public async Task<Service.Model.CollectionReturn> GetLastCollectionReturnForReRunAsync(string collectionType, string collectionReturnCode, CancellationToken cancellationToken)
         {
             using (var contextFactory = _summarisationContext())
             {
@@ -29,6 +29,39 @@ namespace ESFA.DC.Summarisation.Data.Repository
                                     .OrderByDescending(o => o.Id)
                                     .Select(s => new Service.Model.CollectionReturn { Id = s.Id, CollectionReturnCode = s.CollectionReturnCode, CollectionType = s.CollectionType })
                                     .FirstOrDefaultAsync(cancellationToken);
+            }
+        }
+
+        public async Task<Service.Model.CollectionReturn> GetLastCollectionReturnAsync(string collectionType, string collectionReturnCode, CancellationToken cancellationToken)
+        {
+            using (var contextFactory = _summarisationContext())
+            {
+                return await contextFactory.CollectionReturns
+                                    .Where(cr => cr.CollectionType == collectionType && cr.CollectionReturnCode == collectionReturnCode)
+                                    .OrderByDescending(o => o.Id)
+                                    .Select(s => new Service.Model.CollectionReturn { Id = s.Id, CollectionReturnCode = s.CollectionReturnCode, CollectionType = s.CollectionType, DateTime = s.DateTime })
+                                    .FirstOrDefaultAsync(cancellationToken);
+            }
+        }
+
+        public async Task<IEnumerable<Service.Model.SummarisedActual>> GetSummarisedActualsAsync(int collectionReturnId, CancellationToken cancellationToken)
+        {
+            using (var contextFactory = _summarisationContext())
+            {
+                return await contextFactory.SummarisedActuals
+                .Where(sa => sa.CollectionReturnId == collectionReturnId)
+                .Select(o => new Service.Model.SummarisedActual
+                {
+                    Period = o.Period,
+                    FundingStreamPeriodCode = o.FundingStreamPeriodCode,
+                    UoPCode = o.UoPCode,
+                    DeliverableCode = o.DeliverableCode,
+                    OrganisationId = o.OrganisationId,
+                    ActualValue = o.ActualValue,
+                    ActualVolume = o.ActualVolume,
+                    ContractAllocationNumber = o.ContractAllocationNumber,
+                    PeriodTypeCode = o.PeriodTypeCode
+                }).ToListAsync(cancellationToken);
             }
         }
 

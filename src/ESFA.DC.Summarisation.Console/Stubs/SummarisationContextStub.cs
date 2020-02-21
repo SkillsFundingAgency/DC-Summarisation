@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ESFA.DC.Summarisation.Console.Stubs
 {
-    public class SummarisationContextStub : ISummarisationMessage
+    public class SummarisationContextStub //: ISummarisationMessage
     {
         public string ProcessType => "Fundline";
 

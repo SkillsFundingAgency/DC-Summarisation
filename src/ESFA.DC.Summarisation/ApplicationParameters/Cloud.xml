@@ -29,5 +29,6 @@
     <Parameter Name="NcsDbConnectionString" Value="__NcsDbConnectionStringRO__" />
     <Parameter Name="SqlCommandTimeoutSeconds" Value="__SqlCommandTimeoutSeconds__" />
     <Parameter Name="GenericCollectionsConnectionString" Value="__Generic_Collections_ConnectionString_RO__" />
+    <Parameter Name="SummarisedActualsBAUConnectionString" Value="__SummarisedActualsBAU_Connectionstring_RW__" />
   </Parameters>
 </Application>

@@ -27,5 +27,6 @@
     <Parameter Name="DataRetrievalMaxConcurrentCalls" Value=""/>
     <Parameter Name="SqlCommandTimeoutSeconds" Value="" />
     <Parameter Name="GenericCollectionsConnectionString" Value="" />
+    <Parameter Name="SummarisedActualsBAUConnectionString" Value=""/>
   </Section>
 </Settings>
