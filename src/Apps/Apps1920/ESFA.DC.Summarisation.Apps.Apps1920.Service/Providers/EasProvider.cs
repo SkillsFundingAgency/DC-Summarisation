@@ -72,7 +72,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
             {
                 var nonlevyEAS = await easContext.ProviderAdjustmentPayments
                             .Where(sv => sv.Ukprn == ukprn
-                                && !FundlineConstants.Levy1799_EASlines.Contains(sv.PaymentTypeName)
+                                && !FundlineConstants.EasLines_Levy_NonLevy2019.Contains(sv.PaymentTypeName)
                             ).
                             Select(q1 => new
                                 {
@@ -86,7 +86,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
                 var levyEAS = (await easContext.ProviderAdjustmentPayments
                             .Where(sv => sv.Ukprn == ukprn
                                 && CollectionPeriodNames.Contains(sv.CollectionPeriodName)
-                                && FundlineConstants.Levy1799_EASlines.Contains(sv.PaymentTypeName)
+                                && FundlineConstants.EasLines_Levy_NonLevy2019.Contains(sv.PaymentTypeName)
                             ).ToListAsync(cancellationToken))
                             .Select(p =>
                             {

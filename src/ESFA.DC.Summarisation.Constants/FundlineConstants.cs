@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ESFA.DC.Summarisation.Constants
 {
@@ -21,5 +22,21 @@ namespace ESFA.DC.Summarisation.Constants
             "Authorised Claims: Adult Levy Apprenticeships - Employer",
             "Authorised Claims: Adult Levy Apprenticeships - Apprentice",
         };
+
+        public static List<string> NonLevy2019_EASlines = new List<string>()
+        {
+             "Authorised Claims: 16-18 Apprenticeship (Employer on App Service) Non-Levy - Training",
+             "Excess Learning Support: 16-18 Apprenticeship (Employer on App Service) Non-Levy",
+             "Authorised Claims: 16-18 Apprenticeship (Employer on App Service) Non-Levy - Provider",
+             "Authorised Claims: 16-18 Apprenticeship (Employer on App Service) Non-Levy - Employer",
+             "Authorised Claims: 16-18 Apprenticeship (Employer on App Service) Non-Levy - Apprentice",
+             "Authorised Claims: 19+ Apprenticeship (Employer on App Service) Non-Levy - Training",
+             "Excess Learning Support: 19+ Apprenticeship (Employer on App Service) Non-Levy",
+             "Authorised Claims: 19+ Apprenticeship (Employer on App Service) Non-Levy - Provider",
+             "Authorised Claims: 19+ Apprenticeship (Employer on App Service) Non-Levy - Employer",
+             "Authorised Claims: 19+ Apprenticeship (Employer on App Service) Non-Levy - Apprentice",
+        };
+
+        public static List<string> EasLines_Levy_NonLevy2019 = Levy1799_EASlines.Union(NonLevy2019_EASlines).ToList();
     }
 }
