@@ -11,13 +11,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ESFA.DC.Summarisation.NCS.NCS1920.Service
+namespace ESFA.DC.Summarisation.NCS.Service
 {
     public class NCSProvider : ISummarisationInputDataProvider
     {
         private readonly Func<INcsContext> _ncsContext;
-
-        public string CollectionType => CollectionTypeConstants.NCS1920;
 
         public NCSProvider(Func<INcsContext> ncsContext)
         {

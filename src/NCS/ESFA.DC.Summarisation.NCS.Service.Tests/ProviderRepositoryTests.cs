@@ -27,7 +27,7 @@ namespace ESFA.DC.Summarisation.NCS.Service.Tests
             var touchpointProviders = TestTouchpointProviders();
 
             var inputDataProvider = new Mock<ISummarisationInputDataProvider>();
-            inputDataProvider.Setup(x => x.CollectionType).Returns(collectionType);
+            //inputDataProvider.Setup(x => x.CollectionType).Returns(collectionType);
             inputDataProvider.Setup(x => x.ProvideUkprnsAsync(cancellationToken)).ReturnsAsync(touchpointProviders);
 
             var inputDataProviders = new List<ISummarisationInputDataProvider>()
@@ -36,7 +36,7 @@ namespace ESFA.DC.Summarisation.NCS.Service.Tests
             };
 
             var result = await NewService(
-               inputDataProviders).GetAllIdentifiersAsync(collectionType, cancellationToken);
+               inputDataProviders).GetAllIdentifiersAsync( cancellationToken);
 
             result.Should().BeEquivalentTo(touchpointProviders);
 
@@ -54,7 +54,7 @@ namespace ESFA.DC.Summarisation.NCS.Service.Tests
             var touchpointProviderFundingData = TestTouchpointProviderFundingData();
 
             var inputDataProvider = new Mock<ISummarisationInputDataProvider>();
-            inputDataProvider.Setup(x => x.CollectionType).Returns(collectionType);
+            //inputDataProvider.Setup(x => x.CollectionType).Returns(collectionType);
             inputDataProvider.Setup(x => x.ProvideAsync(touchpointProviderFundingData.Provider, summarisationMessageMock.Object, cancellationToken)).ReturnsAsync(touchpointProviderFundingData.FundingValues);
 
             var inputDataProviders = new List<ISummarisationInputDataProvider>()

@@ -71,7 +71,7 @@ namespace ESFA.DC.Summarisation.NCS.Service
 
             ICollection<TouchpointProvider> providerIdentifiers;
 
-            providerIdentifiers = await _repositoryFactory.Invoke().GetAllIdentifiersAsync(summarisationMessage.CollectionType, cancellationToken);
+            providerIdentifiers = await _repositoryFactory.Invoke().GetAllIdentifiersAsync(cancellationToken);
 
             _logger.LogInfo($"Summarisation Wrapper: Providers to be summarised : {providerIdentifiers.Count}");
 

@@ -8,8 +8,6 @@ namespace ESFA.DC.Summarisation.NCS.Interfaces
 {
     public interface ISummarisationInputDataProvider
     {
-        string CollectionType { get; }
-
         Task<ICollection<FundingValue>> ProvideAsync(TouchpointProvider touchpointProvider, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken);
 
         Task<ICollection<TouchpointProvider>> ProvideUkprnsAsync(CancellationToken cancellationToken);
