@@ -13,6 +13,7 @@
         public const string Apps1920_NonLevy = "Apps1920_NonLevy";
         public const string Apps1920_EAS = "Apps1920_EAS";
         public const string NCS1920_C = "NCS1920_C";
+        public const string NCS2021_C = "NCS2021_C";
         public const string Generic = "Generic";
     }
 }
