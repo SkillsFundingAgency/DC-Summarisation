@@ -77,7 +77,7 @@ namespace ESFA.DC.Summarisation.NCS.Service.Tests
             var repositoryFactory = new Mock<IInputDataRepository<TouchpointProviderFundingData>>();
 
             repositoryFactory
-                    .Setup(x => x.GetAllIdentifiersAsync(It.IsAny<string>(), cancellationToken))
+                    .Setup(x => x.GetAllIdentifiersAsync(cancellationToken))
                     .ReturnsAsync(TouchpointProviders());
 
             repositoryFactory

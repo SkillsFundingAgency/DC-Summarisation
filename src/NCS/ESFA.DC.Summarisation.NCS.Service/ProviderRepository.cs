@@ -19,7 +19,7 @@ namespace ESFA.DC.Summarisation.NCS.Service
 
         public async Task<TouchpointProviderFundingData> ProvideAsync(TouchpointProvider touchpointProvider, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
-            var providers = _providers.Where(w => w.CollectionType == summarisationMessage.CollectionType);
+            var providers = _providers;
 
             var taskResults = await Task.WhenAll(providers.Select(p => p.ProvideAsync(touchpointProvider, summarisationMessage, cancellationToken)));
 
@@ -30,9 +30,9 @@ namespace ESFA.DC.Summarisation.NCS.Service
             };
         }
 
-        public async Task<ICollection<TouchpointProvider>> GetAllIdentifiersAsync(string collectionType, CancellationToken cancellationToken)
+        public async Task<ICollection<TouchpointProvider>> GetAllIdentifiersAsync(CancellationToken cancellationToken)
         {
-            var taskResults = await Task.WhenAll(_providers.Where(w => w.CollectionType == collectionType).Select(p => p.ProvideUkprnsAsync(cancellationToken)));
+            var taskResults = await Task.WhenAll(_providers.Select(p => p.ProvideUkprnsAsync(cancellationToken)));
 
             return taskResults.SelectMany(p => p).Distinct().ToList();
         }

@@ -1,0 +1,22 @@
+[
+  {
+    "SummarisationType": "NCS2021_C",
+    "FundingStreams": [
+      {
+        "PeriodCode": "NCS-C2021",
+        "DeliverableLineCode": 2,
+        "OutcomeTypes": [ 1 ]
+      },
+      {
+        "PeriodCode": "NCS-C2021",
+        "DeliverableLineCode": 4,
+        "OutcomeTypes": [ 2 ]
+      },
+      {
+        "PeriodCode": "NCS-C2021",
+        "DeliverableLineCode": 5,
+        "OutcomeTypes": [ 3, 4, 5 ]
+      }
+    ]
+  }
+]

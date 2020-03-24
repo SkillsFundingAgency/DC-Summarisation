@@ -112,7 +112,8 @@ namespace ESFA.DC.Summarisation.Stateless.Context
             {
                 returnValue = _jobContextMessage.KeyValuePairs[$"{key}App"].ToString();
             }
-            else if (SummarisationTypes.Any(item => item.Equals(SummarisationTypeConstants.NCS1920_C, StringComparison.OrdinalIgnoreCase)))
+            else if (SummarisationTypes.Any(item => item.Equals(SummarisationTypeConstants.NCS1920_C, StringComparison.OrdinalIgnoreCase)
+                        || item.Equals(SummarisationTypeConstants.NCS2021_C, StringComparison.OrdinalIgnoreCase)))
             {
                 returnValue = _jobContextMessage.KeyValuePairs[$"{key}NCS"].ToString();
             }
