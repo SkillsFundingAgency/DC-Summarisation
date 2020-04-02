@@ -24,12 +24,15 @@ namespace ESFA.DC.Summarisation.NCS.Service
 
         public async Task<ICollection<FundingValue>> ProvideAsync(TouchpointProvider touchpointProvider, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
+            var maxDate = new DateTime(summarisationMessage.CollectionYear % 100 + 2000, 3, 31);
+
             using (var ncsContext = _ncsContext())
             {
                 var fundingValues = await ncsContext.FundingValues
                         .Where(fv => fv.Ukprn == touchpointProvider.UKPRN 
                                     && fv.TouchpointId == touchpointProvider.TouchpointId 
-                                    && fv.CollectionYear == summarisationMessage.CollectionYear)
+                                    && fv.CollectionYear == summarisationMessage.CollectionYear
+                                    && fv.OutcomeEffectiveDate <= maxDate)
                         .Select(s => new FundingValue
                         {
                             CollectionYear = s.CollectionYear,
