@@ -20,10 +20,10 @@ namespace ESFA.DC.Summarisation.Apps.Service
         private readonly ILogger _logger;
         private readonly IProviderContractsService _providerContractsService;
         private readonly IProviderFundingDataRemovedService _providerFundingDataRemovedService;
-        private readonly IEnumerable<string> _fundingStreamPeriodCodesNotRequiredForActuals = new HashSet<string>()
+        private readonly IEnumerable<string> _fundingStreamPeriodCodesNotRequiredForActuals = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
-            "LEVY1799",
-            "NONLEVY2019"
+            FundingStreamConstants.Levy1799,
+            FundingStreamConstants.NonLevy2019
         };
 
         public ProviderSummarisationService(
