@@ -10,9 +10,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace ESFA.DC.Summarisation.Apps.Service.Tests
@@ -44,16 +42,16 @@ namespace ESFA.DC.Summarisation.Apps.Service.Tests
 
             var summarisationDeliverableProcessMock = new Mock<ISummarisationService>();
 
-            var testAcutals = TestSummarisedActuals();
+            var testActuals = TestSummarisedActuals();
 
             summarisationDeliverableProcessMock
                 .Setup(x => x.Summarise(It.IsAny<ICollection<FundingStream>>(), It.IsAny<LearningProvider>(), It.IsAny<ICollection<FcsContractAllocation>>(), It.IsAny<ICollection<CollectionPeriod>>(), summarisationMessageMock.Object))
-                .Returns(testAcutals);
+                .Returns(testActuals);
 
             var providerFundingDataRemovedServiceMock = new Mock<IProviderFundingDataRemovedService>();
 
             var fundingDataremoved = TestFundingDataRemoved();
-
+           
             providerFundingDataRemovedServiceMock
                 .Setup(x => x.FundingDataRemovedAsync(It.IsAny<string>(), It.IsAny<List<SummarisedActual>>(), summarisationMessageMock.Object, cancellationToken))
                 .ReturnsAsync(fundingDataremoved);
@@ -66,10 +64,42 @@ namespace ESFA.DC.Summarisation.Apps.Service.Tests
                providerContractsServiceMock.Object,
                providerFundingDataRemovedServiceMock.Object).Summarise(TestESFProvider(), collectionPeriods, fundingTypes, fcsAllocations, summarisationMessageMock.Object, cancellationToken);
 
-            testAcutals.AddRange(fundingDataremoved);
+            testActuals.AddRange(fundingDataremoved);
 
-            result.Should().BeEquivalentTo(testAcutals);
+            result.Should().BeEquivalentTo(testActuals);
 
+        }
+
+        [Fact]
+        public async void Summarise_BR05_FundingData_RemovedRule_ApplicableTo_ACT2_Only()
+        {
+            var cancellationToken = CancellationToken.None;
+            var summarisationTypes = new List<string>();
+            var collectionPeriods = Array.Empty<CollectionPeriod>();
+            var fundingTypes = Array.Empty<FundingType>();
+            var fcsAllocations = Array.Empty<FcsContractAllocation>();
+            var summarisationMessageMock = new Mock<ISummarisationMessage>();
+            summarisationMessageMock.Setup(sm => sm.SummarisationTypes).Returns(summarisationTypes);
+           
+            var providerContractsServiceMock = new Mock<IProviderContractsService>();
+            var summarisationDeliverableProcessMock = new Mock<ISummarisationService>();
+            var providerFundingDataRemovedServiceMock = new Mock<IProviderFundingDataRemovedService>();
+
+            var fundingDataremoved = TestFundingDataRemoved();
+            var act1FundingDataToBeRemoved = TestACT1FundingDataToBeRemoved();
+            fundingDataremoved.AddRange(act1FundingDataToBeRemoved);
+
+            providerFundingDataRemovedServiceMock
+                .Setup(x => x.FundingDataRemovedAsync(It.IsAny<string>(), It.IsAny<List<SummarisedActual>>(), summarisationMessageMock.Object, cancellationToken))
+                .ReturnsAsync(fundingDataremoved);
+
+            var result = await NewService(
+               summarisationDeliverableProcessMock.Object,
+               null,
+               providerContractsServiceMock.Object,
+               providerFundingDataRemovedServiceMock.Object).Summarise(TestESFProvider(), collectionPeriods, fundingTypes, fcsAllocations, summarisationMessageMock.Object, cancellationToken);
+
+            result.Should().BeEquivalentTo(fundingDataremoved.Except(act1FundingDataToBeRemoved));
         }
 
         private ProviderSummarisationService NewService(
@@ -158,6 +188,49 @@ namespace ESFA.DC.Summarisation.Apps.Service.Tests
                      ActualValue = 0,
                      ActualVolume = 0,
                  },
+                 new SummarisedActual
+                 {
+                     CollectionReturnId = 101,
+                     ContractAllocationNumber = "Contract5",
+                     FundingStreamPeriodCode = "FSPCode5",
+                     DeliverableCode = 1,
+                     Period = 1,
+                     PeriodTypeCode = "PType5",
+                     OrganisationId = "Org5",
+                     ActualValue = 0,
+                     ActualVolume = 0,
+                 }
+            };
+        }
+
+        private List<SummarisedActual> TestACT1FundingDataToBeRemoved()
+        {
+            return new List<SummarisedActual>
+            {
+               new SummarisedActual
+                {
+                    CollectionReturnId = 101,
+                    ContractAllocationNumber = "Contract4",
+                    FundingStreamPeriodCode = "LEVY1799",
+                    DeliverableCode = 1,
+                    Period = 1,
+                    PeriodTypeCode = "PType1",
+                    OrganisationId = "Org1",
+                    ActualValue = 0,
+                    ActualVolume = 0,
+                },
+                new SummarisedActual
+                {
+                    CollectionReturnId = 101,
+                    ContractAllocationNumber = "Contract4",
+                    FundingStreamPeriodCode = "NONLEVY2019",
+                    DeliverableCode = 1,
+                    Period = 1,
+                    PeriodTypeCode = "PType1",
+                    OrganisationId = "Org1",
+                    ActualValue = 0,
+                    ActualVolume = 0,
+                },
             };
         }
     }

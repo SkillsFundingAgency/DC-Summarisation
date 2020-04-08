@@ -19,7 +19,12 @@ namespace ESFA.DC.Summarisation.Apps.Service
         private readonly ISummarisationService _summarisationService;
         private readonly ILogger _logger;
         private readonly IProviderContractsService _providerContractsService;
-        private readonly IProviderFundingDataRemovedService _providerFundingDataRemovedService;        
+        private readonly IProviderFundingDataRemovedService _providerFundingDataRemovedService;
+        private readonly IEnumerable<string> _fundingStreamPeriodCodesNotRequiredForActuals = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            FundingStreamConstants.Levy1799,
+            FundingStreamConstants.NonLevy2019
+        };
 
         public ProviderSummarisationService(
             ISummarisationService summarisationService,
@@ -33,7 +38,7 @@ namespace ESFA.DC.Summarisation.Apps.Service
             _providerFundingDataRemovedService = providerFundingDataRemovedService;
         }
 
-        public async Task<ICollection<SummarisedActual>> Summarise(LearningProvider providerData, ICollection<CollectionPeriod> collectionPeriods, ICollection<FundingType> fundingTypes,  ICollection<FcsContractAllocation> contractAllocations, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
+        public async Task<ICollection<SummarisedActual>> Summarise(LearningProvider providerData, ICollection<CollectionPeriod> collectionPeriods, ICollection<FundingType> fundingTypes, ICollection<FcsContractAllocation> contractAllocations, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
         {
             var providerActuals = new List<SummarisedActual>();
 
@@ -47,7 +52,7 @@ namespace ESFA.DC.Summarisation.Apps.Service
                     .ToList();
 
                 var providerfundingstreamsContracts = await _providerContractsService.GetProviderContracts(providerData.UKPRN, fundingStreams, contractAllocations, cancellationToken);
-                    
+
                 var summarisedData = _summarisationService.Summarise(providerfundingstreamsContracts.FundingStreams, providerData, providerfundingstreamsContracts.FcsContractAllocations, collectionPeriods, summarisationMessage);
 
                 providerActuals.AddRange(summarisedData);
@@ -61,10 +66,12 @@ namespace ESFA.DC.Summarisation.Apps.Service
 
             var actualsToCarry = await _providerFundingDataRemovedService.FundingDataRemovedAsync(organisationId, providerActuals, summarisationMessage, cancellationToken);
 
-            providerActuals.AddRange(actualsToCarry);
+            var filteredActualsToCarry = actualsToCarry.Where(x => !_fundingStreamPeriodCodesNotRequiredForActuals.Contains(x.FundingStreamPeriodCode)).ToList();
+
+            providerActuals.AddRange(filteredActualsToCarry);
 
             _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed  Rule UKPRN: {providerData.UKPRN} End");
-            
+
 
             return providerActuals;
         }
