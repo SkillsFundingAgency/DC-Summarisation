@@ -10,6 +10,6 @@ namespace ESFA.DC.Summarisation.NCS.Interfaces
     {
         Task<ICollection<FundingValue>> ProvideAsync(TouchpointProvider touchpointProvider, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken);
 
-        Task<ICollection<TouchpointProvider>> ProvideUkprnsAsync(CancellationToken cancellationToken);
+        Task<ICollection<TouchpointProvider>> ProvideUkprnsAsync(int collectionYear, CancellationToken cancellationToken);
     }
 }

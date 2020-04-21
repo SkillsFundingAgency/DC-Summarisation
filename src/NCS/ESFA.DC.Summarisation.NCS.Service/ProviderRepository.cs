@@ -30,9 +30,9 @@ namespace ESFA.DC.Summarisation.NCS.Service
             };
         }
 
-        public async Task<ICollection<TouchpointProvider>> GetAllIdentifiersAsync(CancellationToken cancellationToken)
+        public async Task<ICollection<TouchpointProvider>> GetAllIdentifiersAsync(int collectionYear, CancellationToken cancellationToken)
         {
-            var taskResults = await Task.WhenAll(_providers.Select(p => p.ProvideUkprnsAsync(cancellationToken)));
+            var taskResults = await Task.WhenAll(_providers.Select(p => p.ProvideUkprnsAsync(collectionYear, cancellationToken)));
 
             return taskResults.SelectMany(p => p).Distinct().ToList();
         }

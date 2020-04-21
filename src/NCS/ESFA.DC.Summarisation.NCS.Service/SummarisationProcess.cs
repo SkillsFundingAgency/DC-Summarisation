@@ -63,7 +63,10 @@ namespace ESFA.DC.Summarisation.NCS.Service
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving FCS Contracts Start");
 
-            var fcsContractAllocations = await _fcsRepository.RetrieveContractAllocationsAsync(FundingStreamConstants.NCSFundingStreams_1920, cancellationToken);
+            var periodCodes = fundingTypeConfiguration
+                .SelectMany(ft => ft.FundingStreams.Select(fs => fs.PeriodCode)).Distinct().ToList();
+
+            var fcsContractAllocations = await _fcsRepository.RetrieveContractAllocationsAsync(periodCodes, cancellationToken);
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving FCS Contracts End");
 
@@ -71,7 +74,7 @@ namespace ESFA.DC.Summarisation.NCS.Service
 
             ICollection<TouchpointProvider> providerIdentifiers;
 
-            providerIdentifiers = await _repositoryFactory.Invoke().GetAllIdentifiersAsync(cancellationToken);
+            providerIdentifiers = await _repositoryFactory.Invoke().GetAllIdentifiersAsync(summarisationMessage.CollectionYear, cancellationToken);
 
             _logger.LogInfo($"Summarisation Wrapper: Providers to be summarised : {providerIdentifiers.Count}");
 

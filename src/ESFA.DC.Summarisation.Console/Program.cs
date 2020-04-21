@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using ESFA.DC.DASPayments.EF;
 using ESFA.DC.ESF.Database.EF;
+using ESFA.DC.ESF.FundingData.Database.EF;
 using ESFA.DC.ESF.R2.Database.EF;
 using ESFA.DC.ILR1920.DataStore.EF;
 using ESFA.DC.ReferenceData.FCS.Model;
@@ -10,9 +11,8 @@ using ESFA.DC.Summarisation.Data.Repository;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Model;
-using Microsoft.EntityFrameworkCore;
-using ESFA.DC.ESF.FundingData.Database.EF;
 using ESFA.DC.Summarisation.Stateless.Config;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Console
 {
