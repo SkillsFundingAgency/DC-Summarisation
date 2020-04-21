@@ -26,6 +26,7 @@ namespace ESFA.DC.Summarisation.NCS.Service.Tests
             var summarisationTypes = new List<string> { "NCS1920_C" };
             var processType = "NCS";
             var collectionType = "NCS1920";
+            var collectionYear = 1920;
 
             var collectionPeriods = Array.Empty<CollectionPeriod>();
 
@@ -33,6 +34,7 @@ namespace ESFA.DC.Summarisation.NCS.Service.Tests
             summarisationMessageMock.Setup(sm => sm.SummarisationTypes).Returns(summarisationTypes);
             summarisationMessageMock.Setup(sm => sm.ProcessType).Returns(processType);
             summarisationMessageMock.Setup(sm => sm.CollectionType).Returns(collectionType);
+            summarisationMessageMock.Setup(sm => sm.CollectionYear).Returns(collectionYear);
 
             var collectionPeriodProviderMock = new Mock<ISummarisationConfigProvider<CollectionPeriod>>();
 
@@ -77,7 +79,7 @@ namespace ESFA.DC.Summarisation.NCS.Service.Tests
             var repositoryFactory = new Mock<IInputDataRepository<TouchpointProviderFundingData>>();
 
             repositoryFactory
-                    .Setup(x => x.GetAllIdentifiersAsync(cancellationToken))
+                    .Setup(x => x.GetAllIdentifiersAsync(collectionYear, cancellationToken))
                     .ReturnsAsync(TouchpointProviders());
 
             repositoryFactory

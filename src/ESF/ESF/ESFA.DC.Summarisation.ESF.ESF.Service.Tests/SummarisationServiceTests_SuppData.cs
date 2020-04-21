@@ -318,7 +318,6 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                     };
                     periods.Add(period);
                 }
-                
             }
 
             return periods;

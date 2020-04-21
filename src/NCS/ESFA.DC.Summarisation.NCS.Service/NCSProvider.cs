@@ -46,11 +46,13 @@ namespace ESFA.DC.Summarisation.NCS.Service
             }
         }
 
-        public async Task<ICollection<TouchpointProvider>> ProvideUkprnsAsync(CancellationToken cancellationToken)
+        public async Task<ICollection<TouchpointProvider>> ProvideUkprnsAsync(int collectionYear, CancellationToken cancellationToken)
         {
             using (var ncsContext = _ncsContext())
             {
-                return await ncsContext.FundingValues.Select(l => new TouchpointProvider { UKPRN = l.Ukprn, TouchpointId = l.TouchpointId }).Distinct().ToListAsync(cancellationToken);
+                return await ncsContext.FundingValues
+                    .Where(fv => fv.CollectionYear == collectionYear)
+                    .Select(l => new TouchpointProvider { UKPRN = l.Ukprn, TouchpointId = l.TouchpointId }).Distinct().ToListAsync(cancellationToken);
             }
         }
     }

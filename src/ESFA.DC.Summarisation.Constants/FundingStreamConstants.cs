@@ -34,8 +34,6 @@ namespace ESFA.DC.Summarisation.Constants
 
         public const string LineType_EAS = "EAS";
 
-        public const string NCS_Incommunity_1920 = "NCS-C1920";
-
         public static List<string> FundingStreams = new List<string>()
         {
             Traineeship_1618TRN1920,
@@ -57,11 +55,5 @@ namespace ESFA.DC.Summarisation.Constants
         {
             ESF1420,
         };
-
-        public static List<string> NCSFundingStreams_1920 = new List<string>()
-        {
-             NCS_Incommunity_1920,
-        };
-
     }
 }

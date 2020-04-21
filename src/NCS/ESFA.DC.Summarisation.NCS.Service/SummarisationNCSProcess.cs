@@ -9,6 +9,7 @@ using ESFA.DC.Summarisation.NCS.Interfaces;
 using ESFA.DC.Summarisation.NCS.Model.Config;
 using ESFA.DC.Summarisation.NCS.Model;
 using ESFA.DC.Summarisation.NCS.Service.Extensions;
+using Microsoft.EntityFrameworkCore.SqlServer.Query.ExpressionTranslators.Internal;
 
 namespace ESFA.DC.Summarisation.NCS.Service
 {
@@ -40,6 +41,15 @@ namespace ESFA.DC.Summarisation.NCS.Service
         {
             var summarisedActuals = new List<SummarisedActual>();
 
+            var fcsAllocation = allocations.FirstOrDefault(a => a.DeliveryUkprn == providerFundingData.Provider.UKPRN 
+                                                && a.UoPcode.Equals(providerFundingData.Provider.TouchpointId,StringComparison.OrdinalIgnoreCase)
+                                                && a.FundingStreamPeriodCode.Equals(fundingStream.PeriodCode, StringComparison.OrdinalIgnoreCase));
+
+            if (fcsAllocation == null)
+            {
+                return summarisedActuals;
+            }
+
             foreach (var outcomeType in fundingStream.OutcomeTypes)
             {
                 var fundingValues = providerFundingData
@@ -48,10 +58,6 @@ namespace ESFA.DC.Summarisation.NCS.Service
                     
                 summarisedActuals.AddRange(SummarisePeriods(fundingValues, collectionPeriods));
             }
-
-            var fcsAllocation = allocations.First(a => a.DeliveryUkprn == providerFundingData.Provider.UKPRN 
-                                                && a.UoPcode.Equals(providerFundingData.Provider.TouchpointId,StringComparison.OrdinalIgnoreCase)
-                                                && a.FundingStreamPeriodCode.Equals(fundingStream.PeriodCode, StringComparison.OrdinalIgnoreCase));
 
             return summarisedActuals
                 .GroupBy(grp => grp.Period)
@@ -63,7 +69,7 @@ namespace ESFA.DC.Summarisation.NCS.Service
                         DeliverableCode = fundingStream.DeliverableLineCode,
                         FundingStreamPeriodCode = fundingStream.PeriodCode,
                         Period = g.Key,
-                        ActualValue = Math.Round(g.Sum(x => x.ActualValue),2),
+                        ActualValue = Math.Round(g.Sum(x => x.ActualValue), 2),
                         ContractAllocationNumber = fcsAllocation.ContractAllocationNumber,
                         PeriodTypeCode = PeriodTypeCodeConstants.CalendarMonth
                     }).ToList();

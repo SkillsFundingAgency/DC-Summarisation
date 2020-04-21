@@ -1,5 +1,5 @@
-﻿using ESFA.DC.Summarisation.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using ESFA.DC.Summarisation.Interfaces;
 
 namespace ESFA.DC.Summarisation.Console.Stubs
 {

@@ -74,7 +74,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             int ukprn = GetProviders().First();
 
             var allocation = GetContractAllocation(ukprn);
-            
+
             var periods = new List<Period>()
             {
                 new Period()
@@ -89,7 +89,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                     PeriodId = 1,
                     CalendarMonth = 8,
                     CalendarYear = 2018,
-                    Value = value2
+                    Value = value2,
                 }
             };
 
@@ -405,11 +405,11 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
         private HashSet<string> GetAllDeliverableCodes()
         {
-            return new HashSet<string> { 
-                                        "ST01",
-                                        "FS01",
-                                        "PG01"
-                                        
+            return new HashSet<string>
+            {
+                "ST01",
+                "FS01",
+                "PG01",
             };
         }
 
