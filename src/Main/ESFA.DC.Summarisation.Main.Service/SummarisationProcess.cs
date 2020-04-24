@@ -27,6 +27,7 @@ namespace ESFA.DC.Summarisation.Main.Service
         private readonly int _dataRetrievalMaxConcurrentCalls;
 
         private readonly IProviderSummarisationService<LearningProvider> _providerSummarisationService;
+        private readonly IFundingDataRemovedService _fundingDataRemovedService;
 
         public SummarisationProcess(
             IFcsRepository fcsRepository,
@@ -35,7 +36,8 @@ namespace ESFA.DC.Summarisation.Main.Service
             Func<IInputDataRepository<LearningProvider>> repositoryFactory,
             ISummarisationDataOptions dataOptions,
             ILogger logger,
-            IProviderSummarisationService<LearningProvider> providerSummarisationService)
+            IProviderSummarisationService<LearningProvider> providerSummarisationService,
+            IFundingDataRemovedService fundingDataRemovedService)
         {
             _fcsRepository = fcsRepository;
             _collectionPeriodsProviders = collectionPeriodsProviders;
@@ -43,6 +45,7 @@ namespace ESFA.DC.Summarisation.Main.Service
             _logger = logger;
             _repositoryFactory = repositoryFactory;
             _providerSummarisationService = providerSummarisationService;
+            _fundingDataRemovedService = fundingDataRemovedService;
 
             _dataRetrievalMaxConcurrentCalls = 4;
             int.TryParse(dataOptions.DataRetrievalMaxConcurrentCalls, out _dataRetrievalMaxConcurrentCalls);
@@ -103,6 +106,17 @@ namespace ESFA.DC.Summarisation.Main.Service
 
                 _logger.LogInfo($"Summarisation Wrapper: Summarising Data of UKPRN: {provider.UKPRN} End, {runningCount++} / {totalProviderCount}");
             }
+
+            //Funding Data Removed logic
+
+            _logger.LogInfo($"Summarisation Process: Funding Data Removed Start");
+
+            var actualsToCarry = await _fundingDataRemovedService.FundingDataRemovedAsync(summarisedActuals, summarisationMessage, cancellationToken);
+
+            summarisedActuals.AddRange(actualsToCarry);
+
+            _logger.LogInfo($"Summarisation Process: Funding Data Removed End");
+
 
             _logger.LogInfo($"Summarisation Wrapper: Summarisation End");
 

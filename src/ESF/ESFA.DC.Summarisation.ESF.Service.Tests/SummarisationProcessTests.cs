@@ -86,6 +86,14 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                     .Setup(x => x.ProvideAsync(It.IsAny<int>(), summarisationMessageMock.Object, cancellationToken))
                     .ReturnsAsync(TestProvider());
 
+            var testAcutals = TestSummarisedActuals();
+
+            var carryActuals = Array.Empty<SummarisedActual>();
+
+            var fundingDataRemoved = new Mock<IFundingDataRemovedService>();
+            fundingDataRemoved.Setup(x => x.FundingDataRemovedAsync(testAcutals, summarisationMessageMock.Object, cancellationToken))
+                .ReturnsAsync(carryActuals);
+
             var result = await NewService(
               fcsRepositoryMock.Object,
               collectionPeriodsProviders,
@@ -93,9 +101,9 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
               () => repositoryFactory.Object,
               dataOptions.Object,
               null,
-              providerSummarisationServiceMock.Object).CollateAndSummariseAsync(summarisationMessageMock.Object, cancellationToken);
+              providerSummarisationServiceMock.Object, 
+              fundingDataRemoved.Object).CollateAndSummariseAsync(summarisationMessageMock.Object, cancellationToken);
 
-            var testAcutals = TestSummarisedActuals();
 
             result.Should().BeEquivalentTo(testAcutals);
         }
@@ -107,7 +115,8 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                     Func<IInputDataRepository<LearningProvider>> repositoryFactory = null,
                     ISummarisationDataOptions dataOptions = null,
                     ILogger logger = null,
-                    IProviderSummarisationService<LearningProvider> providerSummarisationService = null)
+                    IProviderSummarisationService<LearningProvider> providerSummarisationService = null,
+                    IFundingDataRemovedService fundingDataRemovedService = null)
         {
             return new SummarisationProcess(
                 fcsRepository ?? Mock.Of<IFcsRepository>(),
@@ -116,7 +125,8 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                 repositoryFactory ?? Mock.Of<Func<IInputDataRepository<LearningProvider>>>(),
                 dataOptions ?? Mock.Of<ISummarisationDataOptions>(),
                 logger ?? Mock.Of<ILogger>(),
-                providerSummarisationService ?? Mock.Of<IProviderSummarisationService<LearningProvider>>());
+                providerSummarisationService ?? Mock.Of<IProviderSummarisationService<LearningProvider>>(),
+                fundingDataRemovedService ?? Mock.Of<IFundingDataRemovedService>());
         }
 
         private ICollection<int> TestESFProviders()

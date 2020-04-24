@@ -19,18 +19,15 @@ namespace ESFA.DC.Summarisation.ESF.Service
         private readonly ISummarisationService _summarisationService;
         private readonly ILogger _logger;
         private readonly IProviderContractsService _providerContractsService;
-        private readonly IProviderFundingDataRemovedService _providerFundingDataRemovedService;        
 
         public ProviderSummarisationService(
             ISummarisationService summarisationService,
             ILogger logger,
-            IProviderContractsService providerContractsService,
-            IProviderFundingDataRemovedService providerFundingDataRemovedService)
+            IProviderContractsService providerContractsService)
         {
             _summarisationService = summarisationService;
             _logger = logger;
             _providerContractsService = providerContractsService;
-            _providerFundingDataRemovedService = providerFundingDataRemovedService;
         }
 
         public async Task<ICollection<SummarisedActual>> Summarise(LearningProvider providerData, ICollection<CollectionPeriod> collectionPeriods, ICollection<FundingType> fundingTypes,  ICollection<FcsContractAllocation> contractAllocations, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)
@@ -53,19 +50,6 @@ namespace ESFA.DC.Summarisation.ESF.Service
                 providerActuals.AddRange(summarisedData);
 
                 _logger.LogInfo($"Summarisation Wrapper: Summarising Data of UKPRN: {providerData.UKPRN}, Fundmodel {summarisationType} End");
-            }
-
-            if (!summarisationMessage.ProcessType.Equals(ProcessTypeConstants.Payments, StringComparison.OrdinalIgnoreCase))
-            {
-                _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed  Rule UKPRN: {providerData.UKPRN} Start");
-
-                var organisationId = providerActuals.Select(x => x.OrganisationId).FirstOrDefault();
-
-                var actualsToCarry = await _providerFundingDataRemovedService.FundingDataRemovedAsync(organisationId, providerActuals, summarisationMessage, cancellationToken);
-
-                providerActuals.AddRange(actualsToCarry);
-
-                _logger.LogInfo($"Summarisation Wrapper: Funding Data Removed  Rule UKPRN: {providerData.UKPRN} End");
             }
 
             return providerActuals;

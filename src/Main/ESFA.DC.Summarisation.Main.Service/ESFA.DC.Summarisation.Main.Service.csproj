@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Constants\ESFA.DC.Summarisation.Constants.csproj" />
     <ProjectReference Include="..\..\ESFA.DC.Summarisation.Interfaces\ESFA.DC.Summarisation.Interfaces.csproj" />
+    <ProjectReference Include="..\..\ESFA.DC.Summarisation.Utils\ESFA.DC.Summarisation.Utils.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.Main.Interfaces\ESFA.DC.Summarisation.Main.Interfaces.csproj" />
   </ItemGroup>
 

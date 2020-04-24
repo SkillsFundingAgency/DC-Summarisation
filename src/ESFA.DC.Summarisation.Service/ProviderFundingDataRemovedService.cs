@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.Summarisation.Service.EqualityComparer;
 using ESFA.DC.Summarisation.Service.Model;
+using ESFA.DC.Summarisation.Utils.EqualityComparer;
 
 namespace ESFA.DC.Summarisation.Service
 {
