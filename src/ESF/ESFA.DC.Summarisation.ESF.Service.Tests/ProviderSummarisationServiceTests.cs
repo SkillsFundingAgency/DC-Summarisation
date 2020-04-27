@@ -24,6 +24,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             var summarisationTypes = new List<string> { "ESF_ILRData"};
             var processType = "Deliverable";
             var collectionType = "ESF";
+            var collectionRetunCode = "ESF31";
 
             var collectionPeriods = Array.Empty<CollectionPeriod>();
             var fundingTypes = Array.Empty<FundingType>();
@@ -32,6 +33,8 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             var summarisationMessageMock = new Mock<ISummarisationMessage>();
             summarisationMessageMock.Setup(sm => sm.SummarisationTypes).Returns(summarisationTypes);
             summarisationMessageMock.Setup(sm => sm.ProcessType).Returns(processType);
+            summarisationMessageMock.Setup(sm => sm.CollectionType).Returns(collectionType);
+            summarisationMessageMock.Setup(sm => sm.CollectionReturnCode).Returns(collectionRetunCode);
 
             var providerContractsServiceMock = new Mock<IProviderContractsService>();
 
@@ -47,23 +50,10 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                 .Setup(x => x.Summarise(It.IsAny<ICollection<FundingStream>>(), It.IsAny<LearningProvider>(), It.IsAny<ICollection<FcsContractAllocation>>(), It.IsAny<ICollection<CollectionPeriod>>(), summarisationMessageMock.Object))
                 .Returns(testAcutals);
 
-            var providerFundingDataRemovedServiceMock = new Mock<IProviderFundingDataRemovedService>();
-
-            var fundingDataremoved = TestFundingDataRemoved();
-
-            providerFundingDataRemovedServiceMock
-                .Setup(x => x.FundingDataRemovedAsync(It.IsAny<string>(), It.IsAny<List<SummarisedActual>>(), summarisationMessageMock.Object, cancellationToken))
-                .ReturnsAsync(fundingDataremoved);
-
-            var providerSummarisationServiceMock = new Mock<IProviderSummarisationService<LearningProvider>>();
-
             var result = await NewService(
                summarisationDeliverableProcessMock.Object,
                null,
-               providerContractsServiceMock.Object,
-               providerFundingDataRemovedServiceMock.Object).Summarise(TestESFProvider(), collectionPeriods, fundingTypes, fcsAllocations, summarisationMessageMock.Object, cancellationToken);
-
-            testAcutals.AddRange(fundingDataremoved);
+               providerContractsServiceMock.Object).Summarise(TestESFProvider(), collectionPeriods, fundingTypes, fcsAllocations, summarisationMessageMock.Object, cancellationToken);
 
             result.Should().BeEquivalentTo(testAcutals);
 
@@ -72,14 +62,12 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
         private ProviderSummarisationService NewService(
            ISummarisationService summarisationService = null,
             ILogger logger = null,
-            IProviderContractsService providerContractsService = null,
-            IProviderFundingDataRemovedService providerFundingDataRemovedService = null)
+            IProviderContractsService providerContractsService = null)
         {
             return new ProviderSummarisationService(
                 summarisationService ?? Mock.Of<ISummarisationService>(),
                 logger ?? Mock.Of<ILogger>(),
-                providerContractsService ?? Mock.Of<IProviderContractsService>(),
-                providerFundingDataRemovedService ?? Mock.Of<IProviderFundingDataRemovedService>());
+                providerContractsService ?? Mock.Of<IProviderContractsService>());
         }
 
         private ProviderFundingStreamsAllocations TestProviderFundingStreamsAllocations()

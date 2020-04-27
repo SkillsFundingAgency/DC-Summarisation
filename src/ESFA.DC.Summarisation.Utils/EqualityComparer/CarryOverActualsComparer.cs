@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ESFA.DC.Summarisation.Service.Model;
 
-namespace ESFA.DC.Summarisation.Service.EqualityComparer
+namespace ESFA.DC.Summarisation.Utils.EqualityComparer
 {
     public class CarryOverActualsComparer : IEqualityComparer<SummarisedActual>
     {
@@ -20,7 +20,8 @@ namespace ESFA.DC.Summarisation.Service.EqualityComparer
 
             // Not hashing OrganisationId as usage of this is pre-filtered to be with same UKPRN, fields included are the key for Carry Over Actuals
 
-            return (obj.DeliverableCode,
+            return (obj.OrganisationId,
+                obj.DeliverableCode,
                 obj.Period,
                 obj.FundingStreamPeriodCode,
                 obj.ContractAllocationNumber).GetHashCode();
