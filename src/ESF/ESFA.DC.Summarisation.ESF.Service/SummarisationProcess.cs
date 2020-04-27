@@ -113,9 +113,8 @@ namespace ESFA.DC.Summarisation.ESF.Service
             _logger.LogInfo($"Summarisation Process: Funding Data Removed Start");
 
             var actualsToCarry = await _fundingDataRemovedService.FundingDataRemovedAsync(summarisedActuals, summarisationMessage, cancellationToken);
-
-            if (actualsToCarry != null)
-                summarisedActuals.AddRange(actualsToCarry);
+            
+            summarisedActuals.AddRange(actualsToCarry);
 
             _logger.LogInfo($"Summarisation Process: Funding Data Removed End");
 

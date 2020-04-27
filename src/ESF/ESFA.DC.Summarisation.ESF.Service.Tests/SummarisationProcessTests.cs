@@ -91,7 +91,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             var carryActuals = Array.Empty<SummarisedActual>();
 
             var fundingDataRemoved = new Mock<IFundingDataRemovedService>();
-            fundingDataRemoved.Setup(x => x.FundingDataRemovedAsync(testAcutals, summarisationMessageMock.Object, cancellationToken))
+            fundingDataRemoved.Setup(x => x.FundingDataRemovedAsync(It.IsAny<ICollection<SummarisedActual>>(), summarisationMessageMock.Object, cancellationToken))
                 .ReturnsAsync(carryActuals);
 
             var result = await NewService(
