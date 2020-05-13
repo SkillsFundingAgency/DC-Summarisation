@@ -178,7 +178,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
             result.Count(w => w.DeliverableCode == 18).Should().Be(12);
 
-            foreach (var item in result)
+            foreach (var item in result.Where(w => w.DeliverableCode == 1 || w.DeliverableCode == 4 || w.DeliverableCode == 18))
             {
                 item.ActualValue.Should().Be(100);
 
@@ -230,7 +230,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
                 result.Count(w => w.ContractAllocationNumber == allocation.ContractAllocationNumber && w.DeliverableCode == 18).Should().Be(12);
 
-                foreach (var item in result)
+                foreach (var item in result.Where(w => w.DeliverableCode == 1 || w.DeliverableCode == 4 || w.DeliverableCode == 18))
                 {
                     item.ActualValue.Should().Be(100);
 
@@ -284,7 +284,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
                     result.Count(w => w.ContractAllocationNumber == allocation.ContractAllocationNumber && w.DeliverableCode == 18).Should().Be(12);
 
-                    foreach (var item in result)
+                    foreach (var item in result.Where(w => w.DeliverableCode == 1 || w.DeliverableCode == 4 || w.DeliverableCode == 18))
                     {
                         item.ActualValue.Should().Be(100);
 
