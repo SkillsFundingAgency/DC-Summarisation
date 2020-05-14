@@ -89,6 +89,11 @@ namespace ESFA.DC.Summarisation.ESF.Service
 
         public ICollection<SummarisedActual> SummarisePeriods(ICollection<Period> periods, DeliverableLine fundLine, ICollection<CollectionPeriod> collectionPeriods, FcsContractAllocation allocation)
         {
+            if (periods.All(p => (p.Value == 0 && p.Volume == 0)))
+            {
+                return Array.Empty<SummarisedActual>();
+            }
+
             var filteredCollectonPeriods = collectionPeriods.Where(cp => cp.ActualsSchemaPeriod >= allocation.ContractStartDate && cp.ActualsSchemaPeriod <= allocation.ContractEndDate);
 
             var summarisedPeriods = periods
@@ -100,11 +105,6 @@ namespace ESFA.DC.Summarisation.ESF.Service
                            ActualValue = pg.Where(w => w.Value.HasValue).Sum(sw => sw.Value.Value),
                            ActualVolume = fundLine.CalculateVolume ? pg.Where(w => w.Volume.HasValue).Sum(sw => sw.Volume.Value) : 0
                        }).ToList();
-
-            if (summarisedPeriods.All(w => w.ActualValue == 0 && w.ActualVolume == 0))
-            {
-                return Array.Empty<SummarisedActual>();
-            }
 
             return (filteredCollectonPeriods
               .GroupJoin(summarisedPeriods,
