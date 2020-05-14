@@ -89,7 +89,7 @@ namespace ESFA.DC.Summarisation.ESF.Service
 
         public ICollection<SummarisedActual> SummarisePeriods(ICollection<Period> periods, DeliverableLine fundLine, ICollection<CollectionPeriod> collectionPeriods, FcsContractAllocation allocation)
         {
-            if (periods.All(p => (p.Value.HasValue && p.Value.Value == 0) && (p.Volume.HasValue && p.Volume.Value == 0)))
+            if (periods.All(p => (p.Value == 0 && p.Volume == 0)))
             {
                 return Array.Empty<SummarisedActual>();
             }
