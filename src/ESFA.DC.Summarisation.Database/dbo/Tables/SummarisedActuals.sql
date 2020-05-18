@@ -16,5 +16,11 @@ GO
 CREATE NONCLUSTERED INDEX [IX_SA_CollectionReturnId_OrgId] ON [dbo].[SummarisedActuals]
 (
 	[CollectionReturnId] ASC,
-	[OrganisationId] ASC)
+	[OrganisationId] ASC
+)
+GO
+CREATE NONCLUSTERED INDEX [IDX_SummarisedActuals_API]
+ON [dbo].[SummarisedActuals] ([CollectionReturnId])
+INCLUDE ([OrganisationId],[UoPCode],[FundingStreamPeriodCode],[Period],[DeliverableCode],[ActualVolume],[ActualValue],[PeriodTypeCode],[ContractAllocationNumber])
+ WITH (DATA_COMPRESSION = PAGE, SORT_IN_TEMPDB = ON, STATISTICS_NORECOMPUTE = OFF, ONLINE = ON)
 GO
