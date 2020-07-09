@@ -210,8 +210,8 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                     FundingStreamPeriodCode = "ESF1420",
                     DeliveryUkprn = ukprn,
                     DeliveryOrganisation = $"Org{ukprn}",
-                    ContractStartDate = 201808,
-                    ContractEndDate = 201907
+                    ActualsSchemaPeriodStart = 201808,
+                    ActualsSchemaPeriodEnd = 201907
                 };
 
                 fcsContractAllocations.Add(allocation);
@@ -263,8 +263,8 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                         FundingStreamPeriodCode = "ESF1420",
                         DeliveryUkprn = ukprn,
                         DeliveryOrganisation = $"Org{ukprn}",
-                        ContractStartDate = 201808,
-                        ContractEndDate = 201907
+                        ActualsSchemaPeriodStart = 201808,
+                        ActualsSchemaPeriodEnd = 201907
                     };
 
                     fcsContractAllocations.Add(allocation);
@@ -431,8 +431,8 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                 FundingStreamPeriodCode = "ESF1420",
                 DeliveryUkprn = ukprn,
                 DeliveryOrganisation = $"Org{ukprn}",
-                ContractStartDate = 201808,
-                ContractEndDate = 201907
+                ActualsSchemaPeriodStart = 201808,
+                ActualsSchemaPeriodEnd = 201907
             };
 
             return allocation;

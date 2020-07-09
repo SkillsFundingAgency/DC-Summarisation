@@ -568,9 +568,11 @@ namespace ESFA.DC.Summarisation.Apps.Service.Tests
                     {
                         ContractAllocationNumber = $"Alloc{item.PeriodCode}-1",
                         FundingStreamPeriodCode = item.PeriodCode,
-                        ContractStartDate = 201801,
+                        ActualsSchemaPeriodStart = 201801,
                         DeliveryUkprn = ukprn,
                         DeliveryOrganisation = $"Org{ukprn}",
+                        ContactStartDate = 20180101,
+                        ContractEndDate = 20190101
                     };
                     fcsContractAllocations.Add(allocation1);
 
@@ -578,9 +580,11 @@ namespace ESFA.DC.Summarisation.Apps.Service.Tests
                     {
                         ContractAllocationNumber = $"Alloc{item.PeriodCode}-2",
                         FundingStreamPeriodCode = item.PeriodCode,
-                        ContractStartDate = 201901,
+                        ActualsSchemaPeriodStart = 201901,
                         DeliveryUkprn = ukprn,
                         DeliveryOrganisation = $"Org{ukprn}",
+                        ContactStartDate = 20190102,
+                        ContractEndDate = 0
                     };
                     fcsContractAllocations.Add(allocation2);
                 }

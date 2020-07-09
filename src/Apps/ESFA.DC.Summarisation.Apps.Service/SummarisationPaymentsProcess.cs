@@ -122,7 +122,7 @@ namespace ESFA.DC.Summarisation.Apps.Service
                     FundingStreamPeriodCode = x.Key.FundingStreamPeriodCode,
                     DeliveryOrganisation = x.Key.DeliveryOrganisation,
                     ContractAllocationNumber = allocations.Where(y => x.Key.FundingStreamPeriodCode == y.FundingStreamPeriodCode)
-                                                .OrderByDescending(z => z.ContractStartDate)
+                                                .OrderByDescending(z => z.ContactStartDate)
                                                 .FirstOrDefault()?.ContractAllocationNumber,
                 }).ToDictionary(a => a.FundingStreamPeriodCode, StringComparer.OrdinalIgnoreCase);
 
