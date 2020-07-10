@@ -571,7 +571,7 @@ namespace ESFA.DC.Summarisation.Apps.Service.Tests
                         ActualsSchemaPeriodStart = 201801,
                         DeliveryUkprn = ukprn,
                         DeliveryOrganisation = $"Org{ukprn}",
-                        ContactStartDate = 20180101,
+                        ContractStartDate = 20180101,
                         ContractEndDate = 20190101
                     };
                     fcsContractAllocations.Add(allocation1);
@@ -583,7 +583,7 @@ namespace ESFA.DC.Summarisation.Apps.Service.Tests
                         ActualsSchemaPeriodStart = 201901,
                         DeliveryUkprn = ukprn,
                         DeliveryOrganisation = $"Org{ukprn}",
-                        ContactStartDate = 20190102,
+                        ContractStartDate = 20190102,
                         ContractEndDate = 0
                     };
                     fcsContractAllocations.Add(allocation2);

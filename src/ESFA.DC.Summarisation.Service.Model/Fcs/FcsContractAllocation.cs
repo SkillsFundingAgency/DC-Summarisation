@@ -14,7 +14,7 @@
 
         public string DeliveryOrganisation { get; set; }
 
-        public int ContactStartDate { get; set; }
+        public int ContractStartDate { get; set; }
 
         public int ContractEndDate { get; set; }
 

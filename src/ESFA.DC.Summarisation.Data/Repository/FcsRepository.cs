@@ -46,7 +46,7 @@ namespace ESFA.DC.Summarisation.Data.Repository
                         UoPcode = ca.UoPcode,
                         DeliveryUkprn = ca.DeliveryUkprn,
                         DeliveryOrganisation = ca.DeliveryOrganisation,
-                        ContactStartDate = BuildFormattedDate(ca.StartDate),
+                        ContractStartDate = BuildFormattedDate(ca.StartDate),
                         ContractEndDate = BuildFormattedDate(ca.EndDate),
                         ActualsSchemaPeriodStart = BuildActualSchemaPeriod(ca.StartDate),
                         ActualsSchemaPeriodEnd = BuildActualSchemaPeriod(ca.EndDate),
