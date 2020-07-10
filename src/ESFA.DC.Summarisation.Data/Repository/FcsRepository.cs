@@ -48,11 +48,18 @@ namespace ESFA.DC.Summarisation.Data.Repository
                         DeliveryOrganisation = ca.DeliveryOrganisation,
                         ContractStartDate = BuildFormattedDate(ca.StartDate),
                         ContractEndDate = BuildFormattedDate(ca.EndDate),
+                        ActualsSchemaPeriodStart = BuildActualSchemaPeriod(ca.StartDate),
+                        ActualsSchemaPeriodEnd = BuildActualSchemaPeriod(ca.EndDate),
                     }).ToList();
             }
         }
 
         private int BuildFormattedDate(DateTime? dateTime)
+        {
+            return dateTime.HasValue ? Convert.ToInt32(dateTime.Value.ToString("yyyyMMdd")) : 0;
+        }
+
+        private int BuildActualSchemaPeriod(DateTime? dateTime)
         {
             return dateTime.HasValue ? Convert.ToInt32(dateTime.Value.ToString("yyyyMM")) : 0;
         }

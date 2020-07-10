@@ -17,5 +17,9 @@
         public int ContractStartDate { get; set; }
 
         public int ContractEndDate { get; set; }
+
+        public int ActualsSchemaPeriodStart { get; set; }
+
+        public int ActualsSchemaPeriodEnd { get; set; }
     }
 }

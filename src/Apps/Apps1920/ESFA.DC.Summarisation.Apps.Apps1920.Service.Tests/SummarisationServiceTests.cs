@@ -569,7 +569,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
                     {
                         ContractAllocationNumber = $"Alloc{item.PeriodCode}-1",
                         FundingStreamPeriodCode = item.PeriodCode,
-                        ContractStartDate = 201801,
+                        ContractStartDate = 20180101,
                         DeliveryUkprn = ukprn,
                         DeliveryOrganisation = $"Org{ukprn}",
                     };
@@ -579,7 +579,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
                     {
                         ContractAllocationNumber = $"Alloc{item.PeriodCode}-2",
                         FundingStreamPeriodCode = item.PeriodCode,
-                        ContractStartDate = 201901,
+                        ContractStartDate = 20180128,
                         DeliveryUkprn = ukprn,
                         DeliveryOrganisation = $"Org{ukprn}",
                     };

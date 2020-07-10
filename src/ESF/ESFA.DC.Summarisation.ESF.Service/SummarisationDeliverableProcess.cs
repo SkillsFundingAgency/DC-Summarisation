@@ -94,7 +94,7 @@ namespace ESFA.DC.Summarisation.ESF.Service
                 return Array.Empty<SummarisedActual>();
             }
 
-            var filteredCollectonPeriods = collectionPeriods.Where(cp => cp.ActualsSchemaPeriod >= allocation.ContractStartDate && cp.ActualsSchemaPeriod <= allocation.ContractEndDate);
+            var filteredCollectonPeriods = collectionPeriods.Where(cp => cp.ActualsSchemaPeriod >= allocation.ActualsSchemaPeriodStart && cp.ActualsSchemaPeriod <= allocation.ActualsSchemaPeriodEnd);
 
             var summarisedPeriods = periods
                        .GroupBy(g => new { g.CalendarYear, g.CalendarMonth })
