@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.Summarisation.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System;
 using ESFA.DC.EAS2021.EF.Interface;
 using ESFA.DC.Summarisation.Constants;
-using ESFA.DC.Summarisation.Main.Model;
+using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Main.Interfaces;
+using ESFA.DC.Summarisation.Main.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Main2021.Service.Providers
 {

@@ -1,9 +1,9 @@
-﻿using ESFA.DC.JobContextManager.Model;
-using ESFA.DC.Summarisation.Interfaces;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
+using ESFA.DC.JobContextManager.Model;
 using ESFA.DC.Summarisation.Constants;
+using ESFA.DC.Summarisation.Interfaces;
 
 namespace ESFA.DC.Summarisation.Stateless.Context
 {

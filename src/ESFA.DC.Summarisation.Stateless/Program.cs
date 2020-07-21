@@ -5,15 +5,15 @@ using Autofac;
 using Autofac.Integration.ServiceFabric;
 using ESFA.DC.JobContextManager.Interface;
 using ESFA.DC.JobContextManager.Model;
-using ESFA.DC.Summarisation.Modules;
+using ESFA.DC.Logging.Interfaces;
+using ESFA.DC.Queueing;
+using ESFA.DC.Queueing.Interface;
+using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.ServiceFabric.Common.Config;
 using ESFA.DC.ServiceFabric.Common.Modules;
-using ESFA.DC.Queueing;
+using ESFA.DC.Summarisation.Modules;
 using ESFA.DC.Summarisation.Stateless.Config;
 using ESFA.DC.Summarisation.Stateless.Config.Interfaces;
-using ESFA.DC.Serialization.Interfaces;
-using ESFA.DC.Logging.Interfaces;
-using ESFA.DC.Queueing.Interface;
 
 namespace ESFA.DC.Summarisation.Stateless
 {
