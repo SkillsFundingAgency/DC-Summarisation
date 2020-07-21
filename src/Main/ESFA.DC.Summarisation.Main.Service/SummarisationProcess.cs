@@ -66,7 +66,10 @@ namespace ESFA.DC.Summarisation.Main.Service
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving FCS Contracts Start");
 
-            var fcsContractAllocations = await _fcsRepository.RetrieveContractAllocationsAsync(FundingStreamConstants.FundingStreams, cancellationToken);
+            var relevantFundingStreams = fundingTypeConfiguration.ToList()
+                .SelectMany(ftc => ftc.FundingStreams.Select(fs => fs.PeriodCode)).Distinct().ToList();
+
+            var fcsContractAllocations = await _fcsRepository.RetrieveContractAllocationsAsync(relevantFundingStreams, cancellationToken);
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving FCS Contracts End");
 
