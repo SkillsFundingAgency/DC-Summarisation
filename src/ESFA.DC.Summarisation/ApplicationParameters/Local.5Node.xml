@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="fabric:/ESFA.DC.Summarisation" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+  <Parameters>
+    <Parameter Name="ESFA.DC.Summarisation.Stateless_InstanceCount" Value="-1" />
+    <Parameter Name="ProcessingServicePlacementConstraints" Value="" />
+    <Parameter Name="ServiceBusConnectionString" Value="Endpoint=sb://xx-ap-servicebus-weu.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=CPt7RQRPQcolX7A8xZ+bXiC74gYSGrdXLhCczy+CxMk=" />
+    <Parameter Name="TopicName" Value="summarisationtopic" />
+    <Parameter Name="SubscriptionName" Value="Process" />
+    <Parameter Name="TopicMaxConcurrentCalls" Value="1" />
+    <Parameter Name="TopicMaxCallbackTimeSpanMinutes" Value="60" />
+    <Parameter Name="JobStatusQueueName" Value="auditingqueue" />
+    <Parameter Name="JobStatusMaxConcurrentCalls" Value="1" />
+    <Parameter Name="AuditQueueName" Value="auditingqueue" />
+    <Parameter Name="AuditMaxConcurrentCalls" Value="1" />
+    <Parameter Name="LoggerConnectionstring" Value="Server=(local);Database=AppLogs;User Id=sa;Password=12345678;" />
+    <Parameter Name="AzureStorageConnectionString" Value="DefaultEndpointsProtocol=https;AccountName=dcoldevstorageaccountweu;AccountKey=n3EuInYx8CG/7oBG84LK3KHIQfYOnhFKjjdPKmS4AOwfDBxKUSAsmnyhUn1a1n7tFIO3OjhBJhcS4D3t6iI2nQ==;EndpointSuffix=core.windows.net" />
+    <Parameter Name="AzureStorageContainerName" Value="ilr1819-files" />
+    <!--<Parameter Name="FCSConnectionString" Value="Server=DCOL-DEV-SqlServer-WEU.database.windows.net;Database=FCS;User Id=FCS_RO_User;Password=iNWtZRfxpvPw-SQ5n4XaGq9rDml86khuTMyC7ojdY@IEe1cVBLJgUbA3sO2Fz0HKX5MVdlOBW7g;Encrypt=True;" />-->
+    <!--<Parameter Name="FCSConnectionString"  Value="Server=(local);Database=FCS;User Id=sa;Password=12345678;" />-->
+    <Parameter Name="FCSConnectionString" Value="Server=DCOL-TST-SqlServer-WEU.database.windows.net;Database=FCS;User Id=FCS_RO_User;Password=Pw-9cdVZQmATKbEWp0Ono6ifNYLGj5UruMylhzJtqsx3I2g@akBSR48X71FDeCHvDa5d2yQb3OS;Encrypt=True;" />
+    <Parameter Name="ILR1819ConnectionString" Value="Server=(local);Database=ILR1819DataStore;User Id=sa;Password=12345678;" />
+    <Parameter Name="ILR1920ConnectionString" Value="Server=(local);Database=ILR1920DataStore_PROD;User Id=sa;Password=12345678;" />
+    <Parameter Name="SummarisedActualsConnectionString" Value="Server=(local);Database=SummarisedActuals_PROD;User Id=sa;Password=12345678;" />
+    <Parameter Name="EAS1819ConnectionString" Value="Server=(local);Database=EAS1819;User Id=sa;Password=12345678;" />
+    <Parameter Name="EAS1920ConnectionString" Value="Server=(local);Database=EAS1920_PROD;User Id=sa;Password=12345678;" />
+    <Parameter Name="DataRetrievalMaxConcurrentCalls" Value="2" />
+    <!--<Parameter Name="ESFNonEFConnectionString" Value="Data Source=DCOL-DEV-SqlServer-WEU.database.windows.net,1433;Initial Catalog=ESF;User Id=ESF_RW_User;Password=aI-7O3@4fdLUMHncgpYKFJTRQ5v10jBAbEDoVhmxkXtseyqN6ulwWGz9SP28rZCia-eD5W6Fh3d;" />-->
+    <Parameter Name="ESFNonEFConnectionString" Value="Server=(local);Database=ESF_PROD;User Id=sa;Password=12345678;" />
+    <Parameter Name="ESFR2ConnectionString" Value="Server=(local);Database=ESF-R2_PROD;User Id=sa;Password=12345678;" />
+    <Parameter Name="DASPaymentsConnectionString" Value="Server=(local);Database=DASPayments_PROD;User Id=sa;Password=12345678;" />
+    <!--<Parameter Name="DASPaymentsConnectionString" Value="Data Source=DCOL-TST-SqlServer-WEU.database.windows.net;Initial Catalog=DASPayments;User Id=DASPaymentROUser;Password=X2Bk1WjYqCuHsley83Z@JfUcxRPItModLagz6mKE9DvVApSO04F-G5Q7rnihTwNb2Ejc56hOigx;Encrypt=True;" />-->
+    <Parameter Name="ESFFundingDataConnectionString" Value="Server=(local);Database=ESFFunding_PROD;User Id=sa;Password=12345678;" />
+    <!--<Parameter Name="ESFFundingDataConnectionString" Value="Server=(local);Database=ESFFunding;User Id=sa;Password=12345678;" />-->
+    <Parameter Name="NcsDbConnectionString" Value="Server=(local);Database=NCS1920;User Id=sa;Password=12345678;" />
+    <Parameter Name="SqlCommandTimeoutSeconds" Value="60" />
+    <Parameter Name="GenericCollectionsConnectionString" Value="Server=(local);Database=GC;User Id=sa;Password=12345678;" />
+    <Parameter Name="SummarisedActualsBAUConnectionString" Value="Server=(local);Database=SummarisedActuals_BAU;User Id=sa;Password=12345678;" />
+  </Parameters>
+</Application>

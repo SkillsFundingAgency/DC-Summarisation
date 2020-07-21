@@ -91,38 +91,53 @@ namespace ESFA.DC.Summarisation.Stateless.Context
 
         public string GetKeyValue(string key)
         {
-            string returnValue = string.Empty;
+            try
+            {
+                string returnValue = string.Empty;
 
-            if (SummarisationTypes.Any(item => item.Equals(SummarisationTypeConstants.Main1920_FM25, StringComparison.OrdinalIgnoreCase)
-                        || item.Equals(SummarisationTypeConstants.Main1920_ALB, StringComparison.OrdinalIgnoreCase)
-                        || item.Equals(SummarisationTypeConstants.Main1920_TBL, StringComparison.OrdinalIgnoreCase)
-                        || item.Equals(SummarisationTypeConstants.Main1920_EAS, StringComparison.OrdinalIgnoreCase)
-                        || item.Equals(SummarisationTypeConstants.Main1920_FM35, StringComparison.OrdinalIgnoreCase)))
-            {
-                returnValue = _jobContextMessage.KeyValuePairs[$"{key}DC"].ToString();
+                if (SummarisationTypes.Any(item =>
+                               item.Equals(SummarisationTypeConstants.Main1920_FM25, StringComparison.OrdinalIgnoreCase)
+                            || item.Equals(SummarisationTypeConstants.Main1920_ALB, StringComparison.OrdinalIgnoreCase)
+                            || item.Equals(SummarisationTypeConstants.Main1920_TBL, StringComparison.OrdinalIgnoreCase)
+                            || item.Equals(SummarisationTypeConstants.Main1920_EAS, StringComparison.OrdinalIgnoreCase)
+                            || item.Equals(SummarisationTypeConstants.Main1920_FM35, StringComparison.OrdinalIgnoreCase)
+                            || item.Equals(SummarisationTypeConstants.Main2021_FM25, StringComparison.OrdinalIgnoreCase)
+                            || item.Equals(SummarisationTypeConstants.Main2021_ALB, StringComparison.OrdinalIgnoreCase)
+                            || item.Equals(SummarisationTypeConstants.Main2021_TBL, StringComparison.OrdinalIgnoreCase)
+                            || item.Equals(SummarisationTypeConstants.Main2021_EAS, StringComparison.OrdinalIgnoreCase)
+                            || item.Equals(SummarisationTypeConstants.Main2021_FM35, StringComparison.OrdinalIgnoreCase)))
+                {
+                    returnValue = _jobContextMessage.KeyValuePairs[$"{key}DC"].ToString();
+                }
+                else if (SummarisationTypes.Any(item => item.Equals(SummarisationTypeConstants.ESF_ILRData, StringComparison.OrdinalIgnoreCase)
+                       || item.Equals(SummarisationTypeConstants.ESF_SuppData, StringComparison.OrdinalIgnoreCase)))
+                {
+                    returnValue = _jobContextMessage.KeyValuePairs[$"{key}ESF"].ToString();
+                }
+                else if (SummarisationTypes.Any(item => item.Equals(SummarisationTypeConstants.Apps1920_Levy, StringComparison.OrdinalIgnoreCase)
+                       || item.Equals(SummarisationTypeConstants.Apps1920_NonLevy, StringComparison.OrdinalIgnoreCase)
+                       || item.Equals(SummarisationTypeConstants.Apps1920_EAS, StringComparison.OrdinalIgnoreCase)))
+                {
+                    returnValue = _jobContextMessage.KeyValuePairs[$"{key}App"].ToString();
+                }
+                else if (SummarisationTypes.Any(item => item.Equals(SummarisationTypeConstants.NCS1920_C, StringComparison.OrdinalIgnoreCase)
+                            || item.Equals(SummarisationTypeConstants.NCS2021_C, StringComparison.OrdinalIgnoreCase)))
+                {
+                    returnValue = _jobContextMessage.KeyValuePairs[$"{key}NCS"].ToString();
+                }
+                else if (SummarisationTypes.Any(item => item.Equals(SummarisationTypeConstants.Generic, StringComparison.OrdinalIgnoreCase)))
+                {
+                    returnValue = _jobContextMessage.KeyValuePairs[$"{key}GC"].ToString();
+                }
+
+                return returnValue;
             }
-            else if (SummarisationTypes.Any(item => item.Equals(SummarisationTypeConstants.ESF_ILRData, StringComparison.OrdinalIgnoreCase)
-                   || item.Equals(SummarisationTypeConstants.ESF_SuppData, StringComparison.OrdinalIgnoreCase)))
+            catch (Exception e)
             {
-                returnValue = _jobContextMessage.KeyValuePairs[$"{key}ESF"].ToString();
-            }
-            else if (SummarisationTypes.Any(item => item.Equals(SummarisationTypeConstants.Apps1920_Levy, StringComparison.OrdinalIgnoreCase)
-                   || item.Equals(SummarisationTypeConstants.Apps1920_NonLevy, StringComparison.OrdinalIgnoreCase)
-                   || item.Equals(SummarisationTypeConstants.Apps1920_EAS, StringComparison.OrdinalIgnoreCase)))
-            {
-                returnValue = _jobContextMessage.KeyValuePairs[$"{key}App"].ToString();
-            }
-            else if (SummarisationTypes.Any(item => item.Equals(SummarisationTypeConstants.NCS1920_C, StringComparison.OrdinalIgnoreCase)
-                        || item.Equals(SummarisationTypeConstants.NCS2021_C, StringComparison.OrdinalIgnoreCase)))
-            {
-                returnValue = _jobContextMessage.KeyValuePairs[$"{key}NCS"].ToString();
-            }
-            else if (SummarisationTypes.Any(item => item.Equals(SummarisationTypeConstants.Generic, StringComparison.OrdinalIgnoreCase)))
-            {
-                returnValue = _jobContextMessage.KeyValuePairs[$"{key}GC"].ToString();
+                Console.WriteLine(e);
+                throw;
             }
 
-            return returnValue;
         }
     }
 }

@@ -18,7 +18,7 @@
     <PackageReference Include="ESFA.DC.ESF.Database.EF" Version="0.0.378" />
     <PackageReference Include="ESFA.DC.ESF.FundingData.Database.EF" Version="0.2.563" />
     <PackageReference Include="ESFA.DC.ESF.R2.Database.EF" Version="0.2.182" />
-    <PackageReference Include="ESFA.DC.Serialization.Interfaces" Version="0.1.6-beta0001" />
+    <PackageReference Include="ESFA.DC.Serialization.Interfaces" Version="0.1.39-beta0001" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>

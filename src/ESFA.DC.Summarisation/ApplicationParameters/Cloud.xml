@@ -18,9 +18,11 @@
     <Parameter Name="FCSConnectionString" Value="__FcsDbConnectionString_RO__" />
     <Parameter Name="ILR1819ConnectionString" Value="__ILR1819DataStoreConnectionStringRO__" />
     <Parameter Name="ILR1920ConnectionString" Value="__ILR1920DataStoreConnectionStringRO__" />
+    <Parameter Name="ILR2021ConnectionString" Value="__ILR2021DataStoreConnectionStringRO__" />
     <Parameter Name="SummarisedActualsConnectionString" Value="__SummarisedActuals_Connectionstring_RW__" />
     <Parameter Name="EAS1819ConnectionString" Value="__EAS1819ConnectionStringRO__" />
     <Parameter Name="EAS1920ConnectionString" Value="__EAS1920ConnectionStringRO__" />
+    <Parameter Name="EAS2021ConnectionString" Value="__EAS2021ConnectionStringRO__" />
     <Parameter Name="DataRetrievalMaxConcurrentCalls" Value="__DataRetrievalMaxConcurrentCalls__" />
     <Parameter Name="ESFNonEFConnectionString" Value="__ESFNonEFConnectionString__" />
     <Parameter Name="ESFR2ConnectionString" Value="__ESFR2ConnectionString__" />

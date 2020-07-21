@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="JsonFiles\CollectionPeriods.json" />
+    <None Remove="JsonFiles\FundingTypes.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="JsonFiles\CollectionPeriods.json" />
+    <EmbeddedResource Include="JsonFiles\FundingTypes.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ESFA.DC.EAS2021.EF" Version="0.1.12" />
+    <PackageReference Include="ESFA.DC.ILR.2021.Database.EF" Version="0.1.154" />
+    <PackageReference Include="ESFA.DC.Serialization.Interfaces" Version="0.1.39-beta0001" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ESFA.DC.Summarisation.Constants\ESFA.DC.Summarisation.Constants.csproj" />
+    <ProjectReference Include="..\..\..\ESFA.DC.Summarisation.Data\ESFA.DC.Summarisation.Data.csproj" />
+    <ProjectReference Include="..\..\..\ESFA.DC.Summarisation.Interfaces\ESFA.DC.Summarisation.Interfaces.csproj" />
+    <ProjectReference Include="..\..\..\ESFA.DC.Summarisation.Service\ESFA.DC.Summarisation.Service.csproj" />
+    <ProjectReference Include="..\..\ESFA.DC.Summarisation.Main.Interfaces\ESFA.DC.Summarisation.Main.Interfaces.csproj" />
+    <ProjectReference Include="..\..\ESFA.DC.Summarisation.Main.Model\ESFA.DC.Summarisation.Main.Model.csproj" />
+  </ItemGroup>
+
+</Project>

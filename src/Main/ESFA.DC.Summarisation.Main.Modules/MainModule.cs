@@ -3,6 +3,7 @@ using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Main.Interfaces;
 using ESFA.DC.Summarisation.Main.Main1920.Modules;
+using ESFA.DC.Summarisation.Main.Main2021.Modules;
 using ESFA.DC.Summarisation.Main.Model;
 using ESFA.DC.Summarisation.Main.Service;
 
@@ -27,6 +28,7 @@ namespace ESFA.DC.Summarisation.Main.Modules
             containerBuilder.RegisterType<FundingDataRemovedService>().As<IFundingDataRemovedService>();
 
             containerBuilder.RegisterModule(new Main1920Module(_summarisationDataOptions));
+            containerBuilder.RegisterModule(new Main2021Module(_summarisationDataOptions));
         }
     }
 }
