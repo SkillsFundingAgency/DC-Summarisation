@@ -10,11 +10,15 @@
 
         string ILR1920ConnectionString { get; }
 
+        string ILR2021ConnectionString { get; }
+
         string SummarisedActualsConnectionString { get; }
 
         string EAS1819ConnectionString { get; }
 
         string EAS1920ConnectionString { get; }
+
+        string EAS2021ConnectionString { get; }
 
         string ESFNonEFConnectionString { get; }
 
