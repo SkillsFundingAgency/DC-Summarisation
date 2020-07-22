@@ -101,7 +101,7 @@ namespace ESFA.DC.Summarisation.Main2021.Service.Providers
                                     new Period
                                     {
                                         PeriodId = 12,
-                                        Value = pv.Period_12
+                                        Value = pv.Period_12,
                                     },
                                 },
                             }).ToList(),

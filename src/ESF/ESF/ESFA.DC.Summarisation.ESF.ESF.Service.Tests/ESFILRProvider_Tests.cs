@@ -50,7 +50,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<string, List<int>> TestLatestProviderSubmissons()
+        private static Dictionary<string, List<int>> TestLatestProviderSubmissons()
         {
             Dictionary<string, List<int>> latestProviderSubmissisons = new Dictionary<string, List<int>>();
 
@@ -96,7 +96,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             var result = await NewProvider(() => esfFundingDataContextMock.Object)
                 .ProvideUkprnsAsync(CancellationToken.None);
 
-            result.Count().Should().Be(2);
+            result.Count.Should().Be(2);
 
             result.Should().BeEquivalentTo(expectedProviders);
         }
@@ -172,7 +172,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             var result = await NewProvider(() => esfFundingDataContextMock.Object)
                  .ProvideAsync(1000825, summarisationMessageMock.Object, CancellationToken.None);
 
-            result.Count().Should().Be(5);
+            result.Count.Should().Be(5);
 
             result.Where(w => w.ConRefNumber == "Conref-1516").SelectMany(pd => pd.PeriodisedData).Select(p => p.Periods.First(f => f.PeriodId == 1)).First().Value.Should().Be(20.21M);
 
@@ -448,7 +448,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             result.Where(w => w.ConRefNumber == "Conref-1920").SelectMany(pd => pd.PeriodisedData).Select(p => p.Periods.First(f => f.PeriodId == 1)).First().Value.Should().Be(40.40M);
         }
 
-        private ESFILRProvider NewProvider(Func<IESFFundingDataContext> esfFundingDataContext = null)
+        private static ESFILRProvider NewProvider(Func<IESFFundingDataContext> esfFundingDataContext = null)
         {
             return new ESFILRProvider(esfFundingDataContext);
         }

@@ -69,7 +69,7 @@ namespace ESFA.DC.Summarisation.Generic.Service.Tests
             providerSummarisationServiceMock.VerifyAll();
         }
 
-        private ICollection<SummarisedActual> TestSummarisedActuals()
+        private static ICollection<SummarisedActual> TestSummarisedActuals()
         {
             return new List<SummarisedActual>
             {
@@ -112,7 +112,7 @@ namespace ESFA.DC.Summarisation.Generic.Service.Tests
             };
         }
 
-        private SummarisationProcess NewService(
+        private static SummarisationProcess NewService(
             IGenericCollectionRepository genericCollectionRepository = null,
             IProviderSummarisationService<IEnumerable<SummarisedActual>> providerSummarisationService = null,
             ISummarisationDataOptions dataOptions = null,

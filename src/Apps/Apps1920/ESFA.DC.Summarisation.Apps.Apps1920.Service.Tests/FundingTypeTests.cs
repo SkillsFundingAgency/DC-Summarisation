@@ -12,7 +12,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
             NewProvider().Provide().Should().HaveCount(2);
         }
 
-        private FundingTypesProvider NewProvider()
+        private static FundingTypesProvider NewProvider()
         {
             return new FundingTypesProvider(new JsonSerializationService());
         }

@@ -21,11 +21,19 @@ dotnet_diagnostic.CA1060.severity = warning
 
 dotnet_diagnostic.CA1061.severity = warning
 
+dotnet_diagnostic.CA1062.severity = none
+
 dotnet_diagnostic.CA1063.severity = warning
 
 dotnet_diagnostic.CA1065.severity = warning
 
 dotnet_diagnostic.CA1301.severity = warning
+
+dotnet_diagnostic.CA1303.severity = none
+
+dotnet_diagnostic.CA1305.severity = none
+
+dotnet_diagnostic.CA1307.severity = none
 
 dotnet_diagnostic.CA1400.severity = warning
 
@@ -40,6 +48,8 @@ dotnet_diagnostic.CA1405.severity = warning
 dotnet_diagnostic.CA1410.severity = warning
 
 dotnet_diagnostic.CA1415.severity = warning
+
+dotnet_diagnostic.CA1707.severity = none
 
 dotnet_diagnostic.CA1821.severity = warning
 
@@ -133,6 +143,8 @@ dotnet_diagnostic.CA2241.severity = warning
 
 dotnet_diagnostic.CA2242.severity = warning
 
+dotnet_diagnostic.SA0001.severity = none
+
 dotnet_diagnostic.SA1000.severity = error
 
 dotnet_diagnostic.SA1001.severity = error
@@ -201,9 +213,13 @@ dotnet_diagnostic.SA1509.severity = error
 
 dotnet_diagnostic.SA1513.severity = error
 
-dotnet_diagnostic.SA1516.severity = warning
+dotnet_diagnostic.SA1516.severity = none
 
 dotnet_diagnostic.SA1517.severity = error
+
+dotnet_diagnostic.SA1600.severity = none
+
+dotnet_diagnostic.SA1606.severity = none
 
 dotnet_diagnostic.SA1623.severity = none
 

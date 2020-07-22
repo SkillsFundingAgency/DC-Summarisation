@@ -48,7 +48,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
 
             var result = await NewProvider(() => ilr1920ContextMock.Object)
                 .ProvideUkprnsAsync(CancellationToken.None);
-            result.Count().Should().Be(3);
+            result.Count.Should().Be(3);
             result.Should().BeEquivalentTo(expectedLearners);
         }
 
@@ -66,7 +66,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
 
             var result = await NewProvider(() => ilr1920ContextMock.Object)
                 .ProvideUkprnsAsync(CancellationToken.None);
-            result.Count().Should().Be(0);
+            result.Count.Should().Be(0);
             result.Should().BeNullOrEmpty();
         }
 
@@ -133,7 +133,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
 
             var result = await NewProvider(() => ilr1920ContextMock.Object)
                 .ProvideAsync(ukprn, null, CancellationToken.None);
-            result.Count().Should().Be(1);
+            result.Count.Should().Be(1);
             result.Should().NotBeNullOrEmpty();
         }
 
@@ -167,7 +167,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
                             Period_9 = 77.0M,
                             Period_10 = 240.0M,
                             Period_11 = 61.0M,
-                            Period_12 = 78.0M
+                            Period_12 = 78.0M,
                         },
                     },
                 },
@@ -180,7 +180,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
 
             var result = await NewProvider(() => ilr1920ContextMock.Object)
                 .ProvideAsync(ukprn, null, CancellationToken.None);
-            result.Count().Should().Be(0);
+            result.Count.Should().Be(0);
             result.Should().BeNullOrEmpty();
         }
 
@@ -200,11 +200,11 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
             var result = await NewProvider(() => ilrContextMock.Object)
                 .ProvideAsync(ukprn, null, CancellationToken.None);
 
-            result.Count().Should().Be(0);
+            result.Count.Should().Be(0);
             result.Should().BeNullOrEmpty();
         }
 
-        private Fm25Provider NewProvider(Func<IIlr1920RulebaseContext> ilrRulebaseContext = null)
+        private static Fm25Provider NewProvider(Func<IIlr1920RulebaseContext> ilrRulebaseContext = null)
         {
             return new Fm25Provider(ilrRulebaseContext);
         }

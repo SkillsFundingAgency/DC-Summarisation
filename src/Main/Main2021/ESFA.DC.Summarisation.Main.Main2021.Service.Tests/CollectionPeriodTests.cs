@@ -33,7 +33,7 @@ namespace ESFA.DC.Summarisation.Main2021.Service.Tests
             collectionPeriods.Should().Contain(cp => cp.Period == period && cp.CalendarMonth == calendarMonth && cp.CalendarYear == calendarYear && cp.ActualsSchemaPeriod == actualsSchemaPeriod);
         }
 
-        private CollectionPeriodsProvider NewProvider()
+        private static CollectionPeriodsProvider NewProvider()
         {
             return new CollectionPeriodsProvider(new JsonSerializationService());
         }

@@ -100,7 +100,7 @@ namespace ESFA.DC.Summarisation.NCS.Service.Tests
             result.Should().BeEquivalentTo(testAcutals);
         }
 
-        private SummarisationProcess NewService(
+        private static SummarisationProcess NewService(
             IFcsRepository fcsRepository = null,
             IEnumerable<ISummarisationConfigProvider<CollectionPeriod>> collectionPeriodsProviders = null,
             IEnumerable<ISummarisationConfigProvider<FundingType>> fundingTypesProviders = null,
@@ -119,7 +119,7 @@ namespace ESFA.DC.Summarisation.NCS.Service.Tests
                 providerSummarisationService ?? Mock.Of<IProviderSummarisationService<TouchpointProviderFundingData>>());
         }
 
-        private ICollection<SummarisedActual> TestSummarisedActuals()
+        private static ICollection<SummarisedActual> TestSummarisedActuals()
         {
             return new List<SummarisedActual>
             {
@@ -162,7 +162,7 @@ namespace ESFA.DC.Summarisation.NCS.Service.Tests
             };
         }
 
-        private ICollection<TouchpointProvider> TouchpointProviders()
+        private static ICollection<TouchpointProvider> TouchpointProviders()
         {
             return new List<TouchpointProvider>
             {
@@ -170,7 +170,7 @@ namespace ESFA.DC.Summarisation.NCS.Service.Tests
             };
         }
 
-        private TouchpointProviderFundingData TestTouchpointProviderFundingData()
+        private static TouchpointProviderFundingData TestTouchpointProviderFundingData()
         {
             return new TouchpointProviderFundingData
             {

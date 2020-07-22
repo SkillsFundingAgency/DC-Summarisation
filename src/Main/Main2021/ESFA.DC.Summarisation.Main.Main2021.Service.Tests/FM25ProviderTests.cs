@@ -1,16 +1,16 @@
-﻿    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using ESFA.DC.ILR2021.DataStore.EF;
-    using ESFA.DC.ILR2021.DataStore.EF.Interface;
-    using ESFA.DC.Summarisation.Constants;
-    using ESFA.DC.Summarisation.Main2021.Service.Providers;
-    using FluentAssertions;
-    using MockQueryable.Moq;
-    using Moq;
-    using Xunit;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using ESFA.DC.ILR2021.DataStore.EF;
+using ESFA.DC.ILR2021.DataStore.EF.Interface;
+using ESFA.DC.Summarisation.Constants;
+using ESFA.DC.Summarisation.Main2021.Service.Providers;
+using FluentAssertions;
+using MockQueryable.Moq;
+using Moq;
+using Xunit;
 
 namespace ESFA.DC.Summarisation.Main2021.Service.Tests
 {
@@ -48,7 +48,7 @@ namespace ESFA.DC.Summarisation.Main2021.Service.Tests
 
             var result = await NewProvider(() => ilr2021ContextMock.Object)
                 .ProvideUkprnsAsync(CancellationToken.None);
-            result.Count().Should().Be(3);
+            result.Count.Should().Be(3);
             result.Should().BeEquivalentTo(expectedLearners);
         }
 
@@ -66,7 +66,7 @@ namespace ESFA.DC.Summarisation.Main2021.Service.Tests
 
             var result = await NewProvider(() => ilr2021ContextMock.Object)
                 .ProvideUkprnsAsync(CancellationToken.None);
-            result.Count().Should().Be(0);
+            result.Count.Should().Be(0);
             result.Should().BeNullOrEmpty();
         }
 
@@ -133,7 +133,7 @@ namespace ESFA.DC.Summarisation.Main2021.Service.Tests
 
             var result = await NewProvider(() => ilr2021ContextMock.Object)
                 .ProvideAsync(ukprn, null, CancellationToken.None);
-            result.Count().Should().Be(1);
+            result.Count.Should().Be(1);
             result.Should().NotBeNullOrEmpty();
         }
 
@@ -180,7 +180,7 @@ namespace ESFA.DC.Summarisation.Main2021.Service.Tests
 
             var result = await NewProvider(() => ilr2021ContextMock.Object)
                 .ProvideAsync(ukprn, null, CancellationToken.None);
-            result.Count().Should().Be(0);
+            result.Count.Should().Be(0);
             result.Should().BeNullOrEmpty();
         }
 
@@ -200,11 +200,11 @@ namespace ESFA.DC.Summarisation.Main2021.Service.Tests
             var result = await NewProvider(() => ilrContextMock.Object)
                 .ProvideAsync(ukprn, null, CancellationToken.None);
 
-            result.Count().Should().Be(0);
+            result.Count.Should().Be(0);
             result.Should().BeNullOrEmpty();
         }
 
-        private Fm25Provider NewProvider(Func<IIlr2021Context> ilrRulebaseContext = null)
+        private static Fm25Provider NewProvider(Func<IIlr2021Context> ilrRulebaseContext = null)
         {
             return new Fm25Provider(ilrRulebaseContext);
         }

@@ -24,7 +24,7 @@ namespace ESFA.DC.Summarisation.Data.BAU.Persist.Tests
 
         }
 
-        private IEventLogMapper Mapper() => new EventLogMapper();
+        private static IEventLogMapper Mapper() => new EventLogMapper();
 
     }
 }

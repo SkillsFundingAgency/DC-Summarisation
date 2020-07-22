@@ -36,7 +36,7 @@ namespace ESFA.DC.Summarisation.NCS.NCS2021.Service.Tests
             fudningStream.OutcomeTypes.Should().BeEquivalentTo(outcomeTypes);
         }
 
-        private ICollection<FundingType> FundingTypesConfigured()
+        private static ICollection<FundingType> FundingTypesConfigured()
         {
            var FundingTypesProvider =  new FundingTypesProvider(new JsonSerializationService());
 

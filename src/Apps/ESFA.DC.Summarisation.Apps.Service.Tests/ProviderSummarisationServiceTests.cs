@@ -102,7 +102,7 @@ namespace ESFA.DC.Summarisation.Apps.Service.Tests
             result.Should().BeEquivalentTo(fundingDataremoved.Except(act1FundingDataToBeRemoved));
         }
 
-        private ProviderSummarisationService NewService(
+        private static ProviderSummarisationService NewService(
            ISummarisationService summarisationService = null,
             ILogger logger = null,
             IProviderContractsService providerContractsService = null,
@@ -124,12 +124,12 @@ namespace ESFA.DC.Summarisation.Apps.Service.Tests
             };
         }
 
-        private LearningProvider TestESFProvider()
+        private static LearningProvider TestESFProvider()
         {
             return new LearningProvider() { UKPRN = 101, LearningDeliveries = new List<LearningDelivery>() { } };
         }
 
-        private List<SummarisedActual> TestSummarisedActuals()
+        private static List<SummarisedActual> TestSummarisedActuals()
         {
             return new List<SummarisedActual>
             {
@@ -172,7 +172,7 @@ namespace ESFA.DC.Summarisation.Apps.Service.Tests
             };
         }
 
-        private List<SummarisedActual> TestFundingDataRemoved()
+        private static List<SummarisedActual> TestFundingDataRemoved()
         {
             return new List<SummarisedActual>
             {
@@ -203,7 +203,7 @@ namespace ESFA.DC.Summarisation.Apps.Service.Tests
             };
         }
 
-        private List<SummarisedActual> TestACT1FundingDataToBeRemoved()
+        private static List<SummarisedActual> TestACT1FundingDataToBeRemoved()
         {
             return new List<SummarisedActual>
             {

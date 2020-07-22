@@ -66,13 +66,13 @@ namespace ESFA.DC.Summarisation.NCS.Service.Tests
             result.FundingValues.Should().BeEquivalentTo(touchpointProviderFundingData.FundingValues);
         }
 
-        private ProviderRepository NewService(IList<ISummarisationInputDataProvider> inputDataProviders = null)
+        private static ProviderRepository NewService(IList<ISummarisationInputDataProvider> inputDataProviders = null)
         {
             return new ProviderRepository(
                 inputDataProviders ?? Mock.Of<IList<ISummarisationInputDataProvider>>());
         }
 
-        private List<TouchpointProvider> TestTouchpointProviders()
+        private static List<TouchpointProvider> TestTouchpointProviders()
         {
             return new List<TouchpointProvider>
             {
@@ -81,7 +81,7 @@ namespace ESFA.DC.Summarisation.NCS.Service.Tests
             };
         }
 
-        private TouchpointProviderFundingData TestTouchpointProviderFundingData()
+        private static TouchpointProviderFundingData TestTouchpointProviderFundingData()
         {
             return new TouchpointProviderFundingData
             {

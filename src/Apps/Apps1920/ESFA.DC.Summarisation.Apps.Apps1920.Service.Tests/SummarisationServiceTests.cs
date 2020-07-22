@@ -23,13 +23,11 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
         [Fact]
         public void SummariseByPeriods()
         {
-            var task = new SummarisationPaymentsProcess();
-
             var collectionPeriods = GetCollectionPeriods(1920);
 
-            var result = task.SummarisePeriods(GetPeriodsData(1920), collectionPeriods);
+            var result = SummarisationPaymentsProcess.SummarisePeriods(GetPeriodsData(1920), collectionPeriods);
 
-            result.Count().Should().Be(12);
+            result.Count.Should().Be(12);
 
             foreach (var item in result)
             {
@@ -73,11 +71,11 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
 
             var results = task.Summarise(fundingStream, GetTestProvider(apprenticeshipContractType, fundingStreams, transactionTypes), GetContractAllocation(), GetCollectionPeriods(0), summarisationMessageMock.Object).OrderBy(x => x.Period).ToList();
 
-            results.Count().Should().Be(1);
+            results.Count.Should().Be(1);
 
             foreach (var item in results)
             {
-                decimal ilrActualValue = learningDeliveryRecords * fundingStreams.Count() * ilrFundlineCount * transactionTypes.Count() * periodsToGenerate * amount;
+                decimal ilrActualValue = learningDeliveryRecords * fundingStreams.Count * ilrFundlineCount * transactionTypes.Count * periodsToGenerate * amount;
 
                 decimal easActualValue = learningDeliveryRecords * easFundlineCount * periodsToGenerate * amount;
 
@@ -125,11 +123,11 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
 
             var results = task.Summarise(fundingStream, GetTestProvider(apprenticeshipContractType, fundingSources, transactionTypes), GetContractAllocation(), GetCollectionPeriods(0), summarisationMessageMock.Object).OrderBy(x => x.Period).ToList();
 
-            results.Count().Should().Be(1);
+            results.Count.Should().Be(1);
 
             foreach (var item in results)
             {
-                decimal ilrActualValue = learningDeliveryRecords * fundingSources.Count() * ilrFundlineCount * transactionTypes.Count() * periodsToGenerate * amount;
+                decimal ilrActualValue = learningDeliveryRecords * fundingSources.Count * ilrFundlineCount * transactionTypes.Count * periodsToGenerate * amount;
 
                 decimal easActualValue = learningDeliveryRecords * easFundlineCount * periodsToGenerate * amount;
 
@@ -176,11 +174,11 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
 
             var results = task.Summarise(fundingStream, GetTestProvider(apprenticeshipContractType, fundingStreams, transactionTypes), GetContractAllocation(), GetCollectionPeriods(0), summarisationMessageMock.Object).OrderBy(x => x.Period).ToList();
 
-            results.Count().Should().Be(1);
+            results.Count.Should().Be(1);
 
             foreach (var item in results)
             {
-                decimal ilrActualValue = learningDeliveryRecords * fundingStreams.Count() * ilrFundlineCount * transactionTypes.Count() * periodsToGenerate * amount;
+                decimal ilrActualValue = learningDeliveryRecords * fundingStreams.Count * ilrFundlineCount * transactionTypes.Count * periodsToGenerate * amount;
 
                 decimal easActualValue = learningDeliveryRecords * easFundlineCount * periodsToGenerate * amount;
 
@@ -220,11 +218,11 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
 
             var results = task.Summarise(fundingStream, GetTestProvider(apprenticeshipContractType, fundingSources, transactionTypes), GetContractAllocation(), GetCollectionPeriods(0), summarisationMessageMock.Object).OrderBy(x => x.Period).ToList();
 
-            results.Count().Should().Be(12);
+            results.Count.Should().Be(12);
 
             foreach (var item in results)
             {
-                decimal ilrActualValue = learningDeliveryRecords * fundingSources.Count() * ilrFundlineCount * transactionTypes.Count() * periodsToGenerate * amount;
+                decimal ilrActualValue = learningDeliveryRecords * fundingSources.Count * ilrFundlineCount * transactionTypes.Count * periodsToGenerate * amount;
 
                 decimal easActualValue = learningDeliveryRecords * easFundlineCount * periodsToGenerate * amount;
 
@@ -265,11 +263,11 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
 
             var results = task.Summarise(fundingStream, GetTestProvider(apprenticeshipContractType, fundingSources, transactionTypes), GetContractAllocation(), GetCollectionPeriods(0), summarisationMessageMock.Object).OrderBy(x => x.Period).ToList();
 
-            results.Count().Should().Be(24);
+            results.Count.Should().Be(24);
 
             foreach (var item in results)
             {
-                decimal ilrActualValue = learningDeliveryRecords * fundingSources.Count() * ilrFundlineCount * transactionTypes.Count() * periodsToGenerate * amount;
+                decimal ilrActualValue = learningDeliveryRecords * fundingSources.Count * ilrFundlineCount * transactionTypes.Count * periodsToGenerate * amount;
 
                 decimal easActualValue = learningDeliveryRecords * easFundlineCount * periodsToGenerate * amount;
 
@@ -316,11 +314,11 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
 
             var results = task.Summarise(fundingStream, GetTestProvider(apprenticeshipContractType, fundingSources, transactionTypes), GetContractAllocation(), GetCollectionPeriods(0), summarisationMessageMock.Object).OrderBy(x => x.Period).ToList();
 
-            results.Count().Should().Be(12);
+            results.Count.Should().Be(12);
 
             foreach (var item in results)
             {
-                decimal ilrActualValue = learningDeliveryRecords * fundingSources.Count() * ilrFundlineCount * transactionTypes.Count() * periodsToGenerate * amount;
+                decimal ilrActualValue = learningDeliveryRecords * fundingSources.Count * ilrFundlineCount * transactionTypes.Count * periodsToGenerate * amount;
 
                 decimal easActualValue = learningDeliveryRecords * easFundlineCount * periodsToGenerate * amount;
 
@@ -330,7 +328,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
             }
         }
 
-        private LearningProvider GetTestProvider(int apprenticeshipContratType, List<int> fundingSources, List<int> transactionTypes)
+        private static LearningProvider GetTestProvider(int apprenticeshipContratType, List<int> fundingSources, List<int> transactionTypes)
         {
             return new LearningProvider()
             {
@@ -339,7 +337,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
             };
         }
 
-        private List<LearningDelivery> GetLearningDeliveries(int apprenticeshipContratType, List<int> fundingSources, List<int> transactionTypes)
+        private static List<LearningDelivery> GetLearningDeliveries(int apprenticeshipContratType, List<int> fundingSources, List<int> transactionTypes)
         {
             List<LearningDelivery> learningDeliveries = new List<LearningDelivery>();
             int acedamicYear_1920 = 1920;
@@ -376,7 +374,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
             return learningDeliveries;
         }
 
-        private List<PeriodisedData> GetPeriodisedData(int apprenticeshipContratType, List<int> fundingSources, List<int> transactionTypes, int academicYear)
+        private static List<PeriodisedData> GetPeriodisedData(int apprenticeshipContratType, List<int> fundingSources, List<int> transactionTypes, int academicYear)
         {
             List<PeriodisedData> periodisedDatas = new List<PeriodisedData>();
 
@@ -399,7 +397,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
             return periodisedDatas;
         }
 
-        private List<PeriodisedData> GetPeriodisedData_EAS(int academicYear)
+        private static List<PeriodisedData> GetPeriodisedData_EAS(int academicYear)
         {
             List<PeriodisedData> periodisedDatas = new List<PeriodisedData>();
 
@@ -413,7 +411,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
             return periodisedDatas;
         }
 
-        private List<Period> GetPeriodsData(int academicYear)
+        private static List<Period> GetPeriodsData(int academicYear)
         {
             var periods = new List<Period>();
 
@@ -429,31 +427,31 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
             return periods;
         }
 
-        private List<FundingType> GetFundingTypes()
+        private static List<FundingType> GetFundingTypes()
         {
             FundingTypesProvider fundingTypesProvider = new FundingTypesProvider(new JsonSerializationService());
 
             return fundingTypesProvider.Provide().ToList();
         }
 
-        private IEnumerable<int> GetApprenticeshipContratTypes()
+        private static IEnumerable<int> GetApprenticeshipContratTypes()
         {
             return Enumerable.Range(1, 2);
         }
 
-        private IEnumerable<int> GetFundingSources()
+        private static IEnumerable<int> GetFundingSources()
         {
             List<int> fundingSources = new List<int> { 1, 2, 4, 5 };
 
             return fundingSources;
         }
 
-        private IEnumerable<int> GetTransationTypes()
+        private static IEnumerable<int> GetTransationTypes()
         {
             return Enumerable.Range(1, 16);
         }
 
-        private List<FundLine> GetFundLines_1920()
+        private static List<FundLine> GetFundLines_1920()
         {
             List<FundLine> fundLines = new List<FundLine>
             {
@@ -517,7 +515,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
             return fundLines;
         }
 
-        private List<FundLine> GetFundLines_1819()
+        private static List<FundLine> GetFundLines_1819()
         {
             List<FundLine> fundLines = new List<FundLine>
             {
@@ -556,7 +554,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
             return fundLines;
         }
 
-        private IList<FcsContractAllocation> GetContractAllocation()
+        private static IList<FcsContractAllocation> GetContractAllocation()
         {
             var fcsContractAllocations = new List<FcsContractAllocation>();
             var fundingStreams = GetFundingTypes().SelectMany(ft => ft.FundingStreams);
@@ -590,7 +588,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
             return fcsContractAllocations;
         }
 
-        private List<CollectionPeriod> GetCollectionPeriods(int academicYear)
+        private static List<CollectionPeriod> GetCollectionPeriods(int academicYear)
         {
             var collectionPeriodsProvider = new CollectionPeriodsProvider(new JsonSerializationService());
 

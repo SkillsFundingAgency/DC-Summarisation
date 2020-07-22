@@ -55,7 +55,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
             collectionPeriods.Should().Contain(cp => cp.CalendarMonth == calendarMonth && cp.CalendarYear == calendarYear && cp.ActualsSchemaPeriod == actualsSchemaPeriod && cp.CollectionMonth == collectionMonth && cp.CollectionYear == collectionYear);
         }
 
-        private CollectionPeriodsProvider NewProvider()
+        private static CollectionPeriodsProvider NewProvider()
         {
             return new CollectionPeriodsProvider(new JsonSerializationService());
         }

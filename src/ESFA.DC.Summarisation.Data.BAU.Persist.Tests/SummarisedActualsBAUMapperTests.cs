@@ -26,9 +26,9 @@ namespace ESFA.DC.Summarisation.Data.BAU.Persist.Tests
 
         }
 
-        private ISummarisedActualBAUMapper Mapper() => new SummarisedActualBAUMapper();
+        private static ISummarisedActualBAUMapper Mapper() => new SummarisedActualBAUMapper();
 
-        private IEnumerable<SummarisedActual> TestSummarisedActuals()
+        private static IEnumerable<SummarisedActual> TestSummarisedActuals()
         {
             return new List<SummarisedActual>
             {
@@ -37,7 +37,7 @@ namespace ESFA.DC.Summarisation.Data.BAU.Persist.Tests
             };
         }
 
-        private ICollection<SummarisedActualBAU> TestSummarisedActualsBAU()
+        private static ICollection<SummarisedActualBAU> TestSummarisedActualsBAU()
         {
             return new List<SummarisedActualBAU>
             {

@@ -125,7 +125,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
             }
         }
 
-        private CollectionPeriod GetCollectionPeriodFor(IEnumerable<CollectionPeriod> collectionPeriods, int calendarYear, int calendarMonth)
+        private static CollectionPeriod GetCollectionPeriodFor(IEnumerable<CollectionPeriod> collectionPeriods, int calendarYear, int calendarMonth)
         {
             return collectionPeriods.FirstOrDefault(cp => cp.CalendarYear == calendarYear && cp.CalendarMonth == calendarMonth);
         }
