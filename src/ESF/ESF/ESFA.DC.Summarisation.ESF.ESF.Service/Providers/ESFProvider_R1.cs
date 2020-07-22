@@ -40,12 +40,12 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
                                      CalendarMonth = obj.CalendarMonth,
                                      CostType = obj.CostType,
                                      Value = obj.Value,
-                                     UnitCostValue = obj.SupplementaryDataUnitCost.Value
+                                     UnitCostValue = obj.SupplementaryDataUnitCost.Value,
                                  }).ToListAsync(cancellationToken);
 
                 var preSummarised = esfData
                                 .GroupBy(g => new { ConRefNumber = g.ConRefNumber, g.DeliverableCode, g.CalendarYear, g.CalendarMonth })
-                                .Select(obj => new 
+                                .Select(obj => new
                                 {
                                     ConRefNumber = obj.Key.ConRefNumber,
                                     DeliverableCode = obj.Key.DeliverableCode,
@@ -54,7 +54,6 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
                                     Value = obj.Sum(p => p.CostType.Equals(ESFConstants.UnitCost, StringComparison.OrdinalIgnoreCase) ? (p.UnitCostValue ?? p.Value) : p.CostType.Equals(ESFConstants.UnitCostDeduction, StringComparison.OrdinalIgnoreCase) ? (p.UnitCostValue ?? p.Value) : p.Value),
                                     Volume = obj.Sum(p => p.CostType.Equals(ESFConstants.UnitCost, StringComparison.OrdinalIgnoreCase) ? 1 : p.CostType.Equals(ESFConstants.UnitCostDeduction, StringComparison.OrdinalIgnoreCase) ? -1 : 0),
                                 }).ToList();
-
 
                 var learningDeliveries = preSummarised
                                 .GroupBy(sd => sd.ConRefNumber, StringComparer.OrdinalIgnoreCase)

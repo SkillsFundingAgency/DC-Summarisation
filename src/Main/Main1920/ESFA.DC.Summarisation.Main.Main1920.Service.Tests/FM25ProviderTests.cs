@@ -1,15 +1,15 @@
-﻿using ESFA.DC.ILR1920.DataStore.EF;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using ESFA.DC.ILR1920.DataStore.EF;
 using ESFA.DC.ILR1920.DataStore.EF.Interface;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Main1920.Service.Providers;
 using FluentAssertions;
 using MockQueryable.Moq;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace ESFA.DC.Summarisation.Main1920.Service.Tests
@@ -36,7 +36,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
                 new FM25_Learner() { UKPRN = 1000825 },
                 new FM25_Learner() { UKPRN = 1009876 },
                 new FM25_Learner() { UKPRN = 145800 },
-                new FM25_Learner() { UKPRN = 1000825 }
+                new FM25_Learner() { UKPRN = 1000825 },
             }.AsQueryable().BuildMock();
 
             var expectedLearners = new List<int> { 1000825, 1009876, 145800 };
@@ -91,7 +91,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
                 Period_9 = 87.0M,
                 Period_10 = 43.0M,
                 Period_11 = 7.0M,
-                Period_12 = 8.0M
+                Period_12 = 8.0M,
             };
 
             var FM25Learners = new List<FM25_Learner>()
@@ -121,9 +121,9 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
                             Period_10 = 1.0M,
                             Period_11 = 1.0M,
                             Period_12 = 1.0M,
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             }.AsQueryable().BuildMockDbSet();
 
             var ilr1920ContextMock = new Mock<IIlr1920RulebaseContext>();
@@ -168,9 +168,9 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
                             Period_10 = 240.0M,
                             Period_11 = 61.0M,
                             Period_12 = 78.0M
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             }.AsQueryable().BuildMockDbSet();
 
             var ilr1920ContextMock = new Mock<IIlr1920RulebaseContext>();
@@ -179,7 +179,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
                 .Returns(FM25Learners.Object);
 
             var result = await NewProvider(() => ilr1920ContextMock.Object)
-                .ProvideAsync(ukprn,null, CancellationToken.None);
+                .ProvideAsync(ukprn, null, CancellationToken.None);
             result.Count().Should().Be(0);
             result.Should().BeNullOrEmpty();
         }

@@ -1,11 +1,11 @@
-﻿using ESFA.DC.Logging.Interfaces;
-using ESFA.DC.Summarisation.Interfaces;
-using ESFA.DC.Summarisation.Service.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.Logging.Interfaces;
+using ESFA.DC.Summarisation.Interfaces;
+using ESFA.DC.Summarisation.Service.Model;
 
 namespace ESFA.DC.Summarisation.Service
 {
@@ -23,7 +23,6 @@ namespace ESFA.DC.Summarisation.Service
             _dataStorePersistenceService = dataStorePersistenceService;
             _logger = logger;
             _summarisationProcesses = summarisationProcesses;
-
         }
 
         public async Task<ICollection<SummarisedActual>> Summarise(ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)

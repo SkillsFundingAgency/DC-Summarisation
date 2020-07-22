@@ -1,5 +1,4 @@
 ﻿using ESFA.DC.NCS.EF.Interfaces;
-using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.NCS.Interfaces;
 using ESFA.DC.Summarisation.NCS.Model;
@@ -7,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

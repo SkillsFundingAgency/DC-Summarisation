@@ -1,6 +1,5 @@
 ﻿using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.NCS.Model;
-using ESFA.DC.Summarisation.Service.Model;
 using System.Collections.Generic;
 using ESFA.DC.Summarisation.NCS.NCS1920.Service.Providers;
 using Xunit;

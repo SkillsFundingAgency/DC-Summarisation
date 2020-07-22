@@ -1,9 +1,8 @@
-﻿using ESFA.DC.Summarisation.Data.Repository.Interface;
-using ESFA.DC.Summarisation.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Service.Model;
 using ESFA.DC.Summarisation.Utils.EqualityComparer;
 

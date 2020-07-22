@@ -1,0 +1,214 @@
+# NOTE: Requires **VS2019 16.3** or later
+
+# Microsoft Managed Recommended Rules
+# Description: These rules focus on the most critical problems in your code, including potential security holes, application crashes, and other important logic and design errors. It is recommended to include this rule set in any custom rule set you create for your projects.
+
+# Code files
+[*.{cs,vb}]
+
+
+dotnet_diagnostic.CA1001.severity = warning
+
+dotnet_diagnostic.CA1009.severity = warning
+
+dotnet_diagnostic.CA1016.severity = warning
+
+dotnet_diagnostic.CA1033.severity = warning
+
+dotnet_diagnostic.CA1049.severity = warning
+
+dotnet_diagnostic.CA1060.severity = warning
+
+dotnet_diagnostic.CA1061.severity = warning
+
+dotnet_diagnostic.CA1063.severity = warning
+
+dotnet_diagnostic.CA1065.severity = warning
+
+dotnet_diagnostic.CA1301.severity = warning
+
+dotnet_diagnostic.CA1400.severity = warning
+
+dotnet_diagnostic.CA1401.severity = warning
+
+dotnet_diagnostic.CA1403.severity = warning
+
+dotnet_diagnostic.CA1404.severity = warning
+
+dotnet_diagnostic.CA1405.severity = warning
+
+dotnet_diagnostic.CA1410.severity = warning
+
+dotnet_diagnostic.CA1415.severity = warning
+
+dotnet_diagnostic.CA1821.severity = warning
+
+dotnet_diagnostic.CA1900.severity = warning
+
+dotnet_diagnostic.CA1901.severity = warning
+
+dotnet_diagnostic.CA2002.severity = warning
+
+dotnet_diagnostic.CA2007.severity = none
+
+dotnet_diagnostic.CA2100.severity = warning
+
+dotnet_diagnostic.CA2101.severity = warning
+
+dotnet_diagnostic.CA2108.severity = warning
+
+dotnet_diagnostic.CA2111.severity = warning
+
+dotnet_diagnostic.CA2112.severity = warning
+
+dotnet_diagnostic.CA2114.severity = warning
+
+dotnet_diagnostic.CA2116.severity = warning
+
+dotnet_diagnostic.CA2117.severity = warning
+
+dotnet_diagnostic.CA2122.severity = warning
+
+dotnet_diagnostic.CA2123.severity = warning
+
+dotnet_diagnostic.CA2124.severity = warning
+
+dotnet_diagnostic.CA2126.severity = warning
+
+dotnet_diagnostic.CA2131.severity = warning
+
+dotnet_diagnostic.CA2132.severity = warning
+
+dotnet_diagnostic.CA2133.severity = warning
+
+dotnet_diagnostic.CA2134.severity = warning
+
+dotnet_diagnostic.CA2137.severity = warning
+
+dotnet_diagnostic.CA2138.severity = warning
+
+dotnet_diagnostic.CA2140.severity = warning
+
+dotnet_diagnostic.CA2141.severity = warning
+
+dotnet_diagnostic.CA2146.severity = warning
+
+dotnet_diagnostic.CA2147.severity = warning
+
+dotnet_diagnostic.CA2149.severity = warning
+
+dotnet_diagnostic.CA2200.severity = warning
+
+dotnet_diagnostic.CA2202.severity = warning
+
+dotnet_diagnostic.CA2207.severity = warning
+
+dotnet_diagnostic.CA2212.severity = warning
+
+dotnet_diagnostic.CA2213.severity = warning
+
+dotnet_diagnostic.CA2214.severity = warning
+
+dotnet_diagnostic.CA2216.severity = warning
+
+dotnet_diagnostic.CA2220.severity = warning
+
+dotnet_diagnostic.CA2229.severity = warning
+
+dotnet_diagnostic.CA2231.severity = warning
+
+dotnet_diagnostic.CA2232.severity = warning
+
+dotnet_diagnostic.CA2235.severity = warning
+
+dotnet_diagnostic.CA2236.severity = warning
+
+dotnet_diagnostic.CA2237.severity = warning
+
+dotnet_diagnostic.CA2238.severity = warning
+
+dotnet_diagnostic.CA2240.severity = warning
+
+dotnet_diagnostic.CA2241.severity = warning
+
+dotnet_diagnostic.CA2242.severity = warning
+
+dotnet_diagnostic.SA1000.severity = error
+
+dotnet_diagnostic.SA1001.severity = error
+
+dotnet_diagnostic.SA1002.severity = error
+
+dotnet_diagnostic.SA1003.severity = error
+
+dotnet_diagnostic.SA1008.severity = error
+
+dotnet_diagnostic.SA1009.severity = error
+
+dotnet_diagnostic.SA1010.severity = error
+
+dotnet_diagnostic.SA1011.severity = error
+
+dotnet_diagnostic.SA1012.severity = error
+
+dotnet_diagnostic.SA1013.severity = error
+
+dotnet_diagnostic.SA1024.severity = error
+
+dotnet_diagnostic.SA1025.severity = error
+
+dotnet_diagnostic.SA1028.severity = error
+
+dotnet_diagnostic.SA1101.severity = none
+
+dotnet_diagnostic.SA1111.severity = error
+
+dotnet_diagnostic.SA1116.severity = error
+
+dotnet_diagnostic.SA1117.severity = error
+
+dotnet_diagnostic.SA1121.severity = error
+
+dotnet_diagnostic.SA1122.severity = error
+
+dotnet_diagnostic.SA1127.severity = error
+
+dotnet_diagnostic.SA1200.severity = none
+
+dotnet_diagnostic.SA1201.severity = none
+
+dotnet_diagnostic.SA1202.severity = warning
+
+dotnet_diagnostic.SA1203.severity = error
+
+dotnet_diagnostic.SA1208.severity = error
+
+dotnet_diagnostic.SA1210.severity = error
+
+dotnet_diagnostic.SA1309.severity = none
+
+dotnet_diagnostic.SA1310.severity = none
+
+dotnet_diagnostic.SA1502.severity = error
+
+dotnet_diagnostic.SA1505.severity = error
+
+dotnet_diagnostic.SA1507.severity = error
+
+dotnet_diagnostic.SA1508.severity = error
+
+dotnet_diagnostic.SA1509.severity = error
+
+dotnet_diagnostic.SA1513.severity = error
+
+dotnet_diagnostic.SA1516.severity = warning
+
+dotnet_diagnostic.SA1517.severity = error
+
+dotnet_diagnostic.SA1623.severity = none
+
+dotnet_diagnostic.SA1633.severity = none
+
+dotnet_diagnostic.SA1649.severity = error
+
+dotnet_diagnostic.SA1652.severity = none

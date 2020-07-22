@@ -52,7 +52,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
                                     Volume = obj.Sum(p => p.CostType.Equals(ESFConstants.UnitCost, StringComparison.OrdinalIgnoreCase) ? 1 : p.CostType.Equals(ESFConstants.UnitCostDeduction, StringComparison.OrdinalIgnoreCase) ? -1 : 0),
                                 }).ToList();
 
-                var learningDeliveries =  preSummarised
+                var learningDeliveries = preSummarised
                         .GroupBy(sd => sd.ConRefNumber)
                         .Select(ld => new LearningDelivery
                         {
@@ -66,9 +66,9 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
                                     CalendarMonth = p.CalendarMonth,
                                     CalendarYear = p.CalendarYear,
                                     Value = p.Value,
-                                    Volume = p.Volume
-                                }).ToList()
-                            }).ToList()
+                                    Volume = p.Volume,
+                                }).ToList(),
+                            }).ToList(),
                         }).ToList();
 
                 return learningDeliveries;
@@ -86,6 +86,5 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
         }
 
         public Task<ICollection<LearningDelivery>> ProvideAsync(int ukprn, ISummarisationMessage summarisationMessage, CancellationToken cancellationToken) => ProvideAsync(ukprn, cancellationToken);
-
     }
 }

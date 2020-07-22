@@ -7,7 +7,6 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 {
     public class FundingTypeTests
     {
-
         [Fact]
         public void FundingTypesCount()
         {

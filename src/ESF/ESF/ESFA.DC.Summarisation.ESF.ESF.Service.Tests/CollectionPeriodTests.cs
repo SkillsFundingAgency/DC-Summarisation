@@ -11,6 +11,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
         {
             NewProvider().Provide().Should().HaveCount(67);
         }
+
         private CollectionPeriodsProvider NewProvider()
         {
             return new CollectionPeriodsProvider(new JsonSerializationService());

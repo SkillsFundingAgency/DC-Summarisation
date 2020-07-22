@@ -1,15 +1,15 @@
-﻿using ESFA.DC.ILR1920.DataStore.EF;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using ESFA.DC.ILR1920.DataStore.EF;
 using ESFA.DC.ILR1920.DataStore.EF.Interface;
 using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Main1920.Service.Providers;
 using FluentAssertions;
 using MockQueryable.Moq;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace ESFA.DC.Summarisation.Main1920.Service.Tests
@@ -46,8 +46,8 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
                                 Period_10 = 10.0M,
                                 Period_11 = 11.0M,
                                 Period_12 = -120.0M,
-                            }
-                        }
+                            },
+                        },
             };
 
             var learningDeliveries = new List<TBL_LearningDelivery>
@@ -79,9 +79,9 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
                                 Period_10 = 1.0M,
                                 Period_11 = 1.0M,
                                 Period_12 = 1.0M,
-                            }
-                        }
-                    }
+                            },
+                        },
+                    },
                 }.AsQueryable().BuildMock();
 
             var mockILRContext = new Mock<IIlr1920RulebaseContext>();
@@ -119,7 +119,7 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
                 {
                     new TBL_Learner() { UKPRN = 123456 },
                     new TBL_Learner() { UKPRN = 789012 },
-                    new TBL_Learner() { UKPRN = 123456 }
+                    new TBL_Learner() { UKPRN = 123456 },
                 }.AsQueryable().BuildMock();
 
             IList<int> expectedLearners = new List<int>() { 123456, 789012 };
@@ -181,8 +181,8 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
                                 Period_10 = 10.0M,
                                 Period_11 = 11.0M,
                                 Period_12 = 12.0M,
-                            }
-                        }
+                            },
+                        },
             };
 
             var learningDeliveries = new List<TBL_LearningDelivery>
@@ -214,9 +214,9 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
                                 Period_10 = 1.0M,
                                 Period_11 = 1.0M,
                                 Period_12 = 1.0M,
-                            }
-                        }
-                    }
+                            },
+                        },
+                    },
                 }.AsQueryable().BuildMock();
 
             var mockILRContext = new Mock<IIlr1920RulebaseContext>();
@@ -261,9 +261,9 @@ namespace ESFA.DC.Summarisation.Main1920.Service.Tests
                                 Period_10 = 1.0M,
                                 Period_11 = 1.0M,
                                 Period_12 = 1.0M,
-                            }
-                        }
-                    }
+                            },
+                        },
+                    },
                 }.AsQueryable().BuildMock();
 
             var mockILRContext = new Mock<IIlr1920RulebaseContext>();

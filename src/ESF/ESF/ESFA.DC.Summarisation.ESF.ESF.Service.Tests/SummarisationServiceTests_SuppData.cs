@@ -73,7 +73,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
             var task = new SummarisationDeliverableProcess();
 
-            var result = task.Summarise(fundingStream,GetTestProvider(ukprn),allocation, GetCollectionPeriods());
+            var result = task.Summarise(fundingStream, GetTestProvider(ukprn), allocation, GetCollectionPeriods());
 
             result.Count().Should().Be(67);
 
@@ -145,10 +145,11 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                     DeliveryUkprn = ukprn,
                     DeliveryOrganisation = $"Org{ukprn}",
                     ActualsSchemaPeriodStart = 201601,
-                    ActualsSchemaPeriodEnd = 202107
+                    ActualsSchemaPeriodEnd = 202107,
                 };
                 fcsContractAllocations.Add(allocation);
             }
+
             var summarisationMessageMock = new Mock<ISummarisationMessage>();
             var task = new SummarisationDeliverableProcess();
 
@@ -196,7 +197,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                         DeliveryUkprn = ukprn,
                         DeliveryOrganisation = $"Org{ukprn}",
                          ActualsSchemaPeriodStart = 201601,
-                        ActualsSchemaPeriodEnd = 202107
+                        ActualsSchemaPeriodEnd = 202107,
                     };
                     fcsContractAllocations.Add(allocation);
                 }
@@ -244,8 +245,6 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             result.Count(w => w.ActualValue == 0 && w.ActualVolume == 0).Should().Be(57);
         }
 
-
-
         private FundingTypesProvider NewFundingTypeProvider()
         {
             return new FundingTypesProvider(new JsonSerializationService());
@@ -256,7 +255,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             return new LearningProvider()
             {
                 UKPRN = ukprn,
-                LearningDeliveries = GetLearningDeliveries(ukprn)
+                LearningDeliveries = GetLearningDeliveries(ukprn),
             };
         }
 
@@ -268,9 +267,8 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             {
                 LearningDelivery learningDelivery = new LearningDelivery()
                 {
-
                     ConRefNumber = $"All{ukprn}-{i} ",
-                    PeriodisedData = GetPeriodisedData()
+                    PeriodisedData = GetPeriodisedData(),
                 };
 
                 learningDeliveries.Add(learningDelivery);
@@ -292,7 +290,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                 PeriodisedData periodisedData = new PeriodisedData()
                 {
                     DeliverableCode = deliverableCode,
-                    Periods = GetPeriodsData(2)
+                    Periods = GetPeriodsData(2),
                 };
 
                 periodisedDatas.Add(periodisedData);
@@ -314,7 +312,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                         CalendarMonth = collectionPeriod.CalendarMonth,
                         CalendarYear = collectionPeriod.CalendarYear,
                         Value = periodValue,
-                        Volume = 1
+                        Volume = 1,
                     };
                     periods.Add(period);
                 }
@@ -380,7 +378,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                                         "SU21",
                                         "SU22",
                                         "SU23",
-                                        "SU24"
+                                        "SU24",
             };
         }
 
@@ -389,7 +387,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             return new HashSet<string> { "StartEarnings",
                                     "AchievementEarnings",
                                     "AdditionalProgCostEarnings",
-                                    "ProgressionEarnings"
+                                    "ProgressionEarnings",
             };
         }
 
@@ -402,12 +400,10 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                 DeliveryUkprn = ukprn,
                 DeliveryOrganisation = $"Org{ukprn}",
                 ActualsSchemaPeriodStart = 201601,
-                ActualsSchemaPeriodEnd = 202107
+                ActualsSchemaPeriodEnd = 202107,
             };
 
             return allocation;
         }
-
-
     }
 }

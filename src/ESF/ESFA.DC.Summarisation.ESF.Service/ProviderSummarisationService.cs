@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.ESF.Interfaces;
 using ESFA.DC.Summarisation.ESF.Model;
 using ESFA.DC.Summarisation.Service.Model;

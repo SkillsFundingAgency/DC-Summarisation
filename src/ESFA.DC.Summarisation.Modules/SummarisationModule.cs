@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using Autofac;
+using ESFA.DC.BulkCopy;
+using ESFA.DC.BulkCopy.Interfaces;
 using ESFA.DC.ReferenceData.FCS.Model;
 using ESFA.DC.ReferenceData.FCS.Model.Interface;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
+using ESFA.DC.Summarisation.Apps.Modules;
 using ESFA.DC.Summarisation.Data.Repository;
 using ESFA.DC.Summarisation.Data.Repository.Interface;
+using ESFA.DC.Summarisation.ESF.Modules;
+using ESFA.DC.Summarisation.Generic.Modules;
 using ESFA.DC.Summarisation.Interfaces;
+using ESFA.DC.Summarisation.Main.Modules;
 using ESFA.DC.Summarisation.Model;
+using ESFA.DC.Summarisation.NCS.Modules;
 using ESFA.DC.Summarisation.Service;
 using Microsoft.EntityFrameworkCore;
 using ISummarisationContext = ESFA.DC.Summarisation.Model.Interface.ISummarisationContext;
-using ESFA.DC.Summarisation.Main.Modules;
-using ESFA.DC.Summarisation.ESF.Modules;
-using ESFA.DC.Summarisation.Apps.Modules;
-using ESFA.DC.Summarisation.NCS.Modules;
-using ESFA.DC.Summarisation.Generic.Modules;
-using ESFA.DC.BulkCopy;
-using ESFA.DC.BulkCopy.Interfaces;
 
 namespace ESFA.DC.Summarisation.Modules
 {
@@ -48,7 +48,6 @@ namespace ESFA.DC.Summarisation.Modules
             LoadFCSModule(containerBuilder);
 
             LoadSummarisedActualsModules(containerBuilder);
-
         }
 
         private void LoadSummarisationProcessModules(ContainerBuilder containerBuilder)
