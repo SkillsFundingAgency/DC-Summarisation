@@ -111,6 +111,12 @@
     <PackageReference Include="ESFA.DC.EAS1920.EF">
       <Version>0.0.25</Version>
     </PackageReference>
+    <PackageReference Include="ESFA.DC.EAS2021.EF">
+      <Version>0.1.12</Version>
+    </PackageReference>
+    <PackageReference Include="ESFA.DC.ILR.2021.Database.EF">
+      <Version>0.1.154</Version>
+    </PackageReference>
     <PackageReference Include="ESFA.DC.ILR1920.Database.EF">
       <Version>0.0.546</Version>
     </PackageReference>
@@ -118,10 +124,10 @@
       <Version>0.1.218</Version>
     </PackageReference>
     <PackageReference Include="ESFA.DC.Serialization.Interfaces">
-      <Version>0.1.6-beta0001</Version>
+      <Version>0.1.39-beta0001</Version>
     </PackageReference>
     <PackageReference Include="ESFA.DC.Serialization.Json">
-      <Version>0.1.6-beta0001</Version>
+      <Version>0.1.40-beta0001</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions">
       <Version>2.2.6</Version>

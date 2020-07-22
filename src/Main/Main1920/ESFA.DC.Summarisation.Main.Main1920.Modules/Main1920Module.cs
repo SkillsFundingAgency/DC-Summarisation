@@ -5,7 +5,6 @@ using ESFA.DC.ILR1920.DataStore.EF;
 using ESFA.DC.ILR1920.DataStore.EF.Interface;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Main.Interfaces;
-using ESFA.DC.Summarisation.Main.Model;
 using ESFA.DC.Summarisation.Main1920.Service.Providers;
 using ESFA.DC.Summarisation.Service.Model.Config;
 using Microsoft.EntityFrameworkCore;

@@ -24,7 +24,11 @@ namespace ESFA.DC.Summarisation.Stateless.Config
 
         public string ILR1920ConnectionString { get; set; }
 
+        public string ILR2021ConnectionString { get; set; }
+
         public string EAS1920ConnectionString { get; set; }
+
+        public string EAS2021ConnectionString { get; set; }
 
         public string ESFFundingDataConnectionString { get; set; }
 

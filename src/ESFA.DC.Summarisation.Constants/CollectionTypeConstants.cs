@@ -4,6 +4,7 @@
     {
         public const string ILR1819 = "ILR1819";
         public const string ILR1920 = "ILR1920";
+        public const string ILR2021 = "ILR2021";
         public const string ESF = "ESF";
         public const string ALLF = "ALLF";
         public const string Apps1819 = "Apps1819";
