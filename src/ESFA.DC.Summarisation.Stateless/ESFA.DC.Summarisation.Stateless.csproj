@@ -102,6 +102,11 @@
     <PackageReference Include="ESFA.DC.ServiceFabric.Common">
       <Version>0.1.1-beta0001</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers">
+      <Version>3.0.0</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.ServiceFabric.Diagnostics.Internal">
       <Version>3.4.641</Version>
     </PackageReference>
