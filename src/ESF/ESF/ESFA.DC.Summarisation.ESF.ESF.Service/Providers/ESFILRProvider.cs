@@ -63,27 +63,32 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Providers
                     .ESFFundingDatas
                     .Where(w => w.UKPRN == ukprn)
                     .Where(predicate)
-                       .GroupBy(g => new { g.UKPRN, g.ConRefNumber, g.DeliverableCode, g.AttributeName, g.CollectionType, g.CollectionReturnCode })
-                       .Select(s => new {
-                           s.Key.UKPRN,
-                           s.Key.ConRefNumber,
-                           s.Key.DeliverableCode,
-                           s.Key.AttributeName,
-                           s.Key.CollectionType,
-                           s.Key.CollectionReturnCode,
-                           Period_1 = s.Sum(p => p.Period_1),
-                           Period_2 = s.Sum(p => p.Period_2),
-                           Period_3 = s.Sum(p => p.Period_3),
-                           Period_4 = s.Sum(p => p.Period_4),
-                           Period_5 = s.Sum(p => p.Period_5),
-                           Period_6 = s.Sum(p => p.Period_6),
-                           Period_7 = s.Sum(p => p.Period_7),
-                           Period_8 = s.Sum(p => p.Period_8),
-                           Period_9 = s.Sum(p => p.Period_9),
-                           Period_10 = s.Sum(p => p.Period_10),
-                           Period_11 = s.Sum(p => p.Period_11),
-                           Period_12 = s.Sum(p => p.Period_12),
-                       }).ToListAsync(cancellationToken);
+                    .GroupBy(g => new
+                    {
+                        g.UKPRN, g.ConRefNumber, g.DeliverableCode, g.AttributeName, g.CollectionType,
+                        g.CollectionReturnCode,
+                    })
+                    .Select(s => new
+                    {
+                        s.Key.UKPRN,
+                        s.Key.ConRefNumber,
+                        s.Key.DeliverableCode,
+                        s.Key.AttributeName,
+                        s.Key.CollectionType,
+                        s.Key.CollectionReturnCode,
+                        Period_1 = s.Sum(p => p.Period_1),
+                        Period_2 = s.Sum(p => p.Period_2),
+                        Period_3 = s.Sum(p => p.Period_3),
+                        Period_4 = s.Sum(p => p.Period_4),
+                        Period_5 = s.Sum(p => p.Period_5),
+                        Period_6 = s.Sum(p => p.Period_6),
+                        Period_7 = s.Sum(p => p.Period_7),
+                        Period_8 = s.Sum(p => p.Period_8),
+                        Period_9 = s.Sum(p => p.Period_9),
+                        Period_10 = s.Sum(p => p.Period_10),
+                        Period_11 = s.Sum(p => p.Period_11),
+                        Period_12 = s.Sum(p => p.Period_12),
+                    }).ToListAsync(cancellationToken);
 
                 var learningDeliveries = esfpreSummarised
                         .Select(ld =>

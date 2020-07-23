@@ -63,7 +63,7 @@ namespace ESFA.DC.Summarisation.Generic.Service.Tests
             providerFundingDataRemovedServiceMock.VerifyAll();
         }
 
-        private ICollection<SummarisedActual> TestSummarisedActuals()
+        private static ICollection<SummarisedActual> TestSummarisedActuals()
         {
             return new List<SummarisedActual>
             {
@@ -106,7 +106,7 @@ namespace ESFA.DC.Summarisation.Generic.Service.Tests
             };
         }
 
-        private ProviderSummarisationService NewService(ISummarisationService summarisationService, IProviderFundingDataRemovedService providerFundingDataRemovedService = null)
+        private static ProviderSummarisationService NewService(ISummarisationService summarisationService, IProviderFundingDataRemovedService providerFundingDataRemovedService = null)
         {
             return new ProviderSummarisationService(
                 Mock.Of<ILogger>(),

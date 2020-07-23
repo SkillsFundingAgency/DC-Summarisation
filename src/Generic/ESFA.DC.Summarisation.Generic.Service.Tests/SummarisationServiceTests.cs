@@ -68,7 +68,7 @@ namespace ESFA.DC.Summarisation.Generic.Service.Tests
             result.Should().BeEquivalentTo(expectedActuals);
         }
 
-        private ICollection<SummarisedActual> TestSummarisedActuals()
+        private static ICollection<SummarisedActual> TestSummarisedActuals()
         {
             return new List<SummarisedActual>
             {
@@ -111,7 +111,7 @@ namespace ESFA.DC.Summarisation.Generic.Service.Tests
             };
         }
 
-        private SummarisationService NewService()
+        private static SummarisationService NewService()
         {
             return new SummarisationService(Mock.Of<ILogger>());
         }

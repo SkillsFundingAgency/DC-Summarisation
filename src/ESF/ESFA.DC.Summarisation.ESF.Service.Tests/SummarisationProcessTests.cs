@@ -10,8 +10,6 @@ using FluentAssertions;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -108,7 +106,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             result.Should().BeEquivalentTo(testAcutals);
         }
 
-        private SummarisationProcess NewService(
+        private static SummarisationProcess NewService(
                     IFcsRepository fcsRepository = null,
                     IEnumerable<ISummarisationConfigProvider<CollectionPeriod>> collectionPeriodsProviders = null,
                     IEnumerable<ISummarisationConfigProvider<FundingType>> fundingTypesProviders = null,
@@ -129,7 +127,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
                 fundingDataRemovedService ?? Mock.Of<IFundingDataRemovedService>());
         }
 
-        private ICollection<int> TestESFProviders()
+        private static ICollection<int> TestESFProviders()
         {
             return new List<int>
             {
@@ -137,7 +135,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             };
         }
 
-        private LearningProvider TestProvider()
+        private static LearningProvider TestProvider()
         {
             return new LearningProvider()
             {
@@ -150,7 +148,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             };
         }
 
-        private ICollection<SummarisedActual> TestSummarisedActuals()
+        private static ICollection<SummarisedActual> TestSummarisedActuals()
         {
             return new List<SummarisedActual>
             {

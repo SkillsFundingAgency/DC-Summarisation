@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ESFA.DC.Summarisation.Data.BAU.Persist.Interfaces;
 using ESFA.DC.Summarisation.Data.BAU.Persist.Model;
 using System.Data.SqlClient;

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ESFA.DC.Summarisation.Apps.Model.Config
+﻿namespace ESFA.DC.Summarisation.Apps.Model.Config
 {
     public class FundLine
     {

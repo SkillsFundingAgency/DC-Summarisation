@@ -19,6 +19,10 @@
     <PackageReference Include="ESFA.DC.GenericCollection.EF" Version="0.0.59" />
     <PackageReference Include="ESFA.DC.ReferenceData.FCS.Model" Version="0.1.218" />
     <PackageReference Include="ESFA.DC.Serialization.Json" Version="0.1.40-beta0001" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>

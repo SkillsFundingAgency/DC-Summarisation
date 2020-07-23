@@ -7,7 +7,6 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 {
     public class FundingTypeTests
     {
-
         [Fact]
         public void FundingTypesCount()
         {
@@ -73,7 +72,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             fundLines.Should().Contain(fl => fl.DeliverableCode == deliverableCode);
         }
 
-        private FundingTypesProvider NewProvider()
+        private static FundingTypesProvider NewProvider()
         {
             return new FundingTypesProvider(new JsonSerializationService());
         }

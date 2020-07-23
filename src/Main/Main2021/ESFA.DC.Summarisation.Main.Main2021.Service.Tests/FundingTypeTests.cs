@@ -129,7 +129,7 @@ namespace ESFA.DC.Summarisation.Main2021.Service.Tests
             fundLines.Should().Contain(fl => fl.Fundline == fundLine && fl.LineType == lineType);
         }
 
-        private FundingTypesProvider NewProvider()
+        private static FundingTypesProvider NewProvider()
         {
             return new FundingTypesProvider(new JsonSerializationService());
         }

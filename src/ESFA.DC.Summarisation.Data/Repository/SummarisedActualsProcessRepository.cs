@@ -1,13 +1,11 @@
-﻿using ESFA.DC.Summarisation.Interfaces;
-using ESFA.DC.Summarisation.Model;
-using ESFA.DC.Summarisation.Model.Interface;
-using ESFA.DC.Summarisation.Service.Model;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.Summarisation.Interfaces;
+using ESFA.DC.Summarisation.Model.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.Summarisation.Data.Repository
 {
@@ -60,7 +58,7 @@ namespace ESFA.DC.Summarisation.Data.Repository
                     ActualValue = o.ActualValue,
                     ActualVolume = o.ActualVolume,
                     ContractAllocationNumber = o.ContractAllocationNumber,
-                    PeriodTypeCode = o.PeriodTypeCode
+                    PeriodTypeCode = o.PeriodTypeCode,
                 }).ToListAsync(cancellationToken);
             }
         }
@@ -81,7 +79,7 @@ namespace ESFA.DC.Summarisation.Data.Repository
                     ActualValue = o.ActualValue,
                     ActualVolume = o.ActualVolume,
                     ContractAllocationNumber = o.ContractAllocationNumber,
-                    PeriodTypeCode = o.PeriodTypeCode
+                    PeriodTypeCode = o.PeriodTypeCode,
                 }).ToListAsync(cancellationToken);
             }
         }
@@ -102,7 +100,7 @@ namespace ESFA.DC.Summarisation.Data.Repository
                     ActualValue = o.ActualValue,
                     ActualVolume = o.ActualVolume,
                     ContractAllocationNumber = o.ContractAllocationNumber,
-                    PeriodTypeCode = o.PeriodTypeCode
+                    PeriodTypeCode = o.PeriodTypeCode,
                 }).ToListAsync(cancellationToken);
             }
         }

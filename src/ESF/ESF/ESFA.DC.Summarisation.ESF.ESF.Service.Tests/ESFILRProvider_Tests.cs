@@ -1,15 +1,15 @@
-﻿using ESFA.DC.ESF.FundingData.Database.EF.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using ESFA.DC.ESF.FundingData.Database.EF.Interfaces;
 using ESFA.DC.ESF.FundingData.Database.EF.Query;
 using ESFA.DC.Summarisation.ESF.ESF.Service.Providers;
 using ESFA.DC.Summarisation.Interfaces;
 using FluentAssertions;
 using MockQueryable.Moq;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
@@ -50,7 +50,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             Assert.Equal(expectedResult, actualResult);
         }
 
-        private Dictionary<string, List<int>> TestLatestProviderSubmissons()
+        private static Dictionary<string, List<int>> TestLatestProviderSubmissons()
         {
             Dictionary<string, List<int>> latestProviderSubmissisons = new Dictionary<string, List<int>>();
 
@@ -72,18 +72,17 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
         {
             var latestProviderSubmissions = new List<LatestProviderSubmission>()
             {
-                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1516", CollectionReturnCode = "" },
+                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1516", CollectionReturnCode = string.Empty },
                 new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1617", CollectionReturnCode = "R13" },
                 new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1718", CollectionReturnCode = "R14" },
                 new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1819", CollectionReturnCode = "R14" },
                 new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1920", CollectionReturnCode = "R02" },
 
-                new LatestProviderSubmission() { UKPRN = 1009876, CollectionType = "ILR1516", CollectionReturnCode = "" },
+                new LatestProviderSubmission() { UKPRN = 1009876, CollectionType = "ILR1516", CollectionReturnCode = string.Empty },
                 new LatestProviderSubmission() { UKPRN = 1009876, CollectionType = "ILR1617", CollectionReturnCode = "R13" },
                 new LatestProviderSubmission() { UKPRN = 1009876, CollectionType = "ILR1718", CollectionReturnCode = "R14" },
                 new LatestProviderSubmission() { UKPRN = 1009876, CollectionType = "ILR1819", CollectionReturnCode = "R14" },
                 new LatestProviderSubmission() { UKPRN = 1009876, CollectionType = "ILR1920", CollectionReturnCode = "R02" },
-
             }.AsQueryable().BuildMock();
 
             var expectedProviders = new List<int> { 1000825, 1009876 };
@@ -97,7 +96,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             var result = await NewProvider(() => esfFundingDataContextMock.Object)
                 .ProvideUkprnsAsync(CancellationToken.None);
 
-            result.Count().Should().Be(2);
+            result.Count.Should().Be(2);
 
             result.Should().BeEquivalentTo(expectedProviders);
         }
@@ -107,7 +106,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
         {
             var latestProviderSubmissions = new List<LatestProviderSubmission>()
             {
-                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1516", CollectionReturnCode = "" },
+                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1516", CollectionReturnCode = string.Empty },
                 new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1617", CollectionReturnCode = "R13" },
                 new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1718", CollectionReturnCode = "R13" },
                 new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1718", CollectionReturnCode = "R14" },
@@ -118,8 +117,8 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
             var esfFundingData = new List<ESFFundingData>()
             {
-                new ESFFundingData() { UKPRN = 1000825, CollectionType = "ILR1516", CollectionReturnCode = "", ConRefNumber = "Conref-1516", DeliverableCode = "D01", AttributeName = "Att1", Period_1 = 10.10M, Period_2 = 20.20M, Period_3 = 30.30M, Period_4 = 40.40M, Period_5 = 50.50M, Period_6 = 60.60M, Period_7 = 70.70M, Period_8 = 80.80M, Period_9 = 90.90M, Period_10 = 100.0M, Period_11 = 110.0M, Period_12 = 120.0M },
-                new ESFFundingData() { UKPRN = 1000825, CollectionType = "ILR1516", CollectionReturnCode = "", ConRefNumber = "Conref-1516", DeliverableCode = "D01", AttributeName = "Att1", Period_1 = 10.11M, Period_2 = 20.20M, Period_3 = 30.30M, Period_4 = 40.40M, Period_5 = 50.50M, Period_6 = 60.60M, Period_7 = 70.70M, Period_8 = 80.80M, Period_9 = 90.90M, Period_10 = 100.0M, Period_11 = 110.0M, Period_12 = 120.0M },
+                new ESFFundingData() { UKPRN = 1000825, CollectionType = "ILR1516", CollectionReturnCode = string.Empty, ConRefNumber = "Conref-1516", DeliverableCode = "D01", AttributeName = "Att1", Period_1 = 10.10M, Period_2 = 20.20M, Period_3 = 30.30M, Period_4 = 40.40M, Period_5 = 50.50M, Period_6 = 60.60M, Period_7 = 70.70M, Period_8 = 80.80M, Period_9 = 90.90M, Period_10 = 100.0M, Period_11 = 110.0M, Period_12 = 120.0M },
+                new ESFFundingData() { UKPRN = 1000825, CollectionType = "ILR1516", CollectionReturnCode = string.Empty, ConRefNumber = "Conref-1516", DeliverableCode = "D01", AttributeName = "Att1", Period_1 = 10.11M, Period_2 = 20.20M, Period_3 = 30.30M, Period_4 = 40.40M, Period_5 = 50.50M, Period_6 = 60.60M, Period_7 = 70.70M, Period_8 = 80.80M, Period_9 = 90.90M, Period_10 = 100.0M, Period_11 = 110.0M, Period_12 = 120.0M },
 
                 new ESFFundingData() { UKPRN = 1000825,  CollectionType = "ILR1617", CollectionReturnCode = "R13", ConRefNumber = "Conref-1617", DeliverableCode = "D01", AttributeName = "Att1", Period_1 = 10.12M, Period_2 = 20.20M, Period_3 = 30.30M, Period_4 = 40.40M, Period_5 = 50.50M, Period_6 = 60.60M, Period_7 = 70.70M, Period_8 = 80.80M, Period_9 = 90.90M, Period_10 = 100.0M, Period_11 = 110.0M, Period_12 = 120.0M },
                 new ESFFundingData() { UKPRN = 1000825,  CollectionType = "ILR1617", CollectionReturnCode = "R13", ConRefNumber = "Conref-1617", DeliverableCode = "D01", AttributeName = "Att1", Period_1 = 10.13M, Period_2 = 20.20M, Period_3 = 30.30M, Period_4 = 40.40M, Period_5 = 50.50M, Period_6 = 60.60M, Period_7 = 70.70M, Period_8 = 80.80M, Period_9 = 90.90M, Period_10 = 100.0M, Period_11 = 110.0M, Period_12 = 120.0M },
@@ -173,7 +172,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             var result = await NewProvider(() => esfFundingDataContextMock.Object)
                  .ProvideAsync(1000825, summarisationMessageMock.Object, CancellationToken.None);
 
-            result.Count().Should().Be(5);
+            result.Count.Should().Be(5);
 
             result.Where(w => w.ConRefNumber == "Conref-1516").SelectMany(pd => pd.PeriodisedData).Select(p => p.Periods.First(f => f.PeriodId == 1)).First().Value.Should().Be(20.21M);
 
@@ -191,7 +190,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
         {
             var latestProviderSubmissions = new List<LatestProviderSubmission>()
             {
-                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1516", CollectionReturnCode = "" },
+                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1516", CollectionReturnCode = string.Empty },
                 new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1617", CollectionReturnCode = "R13" },
                 new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1718", CollectionReturnCode = "R13" },
                 new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1718", CollectionReturnCode = "R14" },
@@ -256,7 +255,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
         {
             var latestProviderSubmissions = new List<LatestProviderSubmission>()
             {
-                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1516", CollectionReturnCode = "" },
+                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1516", CollectionReturnCode = string.Empty },
                 new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1617", CollectionReturnCode = "R13" },
                 new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1718", CollectionReturnCode = "R13" },
                 new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1718", CollectionReturnCode = "R14" },
@@ -313,7 +312,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
         {
             var latestProviderSubmissions = new List<LatestProviderSubmission>()
             {
-                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1516", CollectionReturnCode = "" },
+                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1516", CollectionReturnCode = string.Empty },
                 new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1617", CollectionReturnCode = "R13" },
                 new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1718", CollectionReturnCode = "R13" },
                 new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1718", CollectionReturnCode = "R14" },
@@ -381,7 +380,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
         {
             var latestProviderSubmissions = new List<LatestProviderSubmission>()
             {
-                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1516", CollectionReturnCode = "" },
+                new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1516", CollectionReturnCode = string.Empty },
                 new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1617", CollectionReturnCode = "R13" },
                 new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1718", CollectionReturnCode = "R13" },
                 new LatestProviderSubmission() { UKPRN = 1000825, CollectionType = "ILR1718", CollectionReturnCode = "R14" },
@@ -449,7 +448,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             result.Where(w => w.ConRefNumber == "Conref-1920").SelectMany(pd => pd.PeriodisedData).Select(p => p.Periods.First(f => f.PeriodId == 1)).First().Value.Should().Be(40.40M);
         }
 
-        private ESFILRProvider NewProvider(Func<IESFFundingDataContext> esfFundingDataContext = null)
+        private static ESFILRProvider NewProvider(Func<IESFFundingDataContext> esfFundingDataContext = null)
         {
             return new ESFILRProvider(esfFundingDataContext);
         }

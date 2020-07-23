@@ -14,13 +14,11 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 {
     public class SummarisationServiceTests_ILRData
     {
-        private const int learningDeliveryRecords = 2;
+        private const int Contracts = 2;
 
-        private const int contracts = 2;
+        private const decimal PeriodValue = 10;
 
-        private const decimal periodValue = 10;
-
-        private const int periodVolume = 10;
+        private const int PeriodVolume = 10;
 
         [Fact]
         public void SummarisePeriodsTest_withVolume()
@@ -31,13 +29,13 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
             var result = task.SummarisePeriods(GetPeriodsData(5), fundLine, GetCollectionPeriods(), GetContractAllocation(GetProviders().First()));
 
-            result.Count().Should().Be(12);
+            result.Count.Should().Be(12);
 
             foreach (var item in result)
             {
-                item.ActualValue.Should().Be(5 * periodValue);
+                item.ActualValue.Should().Be(5 * PeriodValue);
 
-                item.ActualValue.Should().Be(5 * periodVolume);
+                item.ActualValue.Should().Be(5 * PeriodVolume);
             }
         }
 
@@ -50,11 +48,11 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
             var result = task.SummarisePeriods(GetPeriodsData(5), fundLine, GetCollectionPeriods(), GetContractAllocation(GetProviders().First()));
 
-            result.Count().Should().Be(12);
+            result.Count.Should().Be(12);
 
             foreach (var item in result)
             {
-                item.ActualValue.Should().Be(5 * periodValue);
+                item.ActualValue.Should().Be(5 * PeriodValue);
 
                 item.ActualVolume.Should().Be(0);
             }
@@ -82,7 +80,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                     PeriodId = 1,
                     CalendarMonth = 8,
                     CalendarYear = 2018,
-                    Value = value1
+                    Value = value1,
                 },
                 new Period()
                 {
@@ -90,7 +88,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                     CalendarMonth = 8,
                     CalendarYear = 2018,
                     Value = value2,
-                }
+                },
             };
 
             List<PeriodisedData> periodisedDatas = new List<PeriodisedData>()
@@ -99,8 +97,8 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                 {
                     AttributeName = "StartEarnings",
                     DeliverableCode = "ST01",
-                    Periods = periods
-                }
+                    Periods = periods,
+                },
             };
 
             List<LearningDelivery> learningDeliveries = new List<LearningDelivery>()
@@ -108,21 +106,21 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                 new LearningDelivery()
                 {
                         ConRefNumber = "All10000001-1",
-                        PeriodisedData = periodisedDatas
+                        PeriodisedData = periodisedDatas,
                 },
             };
 
             LearningProvider testProvider = new LearningProvider()
             {
                 UKPRN = ukprn,
-                LearningDeliveries = learningDeliveries
+                LearningDeliveries = learningDeliveries,
             };
 
             var task = new SummarisationDeliverableProcess();
 
             var results = task.Summarise(fundingStream, testProvider, allocation, GetCollectionPeriods());
 
-            results.Count().Should().Be(12);
+            results.Count.Should().Be(12);
             results.FirstOrDefault(w => w.ActualValue > 0).ActualValue.Should().Be(result);
         }
 
@@ -141,7 +139,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
             var result = task.Summarise(fundingStream, GetTestProvider(ukprn), allocation, GetCollectionPeriods());
 
-            result.Count().Should().Be(12);
+            result.Count.Should().Be(12);
 
             foreach (var item in result)
             {
@@ -149,11 +147,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
                 var fl = fundingStream.DeliverableLines.FirstOrDefault();
 
-                if (fl.CalculateVolume == true)
-                    item.ActualVolume.Should().Be(100);
-                else
-
-                    item.ActualVolume.Should().Be(0);
+                item.ActualVolume.Should().Be(fl?.CalculateVolume == true ? 100 : 0);
             }
         }
 
@@ -184,10 +178,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
                 var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.DeliverableLines).FirstOrDefault();
 
-                if (fl.FirstOrDefault().CalculateVolume == true)
-                    item.ActualVolume.Should().Be(100);
-                else
-                    item.ActualVolume.Should().Be(0);
+                item.ActualVolume.Should().Be(fl.FirstOrDefault()?.CalculateVolume == true ? 100 : 0);
             }
         }
 
@@ -202,7 +193,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
             ICollection<FcsContractAllocation> fcsContractAllocations = new List<FcsContractAllocation>();
 
-            for (int i = 1; i <= contracts; i++)
+            for (int i = 1; i <= Contracts; i++)
             {
                 FcsContractAllocation allocation = new FcsContractAllocation()
                 {
@@ -211,7 +202,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                     DeliveryUkprn = ukprn,
                     DeliveryOrganisation = $"Org{ukprn}",
                     ActualsSchemaPeriodStart = 201808,
-                    ActualsSchemaPeriodEnd = 201907
+                    ActualsSchemaPeriodEnd = 201907,
                 };
 
                 fcsContractAllocations.Add(allocation);
@@ -220,7 +211,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             var summarisationMessageMock = new Mock<ISummarisationMessage>();
             var task = new SummarisationDeliverableProcess();
 
-            var result = task.Summarise(fundingStreams, GetTestProvider(ukprn), fcsContractAllocations, GetCollectionPeriods(),summarisationMessageMock.Object);
+            var result = task.Summarise(fundingStreams, GetTestProvider(ukprn), fcsContractAllocations, GetCollectionPeriods(), summarisationMessageMock.Object);
 
             foreach (var allocation in fcsContractAllocations)
             {
@@ -236,10 +227,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
                     var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.DeliverableLines).FirstOrDefault();
 
-                    if (fl.FirstOrDefault().CalculateVolume == true)
-                        item.ActualVolume.Should().Be(100);
-                    else
-                        item.ActualVolume.Should().Be(0);
+                    item.ActualVolume.Should().Be(fl.FirstOrDefault()?.CalculateVolume == true ? 100 : 0);
                 }
             }
         }
@@ -255,7 +243,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             {
                 ICollection<FcsContractAllocation> fcsContractAllocations = new List<FcsContractAllocation>();
 
-                for (int i = 1; i <= contracts; i++)
+                for (int i = 1; i <= Contracts; i++)
                 {
                     FcsContractAllocation allocation = new FcsContractAllocation()
                     {
@@ -264,7 +252,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                         DeliveryUkprn = ukprn,
                         DeliveryOrganisation = $"Org{ukprn}",
                         ActualsSchemaPeriodStart = 201808,
-                        ActualsSchemaPeriodEnd = 201907
+                        ActualsSchemaPeriodEnd = 201907,
                     };
 
                     fcsContractAllocations.Add(allocation);
@@ -290,41 +278,36 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
                         var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.DeliverableLines).FirstOrDefault();
 
-                        if (fl.FirstOrDefault().CalculateVolume == true)
-                            item.ActualVolume.Should().Be(100);
-                        else
-                            item.ActualVolume.Should().Be(0);
+                        item.ActualVolume.Should().Be(fl?.FirstOrDefault()?.CalculateVolume == true ? 100 : 0);
                     }
                 }
             }
         }
 
-
-        private FundingTypesProvider NewFundingTypeProvider()
+        private static FundingTypesProvider NewFundingTypeProvider()
         {
             return new FundingTypesProvider(new JsonSerializationService());
         }
 
-        private LearningProvider GetTestProvider(int ukprn)
+        private static LearningProvider GetTestProvider(int ukprn)
         {
             return new LearningProvider()
             {
                 UKPRN = ukprn,
-                LearningDeliveries = GetLearningDeliveries(ukprn)
+                LearningDeliveries = GetLearningDeliveries(ukprn),
             };
         }
 
-        private List<LearningDelivery> GetLearningDeliveries(int ukprn)
+        private static List<LearningDelivery> GetLearningDeliveries(int ukprn)
         {
             List<LearningDelivery> learningDeliveries = new List<LearningDelivery>();
 
-            for (int i = 1; i <= contracts; i++)
+            for (int i = 1; i <= Contracts; i++)
             {
                 LearningDelivery learningDelivery = new LearningDelivery()
                 {
-
                     ConRefNumber = $"All{ukprn}-{i}",
-                    PeriodisedData = GetPeriodisedData()
+                    PeriodisedData = GetPeriodisedData(),
                 };
 
                 learningDeliveries.Add(learningDelivery);
@@ -333,7 +316,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             return learningDeliveries;
         }
 
-        private List<PeriodisedData> GetPeriodisedData()
+        private static List<PeriodisedData> GetPeriodisedData()
         {
             HashSet<string> attributes = GetAllAttributes();
 
@@ -349,17 +332,17 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                         {
                             AttributeName = attribute,
                             DeliverableCode = deliverableCode,
-                            Periods = GetPeriodsData(2)
+                            Periods = GetPeriodsData(2),
                         };
 
-                    periodisedDatas.Add(periodisedData);
+                     periodisedDatas.Add(periodisedData);
                 }
             }
 
             return periodisedDatas;
         }
 
-        private List<Period> GetPeriodsData(int lotSize)
+        private static List<Period> GetPeriodsData(int lotSize)
         {
             var periods = new List<Period>();
 
@@ -373,37 +356,36 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                         CollectionYear = collectionPeriod.CollectionYear,
                         CalendarYear = collectionPeriod.CalendarYear,
                         CalendarMonth = collectionPeriod.CalendarMonth,
-                        Value = periodValue,
-                        Volume = periodVolume
+                        Value = PeriodValue,
+                        Volume = PeriodVolume,
                     };
                     periods.Add(period);
                 }
-
             }
 
             return periods;
         }
 
-        private List<FundingType> GetFundingTypes()
+        private static List<FundingType> GetFundingTypes()
         {
             FundingTypesProvider fundingTypesProvider = new FundingTypesProvider(new JsonSerializationService());
 
             return fundingTypesProvider.Provide().ToList();
         }
 
-        private List<CollectionPeriod> GetCollectionPeriods()
+        private static List<CollectionPeriod> GetCollectionPeriods()
         {
             var collectionPeriodsProvider = new CollectionPeriodsProvider(new JsonSerializationService());
 
             return collectionPeriodsProvider.Provide().Where(w => w.CollectionYear == 1819).ToList();
         }
 
-        private HashSet<int> GetProviders()
+        private static HashSet<int> GetProviders()
         {
             return new HashSet<int> { 10000001, 10000002 };
         }
 
-        private HashSet<string> GetAllDeliverableCodes()
+        private static HashSet<string> GetAllDeliverableCodes()
         {
             return new HashSet<string>
             {
@@ -413,17 +395,19 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             };
         }
 
-        private HashSet<string> GetAllAttributes()
+        private static HashSet<string> GetAllAttributes()
         {
-            return new HashSet<string> { "StartEarnings",
-                                    "AchievementEarnings",
-                                    "AdditionalProgCostEarnings",
-                                    "ProgressionEarnings",
-                                    "DeliverableVolume"
+            return new HashSet<string>
+            {
+                "StartEarnings",
+                "AchievementEarnings",
+                "AdditionalProgCostEarnings",
+                "ProgressionEarnings",
+                "DeliverableVolume",
             };
         }
 
-        private FcsContractAllocation GetContractAllocation(int ukprn)
+        private static FcsContractAllocation GetContractAllocation(int ukprn)
         {
             FcsContractAllocation allocation = new FcsContractAllocation()
             {
@@ -432,12 +416,10 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                 DeliveryUkprn = ukprn,
                 DeliveryOrganisation = $"Org{ukprn}",
                 ActualsSchemaPeriodStart = 201808,
-                ActualsSchemaPeriodEnd = 201907
+                ActualsSchemaPeriodEnd = 201907,
             };
 
             return allocation;
         }
-
-
     }
 }

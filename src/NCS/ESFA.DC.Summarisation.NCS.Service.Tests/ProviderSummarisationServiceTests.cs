@@ -69,7 +69,7 @@ namespace ESFA.DC.Summarisation.NCS.Service.Tests
 
         }
 
-        private ProviderSummarisationService NewService(
+        private static ProviderSummarisationService NewService(
            ISummarisationService summarisationService = null,
             ILogger logger = null,
             IProviderContractsService providerContractsService = null,
@@ -91,7 +91,7 @@ namespace ESFA.DC.Summarisation.NCS.Service.Tests
             };
         }
 
-        private TouchpointProviderFundingData TestProvider()
+        private static TouchpointProviderFundingData TestProvider()
         {
             return new TouchpointProviderFundingData
             {
@@ -100,7 +100,7 @@ namespace ESFA.DC.Summarisation.NCS.Service.Tests
             };
         }
 
-        private List<SummarisedActual> TestSummarisedActuals()
+        private static List<SummarisedActual> TestSummarisedActuals()
         {
             return new List<SummarisedActual>
             {
@@ -143,7 +143,7 @@ namespace ESFA.DC.Summarisation.NCS.Service.Tests
             };
         }
 
-        private List<SummarisedActual> TestFundingDataRemoved()
+        private static List<SummarisedActual> TestFundingDataRemoved()
         {
             return new List<SummarisedActual>
             {

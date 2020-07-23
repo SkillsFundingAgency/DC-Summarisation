@@ -33,14 +33,15 @@ namespace ESFA.DC.Summarisation.Main2021.Service.Providers
                         .GroupBy(x => x.PaymentName)
                         .Select(ld => new LearningDelivery
                         {
-                            LearnRefNumber = "",
+                            LearnRefNumber = string.Empty,
                             AimSeqNumber = 0,
                             Fundline = ld.Key,
                             PeriodisedData = ld.GroupBy(x => x.PaymentName).Select(pd => new PeriodisedData
                             {
-                                AttributeName = "",
+                                AttributeName = string.Empty,
                                 Periods = Enumerable.Range(1, 12)
-                                                    .GroupJoin(ld,
+                                                    .GroupJoin(
+                                                                ld,
                                                                 range => range,
                                                                 ldr => ldr.CollectionPeriod,
                                                                 (irange, ldRows) => new
@@ -48,17 +49,16 @@ namespace ESFA.DC.Summarisation.Main2021.Service.Providers
                                                                     CollectionPeriod = irange,
                                                                     LearningDeliveryRows = ldRows,
                                                                 })
-                                                                .SelectMany(result => result.LearningDeliveryRows.DefaultIfEmpty(),
-                                                                (x, y) => new Period
-                                                                {
-                                                                    PeriodId = x.CollectionPeriod,
-                                                                    Value = y.PaymentValue,
-                                                                }).ToList(),
-
+                                                                .SelectMany(
+                                                                    result => result.LearningDeliveryRows.DefaultIfEmpty(),
+                                                                    (x, y) => new Period
+                                                                    {
+                                                                        PeriodId = x.CollectionPeriod,
+                                                                        Value = y.PaymentValue,
+                                                                    }).ToList(),
                             }).ToList(),
-
-                        }
-                        ).ToListAsync(cancellationToken);
+                        })
+                        .ToListAsync(cancellationToken);
 
                 return learningDeliveries;
             }

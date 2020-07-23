@@ -55,7 +55,6 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
 
             using (var contextFactory = _dasContext())
             {
-
                 var preSummarisedData = await contextFactory.Payments
                              .Where(p => p.Ukprn == ukprn && p.ContractType == ContractTypeConstants.Levy
                                     && (
@@ -74,7 +73,6 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
                                 ReportingAimFundingLineType = obj.Key.AcademicYear == previousCollectionYear ? obj.Key.LearningAimFundingLineType : obj.Key.ReportingAimFundingLineType,
                                 Amount = obj.Sum(s => s.Amount),
                             }).ToListAsync(cancellationToken);
-
 
                 var learningDeliveries = preSummarisedData
                              .GroupBy(x => x.ReportingAimFundingLineType, StringComparer.OrdinalIgnoreCase)

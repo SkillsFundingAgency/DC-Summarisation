@@ -65,13 +65,13 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             result.LearningDeliveries.Should().BeEquivalentTo(providerLearningDeliveries);
         }
 
-        private ProviderRepository NewService(IList<ISummarisationInputDataProvider> inputDataProviders = null)
+        private static ProviderRepository NewService(IList<ISummarisationInputDataProvider> inputDataProviders = null)
         {
             return new ProviderRepository(
                 inputDataProviders ?? Mock.Of<IList<ISummarisationInputDataProvider>>());
         }
 
-        private ICollection<int> TestESFProviders()
+        private static ICollection<int> TestESFProviders()
         {
             return new List<int>
             {
@@ -80,7 +80,7 @@ namespace ESFA.DC.Summarisation.ESF.Service.Tests
             };
         }
 
-        private ICollection<LearningDelivery> ProviderLearningDeliveries()
+        private static ICollection<LearningDelivery> ProviderLearningDeliveries()
         {
             return new List<LearningDelivery>
             {

@@ -17,6 +17,10 @@
   <ItemGroup>
     <PackageReference Include="ESFA.DC.Serialization.Interfaces" Version="0.1.39-beta0001" />
     <PackageReference Include="ESFA.DC.Serialization.Json" Version="0.1.40-beta0001" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

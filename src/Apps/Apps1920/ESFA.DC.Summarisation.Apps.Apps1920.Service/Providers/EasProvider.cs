@@ -72,22 +72,21 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
             {
                 var nonlevyEAS = await easContext.ProviderAdjustmentPayments
                             .Where(sv => sv.Ukprn == ukprn
-                                && !FundlineConstants.EasLines_Levy_NonLevy2019.Contains(sv.PaymentTypeName)
-                            ).
-                            Select(q1 => new
+                                && !FundlineConstants.EasLines_Levy_NonLevy2019.Contains(sv.PaymentTypeName))
+                            .Select(q1 => new
                                 {
                                        q1.PaymentTypeName,
                                        CollectionMonth = q1.SubmissionCollectionPeriod,
                                        CollectionYear = q1.SubmissionAcademicYear,
                                        Value = q1.Amount,
-                                }
-                            ).ToListAsync(cancellationToken);
+                                })
+                            .ToListAsync(cancellationToken);
 
                 var levyEAS = (await easContext.ProviderAdjustmentPayments
                             .Where(sv => sv.Ukprn == ukprn
                                 && CollectionPeriodNames.Contains(sv.CollectionPeriodName)
-                                && FundlineConstants.EasLines_Levy_NonLevy2019.Contains(sv.PaymentTypeName)
-                            ).ToListAsync(cancellationToken))
+                                && FundlineConstants.EasLines_Levy_NonLevy2019.Contains(sv.PaymentTypeName))
+                            .ToListAsync(cancellationToken))
                             .Select(p =>
                             {
                                 var collectionPeriod = GetCollectionPeriodFor(collectionPeriods, p.CollectionPeriodYear, p.CollectionPeriodMonth);
@@ -99,7 +98,6 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
                                     CollectionYear = collectionPeriod?.CollectionYear ?? 0,
                                     Value = p.Amount,
                                 };
-
                             }).ToList();
 
                 var eas = nonlevyEAS.Concat(levyEAS).ToList();
@@ -127,7 +125,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
             }
         }
 
-        private CollectionPeriod GetCollectionPeriodFor(IEnumerable<CollectionPeriod> collectionPeriods, int calendarYear, int calendarMonth)
+        private static CollectionPeriod GetCollectionPeriodFor(IEnumerable<CollectionPeriod> collectionPeriods, int calendarYear, int calendarMonth)
         {
             return collectionPeriods.FirstOrDefault(cp => cp.CalendarYear == calendarYear && cp.CalendarMonth == calendarMonth);
         }

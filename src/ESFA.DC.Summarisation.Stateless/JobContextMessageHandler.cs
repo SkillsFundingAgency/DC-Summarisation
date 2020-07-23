@@ -1,12 +1,12 @@
-﻿using Autofac;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Autofac;
 using ESFA.DC.JobContextManager.Interface;
 using ESFA.DC.JobContextManager.Model;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.Stateless.Context;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using ExecutionContext = ESFA.DC.Logging.ExecutionContext;
 
 namespace ESFA.DC.Summarisation.Stateless

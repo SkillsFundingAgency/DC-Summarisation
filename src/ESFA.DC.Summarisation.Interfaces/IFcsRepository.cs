@@ -1,7 +1,7 @@
-﻿using ESFA.DC.Summarisation.Service.Model.Fcs;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.Summarisation.Service.Model.Fcs;
 
 namespace ESFA.DC.Summarisation.Data.Repository.Interface
 {

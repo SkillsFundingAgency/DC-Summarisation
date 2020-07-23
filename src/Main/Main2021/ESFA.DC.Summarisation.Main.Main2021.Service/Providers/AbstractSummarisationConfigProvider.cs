@@ -1,7 +1,7 @@
-﻿using ESFA.DC.Serialization.Interfaces;
-using ESFA.DC.Summarisation.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
+using ESFA.DC.Serialization.Interfaces;
+using ESFA.DC.Summarisation.Interfaces;
 
 namespace ESFA.DC.Summarisation.Main.Main2021.Service.Providers
 {

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using ESFA.DC.Summarisation.Interfaces;
 using ESFA.DC.Summarisation.NCS.Model;
 using ESFA.DC.Summarisation.NCS.Model.Config;
 using ESFA.DC.Summarisation.Service.Model;

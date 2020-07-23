@@ -31,7 +31,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
             var result = task.SummarisePeriods(GetPeriodsData(5), fundLine, GetCollectionPeriods(), GetContractAllocation(GetProviders().First()));
 
-            result.Count().Should().Be(67);
+            result.Count.Should().Be(67);
 
             foreach (var item in result)
             {
@@ -50,7 +50,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
             var result = task.SummarisePeriods(GetPeriodsData(5), fundLine, GetCollectionPeriods(), GetContractAllocation(GetProviders().First()));
 
-            result.Count().Should().Be(67);
+            result.Count.Should().Be(67);
 
             foreach (var item in result)
             {
@@ -73,9 +73,9 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
             var task = new SummarisationDeliverableProcess();
 
-            var result = task.Summarise(fundingStream,GetTestProvider(ukprn),allocation, GetCollectionPeriods());
+            var result = task.Summarise(fundingStream, GetTestProvider(ukprn), allocation, GetCollectionPeriods());
 
-            result.Count().Should().Be(67);
+            result.Count.Should().Be(67);
 
             foreach (var item in result)
             {
@@ -83,11 +83,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
                 var fl = fundingStream.DeliverableLines.FirstOrDefault();
 
-                if (fl.CalculateVolume == true)
-                    item.ActualVolume.Should().Be(2);
-                else
-
-                    item.ActualVolume.Should().Be(0);
+                item.ActualVolume.Should().Be(fl?.CalculateVolume == true ? 2 : 0);
             }
         }
 
@@ -118,10 +114,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
                 var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.DeliverableLines).FirstOrDefault();
 
-                if (fl.FirstOrDefault().CalculateVolume == true)
-                    item.ActualVolume.Should().Be(2);
-                else
-                    item.ActualVolume.Should().Be(0);
+                item.ActualVolume.Should().Be(fl.FirstOrDefault()?.CalculateVolume == true ? 2 : 0);
             }
         }
 
@@ -145,10 +138,11 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                     DeliveryUkprn = ukprn,
                     DeliveryOrganisation = $"Org{ukprn}",
                     ActualsSchemaPeriodStart = 201601,
-                    ActualsSchemaPeriodEnd = 202107
+                    ActualsSchemaPeriodEnd = 202107,
                 };
                 fcsContractAllocations.Add(allocation);
             }
+
             var summarisationMessageMock = new Mock<ISummarisationMessage>();
             var task = new SummarisationDeliverableProcess();
 
@@ -168,10 +162,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
                     var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.DeliverableLines).FirstOrDefault();
 
-                    if (fl.FirstOrDefault().CalculateVolume == true)
-                        item.ActualVolume.Should().Be(2);
-                    else
-                        item.ActualVolume.Should().Be(0);
+                    item.ActualVolume.Should().Be(fl.FirstOrDefault()?.CalculateVolume == true ? 2 : 0);
                 }
             }
         }
@@ -195,8 +186,8 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                         FundingStreamPeriodCode = "ESF1420",
                         DeliveryUkprn = ukprn,
                         DeliveryOrganisation = $"Org{ukprn}",
-                         ActualsSchemaPeriodStart = 201601,
-                        ActualsSchemaPeriodEnd = 202107
+                        ActualsSchemaPeriodStart = 201601,
+                        ActualsSchemaPeriodEnd = 202107,
                     };
                     fcsContractAllocations.Add(allocation);
                 }
@@ -221,10 +212,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
                         var fl = fundingStreams.Where(s => s.DeliverableLineCode == item.DeliverableCode).Select(s => s.DeliverableLines).FirstOrDefault();
 
-                        if (fl.FirstOrDefault().CalculateVolume == true)
-                            item.ActualVolume.Should().Be(2);
-                        else
-                            item.ActualVolume.Should().Be(0);
+                        item.ActualVolume.Should().Be(fl.FirstOrDefault()?.CalculateVolume == true ? 2 : 0);
                     }
                 }
             }
@@ -239,28 +227,26 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
 
             var result = task.SummarisePeriods(GetPeriodsData(1).Take(10).ToList(), fundLine, GetCollectionPeriods(), GetContractAllocation(GetProviders().First()));
 
-            result.Count().Should().Be(67);
+            result.Count.Should().Be(67);
 
             result.Count(w => w.ActualValue == 0 && w.ActualVolume == 0).Should().Be(57);
         }
 
-
-
-        private FundingTypesProvider NewFundingTypeProvider()
+        private static FundingTypesProvider NewFundingTypeProvider()
         {
             return new FundingTypesProvider(new JsonSerializationService());
         }
 
-        private LearningProvider GetTestProvider(int ukprn)
+        private static LearningProvider GetTestProvider(int ukprn)
         {
             return new LearningProvider()
             {
                 UKPRN = ukprn,
-                LearningDeliveries = GetLearningDeliveries(ukprn)
+                LearningDeliveries = GetLearningDeliveries(ukprn),
             };
         }
 
-        private List<LearningDelivery> GetLearningDeliveries(int ukprn)
+        private static List<LearningDelivery> GetLearningDeliveries(int ukprn)
         {
             List<LearningDelivery> learningDeliveries = new List<LearningDelivery>();
 
@@ -268,9 +254,8 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             {
                 LearningDelivery learningDelivery = new LearningDelivery()
                 {
-
                     ConRefNumber = $"All{ukprn}-{i} ",
-                    PeriodisedData = GetPeriodisedData()
+                    PeriodisedData = GetPeriodisedData(),
                 };
 
                 learningDeliveries.Add(learningDelivery);
@@ -279,7 +264,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             return learningDeliveries;
         }
 
-        private List<PeriodisedData> GetPeriodisedData()
+        private static List<PeriodisedData> GetPeriodisedData()
         {
             HashSet<string> attributes = GetAllAttributes();
 
@@ -292,7 +277,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                 PeriodisedData periodisedData = new PeriodisedData()
                 {
                     DeliverableCode = deliverableCode,
-                    Periods = GetPeriodsData(2)
+                    Periods = GetPeriodsData(2),
                 };
 
                 periodisedDatas.Add(periodisedData);
@@ -301,7 +286,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             return periodisedDatas;
         }
 
-        private List<Period> GetPeriodsData(int lotSize)
+        private static List<Period> GetPeriodsData(int lotSize)
         {
             var periods = new List<Period>();
             for (int i = 1; i <= lotSize; i++)
@@ -314,7 +299,7 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                         CalendarMonth = collectionPeriod.CalendarMonth,
                         CalendarYear = collectionPeriod.CalendarYear,
                         Value = periodValue,
-                        Volume = 1
+                        Volume = 1,
                     };
                     periods.Add(period);
                 }
@@ -323,77 +308,81 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
             return periods;
         }
 
-        private List<FundingType> GetFundingTypes()
+        private static List<FundingType> GetFundingTypes()
         {
             FundingTypesProvider fundingTypesProvider = new FundingTypesProvider(new JsonSerializationService());
 
             return fundingTypesProvider.Provide().ToList();
         }
 
-        private List<CollectionPeriod> GetCollectionPeriods()
+        private static List<CollectionPeriod> GetCollectionPeriods()
         {
             var collectionPeriodsProvider = new CollectionPeriodsProvider(new JsonSerializationService());
 
             return collectionPeriodsProvider.Provide().ToList();
         }
 
-        private HashSet<int> GetProviders()
+        private static HashSet<int> GetProviders()
         {
             return new HashSet<int> { 10000001, 10000002 };
         }
 
-        private HashSet<string> GetAllDeliverableCodes()
+        private static HashSet<string> GetAllDeliverableCodes()
         {
-            return new HashSet<string> { "AC01",
-                                        "CG01",
-                                        "CG02",
-                                        "FS01",
-                                        "NR01",
-                                        "PG01",
-                                        "PG02",
-                                        "PG03",
-                                        "PG04",
-                                        "PG05",
-                                        "PG06",
-                                        "RQ01",
-                                        "SD01",
-                                        "SD02",
-                                        "SD03",
-                                        "SD04",
-                                        "SD05",
-                                        "SD06",
-                                        "SD07",
-                                        "SD08",
-                                        "SD09",
-                                        "SD10",
-                                        "ST01",
-                                        "SU01",
-                                        "SU02",
-                                        "SU03",
-                                        "SU04",
-                                        "SU05",
-                                        "SU11",
-                                        "SU12",
-                                        "SU13",
-                                        "SU14",
-                                        "SU15",
-                                        "SU21",
-                                        "SU22",
-                                        "SU23",
-                                        "SU24"
+            return new HashSet<string>
+            {
+                "AC01",
+                "CG01",
+                "CG02",
+                "FS01",
+                "NR01",
+                "PG01",
+                "PG02",
+                "PG03",
+                "PG04",
+                "PG05",
+                "PG06",
+                "RQ01",
+                "SD01",
+                "SD02",
+                "SD03",
+                "SD04",
+                "SD05",
+                "SD06",
+                "SD07",
+                "SD08",
+                "SD09",
+                "SD10",
+                "ST01",
+                "SU01",
+                "SU02",
+                "SU03",
+                "SU04",
+                "SU05",
+                "SU11",
+                "SU12",
+                "SU13",
+                "SU14",
+                "SU15",
+                "SU21",
+                "SU22",
+                "SU23",
+                "SU24",
             };
         }
 
-        private HashSet<string> GetAllAttributes()
+        private static HashSet<string> GetAllAttributes()
         {
-            return new HashSet<string> { "StartEarnings",
-                                    "AchievementEarnings",
-                                    "AdditionalProgCostEarnings",
-                                    "ProgressionEarnings"
+            return new HashSet<string>
+            {
+                "StartEarnings",
+                "AchievementEarnings",
+                "AdditionalProgCostEarnings",
+                "ProgressionEarnings",
             };
         }
 
-        private FcsContractAllocation GetContractAllocation(int ukprn)
+        private static FcsContractAllocation GetContractAllocation(int ukprn)
         {
             FcsContractAllocation allocation = new FcsContractAllocation()
             {
@@ -402,12 +391,10 @@ namespace ESFA.DC.Summarisation.ESF.ESF.Service.Tests
                 DeliveryUkprn = ukprn,
                 DeliveryOrganisation = $"Org{ukprn}",
                 ActualsSchemaPeriodStart = 201601,
-                ActualsSchemaPeriodEnd = 202107
+                ActualsSchemaPeriodEnd = 202107,
             };
 
             return allocation;
         }
-
-
     }
 }

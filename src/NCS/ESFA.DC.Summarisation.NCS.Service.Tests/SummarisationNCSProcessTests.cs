@@ -1,6 +1,5 @@
 ﻿using ESFA.DC.Serialization.Json;
 using ESFA.DC.Summarisation.NCS.Model;
-using ESFA.DC.Summarisation.Service.Model;
 using System.Collections.Generic;
 using ESFA.DC.Summarisation.NCS.NCS1920.Service.Providers;
 using Xunit;
@@ -130,7 +129,7 @@ namespace ESFA.DC.Summarisation.NCS.Service.Tests
         }
 
 
-        private ICollection<FundingValue> TestFundingValues()
+        private static ICollection<FundingValue> TestFundingValues()
         {
             return new List<FundingValue>
             {
@@ -156,7 +155,7 @@ namespace ESFA.DC.Summarisation.NCS.Service.Tests
             };
         }
 
-        private TouchpointProviderFundingData TestProvider()
+        private static TouchpointProviderFundingData TestProvider()
         {
             var provider = new TouchpointProviderFundingData
             {
@@ -167,21 +166,21 @@ namespace ESFA.DC.Summarisation.NCS.Service.Tests
             return provider;
         }
 
-        private ICollection<CollectionPeriod> CollectionPeriodsConfigured()
+        private static ICollection<CollectionPeriod> CollectionPeriodsConfigured()
         {
             var collectionPeriodsProvider = new CollectionPeriodsProvider(new JsonSerializationService());
 
             return collectionPeriodsProvider.Provide();
         }
 
-        private ICollection<FundingType> FundingTypesConfigured()
+        private static ICollection<FundingType> FundingTypesConfigured()
         {
             var fundingTypesProvider = new FundingTypesProvider(new JsonSerializationService());
 
             return fundingTypesProvider.Provide();
         }
 
-        private ICollection<FcsContractAllocation> TestContractAllocations()
+        private static ICollection<FcsContractAllocation> TestContractAllocations()
         {
             return new List<FcsContractAllocation>
             {

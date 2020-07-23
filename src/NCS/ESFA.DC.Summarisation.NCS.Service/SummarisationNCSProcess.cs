@@ -1,5 +1,4 @@
 ﻿using ESFA.DC.Summarisation.Constants;
-using ESFA.DC.Summarisation.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +8,6 @@ using ESFA.DC.Summarisation.NCS.Interfaces;
 using ESFA.DC.Summarisation.NCS.Model.Config;
 using ESFA.DC.Summarisation.NCS.Model;
 using ESFA.DC.Summarisation.NCS.Service.Extensions;
-using Microsoft.EntityFrameworkCore.SqlServer.Query.ExpressionTranslators.Internal;
 
 namespace ESFA.DC.Summarisation.NCS.Service
 {

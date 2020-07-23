@@ -36,9 +36,7 @@ namespace ESFA.DC.Summarisation.Main2021.Service.Providers
                         PeriodisedData = ld.FM25_FM35_Learner_PeriodisedValues
                             .Where(x => (x.Period_1 != 0 || x.Period_2 != 0 || x.Period_3 != 0 || x.Period_4 != 0
                                             || x.Period_5 != 0 || x.Period_6 != 0 || x.Period_7 != 0 || x.Period_8 != 0
-                                            || x.Period_9 != 0 || x.Period_10 != 0 || x.Period_11 != 0 || x.Period_12 != 0
-                                        )
-                                )
+                                            || x.Period_9 != 0 || x.Period_10 != 0 || x.Period_11 != 0 || x.Period_12 != 0))
                             .Select(pv => new PeriodisedData
                             {
                                 AttributeName = pv.AttributeName,
@@ -102,7 +100,7 @@ namespace ESFA.DC.Summarisation.Main2021.Service.Providers
                                     new Period
                                     {
                                         PeriodId = 12,
-                                        Value = pv.Period_12
+                                        Value = pv.Period_12,
                                     },
                                 },
                             }).ToList(),

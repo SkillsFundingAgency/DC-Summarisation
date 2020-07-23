@@ -11,7 +11,7 @@ namespace ESFA.DC.Summarisation.Data.Persist.Mapper
             return new CollectionReturn
             {
                 CollectionReturnCode = summarisationMessage.CollectionReturnCode,
-                CollectionType = summarisationMessage.CollectionType
+                CollectionType = summarisationMessage.CollectionType,
             };
         }
     }

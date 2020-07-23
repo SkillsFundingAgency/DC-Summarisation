@@ -142,7 +142,7 @@ namespace ESFA.DC.Summarisation.Apps.Service
 
         }
 
-        public ICollection<Period> GetPeriodsForFundLine(IEnumerable<PeriodisedData> periodisedData, FundLine fundLine)
+        public static ICollection<Period> GetPeriodsForFundLine(IEnumerable<PeriodisedData> periodisedData, FundLine fundLine)
         {
             if (fundLine.AcademicYear.HasValue)
             {
@@ -154,7 +154,7 @@ namespace ESFA.DC.Summarisation.Apps.Service
             }
         }
 
-        public ICollection<SummarisedActual> SummarisePeriods(ICollection<Period> periods, ICollection<CollectionPeriod> collectionPeriods)
+        public static ICollection<SummarisedActual> SummarisePeriods(ICollection<Period> periods, ICollection<CollectionPeriod> collectionPeriods)
         {
             var summarisedPeriods = periods
                        .GroupBy(g => new { g.CollectionYear, g.CollectionMonth })

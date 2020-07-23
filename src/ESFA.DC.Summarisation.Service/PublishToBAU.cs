@@ -1,9 +1,8 @@
-﻿using ESFA.DC.Logging.Interfaces;
-using ESFA.DC.Summarisation.Interfaces;
-using ESFA.DC.Summarisation.Data.BAU.Persist.Interfaces;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using ESFA.DC.Logging.Interfaces;
+using ESFA.DC.Summarisation.Data.BAU.Persist.Interfaces;
+using ESFA.DC.Summarisation.Interfaces;
 
 namespace ESFA.DC.Summarisation.Service
 {
@@ -27,7 +26,6 @@ namespace ESFA.DC.Summarisation.Service
             _summarisedActualMapper = summarisedActualMapper;
             _eventLogMapper = eventLogMapper;
             _logger = logger;
-
         }
 
         public async Task PublishAsync(ISummarisationMessage summarisationMessage, CancellationToken cancellationToken)

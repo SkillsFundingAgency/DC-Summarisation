@@ -137,7 +137,6 @@ namespace ESFA.DC.Summarisation.Stateless.Context
                 Console.WriteLine(e);
                 throw;
             }
-
         }
     }
 }
