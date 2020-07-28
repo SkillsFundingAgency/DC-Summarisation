@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.4" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ESFA.DC.Summarisation.Interfaces\ESFA.DC.Summarisation.Interfaces.csproj" />
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Apps.Apps2021.Service\ESFA.DC.Summarisation.Apps.Apps2021.Service.csproj" />
+  </ItemGroup>
+
+</Project>

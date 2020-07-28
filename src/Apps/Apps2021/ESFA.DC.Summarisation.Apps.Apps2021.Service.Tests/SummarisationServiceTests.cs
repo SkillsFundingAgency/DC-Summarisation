@@ -11,7 +11,7 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
+namespace ESFA.DC.Summarisation.Apps.Apps2021.Service.Tests
 {
     public class SummarisationServiceTests
     {
@@ -23,9 +23,9 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
         [Fact]
         public void SummariseByPeriods()
         {
-            var collectionPeriods = GetCollectionPeriods(1920);
+            var collectionPeriods = GetCollectionPeriods(2021);
 
-            var result = SummarisationPaymentsProcess.SummarisePeriods(GetPeriodsData(1920), collectionPeriods);
+            var result = SummarisationPaymentsProcess.SummarisePeriods(GetPeriodsData(2021), collectionPeriods);
 
             result.Count.Should().Be(12);
 
@@ -36,18 +36,18 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
         }
 
         [Theory]
-        [InlineData(1, "LEVY1799", 2, "1,5", "1,2,3", 1920)]
-        [InlineData(1, "LEVY1799", 3, "2", "1,2,3", 1920)]
-        [InlineData(1, "LEVY1799", 4, "4", "15", 1920)]
-        [InlineData(1, "LEVY1799", 5, "4", "5,7,8,9,10,11,12,13,14", 1920)]
-        [InlineData(1, "LEVY1799", 6, "4", "4,6", 1920)]
-        [InlineData(1, "LEVY1799", 13, "4", "16", 1920)]
-        [InlineData(1, "LEVY1799", 8, "1,5", "1,2,3", 1920)]
-        [InlineData(1, "LEVY1799", 9, "2", "1,2,3", 1920)]
-        [InlineData(1, "LEVY1799", 10, "4", "15", 1920)]
-        [InlineData(1, "LEVY1799", 11, "4", "5,7,8,9,10,11,12,13,14", 1920)]
-        [InlineData(1, "LEVY1799", 12, "4", "4,6", 1920)]
-        [InlineData(1, "LEVY1799", 14, "4", "16", 1920)]
+        [InlineData(1, "LEVY1799", 2, "1,5", "1,2,3", 2021)]
+        [InlineData(1, "LEVY1799", 3, "2", "1,2,3", 2021)]
+        [InlineData(1, "LEVY1799", 4, "4", "15", 2021)]
+        [InlineData(1, "LEVY1799", 5, "4", "5,7,8,9,10,11,12,13,14", 2021)]
+        [InlineData(1, "LEVY1799", 6, "4", "4,6", 2021)]
+        [InlineData(1, "LEVY1799", 13, "4", "16", 2021)]
+        [InlineData(1, "LEVY1799", 8, "1,5", "1,2,3", 2021)]
+        [InlineData(1, "LEVY1799", 9, "2", "1,2,3", 2021)]
+        [InlineData(1, "LEVY1799", 10, "4", "15", 2021)]
+        [InlineData(1, "LEVY1799", 11, "4", "5,7,8,9,10,11,12,13,14", 2021)]
+        [InlineData(1, "LEVY1799", 12, "4", "4,6", 2021)]
+        [InlineData(1, "LEVY1799", 14, "4", "16", 2021)]
         public void SummariseByFundingStream_R01(int apprenticeshipContractType, string fspCode, int dlc, string fundingStreamsCSV, string transactionTypesCSV, int academicYear)
         {
             var fundingTypes = GetFundingTypes();
@@ -86,18 +86,18 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
         }
 
         [Theory]
-        [InlineData(1, "LEVY1799", 2, "1,5", "1,2,3", "1819,1920")]
-        [InlineData(1, "LEVY1799", 3, "2", "1,2,3", "1819,1920")]
-        [InlineData(1, "LEVY1799", 4, "4", "15", "1819,1920")]
-        [InlineData(1, "LEVY1799", 5, "4", "5,7,8,9,10,11,12,13,14", "1819,1920")]
-        [InlineData(1, "LEVY1799", 6, "4", "4,6", "1819,1920")]
-        [InlineData(1, "LEVY1799", 13, "4", "16", "1819,1920")]
-        [InlineData(1, "LEVY1799", 8, "1,5", "1,2,3", "1819,1920")]
-        [InlineData(1, "LEVY1799", 9, "2", "1,2,3", "1819,1920")]
-        [InlineData(1, "LEVY1799", 10, "4", "15", "1819,1920")]
-        [InlineData(1, "LEVY1799", 11, "4", "5,7,8,9,10,11,12,13,14", "1819,1920")]
-        [InlineData(1, "LEVY1799", 12, "4", "4,6", "1819,1920")]
-        [InlineData(1, "LEVY1799", 14, "4", "16", "1819,1920")]
+        [InlineData(1, "LEVY1799", 2, "1,5", "1,2,3", "1920, 2021")]
+        [InlineData(1, "LEVY1799", 3, "2", "1,2,3", "1920, 2021")]
+        [InlineData(1, "LEVY1799", 4, "4", "15", "1920, 2021")]
+        [InlineData(1, "LEVY1799", 5, "4", "5,7,8,9,10,11,12,13,14", "1920, 2021")]
+        [InlineData(1, "LEVY1799", 6, "4", "4,6", "1920, 2021")]
+        [InlineData(1, "LEVY1799", 13, "4", "16", "1920, 2021")]
+        [InlineData(1, "LEVY1799", 8, "1,5", "1,2,3", "1920, 2021")]
+        [InlineData(1, "LEVY1799", 9, "2", "1,2,3", "1920, 2021")]
+        [InlineData(1, "LEVY1799", 10, "4", "15", "1920, 2021")]
+        [InlineData(1, "LEVY1799", 11, "4", "5,7,8,9,10,11,12,13,14", "1920, 2021")]
+        [InlineData(1, "LEVY1799", 12, "4", "4,6", "1920, 2021")]
+        [InlineData(1, "LEVY1799", 14, "4", "16", "1920, 2021")]
         public void SummariseByFundingStream_R02(int apprenticeshipContractType, string fspCode, int dlc, string fundingSourceCSV, string transactionTypesCSV, string academicYearsCSV)
         {
             var fundingTypes = GetFundingTypes();
@@ -116,7 +116,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
 
             var summarisationMessageMock = new Mock<ISummarisationMessage>();
 
-            summarisationMessageMock.SetupGet(s => s.CollectionYear).Returns(1920);
+            summarisationMessageMock.SetupGet(s => s.CollectionYear).Returns(2021);
             summarisationMessageMock.SetupGet(s => s.CollectionMonth).Returns(2);
 
             var task = new SummarisationPaymentsProcess();
@@ -139,18 +139,18 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
             }
         }
 
-        [InlineData(1, "NONLEVY2019", 2, "1,5", "1,2,3", 1920)]
-        [InlineData(1, "NONLEVY2019", 3, "2", "1,2,3", 1920)]
-        [InlineData(1, "NONLEVY2019", 4, "4", "15", 1920)]
-        [InlineData(1, "NONLEVY2019", 5, "4", "5,7,8,9,10,11,12,13,14", 1920)]
-        [InlineData(1, "NONLEVY2019", 6, "4", "4,6", 1920)]
-        [InlineData(1, "NONLEVY2019", 7, "4", "16", 1920)]
-        [InlineData(1, "NONLEVY2019", 9, "1,5", "1,2,3", 1920)]
-        [InlineData(1, "NONLEVY2019", 10, "2", "1,2,3", 1920)]
-        [InlineData(1, "NONLEVY2019", 11, "4", "15", 1920)]
-        [InlineData(1, "NONLEVY2019", 12, "4", "5,7,8,9,10,11,12,13,14", 1920)]
-        [InlineData(1, "NONLEVY2019", 13, "4", "4,6", 1920)]
-        [InlineData(1, "NONLEVY2019", 14, "4", "16", 1920)]
+        [InlineData(1, "NONLEVY2019", 2, "1,5", "1,2,3", 2021)]
+        [InlineData(1, "NONLEVY2019", 3, "2", "1,2,3", 2021)]
+        [InlineData(1, "NONLEVY2019", 4, "4", "15", 2021)]
+        [InlineData(1, "NONLEVY2019", 5, "4", "5,7,8,9,10,11,12,13,14", 2021)]
+        [InlineData(1, "NONLEVY2019", 6, "4", "4,6", 2021)]
+        [InlineData(1, "NONLEVY2019", 7, "4", "16", 2021)]
+        [InlineData(1, "NONLEVY2019", 9, "1,5", "1,2,3", 2021)]
+        [InlineData(1, "NONLEVY2019", 10, "2", "1,2,3", 2021)]
+        [InlineData(1, "NONLEVY2019", 11, "4", "15", 2021)]
+        [InlineData(1, "NONLEVY2019", 12, "4", "5,7,8,9,10,11,12,13,14", 2021)]
+        [InlineData(1, "NONLEVY2019", 13, "4", "4,6", 2021)]
+        [InlineData(1, "NONLEVY2019", 14, "4", "16", 2021)]
         public void SummariseByFundingStream_NonLevy2019(int apprenticeshipContractType, string fspCode, int dlc, string fundingStreamsCSV, string transactionTypesCSV, int academicYear)
         {
             var fundingTypes = GetFundingTypes();
@@ -189,12 +189,12 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
         }
 
         [Theory]
-        [InlineData(2, "APPS1920", 8, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
-        [InlineData(2, "APPS1920", 9, "4", "15")]
-        [InlineData(2, "APPS1920", 10, "4", "4,6")]
-        [InlineData(2, "APPS1920", 22, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
-        [InlineData(2, "APPS1920", 23, "4", "15")]
-        [InlineData(2, "APPS1920", 24, "4", "4,6")]
+        [InlineData(2, "APPS2021", 8, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
+        [InlineData(2, "APPS2021", 9, "4", "15")]
+        [InlineData(2, "APPS2021", 10, "4", "4,6")]
+        [InlineData(2, "APPS2021", 22, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
+        [InlineData(2, "APPS2021", 23, "4", "15")]
+        [InlineData(2, "APPS2021", 24, "4", "4,6")]
         public void SummariseByFundingStream_NonLevy_R01(int apprenticeshipContractType, string fspCode, int dlc, string fundingSourcesCSV, string transactionTypesCSV)
         {
             var fundingTypes = GetFundingTypes();
@@ -211,7 +211,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
 
             var summarisationMessageMock = new Mock<ISummarisationMessage>();
 
-            summarisationMessageMock.SetupGet(s => s.CollectionYear).Returns(1920);
+            summarisationMessageMock.SetupGet(s => s.CollectionYear).Returns(2021);
             summarisationMessageMock.SetupGet(s => s.CollectionMonth).Returns(1);
 
             var task = new SummarisationPaymentsProcess();
@@ -256,14 +256,14 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
 
             var summarisationMessageMock = new Mock<ISummarisationMessage>();
 
-            summarisationMessageMock.SetupGet(s => s.CollectionYear).Returns(1920);
+            summarisationMessageMock.SetupGet(s => s.CollectionYear).Returns(2021);
             summarisationMessageMock.SetupGet(s => s.CollectionMonth).Returns(1);
 
             var task = new SummarisationPaymentsProcess();
 
             var results = task.Summarise(fundingStream, GetTestProvider(apprenticeshipContractType, fundingSources, transactionTypes), GetContractAllocation(), GetCollectionPeriods(0), summarisationMessageMock.Object).OrderBy(x => x.Period).ToList();
 
-            results.Count.Should().Be(31);
+            results.Count.Should().Be(43);
 
             foreach (var item in results)
             {
@@ -278,19 +278,19 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
         }
 
         [Theory]
+        [InlineData(2, "APPS2021", 8, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
+        [InlineData(2, "APPS2021", 9, "4", "15")]
+        [InlineData(2, "APPS2021", 10, "4", "4,6")]
+        [InlineData(2, "APPS2021", 22, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
+        [InlineData(2, "APPS2021", 23, "4", "15")]
+        [InlineData(2, "APPS2021", 24, "4", "4,6")]
+
         [InlineData(2, "APPS1920", 8, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
         [InlineData(2, "APPS1920", 9, "4", "15")]
         [InlineData(2, "APPS1920", 10, "4", "4,6")]
         [InlineData(2, "APPS1920", 22, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
         [InlineData(2, "APPS1920", 23, "4", "15")]
         [InlineData(2, "APPS1920", 24, "4", "4,6")]
-
-        [InlineData(2, "APPS1819", 8, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
-        [InlineData(2, "APPS1819", 9, "4", "15")]
-        [InlineData(2, "APPS1819", 10, "4", "4,6")]
-        [InlineData(2, "APPS1819", 22, "2,4", "1,2,3,5,7,8,9,10,11,12,13,14")]
-        [InlineData(2, "APPS1819", 23, "4", "15")]
-        [InlineData(2, "APPS1819", 24, "4", "4,6")]
         public void SummariseByFundingStream_NonLevy_R02(int apprenticeshipContractType, string fspCode, int dlc, string fundingSourcesCSV, string transactionTypesCSV)
         {
             var fundingTypes = GetFundingTypes();
@@ -307,7 +307,7 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
 
             var summarisationMessageMock = new Mock<ISummarisationMessage>();
 
-            summarisationMessageMock.SetupGet(s => s.CollectionYear).Returns(1920);
+            summarisationMessageMock.SetupGet(s => s.CollectionYear).Returns(2021);
             summarisationMessageMock.SetupGet(s => s.CollectionMonth).Returns(2);
 
             var task = new SummarisationPaymentsProcess();
@@ -340,8 +340,22 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
         private static List<LearningDelivery> GetLearningDeliveries(int apprenticeshipContratType, List<int> fundingSources, List<int> transactionTypes)
         {
             List<LearningDelivery> learningDeliveries = new List<LearningDelivery>();
+            int acedamicYear_2021 = 2021;
             int acedamicYear_1920 = 1920;
-            int acedamicYear_1819 = 1819;
+
+            foreach (var item in GetFundLines_2021())
+            {
+                for (int i = 1; i <= learningDeliveryRecords; i++)
+                {
+                    LearningDelivery learningDelivery = new LearningDelivery()
+                    {
+                        Fundline = item.Fundline,
+                        PeriodisedData = item.LineType == "ILR" ? GetPeriodisedData(apprenticeshipContratType, fundingSources, transactionTypes, acedamicYear_2021) : GetPeriodisedData_EAS(acedamicYear_2021),
+                    };
+
+                    learningDeliveries.Add(learningDelivery);
+                }
+            }
 
             foreach (var item in GetFundLines_1920())
             {
@@ -351,20 +365,6 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
                     {
                         Fundline = item.Fundline,
                         PeriodisedData = item.LineType == "ILR" ? GetPeriodisedData(apprenticeshipContratType, fundingSources, transactionTypes, acedamicYear_1920) : GetPeriodisedData_EAS(acedamicYear_1920),
-                    };
-
-                    learningDeliveries.Add(learningDelivery);
-                }
-            }
-
-            foreach (var item in GetFundLines_1819())
-            {
-                for (int i = 1; i <= learningDeliveryRecords; i++)
-                {
-                    LearningDelivery learningDelivery = new LearningDelivery()
-                    {
-                        Fundline = item.Fundline,
-                        PeriodisedData = item.LineType == "ILR" ? GetPeriodisedData(apprenticeshipContratType, fundingSources, transactionTypes, acedamicYear_1819) : GetPeriodisedData_EAS(acedamicYear_1819),
                     };
 
                     learningDeliveries.Add(learningDelivery);
@@ -434,21 +434,76 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
             return fundingTypesProvider.Provide().ToList();
         }
 
-        private static IEnumerable<int> GetApprenticeshipContratTypes()
+        private static List<FundLine> GetFundLines_2021()
         {
-            return Enumerable.Range(1, 2);
-        }
+            List<FundLine> fundLines = new List<FundLine>
+            {
+                new FundLine { Fundline = "16-18 Apprenticeship (Employer on App Service) Levy funding", LineType = "ILR" },
+                new FundLine { Fundline = "19+ Apprenticeship (Employer on App Service) Levy funding", LineType = "ILR" },
+                new FundLine { Fundline = "16-18 Apprenticeship (Employer on App Service) Non-Levy funding", LineType = "ILR" },
+                new FundLine { Fundline = "19+ Apprenticeship (Employer on App Service) Non-Levy funding", LineType = "ILR" },
+                new FundLine { Fundline = "16-18 Apprenticeship (From May 2017) Non-Levy Contract (non-procured)", LineType = "ILR" },
+                new FundLine { Fundline = "19+ Apprenticeship (From May 2017) Non-Levy Contract (non-procured)", LineType = "ILR" },
+                new FundLine { Fundline = "16-18 Apprenticeship Non-Levy Contract (procured)", LineType = "ILR" },
+                new FundLine { Fundline = "19+ Apprenticeship Non-Levy Contract (procured)", LineType = "ILR" },
 
-        private static IEnumerable<int> GetFundingSources()
-        {
-            List<int> fundingSources = new List<int> { 1, 2, 4, 5 };
+                new FundLine { Fundline = "Authorised Claims: 16-18 Levy Apprenticeships - Training", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Levy Apprenticeships - Maths and English", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: 16-18 Levy Apprenticeships - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Levy Apprenticeships - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Levy Apprenticeships - Employer", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Levy Apprenticeships - Apprentice", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Levy Apprenticeships - Training", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Levy Apprenticeships - Maths and English", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: Adult Levy Apprenticeships - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Levy Apprenticeships - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Levy Apprenticeships - Employer", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Levy Apprenticeships - Apprentice", LineType = "EAS" },
 
-            return fundingSources;
-        }
+                new FundLine { Fundline = "Authorised Claims: 16-18 Apprenticeship (Employer on App Service) Non-Levy - Training", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Apprenticeship (Employer on App Service) Non-Levy - Maths and English", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: 16-18 Apprenticeship (Employer on App Service) Non-Levy", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Apprenticeship (Employer on App Service) Non-Levy - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Apprenticeship (Employer on App Service) Non-Levy - Employer", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Apprenticeship (Employer on App Service) Non-Levy - Apprentice", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 19+ Apprenticeship (Employer on App Service) Non-Levy - Training", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 19+ Apprenticeship (Employer on App Service) Non-Levy - Maths and English", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: 19+ Apprenticeship (Employer on App Service) Non-Levy", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 19+ Apprenticeship (Employer on App Service) Non-Levy - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 19+ Apprenticeship (Employer on App Service) Non-Levy - Employer", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 19+ Apprenticeship (Employer on App Service) Non-Levy - Apprentice", LineType = "EAS" },
 
-        private static IEnumerable<int> GetTransationTypes()
-        {
-            return Enumerable.Range(1, 16);
+                new FundLine { Fundline = "Authorised Claims: 16-18 Non-Levy Apprenticeships - Training", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Non-Levy Apprenticeships - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Non-Levy Apprenticeships - Maths and English", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: 16-18 Non-Levy Apprenticeships - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Non-Levy Apprenticeships - Employer", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Non-Levy Apprenticeships - Training", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Non-Levy Apprenticeships - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Non-Levy Apprenticeships - Maths and English", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: Adult Non-Levy Apprenticeships - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Non-Levy Apprenticeships - Employer", LineType = "EAS" },
+
+                new FundLine { Fundline = "Audit Adjustments: 16-18 Non-Levy Apprenticeships (procured) - Training", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Non-Levy Apprenticeships (procured) - Training", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Non-Levy Apprenticeships (procured) - Maths and English", LineType = "EAS" },
+                new FundLine { Fundline = "Audit Adjustments: 16-18 Non-Levy Apprenticeships (procured) - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Non-Levy Apprenticeships (procured) - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: 16-18 Non-Levy Apprenticeships (procured) - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Audit Adjustments: 16-18 Non-Levy Apprenticeships (procured) - Employer", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Non-Levy Apprenticeships (procured) - Employer", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: 16-18 Non-Levy Apprenticeships (procured) - Apprentice", LineType = "EAS" },
+                new FundLine { Fundline = "Audit Adjustments: Adult Non-Levy Apprenticeships (procured) - Training", LineType = "EAS" },
+                new FundLine { Fundline = "Audit Adjustments: Adult Non-Levy Apprenticeships (procured) - Maths and English", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Non-Levy Apprenticeships (procured) - Training", LineType = "EAS" },
+                new FundLine { Fundline = "Audit Adjustments: Adult Non-Levy Apprenticeships (procured) - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Non-Levy Apprenticeships (procured) - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Excess Learning Support: Adult Non-Levy Apprenticeships (procured) - Provider", LineType = "EAS" },
+                new FundLine { Fundline = "Audit Adjustments: Adult Non-Levy Apprenticeships (procured) - Employer", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Non-Levy Apprenticeships (procured) - Employer", LineType = "EAS" },
+                new FundLine { Fundline = "Authorised Claims: Adult Non-Levy Apprenticeships (procured) - Apprentice", LineType = "EAS" },
+            };
+            return fundLines;
         }
 
         private static List<FundLine> GetFundLines_1920()
@@ -511,45 +566,6 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Tests
                 new FundLine { Fundline = "Audit Adjustments: Adult Non-Levy Apprenticeships (procured) - Employer", LineType = "EAS" },
                 new FundLine { Fundline = "Authorised Claims: Adult Non-Levy Apprenticeships (procured) - Employer", LineType = "EAS" },
                 new FundLine { Fundline = "Authorised Claims: Adult Non-Levy Apprenticeships (procured) - Apprentice", LineType = "EAS" },
-            };
-            return fundLines;
-        }
-
-        private static List<FundLine> GetFundLines_1819()
-        {
-            List<FundLine> fundLines = new List<FundLine>
-            {
-                new FundLine { Fundline = "16-18 Apprenticeship (From May 2017) Levy Contract", LineType = "ILR" },
-                new FundLine { Fundline = "19+ Apprenticeship (From May 2017) Levy Contract", LineType = "ILR" },
-
-                new FundLine { Fundline = "16-18 Apprenticeship (From May 2017) Non-Levy Contract (non-procured)", LineType = "ILR" },
-                new FundLine { Fundline = "19+ Apprenticeship (From May 2017) Non-Levy Contract (non-procured)", LineType = "ILR" },
-
-                new FundLine { Fundline = "Audit Adjustments: 16-18 Non-Levy Apprenticeships - Training", LineType = "EAS" },
-                new FundLine { Fundline = "Authorised Claims: 16-18 Non-Levy Apprenticeships - Training", LineType = "EAS" },
-                new FundLine { Fundline = "Audit Adjustments: 16-18 Non-Levy Apprenticeships - Provider", LineType = "EAS" },
-                new FundLine { Fundline = "Authorised Claims: 16-18 Non-Levy Apprenticeships - Provider", LineType = "EAS" },
-                new FundLine { Fundline = "Excess Learning Support: 16-18 Non-Levy Apprenticeships - Provider", LineType = "EAS" },
-                new FundLine { Fundline = "Audit Adjustments: 16-18 Non-Levy Apprenticeships - Employer", LineType = "EAS" },
-                new FundLine { Fundline = "Authorised Claims: 16-18 Non-Levy Apprenticeships - Employer", LineType = "EAS" },
-                new FundLine { Fundline = "Audit Adjustments: Adult Non-Levy Apprenticeships - Training", LineType = "EAS" },
-                new FundLine { Fundline = "Authorised Claims: Adult Non-Levy Apprenticeships - Training", LineType = "EAS" },
-                new FundLine { Fundline = "Audit Adjustments: Adult Non-Levy Apprenticeships - Provider", LineType = "EAS" },
-                new FundLine { Fundline = "Authorised Claims: Adult Non-Levy Apprenticeships - Provider", LineType = "EAS" },
-                new FundLine { Fundline = "Excess Learning Support: Adult Non-Levy Apprenticeships - Provider", LineType = "EAS" },
-                new FundLine { Fundline = "Audit Adjustments: Adult Non-Levy Apprenticeships - Employer", LineType = "EAS" },
-                new FundLine { Fundline = "Authorised Claims: Adult Non-Levy Apprenticeships - Employer", LineType = "EAS" },
-
-                new FundLine { Fundline = "Authorised Claims: 16-18 Levy Apprenticeships - Training", LineType = "EAS" },
-                new FundLine { Fundline = "Excess Learning Support: 16-18 Levy Apprenticeships - Provider", LineType = "EAS" },
-                new FundLine { Fundline = "Authorised Claims: 16-18 Levy Apprenticeships - Provider", LineType = "EAS" },
-                new FundLine { Fundline = "Authorised Claims: 16-18 Levy Apprenticeships - Employer", LineType = "EAS" },
-                new FundLine { Fundline = "Authorised Claims: 16-18 Levy Apprenticeships - Apprentice", LineType = "EAS" },
-                new FundLine { Fundline = "Authorised Claims: Adult Levy Apprenticeships - Training", LineType = "EAS" },
-                new FundLine { Fundline = "Excess Learning Support: Adult Levy Apprenticeships - Provider", LineType = "EAS" },
-                new FundLine { Fundline = "Authorised Claims: Adult Levy Apprenticeships - Provider", LineType = "EAS" },
-                new FundLine { Fundline = "Authorised Claims: Adult Levy Apprenticeships - Employer", LineType = "EAS" },
-                new FundLine { Fundline = "Authorised Claims: Adult Levy Apprenticeships - Apprentice", LineType = "EAS" },
             };
             return fundLines;
         }

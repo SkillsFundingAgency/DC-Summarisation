@@ -26,6 +26,7 @@ namespace ESFA.DC.Summarisation.Apps.Service.Tests
             var summarisationTypes = new List<string> { "Apps1920_Levy", "Apps1920_NonLevy", "Apps1920_EAS" };
             var processType = "Payments";
             var collectionType = "APPS";
+            var collectionProviderType = "APPS2021";
 
             var collectionPeriods = Array.Empty<CollectionPeriod>();
 
@@ -33,15 +34,16 @@ namespace ESFA.DC.Summarisation.Apps.Service.Tests
             summarisationMessageMock.Setup(sm => sm.SummarisationTypes).Returns(summarisationTypes);
             summarisationMessageMock.Setup(sm => sm.ProcessType).Returns(processType);
             summarisationMessageMock.Setup(sm => sm.CollectionType).Returns(collectionType);
+            summarisationMessageMock.Setup(sm => sm.CollectionYear).Returns(2021);
 
             var collectionPeriodProviderMock = new Mock<ISummarisationConfigProvider<CollectionPeriod>>();
 
-            collectionPeriodProviderMock.SetupGet(p => p.CollectionType).Returns(collectionType);
+            collectionPeriodProviderMock.SetupGet(p => p.CollectionType).Returns(collectionProviderType);
             collectionPeriodProviderMock.Setup(p => p.Provide()).Returns(collectionPeriods);
 
             var fundingTypes = Array.Empty<FundingType>();
             var fundingTypesProviderMock = new Mock<ISummarisationConfigProvider<FundingType>>();
-            fundingTypesProviderMock.SetupGet(p => p.CollectionType).Returns(collectionType);
+            fundingTypesProviderMock.SetupGet(p => p.CollectionType).Returns(collectionProviderType);
             fundingTypesProviderMock.Setup(p => p.Provide()).Returns(fundingTypes);
 
             var collectionPeriodsProviders = new List<ISummarisationConfigProvider<CollectionPeriod>>()

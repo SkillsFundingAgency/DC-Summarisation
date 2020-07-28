@@ -55,9 +55,9 @@ namespace ESFA.DC.Summarisation.Apps.Service
 
             _logger.LogInfo($"Summarisation Message: CollectionType : {summarisationMessage.CollectionType}, CollectionReturnCode: {summarisationMessage.CollectionReturnCode}, ILRCollectionYear: {summarisationMessage.CollectionYear}, ILRReturnPeriod: {summarisationMessage.CollectionMonth}");
 
-            var collectionPeriods = _collectionPeriodsProviders.Single(w => w.CollectionType.Equals(summarisationMessage.CollectionType, StringComparison.OrdinalIgnoreCase)).Provide();
-
-            var fundingTypeConfiguration = _fundingTypesProviders.Single(w => w.CollectionType.Equals(summarisationMessage.CollectionType, StringComparison.OrdinalIgnoreCase)).Provide();
+            var providerCollectionType = $"{summarisationMessage.CollectionType}{summarisationMessage.CollectionYear}";
+            var collectionPeriods = _collectionPeriodsProviders.Single(w => w.CollectionType.Equals(providerCollectionType, StringComparison.OrdinalIgnoreCase)).Provide();
+            var fundingTypeConfiguration = _fundingTypesProviders.Single(w => w.CollectionType.Equals(providerCollectionType, StringComparison.OrdinalIgnoreCase)).Provide();
 
             _logger.LogInfo($"Summarisation Wrapper: Retrieving Collection Periods End");
 

@@ -11,7 +11,7 @@ using ESFA.DC.Summarisation.Constants;
 using ESFA.DC.Summarisation.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace ESFA.DC.Summarisation.Apps.Apps1920.Service.Providers
+namespace ESFA.DC.Summarisation.Apps.Providers
 {
     public class EasProvider : ISummarisationInputDataProvider
     {
