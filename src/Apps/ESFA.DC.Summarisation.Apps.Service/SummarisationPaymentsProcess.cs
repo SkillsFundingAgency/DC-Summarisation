@@ -71,11 +71,19 @@ namespace ESFA.DC.Summarisation.Apps.Service
                                                                 (w.CollectionYear == previousCollectionYear && w.CollectionMonth == previousCollectionMonth)
                                                             ).ToList();
             }
-            else if (fundingStream.PeriodCode.Equals(FundingStreamConstants.NonLevy_APPS1920, StringComparison.OrdinalIgnoreCase))
+            else if (summarisationMessage.CollectionYear == 2021 && fundingStream.PeriodCode.Equals(FundingStreamConstants.NonLevy_APPS2021, StringComparison.OrdinalIgnoreCase))
             {
                 collectionPeriods = collectionPeriods.Where(w => w.CollectionYear == summarisationMessage.CollectionYear && w.CollectionMonth <= 12).ToList();
             }
-            else if (fundingStream.PeriodCode.Equals(FundingStreamConstants.NonLevy_APPS1819, StringComparison.OrdinalIgnoreCase))
+            else if (summarisationMessage.CollectionYear == 2021 && fundingStream.PeriodCode.Equals(FundingStreamConstants.NonLevy_APPS1920, StringComparison.OrdinalIgnoreCase))
+            {
+                collectionPeriods = collectionPeriods.Where(w => w.CollectionYear == previousCollectionYear && w.CollectionMonth <= 12).ToList();
+            }
+            else if (summarisationMessage.CollectionYear == 1920 && fundingStream.PeriodCode.Equals(FundingStreamConstants.NonLevy_APPS1920, StringComparison.OrdinalIgnoreCase))
+            {
+                collectionPeriods = collectionPeriods.Where(w => w.CollectionYear == summarisationMessage.CollectionYear && w.CollectionMonth <= 12).ToList();
+            }
+            else if (summarisationMessage.CollectionYear == 1920 && fundingStream.PeriodCode.Equals(FundingStreamConstants.NonLevy_APPS1819, StringComparison.OrdinalIgnoreCase))
             {
                 collectionPeriods = collectionPeriods.Where(w => w.CollectionYear == previousCollectionYear && w.CollectionMonth <= 12).ToList();
             }

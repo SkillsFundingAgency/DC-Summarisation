@@ -3,7 +3,7 @@ using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Summarisation.Apps.Model.Config;
 using ESFA.DC.Summarisation.Constants;
 
-namespace ESFA.DC.Summarisation.Apps.Apps1920.Service
+namespace ESFA.DC.Summarisation.Apps.Apps2021.Service
 {
     public class FundingTypesProvider : AbstractSummarisationConfigProvider<FundingType>
     {
@@ -12,10 +12,10 @@ namespace ESFA.DC.Summarisation.Apps.Apps1920.Service
         {
         }
 
-        public override string CollectionType => CollectionTypeConstants.APPS1920;
+        public override string CollectionType => CollectionTypeConstants.APPS2021;
 
         protected internal override Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
 
-        protected internal override string ReferenceDataFileName { get; } = "ESFA.DC.Summarisation.Apps.Apps1920.Service.JsonFiles.FundingTypes.json";
+        protected internal override string ReferenceDataFileName { get; } = "ESFA.DC.Summarisation.Apps.Apps2021.Service.JsonFiles.FundingTypes.json";
     }
 }

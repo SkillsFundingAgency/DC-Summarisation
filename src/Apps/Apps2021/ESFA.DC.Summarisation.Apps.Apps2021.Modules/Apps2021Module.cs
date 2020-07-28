@@ -1,15 +1,15 @@
 ﻿using Autofac;
-using ESFA.DC.Summarisation.Apps.Apps1920.Service;
+using ESFA.DC.Summarisation.Apps.Apps2021.Service;
 using ESFA.DC.Summarisation.Apps.Model.Config;
 using ESFA.DC.Summarisation.Interfaces;
 
-namespace ESFA.DC.Summarisation.Apps.Apps1920.Modules
+namespace ESFA.DC.Summarisation.Apps.Apps2021.Modules
 {
-    public class Apps1920Module : Module
+    public class Apps2021Module : Module
     {
         private readonly ISummarisationDataOptions _summarisationDataOptions;
 
-        public Apps1920Module(ISummarisationDataOptions summarisationDataOptions)
+        public Apps2021Module(ISummarisationDataOptions summarisationDataOptions)
         {
             _summarisationDataOptions = summarisationDataOptions;
         }

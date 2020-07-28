@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -14,6 +14,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Apps1920\ESFA.DC.Summarisation.Apps.Apps1920.Modules\ESFA.DC.Summarisation.Apps.Apps1920.Modules.csproj" />
+    <ProjectReference Include="..\Apps2021\ESFA.DC.Summarisation.Apps.Apps2021.Modules\ESFA.DC.Summarisation.Apps.Apps2021.Modules.csproj" />
+    <ProjectReference Include="..\ESFA.DC.Summarisation.Apps.Providers\ESFA.DC.Summarisation.Apps.Providers.csproj" />
     <ProjectReference Include="..\ESFA.DC.Summarisation.Apps.Service\ESFA.DC.Summarisation.Apps.Service.csproj" />
   </ItemGroup>
 

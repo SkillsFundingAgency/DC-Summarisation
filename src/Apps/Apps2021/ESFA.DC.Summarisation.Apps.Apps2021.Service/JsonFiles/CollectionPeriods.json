@@ -1,0 +1,331 @@
+[
+  {
+    "CalendarMonth": 1,
+    "CalendarYear": 2018,
+    "ActualsSchemaPeriod": 201801,
+    "CollectionMonth": 6,
+    "CollectionYear": 1718
+  },
+  {
+    "CalendarMonth": 2,
+    "CalendarYear": 2018,
+    "ActualsSchemaPeriod": 201802,
+    "CollectionMonth": 7,
+    "CollectionYear": 1718
+  },
+  {
+    "CalendarMonth": 3,
+    "CalendarYear": 2018,
+    "ActualsSchemaPeriod": 201803,
+    "CollectionMonth": 8,
+    "CollectionYear": 1718
+  },
+  {
+    "CalendarMonth": 4,
+    "CalendarYear": 2018,
+    "ActualsSchemaPeriod": 201804,
+    "CollectionMonth": 9,
+    "CollectionYear": 1718
+  },
+  {
+    "CalendarMonth": 5,
+    "CalendarYear": 2018,
+    "ActualsSchemaPeriod": 201805,
+    "CollectionMonth": 10,
+    "CollectionYear": 1718
+  },
+  {
+    "CalendarMonth": 6,
+    "CalendarYear": 2018,
+    "ActualsSchemaPeriod": 201806,
+    "CollectionMonth": 11,
+    "CollectionYear": 1718
+  },
+  {
+    "CalendarMonth": 7,
+    "CalendarYear": 2018,
+    "ActualsSchemaPeriod": 201807,
+    "CollectionMonth": 12,
+    "CollectionYear": 1718
+  },
+  {
+    "CalendarMonth": 8,
+    "CalendarYear": 2018,
+    "ActualsSchemaPeriod": 201808,
+    "CollectionMonth": 1,
+    "CollectionYear": 1819
+  },
+  {
+    "CalendarMonth": 9,
+    "CalendarYear": 2018,
+    "ActualsSchemaPeriod": 201809,
+    "CollectionMonth": 2,
+    "CollectionYear": 1819
+  },
+  {
+    "CalendarMonth": 10,
+    "CalendarYear": 2018,
+    "ActualsSchemaPeriod": 201810,
+    "CollectionMonth": 3,
+    "CollectionYear": 1819
+  },
+  {
+    "CalendarMonth": 11,
+    "CalendarYear": 2018,
+    "ActualsSchemaPeriod": 201811,
+    "CollectionMonth": 4,
+    "CollectionYear": 1819
+  },
+  {
+    "CalendarMonth": 12,
+    "CalendarYear": 2018,
+    "ActualsSchemaPeriod": 201812,
+    "CollectionMonth": 5,
+    "CollectionYear": 1819
+  },
+  {
+    "CalendarMonth": 1,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201901,
+    "CollectionMonth": 6,
+    "CollectionYear": 1819
+  },
+  {
+    "CalendarMonth": 2,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201902,
+    "CollectionMonth": 7,
+    "CollectionYear": 1819
+  },
+  {
+    "CalendarMonth": 3,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201903,
+    "CollectionMonth": 8,
+    "CollectionYear": 1819
+  },
+  {
+    "CalendarMonth": 4,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201904,
+    "CollectionMonth": 9,
+    "CollectionYear": 1819
+  },
+  {
+    "CalendarMonth": 5,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201905,
+    "CollectionMonth": 10,
+    "CollectionYear": 1819
+  },
+  {
+    "CalendarMonth": 6,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201906,
+    "CollectionMonth": 11,
+    "CollectionYear": 1819
+  },
+  {
+    "CalendarMonth": 7,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201907,
+    "CollectionMonth": 12,
+    "CollectionYear": 1819
+  },
+  {
+    "CalendarMonth": 9,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201909,
+    "CollectionMonth": 13,
+    "CollectionYear": 1819
+  },
+  {
+    "CalendarMonth": 10,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201910,
+    "CollectionMonth": 14,
+    "CollectionYear": 1819
+  },
+  {
+    "CalendarMonth": 8,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201908,
+    "CollectionMonth": 1,
+    "CollectionYear": 1920
+  },
+  {
+    "CalendarMonth": 9,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201909,
+    "CollectionMonth": 2,
+    "CollectionYear": 1920
+  },
+  {
+    "CalendarMonth": 10,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201910,
+    "CollectionMonth": 3,
+    "CollectionYear": 1920
+  },
+  {
+    "CalendarMonth": 11,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201911,
+    "CollectionMonth": 4,
+    "CollectionYear": 1920
+  },
+  {
+    "CalendarMonth": 12,
+    "CalendarYear": 2019,
+    "ActualsSchemaPeriod": 201912,
+    "CollectionMonth": 5,
+    "CollectionYear": 1920
+  },
+  {
+    "CalendarMonth": 1,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202001,
+    "CollectionMonth": 6,
+    "CollectionYear": 1920
+  },
+  {
+    "CalendarMonth": 2,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202002,
+    "CollectionMonth": 7,
+    "CollectionYear": 1920
+  },
+  {
+    "CalendarMonth": 3,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202003,
+    "CollectionMonth": 8,
+    "CollectionYear": 1920
+  },
+  {
+    "CalendarMonth": 4,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202004,
+    "CollectionMonth": 9,
+    "CollectionYear": 1920
+  },
+  {
+    "CalendarMonth": 5,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202005,
+    "CollectionMonth": 10,
+    "CollectionYear": 1920
+  },
+  {
+    "CalendarMonth": 6,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202006,
+    "CollectionMonth": 11,
+    "CollectionYear": 1920
+  },
+  {
+    "CalendarMonth": 7,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202007,
+    "CollectionMonth": 12,
+    "CollectionYear": 1920
+  },
+  {
+    "CalendarMonth": 9,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202009,
+    "CollectionMonth": 13,
+    "CollectionYear": 1920
+  },
+  {
+    "CalendarMonth": 10,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202010,
+    "CollectionMonth": 14,
+    "CollectionYear": 1920
+  },
+  {
+    "CalendarMonth": 8,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202008,
+    "CollectionMonth": 1,
+    "CollectionYear": 2021
+  },
+  {
+    "CalendarMonth": 9,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202009,
+    "CollectionMonth": 2,
+    "CollectionYear": 2021
+  },
+  {
+    "CalendarMonth": 10,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202010,
+    "CollectionMonth": 3,
+    "CollectionYear": 2021
+  },
+  {
+    "CalendarMonth": 11,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202011,
+    "CollectionMonth": 4,
+    "CollectionYear": 2021
+  },
+  {
+    "CalendarMonth": 12,
+    "CalendarYear": 2020,
+    "ActualsSchemaPeriod": 202012,
+    "CollectionMonth": 5,
+    "CollectionYear": 2021
+  },
+  {
+    "CalendarMonth": 1,
+    "CalendarYear": 2021,
+    "ActualsSchemaPeriod": 202101,
+    "CollectionMonth": 6,
+    "CollectionYear": 2021
+  },
+  {
+    "CalendarMonth": 2,
+    "CalendarYear": 2021,
+    "ActualsSchemaPeriod": 202102,
+    "CollectionMonth": 7,
+    "CollectionYear": 2021
+  },
+  {
+    "CalendarMonth": 3,
+    "CalendarYear": 2021,
+    "ActualsSchemaPeriod": 202103,
+    "CollectionMonth": 8,
+    "CollectionYear": 2021
+  },
+  {
+    "CalendarMonth": 4,
+    "CalendarYear": 2021,
+    "ActualsSchemaPeriod": 202104,
+    "CollectionMonth": 9,
+    "CollectionYear": 2021
+  },
+  {
+    "CalendarMonth": 5,
+    "CalendarYear": 2021,
+    "ActualsSchemaPeriod": 202105,
+    "CollectionMonth": 10,
+    "CollectionYear": 2021
+  },
+  {
+    "CalendarMonth": 6,
+    "CalendarYear": 2021,
+    "ActualsSchemaPeriod": 202106,
+    "CollectionMonth": 11,
+    "CollectionYear": 2021
+  },
+  {
+    "CalendarMonth": 7,
+    "CalendarYear": 2021,
+    "ActualsSchemaPeriod": 202107,
+    "CollectionMonth": 12,
+    "CollectionYear": 2021
+  }
+]
