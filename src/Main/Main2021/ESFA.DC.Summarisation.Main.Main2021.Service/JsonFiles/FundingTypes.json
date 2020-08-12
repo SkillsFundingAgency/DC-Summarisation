@@ -616,7 +616,94 @@
             ]
           }
         ]
+      },
+      {
+        "PeriodCode": "AEB-CSO2021",
+        "FundModel": "FM35",
+        "DeliverableLineCode": 3,
+        "FundLines": [
+          {
+            "Fundline": "Authorised Claims: ESFA AEB - COVID-19 Skills Offer (procured)",
+            "LineType": "EAS",
+            "UseAttributes": false
+          },
+          {
+            "Fundline": "ESFA AEB - COVID-19 Skills Offer (procured)",
+            "LineType": "ILR_FM35",
+            "UseAttributes": true,
+            "Attributes": [
+              "AchievePayment",
+              "BalancePayment",
+              "OnProgPayment",
+              "EmpOutcomePay"
+            ]
+          }
+        ]
+      },
+      {
+        "PeriodCode": "AEB-CSO2021",
+        "FundModel": "FM35",
+        "DeliverableLineCode": 4,
+        "FundLines": [
+          {
+            "Fundline": "Excess Learning Support: ESFA AEB - COVID-19 Skills Offer (procured)",
+            "LineType": "EAS",
+            "UseAttributes": false
+          },
+          {
+            "Fundline": "ESFA AEB - COVID-19 Skills Offer (procured)",
+            "LineType": "ILR_FM35",
+            "UseAttributes": true,
+            "Attributes": [
+              "LearnSuppFundCash"
+            ]
+          }
+        ]
+      },
+      {
+        "PeriodCode": "AEBC-CSO2021",
+        "FundModel": "FM35",
+        "DeliverableLineCode": 3,
+        "FundLines": [
+          {
+            "Fundline": "Authorised Claims: ESFA AEB - COVID-19 Skills Offer (non-procured)",
+            "LineType": "EAS",
+            "UseAttributes": false
+          },
+          {
+            "Fundline": "ESFA AEB - COVID-19 Skills Offer (non-procured)",
+            "LineType": "ILR_FM35",
+            "UseAttributes": true,
+            "Attributes": [
+              "AchievePayment",
+              "BalancePayment",
+              "OnProgPayment",
+              "EmpOutcomePay"
+            ]
+          }
+        ]
+      },
+      {
+        "PeriodCode": "AEBC-CSO2021",
+        "FundModel": "FM35",
+        "DeliverableLineCode": 4,
+        "FundLines": [
+          {
+            "Fundline": "Excess Learning Support: ESFA AEB - COVID-19 Skills Offer (non-procured)",
+            "LineType": "EAS",
+            "UseAttributes": false
+          },
+          {
+            "Fundline": "ESFA AEB - COVID-19 Skills Offer (non-procured)",
+            "LineType": "ILR_FM35",
+            "UseAttributes": true,
+            "Attributes": [
+              "LearnSuppFundCash"
+            ]
+          }
+        ]
       }
+
     ]
   },
   {
