@@ -76,6 +76,16 @@ namespace ESFA.DC.Summarisation.Main2021.Service.Tests
         [InlineData("Main2021_FM35", "AEB-19TRN2021", 3, "Excess Learning Support: 19-24 Traineeships (From Nov 2017)", "EAS")]
         [InlineData("Main2021_FM35", "AEB-19TRN2021", 3, "19-24 Traineeship (procured from Nov 2017)", "ILR_FM35")]
 
+        [InlineData("Main2021_FM35", "AEBC-CSO2021", 3, "Authorised Claims: ESFA AEB - COVID-19 Skills Offer (non-procured)", "EAS")]
+        [InlineData("Main2021_FM35", "AEBC-CSO2021", 3, "ESFA AEB - COVID-19 Skills Offer (non-procured)", "ILR_FM35")]
+        [InlineData("Main2021_FM35", "AEBC-CSO2021", 4, "Excess Learning Support: ESFA AEB - COVID-19 Skills Offer (non-procured)", "EAS")]
+        [InlineData("Main2021_FM35", "AEBC-CSO2021", 4, "ESFA AEB - COVID-19 Skills Offer (non-procured)", "ILR_FM35")]
+
+        [InlineData("Main2021_FM35", "AEB-CSO2021", 3, "Authorised Claims: ESFA AEB - COVID-19 Skills Offer (procured)", "EAS")]
+        [InlineData("Main2021_FM35", "AEB-CSO2021", 3, "ESFA AEB - COVID-19 Skills Offer (procured)", "ILR_FM35")]
+        [InlineData("Main2021_FM35", "AEB-CSO2021", 4, "Excess Learning Support: ESFA AEB - COVID-19 Skills Offer (procured)", "EAS")]
+        [InlineData("Main2021_FM35", "AEB-CSO2021", 4, "ESFA AEB - COVID-19 Skills Offer (procured)", "ILR_FM35")]
+
         [InlineData("Main2021_EAS", "APPS2021", 4, "Learner Support: 16-18 Apprenticeships", "EAS")]
         [InlineData("Main2021_EAS", "APPS2021", 13, "Learner Support: 24+ Apprenticeships", "EAS")]
         [InlineData("Main2021_EAS", "APPS2021", 13, "Learner Support: 19-23 Apprenticeships", "EAS")]
