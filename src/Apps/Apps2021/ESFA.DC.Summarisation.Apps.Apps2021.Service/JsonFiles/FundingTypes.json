@@ -32,11 +32,6 @@
             "Fundline": "Authorised Claims: 16-18 Levy Apprenticeships - Training",
             "LineType": "EAS",
             "AcademicYear": 2021
-          },
-          {
-            "Fundline": "Authorised Claims: 16-18 Levy Apprenticeships - Maths and English",
-            "LineType": "EAS",
-            "AcademicYear": 2021
           }
         ]
       },
@@ -78,6 +73,11 @@
           },
           {
             "Fundline": "Authorised Claims: 16-18 Levy Apprenticeships - Provider",
+            "LineType": "EAS",
+            "AcademicYear": 2021
+          },
+          {
+            "Fundline": "Authorised Claims: 16-18 Levy Apprenticeships - Maths and English",
             "LineType": "EAS",
             "AcademicYear": 2021
           },
@@ -171,11 +171,6 @@
             "Fundline": "Authorised Claims: Adult Levy Apprenticeships - Training",
             "LineType": "EAS",
             "AcademicYear": 1920
-          },
-          {
-            "Fundline": "Authorised Claims: 16-18 Levy Apprenticeships - Maths and English",
-            "LineType": "EAS",
-            "AcademicYear": 2021
           }
         ]
       },
@@ -217,6 +212,11 @@
           },
           {
             "Fundline": "Authorised Claims: Adult Levy Apprenticeships - Provider",
+            "LineType": "EAS",
+            "AcademicYear": 2021
+          },
+          {
+            "Fundline": "Authorised Claims: Adult Levy Apprenticeships - Maths and English",
             "LineType": "EAS",
             "AcademicYear": 2021
           },
@@ -320,11 +320,6 @@
             "Fundline": "Authorised Claims: 16-18 Apprenticeship (Employer on App Service) Non-Levy - Training",
             "LineType": "EAS",
             "AcademicYear": 1920
-          },
-          {
-            "Fundline": "Authorised Claims: 16-18 Apprenticeship (Employer on App Service) Non-Levy - Maths and English",
-            "LineType": "EAS",
-            "AcademicYear": 2021
           }
         ]
       },
@@ -383,6 +378,11 @@
             "Fundline": "Authorised Claims: 16-18 Apprenticeship (Employer on App Service) Non-Levy - Provider",
             "LineType": "EAS",
             "AcademicYear": 1920
+          },
+          {
+            "Fundline": "Authorised Claims: 16-18 Apprenticeship (Employer on App Service) Non-Levy - Maths and English",
+            "LineType": "EAS",
+            "AcademicYear": 2021
           }
         ]
       },
@@ -489,11 +489,6 @@
             "Fundline": "Authorised Claims: 19+ Apprenticeship (Employer on App Service) Non-Levy - Training",
             "LineType": "EAS",
             "AcademicYear": 1920
-          },
-          {
-            "Fundline": "Authorised Claims: 19+ Apprenticeship (Employer on App Service) Non-Levy - Maths and English",
-            "LineType": "EAS",
-            "AcademicYear": 2021
           }
         ]
       },
@@ -552,6 +547,11 @@
             "Fundline": "Authorised Claims: 19+ Apprenticeship (Employer on App Service) Non-Levy - Provider",
             "LineType": "EAS",
             "AcademicYear": 1920
+          },
+          {
+            "Fundline": "Authorised Claims: 19+ Apprenticeship (Employer on App Service) Non-Levy - Maths and English",
+            "LineType": "EAS",
+            "AcademicYear": 2021
           }
         ]
       },
