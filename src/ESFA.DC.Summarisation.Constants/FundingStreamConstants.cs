@@ -51,6 +51,7 @@ namespace ESFA.DC.Summarisation.Constants
             NonLevy_ANLAP2018,
             NonLevy_APPS1920,
             NonLevy_APPS1819,
+            NonLevy_APPS2021,
         };
 
         public static List<string> ESFFundingStreams = new List<string>()
