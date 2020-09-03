@@ -20,11 +20,6 @@ namespace ESFA.DC.Summarisation.Apps.Service
         private readonly ILogger _logger;
         private readonly IProviderContractsService _providerContractsService;
         private readonly IProviderFundingDataRemovedService _providerFundingDataRemovedService;
-        private readonly IEnumerable<string> _fundingStreamPeriodCodesNotRequiredForActuals = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-        {
-            FundingStreamConstants.Levy1799,
-            FundingStreamConstants.NonLevy2019
-        };
 
         public ProviderSummarisationService(
             ISummarisationService summarisationService,
@@ -66,7 +61,11 @@ namespace ESFA.DC.Summarisation.Apps.Service
 
             var actualsToCarry = await _providerFundingDataRemovedService.FundingDataRemovedAsync(organisationId, providerActuals, summarisationMessage, cancellationToken);
 
-            var filteredActualsToCarry = actualsToCarry.Where(x => !_fundingStreamPeriodCodesNotRequiredForActuals.Contains(x.FundingStreamPeriodCode)).ToList();
+            var fundingStreamPeriodCodesNotRequiredForActuals =
+                GetFundingStreamsNotRequiredForCarryOver(summarisationMessage.CollectionYear,
+                    summarisationMessage.CollectionMonth);
+
+            var filteredActualsToCarry = actualsToCarry.Where(x => !fundingStreamPeriodCodesNotRequiredForActuals.Contains(x.FundingStreamPeriodCode)).ToList();
 
             providerActuals.AddRange(filteredActualsToCarry);
 
@@ -74,6 +73,25 @@ namespace ESFA.DC.Summarisation.Apps.Service
 
 
             return providerActuals;
+        }
+
+        private IEnumerable<string> GetFundingStreamsNotRequiredForCarryOver(int collectionYear, int collectionMonth)
+        {
+            if (collectionYear == AcademicYearConstants.AcademicYear_2021 && (collectionMonth != CollectionMonthConstants.CollectionMonth_2 || collectionMonth != CollectionMonthConstants.CollectionMonth_3))
+            {
+                return new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+                {
+                    FundingStreamConstants.Levy1799,
+                    FundingStreamConstants.NonLevy2019,
+                    FundingStreamConstants.NonLevy_APPS1920
+                };
+            }
+
+            return new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                FundingStreamConstants.Levy1799,
+                FundingStreamConstants.NonLevy2019
+            };
         }
     }
 }
