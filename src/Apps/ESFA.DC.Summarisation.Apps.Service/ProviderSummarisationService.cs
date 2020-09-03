@@ -77,7 +77,7 @@ namespace ESFA.DC.Summarisation.Apps.Service
 
         private IEnumerable<string> GetFundingStreamsNotRequiredForCarryOver(int collectionYear, int collectionMonth)
         {
-            if (collectionYear == AcedamicYearConstants.AcedamicYear_2021 && (collectionMonth != CollectionMonthConstants.CollectionMonth_2 || collectionMonth != CollectionMonthConstants.CollectionMonth_3))
+            if (collectionYear == AcademicYearConstants.AcademicYear_2021 && (collectionMonth != CollectionMonthConstants.CollectionMonth_2 || collectionMonth != CollectionMonthConstants.CollectionMonth_3))
             {
                 return new HashSet<string>(StringComparer.OrdinalIgnoreCase)
                 {
