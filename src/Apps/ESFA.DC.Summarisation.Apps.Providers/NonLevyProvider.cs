@@ -39,15 +39,32 @@ namespace ESFA.DC.Summarisation.Apps.Providers
                 summarisationMessage.CollectionYear - 101,
             };
 
+            int previousCollectionYear = summarisationMessage.CollectionYear - 101;
+            int previousCollectionMonth = 12;
+
+            switch (summarisationMessage.CollectionMonth)
+            {
+                case 2:
+                    previousCollectionMonth = 13;
+                    break;
+                case 3:
+                    previousCollectionMonth = 14;
+                    break;
+                default:
+                    previousCollectionMonth = 12;
+                    break;
+            }
+
             using (var contextFactory = _dasContext())
             {
                 var preSummarisedData = await contextFactory.Payments
                            .Where(p => p.Ukprn == ukprn
                                       && p.ContractType == ContractTypeConstants.NonLevy
                                       && (
-                                            CollectionYears.Contains(p.AcademicYear)
+                                            (CollectionYears.Contains(p.AcademicYear)
                                             || p.LearningAimFundingLineType.Equals(FundlineConstants.Apps1618NonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
-                                            || p.LearningAimFundingLineType.Equals(FundlineConstants.Apps19plusNonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
+                                            || p.LearningAimFundingLineType.Equals(FundlineConstants.Apps19plusNonLevyContractProcured, StringComparison.OrdinalIgnoreCase) )
+                                            && !(p.AcademicYear == previousCollectionYear && p.CollectionPeriod > previousCollectionMonth)
                                         )
                                    )
                                    .Select(q1 => new
