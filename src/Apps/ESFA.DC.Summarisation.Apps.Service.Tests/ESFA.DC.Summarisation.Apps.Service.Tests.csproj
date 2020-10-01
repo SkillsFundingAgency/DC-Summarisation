@@ -149,6 +149,7 @@
     <Compile Include="ProviderRepositoryTests.cs" />
     <Compile Include="ProviderSummarisationServiceTests.cs" />
     <Compile Include="SummarisationPaymentsProcessTests.cs" />
+    <Compile Include="SummarisationPaymentsProcessTests_2021.cs" />
     <Compile Include="SummarisationProcessTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -183,6 +184,10 @@
     <ProjectReference Include="..\Apps1920\ESFA.DC.Summarisation.Apps.Apps1920.Service\ESFA.DC.Summarisation.Apps.Apps1920.Service.csproj">
       <Project>{0e887833-4059-48b2-9d89-8e6b5955926d}</Project>
       <Name>ESFA.DC.Summarisation.Apps.Apps1920.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Apps2021\ESFA.DC.Summarisation.Apps.Apps2021.Service\ESFA.DC.Summarisation.Apps.Apps2021.Service.csproj">
+      <Project>{1f0f123b-a508-4577-b838-f129223f5a0b}</Project>
+      <Name>ESFA.DC.Summarisation.Apps.Apps2021.Service</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.Summarisation.Apps.Interfaces\ESFA.DC.Summarisation.Apps.Interfaces.csproj">
       <Project>{2c50c386-5aa9-4c09-8c57-a035c16702b1}</Project>
