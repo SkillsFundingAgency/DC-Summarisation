@@ -62,8 +62,8 @@ namespace ESFA.DC.Summarisation.Apps.Providers
                                       && p.ContractType == ContractTypeConstants.NonLevy
                                       && (
                                             (CollectionYears.Contains(p.AcademicYear)
-                                            || p.LearningAimFundingLineType.Equals(FundlineConstants.Apps1618NonLevyContractProcured, StringComparison.OrdinalIgnoreCase)
-                                            || p.LearningAimFundingLineType.Equals(FundlineConstants.Apps19plusNonLevyContractProcured, StringComparison.OrdinalIgnoreCase) )
+                                            || FundlineConstants.Apps1618NonLevyContractProcured.Equals(p.ReportingAimFundingLineType, StringComparison.OrdinalIgnoreCase)
+                                            || FundlineConstants.Apps19plusNonLevyContractProcured.Equals(p.ReportingAimFundingLineType, StringComparison.OrdinalIgnoreCase) )
                                             && !(p.AcademicYear == previousCollectionYear && p.CollectionPeriod > previousCollectionMonth)
                                         )
                                    )
@@ -74,7 +74,7 @@ namespace ESFA.DC.Summarisation.Apps.Providers
                                        q1.TransactionType,
                                        q1.AcademicYear,
                                        q1.DeliveryPeriod,
-                                       FundingLineType = q1.AcademicYear == summarisationMessage.CollectionYear ? q1.ReportingAimFundingLineType : q1.LearningAimFundingLineType,
+                                       FundingLineType = q1.ReportingAimFundingLineType,
                                        q1.Amount,
                                    }
                                    )

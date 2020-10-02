@@ -62,7 +62,7 @@ namespace ESFA.DC.Summarisation.Apps.Providers
                                         ||
                                         (p.AcademicYear == previousCollectionYear && p.CollectionPeriod == previousCollectionMonth))
                                      )
-                            .GroupBy(x => new { x.ContractType, x.FundingSource, x.TransactionType, x.AcademicYear, x.CollectionPeriod, x.LearningAimFundingLineType, x.ReportingAimFundingLineType })
+                            .GroupBy(x => new { x.ContractType, x.FundingSource, x.TransactionType, x.AcademicYear, x.CollectionPeriod, x.ReportingAimFundingLineType })
                             .Select(obj => new
                             {
                                 ContractType = obj.Key.ContractType,
@@ -70,7 +70,7 @@ namespace ESFA.DC.Summarisation.Apps.Providers
                                 TransactionType = obj.Key.TransactionType,
                                 AcademicYear = obj.Key.AcademicYear,
                                 CollectionPeriod = obj.Key.CollectionPeriod,
-                                ReportingAimFundingLineType = obj.Key.AcademicYear == previousCollectionYear ? obj.Key.LearningAimFundingLineType : obj.Key.ReportingAimFundingLineType,
+                                ReportingAimFundingLineType = obj.Key.ReportingAimFundingLineType,
                                 Amount = obj.Sum(s => s.Amount),
                             }).ToListAsync(cancellationToken);
 
