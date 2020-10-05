@@ -61,9 +61,11 @@ namespace ESFA.DC.Summarisation.Apps.Providers
                            .Where(p => p.Ukprn == ukprn
                                       && p.ContractType == ContractTypeConstants.NonLevy
                                       && (
-                                            (CollectionYears.Contains(p.AcademicYear)
-                                            || FundlineConstants.Apps1618NonLevyContractProcured.Equals(p.ReportingAimFundingLineType, StringComparison.OrdinalIgnoreCase)
-                                            || FundlineConstants.Apps19plusNonLevyContractProcured.Equals(p.ReportingAimFundingLineType, StringComparison.OrdinalIgnoreCase) )
+                                            (
+                                                CollectionYears.Contains(p.AcademicYear)
+                                                || FundlineConstants.Apps1618NonLevyContractProcured.Equals(p.LearningAimFundingLineType, StringComparison.OrdinalIgnoreCase)
+                                                || FundlineConstants.Apps19plusNonLevyContractProcured.Equals(p.LearningAimFundingLineType, StringComparison.OrdinalIgnoreCase)
+                                            )
                                             && !(p.AcademicYear == previousCollectionYear && p.CollectionPeriod > previousCollectionMonth)
                                         )
                                    )
@@ -74,7 +76,7 @@ namespace ESFA.DC.Summarisation.Apps.Providers
                                        q1.TransactionType,
                                        q1.AcademicYear,
                                        q1.DeliveryPeriod,
-                                       FundingLineType = q1.ReportingAimFundingLineType,
+                                       FundingLineType = CollectionYears.Contains(q1.AcademicYear) ? q1.ReportingAimFundingLineType : q1.LearningAimFundingLineType,
                                        q1.Amount,
                                    }
                                    )
