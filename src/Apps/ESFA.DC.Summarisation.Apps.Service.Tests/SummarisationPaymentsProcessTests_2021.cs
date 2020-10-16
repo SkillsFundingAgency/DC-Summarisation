@@ -505,9 +505,21 @@ namespace ESFA.DC.Summarisation.Apps.Service.Tests
                         DeliveryUkprn = ukprn,
                         DeliveryOrganisation = $"Org{ukprn}",
                         ContractStartDate = 20200102,
-                        ContractEndDate = 0
+                        ContractEndDate = 99991231
                     };
                     fcsContractAllocations.Add(allocation2);
+
+                    FcsContractAllocation allocation3 = new FcsContractAllocation()
+                    {
+                        ContractAllocationNumber = $"Alloc{item.PeriodCode}-3",
+                        FundingStreamPeriodCode = item.PeriodCode,
+                        ActualsSchemaPeriodStart = 202001,
+                        DeliveryUkprn = ukprn,
+                        DeliveryOrganisation = $"Org{ukprn}",
+                        ContractStartDate = 20200102,
+                        ContractEndDate = 20201002
+                    };
+                    fcsContractAllocations.Add(allocation3);
                 }
             }
 
