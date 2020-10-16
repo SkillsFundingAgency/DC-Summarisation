@@ -56,7 +56,12 @@ namespace ESFA.DC.Summarisation.Data.Repository
 
         private int BuildFormattedDate(DateTime? dateTime)
         {
-            return dateTime.HasValue ? Convert.ToInt32(dateTime.Value.ToString("yyyyMMdd")) : Convert.ToInt32(DateTime.MaxValue.ToString("yyyyMMdd"));
+            return dateTime.HasValue ? ConvertDateToInt(dateTime.Value) : ConvertDateToInt(DateTime.MaxValue);
+        }
+
+        private int ConvertDateToInt(DateTime dateTime)
+        {
+            return Convert.ToInt32(dateTime.ToString("yyyyMMdd"));
         }
 
         private int BuildActualSchemaPeriod(DateTime? dateTime)
